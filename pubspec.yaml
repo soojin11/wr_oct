@@ -36,6 +36,9 @@ dependencies:
   cupertino_icons: ^1.0.2
   get:
   toggle_switch: ^1.2.0
+  intl:
+  path_provider:
+  csv:
 
 dev_dependencies:
   flutter_test:

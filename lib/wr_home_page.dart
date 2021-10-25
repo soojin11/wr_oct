@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wr_ui/ui/widgets/clock.dart';
 import 'package:wr_ui/ui/widgets/start_stop_toggle_button.dart';
 
 class wrHomePage extends StatelessWidget {
@@ -14,9 +15,8 @@ class wrHomePage extends StatelessWidget {
               Container(
                 child: Text('1.회사로고'),
               ),
-              Container(
-                child: Text('2.현재날짜 시간'),
-              ),
+              Container(child: Clock() //2
+                  ),
               Container(
                 child: Text('3.프로그램타이틀 레시피네임'),
               ),
