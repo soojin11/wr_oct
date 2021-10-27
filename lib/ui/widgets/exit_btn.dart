@@ -14,6 +14,9 @@ class ExitBtn extends StatelessWidget {
           builder: (context) => AlertDialog(
             title: Text(
               '프로그램을 종료하시겠습니까?',
+              style: TextStyle(
+                fontSize: 12,
+              ),
             ),
             actions: [
               ElevatedButton(
@@ -24,9 +27,7 @@ class ExitBtn extends StatelessWidget {
                 },
                 child: Text(
                   '예',
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
+                  style: TextStyle(color: Colors.white, fontSize: 8),
                 ),
                 style: ElevatedButton.styleFrom(
                     primary: Colors.blue[900],
@@ -39,10 +40,13 @@ class ExitBtn extends StatelessWidget {
                   '아니오',
                   style: TextStyle(
                     color: Colors.black,
+                    fontSize: 8,
                   ),
                 ),
                 style: OutlinedButton.styleFrom(
-                  side: BorderSide(color: Colors.grey),
+                  side: BorderSide(
+                    color: Colors.grey,
+                  ),
                 ),
               ),
             ],

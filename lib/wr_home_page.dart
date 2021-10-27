@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:wr_ui/ui/widgets/clock.dart';
 import 'package:wr_ui/ui/widgets/exit_btn.dart';
 import 'package:wr_ui/ui/widgets/log.dart';
-import 'package:wr_ui/ui/widgets/refresh_btn.dart';
+import 'package:wr_ui/ui/widgets/reset_btn.dart';
 import 'package:wr_ui/ui/widgets/save_file.dart';
+// ignore: unused_import
 import 'package:wr_ui/ui/widgets/start_stop_toggle_button.dart';
+import 'package:wr_ui/ui/widgets/window_btn.dart';
 
 class wrHomePage extends StatelessWidget {
   wrHomePage({Key? key}) : super(key: key);
@@ -56,13 +58,15 @@ class wrHomePage extends StatelessWidget {
                         border: Border.all(color: Colors.black, width: 1)),
                     child: Text('5.세팅버튼'),
                   ),
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.1,
-                    height: MediaQuery.of(context).size.height * 0.1,
-                    decoration: BoxDecoration(
-                        border: Border.all(color: Colors.black, width: 1)),
-                    child: Text('13.최소화버튼'),
-                  ),
+                  WindowButtons(),
+                  // Container(
+                  //     width: MediaQuery.of(context).size.width * 0.1,
+                  //     height: MediaQuery.of(context).size.height * 0.1,
+                  //     decoration: BoxDecoration(
+                  //         border: Border.all(color: Colors.black, width: 1)),
+                  //     child: WindowButtons()
+                  //     // child: Text('13.최소화버튼'),
+                  //     ),
                 ],
               ),
               SizedBox(height: 20),
