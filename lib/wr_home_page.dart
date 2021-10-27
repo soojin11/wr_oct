@@ -23,7 +23,7 @@ class wrHomePage extends StatelessWidget {
                   height: MediaQuery.of(context).size.height * 0.1,
                   decoration: BoxDecoration(
                       border: Border.all(color: Colors.black, width: 1)),
-                  child: Text('1.회사로고'),
+                  child: Image.asset("images/CI_nobg.png"),
                 ),
                 Container(
                     padding: EdgeInsets.only(left: 27, top: 12),
@@ -69,7 +69,7 @@ class wrHomePage extends StatelessWidget {
               children: [
                 Container(
                   width: MediaQuery.of(context).size.width * 0.79,
-                  height: MediaQuery.of(context).size.height * 0.7,
+                  height: MediaQuery.of(context).size.height * 0.75,
                   decoration: BoxDecoration(
                       border: Border.all(color: Colors.black, width: 1)),
                   child: Text('6.차트뷰'),
@@ -77,12 +77,30 @@ class wrHomePage extends StatelessWidget {
                 SizedBox(width: 10),
                 Column(
                   children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.15,
-                      height: MediaQuery.of(context).size.height * 0.3,
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black, width: 1)),
-                      child: MyList(),
+                    Column(
+                      children: [
+                        Column(
+                          children: [
+                            Container(
+                              width: MediaQuery.of(context).size.width * 0.15,
+                              height: MediaQuery.of(context).size.height * 0.3,
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: Colors.black, width: 1)),
+                              child: MyList(),
+                            ),
+                            Container(
+                              width: MediaQuery.of(context).size.width * 0.15,
+                              height: MediaQuery.of(context).size.height * 0.05,
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: Colors.black, width: 1)),
+                              child: OutlinedButton(
+                                  onPressed: () {}, child: Text('Save Log')),
+                            )
+                          ],
+                        )
+                      ],
                     ),
                     SizedBox(height: 10),
                     Row(
