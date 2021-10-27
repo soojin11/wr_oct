@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:wr_ui/ui/widgets/save_file.dart';
 import 'package:wr_ui/wr_home_page.dart';
 
-void main() {
-  runApp(const MyApp());
+Future main() async {
+  Get.put(ControllerWithReactive());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -10,7 +13,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'WR',
         theme: ThemeData(

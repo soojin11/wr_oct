@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -9,7 +10,10 @@ class Clock extends StatelessWidget {
     return StreamBuilder(
       stream: Stream.periodic(Duration(seconds: 1)),
       builder: (context, snapshot) {
-        return Text(DateFormat('yyyy/MM/dd hh:mm:ss').format(DateTime.now()));
+        return Text(
+          DateFormat('yyyy/MM/dd hh:mm:ss').format(DateTime.now()),
+          style: TextStyle(fontWeight: FontWeight.bold),
+        );
       },
     );
   }
