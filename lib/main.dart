@@ -14,11 +14,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'WR',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        home: wrHomePage());
+      debugShowCheckedModeBanner: false,
+      title: 'WR',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: wrHomePage(),
+      getPages: [GetPage(name: '/', page: () => wrHomePage())],
+    );
   }
 }

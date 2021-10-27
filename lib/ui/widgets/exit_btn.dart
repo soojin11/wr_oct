@@ -12,7 +12,9 @@ class ExitBtn extends StatelessWidget {
     Future<bool?> showWarning(BuildContext context) async => showDialog<bool>(
           context: context,
           builder: (context) => AlertDialog(
-            title: Text('프로그램을 종료하시겠습니까?'),
+            title: Text(
+              '프로그램을 종료하시겠습니까?',
+            ),
             actions: [
               ElevatedButton(
                 onPressed: () {
@@ -20,11 +22,28 @@ class ExitBtn extends StatelessWidget {
                   // Navigator.pop(context, true);
                   // SystemNavigator.pop();
                 },
-                child: Text('예'),
+                child: Text(
+                  '예',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+                style: ElevatedButton.styleFrom(
+                    primary: Colors.blue[900],
+                    onPrimary: Colors.blue[700],
+                    shadowColor: Colors.blue[900]),
               ),
-              ElevatedButton(
+              OutlinedButton(
                 onPressed: () => Navigator.pop(context, false),
-                child: Text('아니오'),
+                child: Text(
+                  '아니오',
+                  style: TextStyle(
+                    color: Colors.black,
+                  ),
+                ),
+                style: OutlinedButton.styleFrom(
+                  side: BorderSide(color: Colors.grey),
+                ),
               ),
             ],
           ),
