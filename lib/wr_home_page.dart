@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wr_ui/ui/widgets/clock.dart';
+import 'package:wr_ui/ui/widgets/exit_btn.dart';
 import 'package:wr_ui/ui/widgets/log.dart';
 import 'package:wr_ui/ui/widgets/save_file.dart';
 import 'package:wr_ui/ui/widgets/start_stop_toggle_button.dart';
@@ -113,7 +114,7 @@ class wrHomePage extends StatelessWidget {
                       height: MediaQuery.of(context).size.height * 0.1,
                       decoration: BoxDecoration(
                           border: Border.all(color: Colors.black, width: 1)),
-                      child: Text('12.'),
+                      child: ExitBtn(),
                     ),
                   ],
                 )

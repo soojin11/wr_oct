@@ -26,3 +26,5 @@ class StartStopToggleBtn extends StatelessWidget {
     );
   }
 }
+
+test() {}
