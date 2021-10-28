@@ -1,23 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class RefreshBtn extends StatefulWidget {
-  const RefreshBtn({Key? key}) : super(key: key);
+class ResetBtn extends StatefulWidget {
+  const ResetBtn({Key? key}) : super(key: key);
 
   @override
-  State<RefreshBtn> createState() => _RefreshBtnState();
+  State<ResetBtn> createState() => _RefreshBtnState();
 }
 
-class _RefreshBtnState extends State<RefreshBtn> {
+class _RefreshBtnState extends State<ResetBtn> {
   @override
   Widget build(BuildContext context) {
     return Container(
       child: TextButton.icon(
         onPressed: () {
           print('refresh!!');
-          Get.offAll('/');
-          // Navigator.pushReplacement(context,
-          //     MaterialPageRoute(builder: (BuildContext context) => widget));
+          // Get.toNamed('/');
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (BuildContext context) => super.widget));
         },
         icon: Icon(Icons.refresh),
         label: Text('Reset'),
