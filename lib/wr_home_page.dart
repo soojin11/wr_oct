@@ -13,6 +13,8 @@ class wrHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double Height = MediaQuery.of(context).size.height;
+    double Width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -23,37 +25,37 @@ class wrHomePage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
-                    width: MediaQuery.of(context).size.width * 0.1,
-                    height: MediaQuery.of(context).size.height * 0.1,
+                    width: Width * 0.1,
+                    height: Height * 0.1,
                     decoration: BoxDecoration(
                         border: Border.all(color: Colors.black, width: 1)),
                     child: Image.asset("images/CI_nobg.png"),
                   ),
                   Container(
                       padding: EdgeInsets.only(left: 27, top: 12),
-                      width: MediaQuery.of(context).size.width * 0.1,
-                      height: MediaQuery.of(context).size.height * 0.1,
+                      width: Width * 0.1,
+                      height: Height * 0.1,
                       decoration: BoxDecoration(
                           border: Border.all(color: Colors.black, width: 1)),
                       child: Clock() //2
                       ),
                   Container(
-                    width: MediaQuery.of(context).size.width * 0.1,
-                    height: MediaQuery.of(context).size.height * 0.1,
+                    width: Width * 0.1,
+                    height: Height * 0.1,
                     decoration: BoxDecoration(
                         border: Border.all(color: Colors.black, width: 1)),
                     child: Text('3.프로그램타이틀 레시피네임'),
                   ),
                   Container(
-                    width: MediaQuery.of(context).size.width * 0.1,
-                    height: MediaQuery.of(context).size.height * 0.1,
+                    width: Width * 0.1,
+                    height: Height * 0.1,
                     decoration: BoxDecoration(
                         border: Border.all(color: Colors.black, width: 1)),
                     child: Text('4.런/에러상태표시'),
                   ),
                   Container(
-                    width: MediaQuery.of(context).size.width * 0.1,
-                    height: MediaQuery.of(context).size.height * 0.1,
+                    width: Width * 0.1,
+                    height: Height * 0.1,
                     decoration: BoxDecoration(
                         border: Border.all(color: Colors.black, width: 1)),
                     child: Text('5.세팅버튼'),
@@ -69,18 +71,18 @@ class wrHomePage extends StatelessWidget {
                   //     ),
                 ],
               ),
-              SizedBox(height: 20),
+              SizedBox(height: Height * 0.05),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    width: MediaQuery.of(context).size.width * 0.79,
-                    height: MediaQuery.of(context).size.height * 0.75,
+                    width: Width * 0.79,
+                    height: Height * 0.75,
                     decoration: BoxDecoration(
                         border: Border.all(color: Colors.black, width: 1)),
                     child: Text('6.차트뷰'),
                   ),
-                  SizedBox(width: 10),
+                  SizedBox(width: Width * 0.01),
                   Column(
                     children: [
                       Column(
@@ -88,18 +90,16 @@ class wrHomePage extends StatelessWidget {
                           Column(
                             children: [
                               Container(
-                                width: MediaQuery.of(context).size.width * 0.15,
-                                height:
-                                    MediaQuery.of(context).size.height * 0.3,
+                                width: Width * 0.15,
+                                height: Height * 0.3,
                                 decoration: BoxDecoration(
                                     border: Border.all(
                                         color: Colors.black, width: 1)),
                                 child: MyList(),
                               ),
                               Container(
-                                width: MediaQuery.of(context).size.width * 0.15,
-                                height:
-                                    MediaQuery.of(context).size.height * 0.05,
+                                width: Width * 0.15,
+                                height: Height * 0.05,
                                 decoration: BoxDecoration(
                                     border: Border.all(
                                         color: Colors.black, width: 1)),
@@ -110,7 +110,7 @@ class wrHomePage extends StatelessWidget {
                           )
                         ],
                       ),
-                      SizedBox(height: 10),
+                      SizedBox(height: Height * 0.02),
                       Row(
                         children: [
                           //8번 스타트 스탑버튼
@@ -122,24 +122,24 @@ class wrHomePage extends StatelessWidget {
                         ],
                       ),
                       Container(
-                        width: MediaQuery.of(context).size.width * 0.15,
-                        height: MediaQuery.of(context).size.height * 0.1,
+                        width: Width * 0.15,
+                        height: Height * 0.1,
                         decoration: BoxDecoration(
                             border: Border.all(color: Colors.black, width: 1)),
                         child: CSVButton(),
                       ),
-                      SizedBox(height: 10),
+                      SizedBox(height: Height * 0.02),
                       Container(
-                        width: MediaQuery.of(context).size.width * 0.15,
-                        height: MediaQuery.of(context).size.height * 0.1,
+                        width: Width * 0.15,
+                        height: Height * 0.1,
                         decoration: BoxDecoration(
                             border: Border.all(color: Colors.black, width: 1)),
                         child: Text('11.'),
                       ),
-                      SizedBox(height: 10),
+                      SizedBox(height: Height * 0.02),
                       Container(
-                        width: MediaQuery.of(context).size.width * 0.15,
-                        height: MediaQuery.of(context).size.height * 0.1,
+                        width: Width * 0.15,
+                        height: Height * 0.1,
                         decoration: BoxDecoration(
                             border: Border.all(color: Colors.black, width: 1)),
                         child: ExitBtn(),
