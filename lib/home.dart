@@ -6,6 +6,8 @@ import 'package:wr_ui/ui/widgets/reset_btn.dart';
 import 'package:wr_ui/ui/widgets/save_file.dart';
 import 'package:wr_ui/ui/widgets/window_btn.dart';
 
+import 'chart/chart_page.dart';
+
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
 //나중에 스테이트리스로 바꿀것..
@@ -41,7 +43,7 @@ class _HomeState extends State<Home> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Text('6.차트뷰'),
+              ChartPage(),
               Column(
                 children: [
                   // MyList(), 마이리스트넣으니까 에러남
