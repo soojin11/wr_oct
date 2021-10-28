@@ -35,6 +35,7 @@ class _HomeState extends State<Home> {
                 label: Text('5.세팅버튼'),
               ),
               WindowButtons(),
+              //최소화최대화 아이콘 수정하기
             ],
           ),
           Row(

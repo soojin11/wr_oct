@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_navigation/src/routes/default_transitions.dart';
 import 'package:wr_ui/home.dart';
 import 'package:wr_ui/ui/widgets/save_file.dart';
 import 'package:wr_ui/wr_home_page.dart';
@@ -21,7 +22,13 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: Home(),
-      getPages: [GetPage(name: '/', page: () => Home())],
+      getPages: [
+        GetPage(
+          name: '/',
+          page: () => Home(),
+          transition: Transition.noTransition,
+        ),
+      ],
     );
   }
 }

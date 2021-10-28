@@ -13,10 +13,25 @@ class ExitBtn extends StatelessWidget {
           context: context,
           builder: (context) => AlertDialog(
             title: Text(
-              '프로그램을 종료하시겠습니까?',
-              style: TextStyle(
-                fontSize: 12,
-              ),
+              '프로그램을 종료하시겠습니까?\n',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            content: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Icon(
+                  Icons.check_circle_outlined,
+                  color: Colors.red[400],
+                  size: 12,
+                ),
+                SizedBox(
+                  width: 6,
+                ),
+                Text(
+                  '디바이스 종료 후 프로그램을 종료 해 주세요',
+                  style: TextStyle(color: Colors.red[400], fontSize: 12),
+                ),
+              ],
             ),
             actions: [
               ElevatedButton(
