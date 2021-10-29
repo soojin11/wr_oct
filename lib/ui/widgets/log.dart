@@ -12,19 +12,24 @@ class MyList extends StatelessWidget {
       '로그 기능',
       '넣어야 함',
     ];
-    return Scrollbar(
-        isAlwaysShown: true,
-        showTrackOnHover: true,
-        child: ListView.separated(
-          itemCount: europeanCountries.length,
-          itemBuilder: (context, index) {
-            return ListTile(
-              title: Text(europeanCountries[index]),
-            );
-          },
-          separatorBuilder: (context, index) {
-            return Divider();
-          },
-        ));
+    return Column(
+      children: [
+        Flexible(
+          child: ListView.separated(
+            scrollDirection: Axis.vertical,
+            shrinkWrap: true,
+            itemCount: europeanCountries.length,
+            itemBuilder: (context, index) {
+              return ListTile(
+                title: Text(europeanCountries[index]),
+              );
+            },
+            separatorBuilder: (context, index) {
+              return Divider();
+            },
+          ),
+        ),
+      ],
+    );
   }
 }

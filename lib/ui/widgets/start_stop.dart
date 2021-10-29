@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
-class StartStopToggleBtn extends StatelessWidget {
-  const StartStopToggleBtn({Key? key}) : super(key: key);
+class StartStop extends StatelessWidget {
+  const StartStop({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

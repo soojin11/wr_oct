@@ -10,9 +10,17 @@ class Clock extends StatelessWidget {
     return StreamBuilder(
       stream: Stream.periodic(Duration(seconds: 1)),
       builder: (context, snapshot) {
-        return Text(
-          DateFormat('yyyy/MM/dd hh:mm:ss').format(DateTime.now()),
-          style: TextStyle(fontWeight: FontWeight.bold),
+        return Column(
+          children: [
+            Text(
+              DateFormat('yyyy/MM/dd').format(DateTime.now()),
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            Text(
+              DateFormat('hh:mm:ss').format(DateTime.now()),
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ],
         );
       },
     );

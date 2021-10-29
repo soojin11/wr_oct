@@ -5,7 +5,7 @@ import 'package:wr_ui/ui/widgets/log.dart';
 import 'package:wr_ui/ui/widgets/reset_btn.dart';
 import 'package:wr_ui/ui/widgets/save_file.dart';
 // ignore: unused_import
-import 'package:wr_ui/ui/widgets/start_stop_toggle_button.dart';
+import 'package:wr_ui/ui/widgets/start_stop.dart';
 
 class wrHomePage extends StatelessWidget {
   wrHomePage({Key? key}) : super(key: key);

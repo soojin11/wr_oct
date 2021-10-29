@@ -14,7 +14,7 @@ class _RefreshBtnState extends State<ResetBtn> {
     return Container(
       child: TextButton.icon(
         onPressed: () {
-          print('refresh!!');
+          print('reset!!');
           // Get.toNamed('/');
           Navigator.pushReplacement(
               context,
