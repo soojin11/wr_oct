@@ -8,8 +8,9 @@ class StartStop extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ToggleSwitch(
-      minWidth: 90.0,
-      cornerRadius: 20.0,
+      minWidth: 50,
+      minHeight: 20,
+      cornerRadius: 10.0,
       activeBgColors: [
         [Colors.green[800]!],
         [Colors.red[800]!]
@@ -22,10 +23,12 @@ class StartStop extends StatelessWidget {
       labels: ['Start', 'Stop'],
       radiusStyle: true,
       onToggle: (index) {
-        print('switched to: $index');
+        if (index == 1) {
+          print('스탑');
+        } else {
+          print('스타트');
+        }
       },
     );
   }
 }
-
-test() {}

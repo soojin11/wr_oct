@@ -246,7 +246,7 @@ class _PageState extends State<Page> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             CSVButton(),
-                            // IniBtn()
+                            iniBtn()
                             // TxtBtn(),
                           ],
                         ),
