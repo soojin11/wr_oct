@@ -22,7 +22,10 @@ class Home extends StatelessWidget {
     return FluentApp(
         debugShowCheckedModeBanner: false,
         title: 'WR_OCT',
-        theme: ThemeData(),
+        theme: ThemeData(
+          scaffoldBackgroundColor: Colors.grey[10],
+          navigationPaneTheme: NavigationPaneThemeData(),
+        ),
         darkTheme: ThemeData(),
         home: Page()
         //////////////////밑에거 수정 전 코드
@@ -148,7 +151,9 @@ class _PageState extends State<Page> {
           displayMode: PaneDisplayMode.minimal,
           items: [
             PaneItem(
-                icon: Icon(FluentIcons.accept), title: const Text('menu 1')),
+              icon: Icon(FluentIcons.accept),
+              title: const Text('menu 1'),
+            ),
             PaneItem(
               icon: Icon(FluentIcons.accept),
               title: Text('menu 2'),
@@ -211,44 +216,106 @@ class _PageState extends State<Page> {
                     ),
                   ),
                   //////////////////////////차트공간
+                  Divider(
+                    style: DividerThemeData(
+                      thickness: 0.5,
+                    ),
+                  ),
                   Expanded(
                     flex: 1,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Text('Mylist 1'),
-                        Text('Mylist 2'),
-                        Text('Mylist 3'),
-                        Text('Mylist 4'),
-                        Text('Mylist 5'),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            StartStop(),
-                            TextButton(
-                              onPressed: () {
-                                // super.dispose();
-                                print('reset!!');
-                                // Get.toNamed('/');
-                                Navigator.pushReplacement(
-                                  context,
-                                  FluentPageRoute(
-                                    builder: (BuildContext context) =>
-                                        super.widget,
-                                  ),
-                                );
-                              },
-                              child: Icon(FluentIcons.refresh),
-                            ),
-                          ],
+                        Container(
+                          width: 200,
+                          decoration: BoxDecoration(
+                            color: Colors.grey[40].withOpacity(0.5),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Column(
+                            children: [
+                              Text('Mylist 1'),
+                              Text('Mylist 2'),
+                              Text('Mylist 3'),
+                              Text('Mylist 4'),
+                              Text('Mylist 5'),
+                            ],
+                          ),
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            CSVButton(),
-                            iniBtn()
-                            // TxtBtn(),
-                          ],
+                        Container(
+                          width: 200,
+                          height: 100,
+                          decoration: BoxDecoration(
+                            color: Colors.grey[40].withOpacity(0.5),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Text(
+                                  'Start / Stop / Reset',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    StartStop(),
+                                    TextButton(
+                                      onPressed: () {
+                                        // super.dispose();
+                                        print('reset!!');
+                                        // Get.toNamed('/');
+                                        Navigator.pushReplacement(
+                                          context,
+                                          FluentPageRoute(
+                                            builder: (BuildContext context) =>
+                                                super.widget,
+                                          ),
+                                        );
+                                      },
+                                      child: Icon(FluentIcons.refresh),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Container(
+                          width: 200,
+                          height: 100,
+                          decoration: BoxDecoration(
+                            color: Colors.grey[40].withOpacity(0.5),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Text(
+                                'Save Buttons',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Center(
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    CSVButton(),
+                                    iniBtn()
+                                    // TxtBtn(),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                         Text('Recipe button'),
                         ExitBtn()

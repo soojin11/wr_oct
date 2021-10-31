@@ -4,8 +4,6 @@ import 'package:ini/ini.dart';
 import 'package:intl/intl.dart';
 import 'dart:io';
 
-// import 'package:path_provider/path_provider.dart';
-
 class iniBtn extends StatelessWidget {
   Future<void> updaeteINI() async {
     Get.find<iniControllerWithReactive>().iniSave();
@@ -54,7 +52,7 @@ class iniControllerWithReactive extends GetxController {
     // final String streamDateTime =
     //     DateFormat('yyyy/MM/dd HH:mm:ss').format(current);
     await Directory('inifiles').create();
-    path.value = "./inifiles/config_$fileName.ini";
+    path.value = "./inifiles/WR_$fileName.ini";
     // String startTime = streamDateTime;
     File file = File(path.value);
     Config config = new Config();
