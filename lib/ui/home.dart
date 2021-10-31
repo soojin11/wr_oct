@@ -1,4 +1,5 @@
 import 'package:fluent_ui/fluent_ui.dart';
+import 'package:ini/ini.dart';
 
 import 'package:wr_ui/ui/widgets/clock.dart';
 import 'package:wr_ui/ui/widgets/exit_btn.dart';
@@ -7,9 +8,10 @@ import 'package:wr_ui/ui/widgets/reset_btn.dart';
 // import 'package:wr_ui/ui/widgets/reset_btn.dart';
 import 'package:wr_ui/ui/widgets/save_file.dart';
 import 'package:wr_ui/ui/widgets/start_stop.dart';
+import 'package:wr_ui/ui/widgets/ini_creator.dart';
 import 'package:wr_ui/ui/widgets/window_btn.dart';
 
-import 'chart/chart_page.dart';
+import '../chart/chart_page.dart';
 
 class Home extends StatelessWidget {
   const Home({Key? key}) : super(key: key);
@@ -153,7 +155,6 @@ class _PageState extends State<Page> {
             ),
           ]),
       content: NavigationBody(
-        
         index: index,
         children: [
           Padding(
@@ -241,7 +242,14 @@ class _PageState extends State<Page> {
                             ),
                           ],
                         ),
-                        CSVButton(),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            CSVButton(),
+                            // IniBtn()
+                            // TxtBtn(),
+                          ],
+                        ),
                         Text('Recipe button'),
                         ExitBtn()
                       ],
