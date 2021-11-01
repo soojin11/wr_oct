@@ -34,8 +34,6 @@ class _ChartPageState extends State<ChartPage> {
 
   @override
   Widget build(BuildContext context) {
-    final values = ['ALL', 'OES', 'VI', '+'];
-    String? comboBoxValue;
     return Column(
       children: [
         //all oes vi +선택하는 드롭다운

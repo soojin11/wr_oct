@@ -16,7 +16,11 @@ class iniBtn extends StatelessWidget {
         await Get.find<iniControllerWithReactive>().iniWriteSave();
         Get.find<iniControllerWithReactive>().fileSave;
       },
-      child: Text('to *.ini'),
+      child: Text('Ini',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+          )),
+      style: ElevatedButton.styleFrom(primary: Colors.blueGrey[700]),
     );
   }
 }

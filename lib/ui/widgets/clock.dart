@@ -10,15 +10,21 @@ class Clock extends StatelessWidget {
     return StreamBuilder(
       stream: Stream.periodic(Duration(seconds: 1)),
       builder: (context, snapshot) {
-        return Column(
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Text(
-              DateFormat('yyyy/MM/dd').format(DateTime.now()),
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            Text(
-              DateFormat('hh:mm:ss').format(DateTime.now()),
-              style: TextStyle(fontWeight: FontWeight.bold),
+            Icon(Icons.alarm),
+            Column(
+              children: [
+                Text(
+                  DateFormat('yyyy/MM/dd').format(DateTime.now()),
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  DateFormat('hh:mm:ss').format(DateTime.now()),
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ],
             ),
           ],
         );

@@ -10,34 +10,21 @@ class DropDownBtn extends GetView<DropDownController> {
   Widget build(BuildContext context) {
     return Obx(
       () => DropdownButton(
-        value: 0,
+        value: controller.currentItem.value.index,
         onChanged: (int? value) {
           // setState(() {
           // index = value!;
           // });
+          controller.changeDropDown(value!);
         },
-        items: [
-          DropdownMenuItem(
-            value: 0,
-            child: Text('ALL'),
-          ),
-          DropdownMenuItem(
-            value: 1,
-            child: Text('OES'),
-          ),
-          DropdownMenuItem(
-            value: 2,
-            child: Text('VI'),
-          ),
-          DropdownMenuItem(
-            value: 3,
-            child: Text('CUSTOM 1'),
-          ),
-          DropdownMenuItem(
-            value: 4,
-            child: Text('+'),
-          ),
-        ],
+        items: DropDown.values
+            .map(
+              (menu) => DropdownMenuItem(
+                value: menu.index,
+                child: Text(menu.name),
+              ),
+            )
+            .toList(),
       ),
     );
   }

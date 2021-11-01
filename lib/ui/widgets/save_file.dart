@@ -11,15 +11,16 @@ class CSVButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return OutlinedButton(
+    return ElevatedButton(
       onPressed: () async {
         await Get.find<ControllerWithReactive>().csvSaveInit();
         Get.find<ControllerWithReactive>().fileSave.value = true;
       },
       child: Text(
-        "Save Data",
+        "Csv",
         style: TextStyle(fontWeight: FontWeight.bold),
       ),
+      style: ElevatedButton.styleFrom(primary: Colors.blueGrey[700]),
     );
   }
 }

@@ -125,17 +125,23 @@ class ExitBtn extends StatelessWidget {
                 ),
         );
     return WillPopScope(
-      onWillPop: () async {
-        showWarning(context);
-        final shouldPop = await showWarning(context);
-        return shouldPop ?? false;
-      },
-      child: TextButton(
-        onPressed: () {
+        onWillPop: () async {
           showWarning(context);
+          final shouldPop = await showWarning(context);
+          return shouldPop ?? false;
         },
-        child: Icon(Icons.exit_to_app),
-      ),
-    );
+        child: TextButton.icon(
+          onPressed: () {
+            showWarning(context);
+          },
+          icon: Icon(
+            Icons.exit_to_app,
+            color: Colors.red,
+          ),
+          label: Text(
+            'Exit',
+            style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+          ),
+        ));
   }
 }
