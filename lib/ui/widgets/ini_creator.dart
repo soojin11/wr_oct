@@ -62,6 +62,7 @@ class iniControllerWithReactive extends GetxController {
     config.set("OES", "NAME", 'qqq');
     print('파일 경로는?? ${file.path}');
     print("${config.toString()}");
+    print('------------------------------------------------------');
     return file.writeAsString(config.toString());
   }
 }

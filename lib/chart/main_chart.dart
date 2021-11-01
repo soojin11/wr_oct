@@ -2,8 +2,9 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:fluent_ui/fluent_ui.dart';
-import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:wr_ui/ui/widgets/drop_down_chart.dart';
+//디바이스개수,주기만 일단
 
 class ChartPage extends StatefulWidget {
   const ChartPage();
@@ -33,23 +34,27 @@ class _ChartPageState extends State<ChartPage> {
 
   @override
   Widget build(BuildContext context) {
-    return FocusTheme(
-      data: FocusThemeData(),
-      child: Button(
-        onPressed: () {},
-        child: SfCartesianChart(
+    final values = ['ALL', 'OES', 'VI', '+'];
+    String? comboBoxValue;
+    return Column(
+      children: [
+        //all oes vi +선택하는 드롭다운
+        Expanded(child: CahrtDropDown()),
+        //all oes vi +선택하는 드롭다운
+        SfCartesianChart(
           enableAxisAnimation: true,
           primaryXAxis:
               DateTimeAxis(intervalType: DateTimeIntervalType.seconds),
           series: <LineSeries<_ChartData, DateTime>>[
             LineSeries(
+              color: Colors.blue,
               dataSource: _chartData,
               xValueMapper: (_ChartData sales, _) => sales.x,
               yValueMapper: (_ChartData sales, _) => sales.y,
             )
           ],
         ),
-      ),
+      ],
     );
   }
 
