@@ -13,7 +13,15 @@ class CahrtDropDown extends GetView<DropDownController> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        DropDownBtn(),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            DropDownBtn(),
+            SizedBox(
+              width: 20,
+            )
+          ],
+        ),
         Expanded(child: Center(child: Obx(() {
           switch (controller.currentItem.value) {
             // case 0:
