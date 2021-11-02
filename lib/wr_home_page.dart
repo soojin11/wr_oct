@@ -91,7 +91,7 @@ class wrHomePage extends StatelessWidget {
                               decoration: BoxDecoration(
                                   border: Border.all(
                                       color: Colors.black, width: 1)),
-                              child: MyList(),
+                              child: LogList(),
                             ),
                             Container(
                               width: Width * 0.15,

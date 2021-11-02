@@ -9,6 +9,7 @@ import 'package:wr_ui/controller/drop_down_controller.dart';
 import 'package:wr_ui/ui/widgets/drop_down_chart.dart';
 import 'package:wr_ui/ui/widgets/clock.dart';
 import 'package:wr_ui/ui/widgets/exit_btn.dart';
+import 'package:wr_ui/ui/widgets/log.dart';
 import 'package:wr_ui/ui/widgets/save_file.dart';
 import 'package:wr_ui/ui/widgets/ini_creator.dart';
 import 'package:wr_ui/ui/widgets/start_stop.dart';
@@ -17,6 +18,8 @@ import 'package:wr_ui/ui/widgets/start_stop.dart';
 Future main() async {
   Get.put(ControllerWithReactive());
   Get.put(iniControllerWithReactive());
+  Get.put(ChartController());
+  Get.put(LogListController());
   // Get.put(txtControllerWithReactive());
   runApp(MyApp());
 }
@@ -133,19 +136,19 @@ class _HomeState extends State<Home> {
                     // Expanded(child: CahrtDropDown()),
                     Expanded(
                       flex: 2,
-                      child: ChartPage(),
+                      child: MainChart(),
                     ),
                     SizedBox(height: 20),
-                    Expanded(
-                        flex: 1,
-                        child: GridView.count(
-                          crossAxisSpacing: 10,
-                          crossAxisCount: 8,
-                          shrinkWrap: true,
-                          children: List.generate(8, (index) => ChartPage()),
-                        )
-                        // ChartPage(),
-                        ),
+                    // Expanded(
+                    //     flex: 1,
+                    //     child: GridView.count(
+                    //       crossAxisSpacing: 10,
+                    //       crossAxisCount: 8,
+                    //       shrinkWrap: true,
+                    //       children: List.generate(8, (index) => MainChart()),
+                    //     )
+                    //     // ChartPage(),
+                    //     ),
                   ],
                 ),
               ),
@@ -165,28 +168,19 @@ class _HomeState extends State<Home> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.2), //그림자 색
-                          spreadRadius: 5,
-                          blurRadius: 7,
-                          offset: Offset(0, 2), // 그림자위치 바꾸는거
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      children: [
-                        Text('Mylist 1'),
-                        Text('Mylist 2'),
-                        Text('Mylist 3'),
-                        Text('Mylist 4'),
-                        Text('Mylist 5'),
-                      ],
-                    ),
-                  ),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.2), //그림자 색
+                            spreadRadius: 5,
+                            blurRadius: 7,
+                            offset: Offset(0, 2), // 그림자위치 바꾸는거
+                          ),
+                        ],
+                      ),
+                      child: LogList()),
                 ),
                 Container(
                   width: 200,

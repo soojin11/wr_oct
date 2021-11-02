@@ -1,35 +1,55 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class MyList extends StatelessWidget {
-  MyList({Key? key}) : super(key: key);
+class LogListController extends GetxController {
+  RxList logData = RxList.empty();
+  @override
+  void onInit() {
+    //ever(logData, (_) => logData.add('클릭');
+    super.onInit();
+  }
+
+  @override
+  void onClose() {
+    super.onClose();
+  }
+
+  void clickedStop() async {
+    logData.add('Stop 클릭');
+  }
+
+  void clickedStart() async {
+    logData.add('Start 클릭');
+  }
+}
+
+// class Logs {
+//   final String hey;
+//   Logs({required this.hey});
+// }
+
+class LogList extends GetView<LogListController> {
+  const LogList({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    final europeanCountries = [
-      'Program Start',
-      'Pressed Start',
-      'Start Saving File',
-      'Stop Saving File',
-      '로그 기능',
-      '넣어야 함',
-    ];
-    return Column(
-      children: [
-        Flexible(
-          child: ListView.separated(
-            scrollDirection: Axis.vertical,
-            shrinkWrap: true,
-            itemCount: europeanCountries.length,
-            itemBuilder: (context, index) {
-              return ListTile(
-                title: Text(europeanCountries[index]),
+    return Container(
+        //decoration: BoxDecoration(border: Border.all(width: 1)),
+        width: 200,
+        height: 100,
+        child: Obx(
+          () => ListView.separated(
+            padding: const EdgeInsets.all(8),
+            itemCount: controller.logData.length,
+            itemBuilder: (BuildContext context, int index) {
+              return Container(
+                height: 20,
+                child: Text('${controller.logData[index]}'),
               );
             },
-            separatorBuilder: (context, index) {
-              return Divider();
-            },
+            separatorBuilder: (BuildContext context, int index) =>
+                const Divider(),
           ),
-        ),
-      ],
-    );
+        ));
   }
 }

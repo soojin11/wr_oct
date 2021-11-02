@@ -14,17 +14,9 @@ class Clock extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Icon(Icons.alarm),
-            Column(
-              children: [
-                Text(
-                  DateFormat('yyyy/MM/dd').format(DateTime.now()),
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                Text(
-                  DateFormat('hh:mm:ss').format(DateTime.now()),
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-              ],
+            Text(
+              DateFormat('yyyy/MM/dd \n hh:mm:ss').format(DateTime.now()),
+              style: TextStyle(fontWeight: FontWeight.bold),
             ),
           ],
         );
