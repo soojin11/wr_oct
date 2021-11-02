@@ -32,7 +32,6 @@ dependencies:
   csv: null
   cupertino_icons: ^1.0.2
   fl_chart: ^0.40.2
-  fluent_ui: ^3.4.0
   flutter:
     sdk: flutter
   get: null
@@ -40,6 +39,8 @@ dependencies:
   intl: null
   path_provider: null
   syncfusion_flutter_charts: null
+  syncfusion_flutter_core: ^19.3.47
+  syncfusion_flutter_datagrid: ^19.3.47
   system_tray: ^0.0.7
   toggle_switch: ^1.2.0
   webview_flutter: ^2.1.2

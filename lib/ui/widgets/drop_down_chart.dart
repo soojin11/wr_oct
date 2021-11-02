@@ -7,6 +7,7 @@ import 'package:wr_ui/chart/pages/OESpage.dart';
 import 'package:wr_ui/chart/pages/VIpage.dart';
 import 'package:wr_ui/controller/drop_down_controller.dart';
 import 'package:wr_ui/ui/widgets/drop_down_btn.dart';
+import 'package:wr_ui/ui/widgets/pop_up_menu_btn.dart';
 
 class CahrtDropDown extends GetView<DropDownController> {
   @override
@@ -16,7 +17,8 @@ class CahrtDropDown extends GetView<DropDownController> {
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            DropDownBtn(),
+            // DropDownBtn(),
+            PopUpMenu(),
             SizedBox(
               width: 20,
             )

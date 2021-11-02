@@ -1,4 +1,5 @@
 import 'package:bitsdojo_window/bitsdojo_window.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wr_ui/chart/main_chart.dart';
@@ -11,6 +12,7 @@ import 'package:wr_ui/ui/widgets/clock.dart';
 import 'package:wr_ui/ui/widgets/exit_btn.dart';
 import 'package:wr_ui/ui/widgets/save_file.dart';
 import 'package:wr_ui/ui/widgets/ini_creator.dart';
+import 'package:wr_ui/ui/widgets/settings.dart';
 import 'package:wr_ui/ui/widgets/start_stop.dart';
 // import 'package:wr_ui/wr_home_page.dart';
 
@@ -34,7 +36,6 @@ class MyApp extends StatelessWidget {
           elevation: 0,
         ),
       ),
-
       debugShowCheckedModeBanner: false,
       title: 'WR',
       //initialBinding..?
@@ -45,12 +46,17 @@ class MyApp extends StatelessWidget {
       //   primarySwatch: Colors.blue,
       // ),
       home: Home(),
+      initialRoute: '/',
       getPages: [
         GetPage(
           name: '/',
           page: () => Home(),
           transition: Transition.noTransition,
         ),
+        GetPage(
+          name: '/setting',
+          page: () => Settings(),
+        )
       ],
     );
   }
@@ -71,9 +77,14 @@ class _HomeState extends State<Home> {
       appBar: AppBar(
           automaticallyImplyLeading: true,
           // backgroundColor: Theme.of(context).backgroundColor,
-          leading: Image.asset(
-            'assets/images/CI_nobg.png',
-            scale: 10,
+          leading: TextButton(
+            onPressed: () {
+              Get.to(Home());
+            },
+            child: Image.asset(
+              'assets/images/CI_nobg.png',
+              scale: 10,
+            ),
           ),
           actions: [
             Spacer(),
@@ -90,7 +101,8 @@ class _HomeState extends State<Home> {
               children: [
                 TextButton.icon(
                     onPressed: () {
-                      print('setting버튼클릭');
+                      Get.to(Settings());
+                      // print('setting버튼클릭');
                     },
                     icon: Icon(
                       Icons.settings,
