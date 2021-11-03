@@ -13,6 +13,8 @@ import 'package:wr_ui/ui/widgets/log_screen.dart';
 import 'package:wr_ui/ui/widgets/save_file.dart';
 import 'package:wr_ui/ui/widgets/ini_creator.dart';
 import 'package:wr_ui/ui/widgets/start_stop.dart';
+
+import 'ui/widgets/log_save.dart';
 // import 'package:wr_ui/wr_home_page.dart';
 
 Future main() async {
@@ -20,6 +22,7 @@ Future main() async {
   Get.put(iniControllerWithReactive());
   Get.put(ChartController());
   Get.put(LogListController());
+  Get.put(LogController());
   // Get.put(txtControllerWithReactive());
   runApp(MyApp());
 }

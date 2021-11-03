@@ -2,9 +2,11 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:wr_ui/chart/main_chart.dart';
 
+import 'log_save.dart';
 import 'log_screen.dart';
 
 class StartStop extends StatelessWidget {
@@ -47,12 +49,21 @@ class StartStop extends StatelessWidget {
                   Duration(milliseconds: 1000),
                   Get.find<ChartController>().updateDataSource);
               Get.find<LogListController>().clickedStart();
+              Get.find<LogController>().loglist.add(
+                  '${DateFormat('mm분 ss초').format(DateTime.now())} Start button is pressed');
+              Get.find<LogController>().logSaveInit();
+              Get.find<LogController>().fileSave.value = true;
             },
             child: Text('Start')),
         OutlinedButton(
             onPressed: () {
               Get.find<ChartController>().timer.cancel();
               Get.find<LogListController>().clickedStop();
+
+              Get.find<LogController>().loglist.add(
+                  '${DateFormat('mm분 ss초').format(DateTime.now())} Stop button is pressed');
+              Get.find<LogController>().logSaveInit();
+              Get.find<LogController>().fileSave.value = true;
             },
             child: Text('Stop'))
       ],

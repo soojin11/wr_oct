@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
+import 'log_save.dart';
 import 'log_screen.dart';
 
 class CSVButton extends StatelessWidget {
@@ -32,6 +33,10 @@ class CSVButton extends StatelessWidget {
             await Get.find<ControllerWithReactive>().csvSaveInit();
             Get.find<LogListController>().clickedCsv();
             Get.find<ControllerWithReactive>().fileSave.value = true;
+            Get.find<LogController>().loglist.add(
+                '${DateFormat('mm분 ss초').format(DateTime.now())} Save Data File');
+            Get.find<LogController>().logSaveInit();
+            Get.find<LogController>().fileSave.value = true;
           },
           child: Text(
             "Stop Stop",
