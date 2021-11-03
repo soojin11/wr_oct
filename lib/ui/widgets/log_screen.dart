@@ -15,11 +15,19 @@ class LogListController extends GetxController {
   }
 
   void clickedStop() async {
-    logData.add('Stop 클릭');
+    logData.add('Stop button is pressed');
   }
 
   void clickedStart() async {
-    logData.add('Start 클릭');
+    logData.add('Start buttton is pressed');
+  }
+
+  void clickedCsv() async {
+    logData.add('Save file');
+  }
+
+  void clickedIni() async {
+    logData.add('Save config');
   }
 }
 

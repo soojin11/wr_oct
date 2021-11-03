@@ -9,7 +9,7 @@ import 'package:wr_ui/controller/drop_down_controller.dart';
 import 'package:wr_ui/ui/widgets/drop_down_chart.dart';
 import 'package:wr_ui/ui/widgets/clock.dart';
 import 'package:wr_ui/ui/widgets/exit_btn.dart';
-import 'package:wr_ui/ui/widgets/log.dart';
+import 'package:wr_ui/ui/widgets/log_screen.dart';
 import 'package:wr_ui/ui/widgets/save_file.dart';
 import 'package:wr_ui/ui/widgets/ini_creator.dart';
 import 'package:wr_ui/ui/widgets/start_stop.dart';
@@ -224,7 +224,7 @@ class _HomeState extends State<Home> {
                             indent: 10,
                             endIndent: 10,
                           ),
-                          Row(
+                          Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               StartStop(),
@@ -301,7 +301,7 @@ class _HomeState extends State<Home> {
                           endIndent: 10,
                         ),
                         Center(
-                          child: Row(
+                          child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               CSVButton(),

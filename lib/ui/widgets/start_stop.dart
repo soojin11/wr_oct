@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:wr_ui/chart/main_chart.dart';
 
-import 'log.dart';
+import 'log_screen.dart';
 
 class StartStop extends StatelessWidget {
   const StartStop({Key? key}) : super(key: key);
@@ -39,11 +39,12 @@ class StartStop extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         OutlinedButton(
             onPressed: () {
               Get.find<ChartController>().timer = Timer.periodic(
-                  Duration(milliseconds: 10),
+                  Duration(milliseconds: 1000),
                   Get.find<ChartController>().updateDataSource);
               Get.find<LogListController>().clickedStart();
             },

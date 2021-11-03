@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
+import 'log_screen.dart';
+
 class CSVButton extends StatelessWidget {
   Future<void> updaeteCSV() async {
     Get.find<ControllerWithReactive>().csvSave();
@@ -11,16 +13,33 @@ class CSVButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () async {
-        await Get.find<ControllerWithReactive>().csvSaveInit();
-        Get.find<ControllerWithReactive>().fileSave.value = true;
-      },
-      child: Text(
-        "Csv",
-        style: TextStyle(fontWeight: FontWeight.bold),
-      ),
-      style: ElevatedButton.styleFrom(primary: Colors.blueGrey[700]),
+    return Row(
+      children: [
+        ElevatedButton(
+          onPressed: () async {
+            await Get.find<ControllerWithReactive>().csvSaveInit();
+            Get.find<LogListController>().clickedCsv();
+            Get.find<ControllerWithReactive>().fileSave.value = true;
+          },
+          child: Text(
+            "Start Save",
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          style: ElevatedButton.styleFrom(primary: Colors.blueGrey[700]),
+        ),
+        ElevatedButton(
+          onPressed: () async {
+            await Get.find<ControllerWithReactive>().csvSaveInit();
+            Get.find<LogListController>().clickedCsv();
+            Get.find<ControllerWithReactive>().fileSave.value = true;
+          },
+          child: Text(
+            "Stop Stop",
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          style: ElevatedButton.styleFrom(primary: Colors.blueGrey[700]),
+        ),
+      ],
     );
   }
 }

@@ -5,7 +5,7 @@ import 'package:fluent_ui/fluent_ui.dart';
 import 'package:get/get.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:wr_ui/ui/widgets/drop_down_chart.dart';
-import 'package:wr_ui/ui/widgets/log.dart';
+import 'package:wr_ui/ui/widgets/log_screen.dart';
 //디바이스개수,주기만 일단
 
 // class ChartPage extends StatefulWidget {
@@ -102,11 +102,11 @@ class ChartController extends GetxController {
     super.onInit();
   }
 
-  @override
-  void onClose() {
-    timer.cancel();
-    super.onClose();
-  }
+  // @override
+  // void onClose() {
+  //   timer.cancel();
+  //   super.onClose();
+  // }
 
   int time = 0;
   void updateDataSource(Timer timer) async {
@@ -135,8 +135,9 @@ class MainChart extends GetView<ChartController> {
           toggleSeriesVisibility: true,
           position: LegendPosition.top),
       zoomPanBehavior: controller.zoomPanBehavior,
+      enableAxisAnimation: true,
       primaryXAxis: NumericAxis(autoScrollingMode: AutoScrollingMode.start),
-      primaryYAxis: NumericAxis(minimum: 0, maximum: 60),
+      //primaryYAxis: NumericAxis(minimum: 0, maximum: 60),
       title: ChartTitle(text: 'Main'),
       series: <ChartSeries<SpecData, int>>[
         SplineSeries(

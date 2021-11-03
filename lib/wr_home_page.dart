@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wr_ui/ui/widgets/clock.dart';
 import 'package:wr_ui/ui/widgets/exit_btn.dart';
-import 'package:wr_ui/ui/widgets/log.dart';
+import 'package:wr_ui/ui/widgets/log_screen.dart';
 // import 'package:wr_ui/ui/widgets/reset_btn.dart';
 import 'package:wr_ui/ui/widgets/save_file.dart';
 // ignore: unused_import
