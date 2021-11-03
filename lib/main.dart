@@ -1,6 +1,7 @@
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:wr_ui/chart/main_chart.dart';
 import 'package:wr_ui/controller/drop_down_controller.dart';
 // import 'package:get/get_navigation/src/routes/default_transitions.dart';
@@ -233,6 +234,11 @@ class _HomeState extends State<Home> {
                               StartStop(),
                               TextButton.icon(
                                   onPressed: () {
+                                    Get.find<LogListController>()
+                                        .clickedReset();
+                                    Get.find<LogController>().loglist.add(
+                                        '${DateFormat('mm분 ss초').format(DateTime.now())} Reset button is pressed' +
+                                            '\n');
                                     print('reset!!');
                                     // Get.toNamed('/');
                                     Navigator.pushReplacement(

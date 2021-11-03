@@ -23,11 +23,15 @@ class LogListController extends GetxController {
   }
 
   void clickedCsv() async {
-    logData.add('Save file');
+    logData.add('Start Saving');
   }
 
   void clickedIni() async {
     logData.add('Save config');
+  }
+
+  void clickedReset() async {
+    logData.add('Reset button is pressed');
   }
 }
 

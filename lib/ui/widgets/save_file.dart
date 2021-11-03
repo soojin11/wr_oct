@@ -15,15 +15,21 @@ class CSVButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         ElevatedButton(
           onPressed: () async {
             await Get.find<ControllerWithReactive>().csvSaveInit();
             Get.find<LogListController>().clickedCsv();
             Get.find<ControllerWithReactive>().fileSave.value = true;
+            Get.find<LogController>().loglist.add(
+                '${DateFormat('mm분 ss초').format(DateTime.now())} Start Saving' +
+                    '\n');
+            Get.find<LogController>().logSaveInit();
+            Get.find<LogController>().fileSave.value = true;
           },
           child: Text(
-            "Start Save",
+            "Start",
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
           style: ElevatedButton.styleFrom(primary: Colors.blueGrey[700]),
@@ -33,13 +39,9 @@ class CSVButton extends StatelessWidget {
             await Get.find<ControllerWithReactive>().csvSaveInit();
             Get.find<LogListController>().clickedCsv();
             Get.find<ControllerWithReactive>().fileSave.value = true;
-            Get.find<LogController>().loglist.add(
-                '${DateFormat('mm분 ss초').format(DateTime.now())} Save Data File');
-            Get.find<LogController>().logSaveInit();
-            Get.find<LogController>().fileSave.value = true;
           },
           child: Text(
-            "Stop Stop",
+            "Stop",
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
           style: ElevatedButton.styleFrom(primary: Colors.blueGrey[700]),
