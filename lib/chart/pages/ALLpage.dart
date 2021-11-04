@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wr_ui/chart/main_chart.dart';
+import 'package:wr_ui/chart/oes_chart.dart';
 
 class ALLpage extends StatelessWidget {
   const ALLpage({Key? key}) : super(key: key);

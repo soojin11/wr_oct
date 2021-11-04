@@ -2,7 +2,7 @@ import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:wr_ui/chart/main_chart.dart';
+import 'package:wr_ui/chart/oes_chart.dart';
 import 'package:wr_ui/controller/drop_down_controller.dart';
 // import 'package:get/get_navigation/src/routes/default_transitions.dart';
 // import 'package:wr_ui/chart/carousel_chart.dart';

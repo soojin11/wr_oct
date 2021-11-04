@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:toggle_switch/toggle_switch.dart';
-import 'package:wr_ui/chart/main_chart.dart';
+import 'package:wr_ui/chart/oes_chart.dart';
 
 import 'log_save.dart';
 import 'log_screen.dart';
@@ -46,7 +46,7 @@ class StartStop extends StatelessWidget {
         OutlinedButton(
             onPressed: () {
               Get.find<ChartController>().timer = Timer.periodic(
-                  Duration(milliseconds: 1000),
+                  Duration(milliseconds: 100),
                   Get.find<ChartController>().updateDataSource);
               Get.find<LogListController>().clickedStart();
               Get.find<LogController>().loglist.add(
