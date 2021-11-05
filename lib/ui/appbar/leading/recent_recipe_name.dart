@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wr_ui/style/text.dart';
 
 class RecentRecipeName extends StatelessWidget {
   const RecentRecipeName({
@@ -7,9 +8,12 @@ class RecentRecipeName extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      'ExampleRecipeName',
-      style: TextStyle(fontWeight: FontWeight.bold),
+    return Container(
+      padding: EdgeInsets.only(top: 5, bottom: 5),
+      child: Text(
+        'ExampleRecipeName',
+        style: WrText.WrLeadingFont,
+      ),
     );
   }
 }

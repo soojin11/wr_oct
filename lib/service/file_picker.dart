@@ -32,7 +32,7 @@ class filePickerBtn extends StatelessWidget {
           // print('이 경로로 : ${newFile.path}');
         },
         child: Text('Open File'),
-        style: ElevatedButton.styleFrom(primary: WrColors.wrPrimary),
+        style: ElevatedButton.styleFrom(primary: wrColors.wrPrimary),
       );
 
   // void openFiles(List<PlatformFile> files) =>

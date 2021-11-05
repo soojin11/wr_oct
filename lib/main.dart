@@ -1,29 +1,22 @@
-import 'package:bitsdojo_window/bitsdojo_window.dart';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:wr_ui/chart/main_chart.dart';
 import 'package:wr_ui/controller/drop_down_controller.dart';
 import 'package:wr_ui/service/file_picker.dart';
 import 'package:wr_ui/style/pallette.dart';
-import 'package:wr_ui/ui/appbar/chart_setting_btn.dart';
-import 'package:wr_ui/ui/appbar/device_setting_btn.dart';
-// import 'package:get/get_navigation/src/routes/default_transitions.dart';
-// import 'package:wr_ui/chart/carousel_chart.dart';
-
+import 'package:wr_ui/ui/appbar/actions/chart_setting_btn.dart';
+import 'package:wr_ui/ui/appbar/actions/device_setting_btn.dart';
 import 'package:wr_ui/ui/appbar/drop_down/drop_down_chart.dart';
-import 'package:wr_ui/ui/appbar/clock.dart';
 import 'package:wr_ui/ui/appbar/drop_down/setting_pop_up_menu_btn.dart';
-import 'package:wr_ui/ui/appbar/recent_recipe_name.dart';
+import 'package:wr_ui/ui/appbar/leading/clock.dart';
+import 'package:wr_ui/ui/appbar/leading/recent_recipe_name.dart';
 import 'package:wr_ui/ui/appbar/return_homepage.dart';
-import 'package:wr_ui/service/color_picker.dart';
-import 'package:wr_ui/ui/chart_card.dart';
+import 'package:wr_ui/ui/appbar/leading/run_error_status_mark.dart';
 import 'package:wr_ui/ui/right_side_menu/exit_btn.dart';
 import 'package:wr_ui/ui/right_side_menu/csv_creator.dart';
 import 'package:wr_ui/ui/right_side_menu/ini_creator.dart';
-import 'package:wr_ui/ui/appbar/device_setting_page.dart';
+import 'package:wr_ui/ui/appbar/actions/device_setting_page.dart';
 import 'package:wr_ui/ui/right_side_menu/start_stop.dart';
-// import 'package:wr_ui/wr_home_page.dart';
+import 'package:wr_ui/ui/setting_menu.dart';
 
 Future main() async {
   Get.put(ControllerWithReactive());
@@ -41,7 +34,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         backgroundColor: Colors.grey[50],
         appBarTheme: AppBarTheme(
-          color: WrColors.wrPrimary,
+          color: wrColors.wrPrimary,
           elevation: 0,
         ),
       ),
@@ -115,32 +108,37 @@ class WRappbar extends StatelessWidget implements PreferredSizeWidget {
             width: 600,
             child: Row(
               children: [
-                Spacer(),
+                SizedBox(
+                  width: 100,
+                ),
                 Clock(),
-                Spacer(),
+                SizedBox(
+                  width: 20,
+                ),
+                SizedBox(
+                  width: 20,
+                ),
                 RecentRecipeName(),
-                Spacer(),
+                SizedBox(
+                  width: 20,
+                ),
+                SizedBox(
+                  width: 20,
+                ),
                 RunErrorStatus(),
               ],
             ),
           ),
           Spacer(),
-          ReturnHomePage(),
-          DeviceSettingBtn(),
-          ChartSettingBtn(),
+          // ReturnHomePage(),
+          SettingMenu(),
+          SizedBox(
+            width: 50,
+          )
+          // DeviceSettingBtn(),
+          // ChartSettingBtn(),
         ] //
         );
-  }
-}
-
-class RunErrorStatus extends StatelessWidget {
-  const RunErrorStatus({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Text('4. Run/Error status');
   }
 }
 

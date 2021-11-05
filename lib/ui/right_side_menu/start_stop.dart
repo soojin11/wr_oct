@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
 class StartStop extends StatelessWidget {

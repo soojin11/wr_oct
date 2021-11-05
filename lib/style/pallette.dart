@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class WrColors {
-  static Color wrPrimary = Colors.blueGrey;
+class wrColors {
+  static const Color wrPrimary = Color(0xff303654);
 }

@@ -12,11 +12,9 @@
 */
 //지원자 데이터 생성
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:wr_ui/main.dart';
-import 'package:wr_ui/ui/appbar/clock.dart';
 
 class SettingList {
   SettingList(this.num, this.parameters, this.value, this.etc);

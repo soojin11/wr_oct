@@ -15,7 +15,7 @@ class ChartSettingBtn extends StatelessWidget {
         },
         icon: Icon(Icons.auto_graph_sharp),
         label: Text('Chart Setting'),
-        style: ElevatedButton.styleFrom(primary: WrColors.wrPrimary),
+        style: ElevatedButton.styleFrom(primary: wrColors.wrPrimary),
       ),
     );
   }

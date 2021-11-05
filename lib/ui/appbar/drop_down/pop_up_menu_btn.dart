@@ -42,7 +42,7 @@ class PopUpMenu extends GetView<DropDownController> {
                 padding: const EdgeInsets.all(15),
                 child: Container(
                   decoration: BoxDecoration(
-                      border: Border.all(color: WrColors.wrPrimary),
+                      border: Border.all(color: wrColors.wrPrimary),
                       borderRadius: BorderRadius.circular(5)),
                   child: Row(
                     children: [

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:wr_ui/style/pallette.dart';
 
+// ignore: must_be_immutable
 class ExitBtn extends StatelessWidget {
   bool measuring = true;
   ExitBtn({Key? key}) : super(key: key);
@@ -48,9 +49,9 @@ class ExitBtn extends StatelessWidget {
                         style: TextStyle(color: Colors.white, fontSize: 8),
                       ),
                       style: ElevatedButton.styleFrom(
-                          primary: WrColors.wrPrimary,
+                          primary: wrColors.wrPrimary,
                           onPrimary: Colors.blue[700],
-                          shadowColor: WrColors.wrPrimary),
+                          shadowColor: wrColors.wrPrimary),
                     ),
                     OutlinedButton(
                       onPressed: () => Navigator.pop(context, false),
@@ -103,9 +104,9 @@ class ExitBtn extends StatelessWidget {
                         style: TextStyle(color: Colors.white, fontSize: 8),
                       ),
                       style: ElevatedButton.styleFrom(
-                          primary: WrColors.wrPrimary,
+                          primary: wrColors.wrPrimary,
                           onPrimary: Colors.blue[700],
-                          shadowColor: WrColors.wrPrimary),
+                          shadowColor: wrColors.wrPrimary),
                     ),
                     OutlinedButton(
                       onPressed: () => Navigator.pop(context, false),

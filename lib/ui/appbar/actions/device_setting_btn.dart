@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wr_ui/style/pallette.dart';
-import 'package:wr_ui/ui/appbar/device_setting_page.dart';
+import 'package:wr_ui/ui/appbar/actions/device_setting_page.dart';
 
 class DeviceSettingBtn extends StatelessWidget {
   const DeviceSettingBtn({Key? key}) : super(key: key);
@@ -15,7 +15,7 @@ class DeviceSettingBtn extends StatelessWidget {
         },
         icon: Icon(Icons.settings),
         label: Text('Device Setting'),
-        style: ElevatedButton.styleFrom(primary: WrColors.wrPrimary),
+        style: ElevatedButton.styleFrom(primary: wrColors.wrPrimary),
       ),
     );
   }
