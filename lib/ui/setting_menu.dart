@@ -1,78 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:wr_ui/controller/setting_dialog_controller.dart';
 import 'package:wr_ui/style/pallette.dart';
 import 'package:wr_ui/style/text.dart';
 
-class SettingMenu extends StatelessWidget {
-  const SettingMenu({Key? key}) : super(key: key);
-
+class SettingMenu extends GetView<SettingController> {
+  var radioButtonItem = 'ONE';
+  var id = 1;
   @override
   Widget build(BuildContext context) {
     return Container(
       child: TextButton.icon(
         onPressed: () {
           print('세팅다이얼로그창띄울곳');
-          //겟엑스 다이얼로그
-          // Get.defaultDialog(
 
-          // barrierDismissible: false,
-          // title: '겟엑스다이얼로그 테스트',
-          // middleText: '미들텍스트영역',
-          // content: Column(
-          // children: [
-          // Container(
-          // child: Text('설정 1'),
-          // ),
-          // Container(
-          // child: Text('설정 2'),
-          // ),
-          // Container(
-          // child: Text('설정 3'),
-          // ),
-          // Container(
-          // child: Text('설정 4'),
-          // ),
-          // Container(
-          // child: Text('설정 5'),
-          // ),
-          // Container(
-          // child: Text('설정 6'),
-          // ),
-          // Container(
-          // child: Text('설정 7'),
-          // ),
-          // Container(
-          // child: Text('설정 8'),
-          // ),
-          // Container(
-          // child: Text('설정 9'),
-          // ),
-          // Container(
-          // child: Text('설정 10'),
-          // ),
-          // ],
-          // ),
-          //////세팅적용버튼
-          // onConfirm: () {
-          // Navigator.of(context).pop();
-          // },
-          // textConfirm: 'Apply',
-          // confirmTextColor: Colors.white,
-          // buttonColor: wrColors.wrPrimary,
-          //
-          //////세팅적용버튼
-
-          //////세팅취소버튼
-          // onCancel: () {
-          // Navigator.of(context).pop();
-          // },
-          // textCancel: 'Cancel',
-          // cancelTextColor: wrColors.wrPrimary
-////////세팅취소버튼
-          //겟엑스 다이얼로그
           showDialog(
               //배경 안어둡게
-
               barrierDismissible: false,
               barrierColor: null,
               //배경 안어둡게
@@ -102,7 +45,7 @@ class SettingMenu extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Text('세팅다이얼로그 테스트'),
+                          Text('Setting'),
                         ],
                       ),
                     ],
@@ -110,7 +53,66 @@ class SettingMenu extends StatelessWidget {
                   content: SingleChildScrollView(
                     child: ListBody(
                       children: [
-                        Text('다이얼로그 컨텐츠 테스트1'),
+                        Row(
+                          children: [
+                            Row(
+                              children: [
+                                //라디오가 커런트 아이템 보여주는거
+                                Obx(() {
+                                  return Radio(
+                                    value: controller
+                                        .currentRadioBtnItem.value.index,
+                                    groupValue: id,
+                                    onChanged: (int? val) {
+                                      // setState(() {
+                                      // print('왜 나중에 적용되냐');
+                                      // id = 1;
+                                      // radioButtonItem = 'ONE';
+                                      // });
+                                      controller.changeSettingRadio(val!);
+                                    },
+                                  );
+                                }),
+                                // Obx(() {
+                                //   Text(radio);
+                                // }),
+                                // Radio(
+                                //   value: 1,
+                                //   groupValue: id,
+                                //   onChanged: (val) {
+                                //     // setState(() {
+                                //       // print('왜 나중에 적용되냐');
+                                //       // id = 1;
+                                //       // radioButtonItem = 'ONE';
+                                //     // });
+                                //   },
+                                // ),
+
+                                Text('Device'),
+                              ],
+                            ),
+                            // Row(
+                            //   children: [
+                            //     Radio(
+                            //       focusColor: wrColors.wrPrimary,
+                            //       value: 2,
+                            //       groupValue: id,
+                            //       onChanged: (val) {
+                            //         setState(() {
+                            //           print('왜 나중에 적용되냐');
+                            //           id = 2;
+                            //           radioButtonItem = 'TWO';
+                            //           Container(
+                            //             color: Colors.amber,
+                            //           );
+                            //         });
+                            //       },
+                            //     ),
+                            //     Text('Chart'),
+                            //   ],
+                            // ),
+                          ],
+                        ),
                         Text('다이얼로그 컨텐츠 테스트2'),
                         Text('다이얼로그 컨텐츠 테스트3'),
                         Text('다이얼로그 컨텐츠 테스트4'),

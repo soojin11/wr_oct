@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wr_ui/controller/drop_down_controller.dart';
+import 'package:wr_ui/controller/setting_dialog_controller.dart';
 import 'package:wr_ui/service/file_picker.dart';
 import 'package:wr_ui/style/pallette.dart';
 import 'package:wr_ui/ui/appbar/actions/chart_setting_btn.dart';
@@ -21,6 +22,7 @@ import 'package:wr_ui/ui/setting_menu.dart';
 Future main() async {
   Get.put(ControllerWithReactive());
   Get.put(iniControllerWithReactive());
+  Get.put(SettingController());
   // Get.put(txtControllerWithReactive());
   runApp(MyApp());
 }
