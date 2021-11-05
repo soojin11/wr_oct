@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 // ignore: unused_import
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:wr_ui/style/pallette.dart';
 
 class ExitBtn extends StatelessWidget {
   bool measuring = true;
@@ -47,9 +48,9 @@ class ExitBtn extends StatelessWidget {
                         style: TextStyle(color: Colors.white, fontSize: 8),
                       ),
                       style: ElevatedButton.styleFrom(
-                          primary: Colors.blue[900],
+                          primary: WrColors.wrPrimary,
                           onPrimary: Colors.blue[700],
-                          shadowColor: Colors.blue[900]),
+                          shadowColor: WrColors.wrPrimary),
                     ),
                     OutlinedButton(
                       onPressed: () => Navigator.pop(context, false),
@@ -102,9 +103,9 @@ class ExitBtn extends StatelessWidget {
                         style: TextStyle(color: Colors.white, fontSize: 8),
                       ),
                       style: ElevatedButton.styleFrom(
-                          primary: Colors.blue[900],
+                          primary: WrColors.wrPrimary,
                           onPrimary: Colors.blue[700],
-                          shadowColor: Colors.blue[900]),
+                          shadowColor: WrColors.wrPrimary),
                     ),
                     OutlinedButton(
                       onPressed: () => Navigator.pop(context, false),

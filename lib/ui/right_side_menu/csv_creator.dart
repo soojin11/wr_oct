@@ -53,8 +53,8 @@ class ControllerWithReactive extends GetxController {
     final String fileName = DateFormat('yyyyMMdd-HHmmss').format(current);
     final String streamDateTime =
         DateFormat('yyyy/MM/dd HH:mm:ss').format(current);
-    await Directory('datafiles').create();
-    path.value = "./datafiles/$fileName.csv";
+    await Directory('csvfiles').create();
+    path.value = "./csvfiles/$fileName.csv";
     String startTime = streamDateTime;
     File file = File(path.value);
     String firstRow = "FileFormat:1";

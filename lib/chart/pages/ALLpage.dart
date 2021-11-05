@@ -10,8 +10,18 @@ class ALLpage extends StatelessWidget {
     //   child: ChartPage(),
     // );
     return Container(
-      color: Colors.deepPurple,
-      child: Text('ALL페이지'),
+      // color: Colors.blueGrey,
+      child: Column(
+        children: [
+          Text(
+            'ALL페이지',
+          ),
+          ChartPage(),
+        ],
+      ),
+      decoration: BoxDecoration(
+          border: Border.all(color: Colors.deepPurple),
+          borderRadius: BorderRadius.circular(20)),
     );
   }
 }

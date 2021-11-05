@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wr_ui/controller/drop_down_controller.dart';
+import 'package:wr_ui/style/pallette.dart';
 
 class PopUpMenu extends GetView<DropDownController> {
   const PopUpMenu({Key? key}) : super(key: key);
@@ -8,6 +9,7 @@ class PopUpMenu extends GetView<DropDownController> {
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton(
+        padding: EdgeInsets.all(10),
         shape: ShapeBorder.lerp(
             RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(
@@ -21,7 +23,7 @@ class PopUpMenu extends GetView<DropDownController> {
         onSelected: (int value) {
           controller.changeDropDown(value);
         },
-        color: Colors.blueGrey,
+
         //컬러는 임시로해놓음
         offset: Offset(0, 40),
         elevation: 0,
@@ -35,13 +37,20 @@ class PopUpMenu extends GetView<DropDownController> {
               )
               .toList();
         },
-        child: Obx(() => Container(
-              padding: const EdgeInsets.all(15),
-              child: Row(
-                children: [
-                  Text(controller.currentItem.value.name),
-                  Icon(Icons.arrow_drop_down)
-                ],
+        child: Obx(() => Center(
+              child: Container(
+                padding: const EdgeInsets.all(15),
+                child: Container(
+                  decoration: BoxDecoration(
+                      border: Border.all(color: WrColors.wrPrimary),
+                      borderRadius: BorderRadius.circular(5)),
+                  child: Row(
+                    children: [
+                      Text(controller.currentItem.value.name),
+                      Icon(Icons.arrow_drop_down)
+                    ],
+                  ),
+                ),
               ),
             )));
   }

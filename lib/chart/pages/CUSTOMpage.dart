@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wr_ui/chart/main_chart.dart';
 
 class CUSTOMpage extends StatelessWidget {
   const CUSTOMpage({Key? key}) : super(key: key);
@@ -6,8 +7,18 @@ class CUSTOMpage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.cyan,
-      child: Text('커스텀차트 페이지입니다.'),
+      // color: Colors.blueGrey,
+      child: Column(
+        children: [
+          Text(
+            'CUSTOM페이지',
+          ),
+          ChartPage(),
+        ],
+      ),
+      decoration: BoxDecoration(
+          border: Border.all(color: Colors.blueAccent),
+          borderRadius: BorderRadius.circular(20)),
     );
   }
 }

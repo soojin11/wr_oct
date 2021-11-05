@@ -3,7 +3,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:wr_ui/ui/widgets/drop_down_chart.dart';
+import 'package:wr_ui/ui/appbar/drop_down/drop_down_chart.dart';
 //디바이스개수,주기만 일단
 
 class ChartPage extends StatefulWidget {
@@ -37,7 +37,7 @@ class _ChartPageState extends State<ChartPage> {
     return Column(
       children: [
         //all oes vi +선택하는 드롭다운
-        Expanded(child: CahrtDropDown()),
+
         //all oes vi +선택하는 드롭다운
         SfCartesianChart(
           enableAxisAnimation: true,

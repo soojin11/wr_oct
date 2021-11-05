@@ -16,7 +16,7 @@ import 'package:get/get.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:wr_ui/main.dart';
-import 'package:wr_ui/ui/widgets/clock.dart';
+import 'package:wr_ui/ui/appbar/clock.dart';
 
 class SettingList {
   SettingList(this.num, this.parameters, this.value, this.etc);
@@ -64,8 +64,6 @@ class SettingDataSource extends DataGridSource {
 //데이터소스 만들기
 
 class Settings extends StatefulWidget {
-  const Settings({Key? key}) : super(key: key);
-
   @override
   _SettingsState createState() => _SettingsState();
 }
@@ -101,57 +99,22 @@ class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          automaticallyImplyLeading: true,
-          // backgroundColor: Theme.of(context).backgroundColor,
-          leading: TextButton(
-            onPressed: () {
-              Get.to(Home());
-            },
-            child: Image.asset(
-              'assets/images/CI_nobg.png',
-              scale: 10,
-            ),
-          ),
-          actions: [
-            Spacer(),
-            Clock(),
-            Spacer(),
-            Text(
-              'ExampleRecipeName',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            Spacer(),
-            Text('4. Run/Error status'),
-            Spacer(),
-            Row(
-              children: [
-                TextButton.icon(
-                    onPressed: () {
-                      print('setting버튼클릭');
-                    },
-                    icon: Icon(
-                      Icons.settings,
-                      color: Colors.white,
-                    ),
-                    label: Text(
-                      'Settings',
-                      style: TextStyle(color: Colors.white),
-                    ))
-                // Icon(Icons.settings),
-                // Text('5.Settings'),
-              ],
-            ),
-          ] //
-          ),
+      appBar: WRappbar(),
       body: Column(
         children: [
           SizedBox(
             height: 50,
           ),
-          Text(
-            'OES',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          Padding(
+            padding: const EdgeInsets.only(left: 50),
+            child: Row(
+              children: [
+                Text(
+                  'Device Setting Page',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
           ),
           Padding(
             padding: const EdgeInsets.only(top: 50),

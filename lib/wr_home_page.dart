@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:wr_ui/ui/widgets/clock.dart';
-import 'package:wr_ui/ui/widgets/exit_btn.dart';
-import 'package:wr_ui/ui/widgets/log.dart';
+import 'package:wr_ui/ui/appbar/clock.dart';
+import 'package:wr_ui/ui/right_side_menu/exit_btn.dart';
+import 'package:wr_ui/ui/right_side_menu/log.dart';
 // import 'package:wr_ui/ui/widgets/reset_btn.dart';
-import 'package:wr_ui/ui/widgets/save_file.dart';
+import 'package:wr_ui/ui/right_side_menu/csv_creator.dart';
 // ignore: unused_import
-import 'package:wr_ui/ui/widgets/start_stop.dart';
+import 'package:wr_ui/ui/right_side_menu/start_stop.dart';
 
 class wrHomePage extends StatelessWidget {
   wrHomePage({Key? key}) : super(key: key);

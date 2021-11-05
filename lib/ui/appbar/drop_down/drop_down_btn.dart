@@ -21,7 +21,9 @@ class DropDownBtn extends GetView<DropDownController> {
             .map(
               (menu) => DropdownMenuItem(
                 value: menu.index,
-                child: Text(menu.name),
+                child: Text(
+                  menu.name,
+                ),
               ),
             )
             .toList(),
