@@ -42,9 +42,10 @@ class LogController extends GetxController {
 
     List<dynamic> logData = [];
     logData.addAll(Get.find<LogController>().loglist);
+    String addLogFile = logData.join();
 
-    print("exists in");
-    String intergrationColumn = firstRow + '\n' + logData.toString();
+    print("log file in");
+    String intergrationColumn = firstRow + '\n' + addLogFile;
 
     return file.writeAsString(intergrationColumn);
   }

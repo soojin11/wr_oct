@@ -1,6 +1,3 @@
 15시 로그
-[28분 27초 Start button is pressed
-, 28분 31초 Stop button is pressed
-, 30분 06초 Stop button is pressed
-, 30분 12초 Start Saving
-]
+2021-11-08 15:41:49.982016 Start button is pressed
+2021-11-08 15:41:51.011589 Stop button is pressed
