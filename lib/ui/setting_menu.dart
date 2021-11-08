@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:wr_ui/controller/setting_dialog_controller.dart';
 import 'package:wr_ui/style/pallette.dart';
 import 'package:wr_ui/style/text.dart';
-import 'package:wr_ui/ui/radio_test.dart';
 import 'package:wr_ui/ui/setting_content.dart';
 
 class SettingMenu extends StatelessWidget {
@@ -54,54 +51,7 @@ class SettingMenu extends StatelessWidget {
                     child: ListBody(
                       children: [
                         Column(
-                          children: [
-                            SettingContnet()
-                            // Row(
-                            //   children: [
-                            //     Row(
-                            //       children: [
-                            //         Radio(
-                            //           focusColor: wrColors.wrPrimary,
-                            //           value: 2,
-                            //           groupValue: id,
-                            //           onChanged: (val) {
-                            //             setState(() {
-                            //               print('왜 나중에 적용되냐');
-                            //               id = 2;
-                            //               radioButtonItem = 'ONE';
-                            //               Container(
-                            //                 color: Colors.amber,
-                            //               );
-                            //             });
-                            //           },
-                            //         ),
-                            //         Text('Device'),
-                            //       ],
-                            //     ),
-                            //     Row(
-                            //       children: [
-                            //         Radio(
-                            //           focusColor: wrColors.wrPrimary,
-                            //           value: 2,
-                            //           groupValue: id,
-                            //           onChanged: (val) {
-                            //             setState(() {
-                            //               print('왜 나중에 적용되냐');
-                            //               id = 2;
-                            //               radioButtonItem = 'TWO';
-                            //               Container(
-                            //                 color: Colors.amber,
-                            //               );
-                            //             });
-                            //           },
-                            //         ),
-                            //         Text('Chart'),
-                            //       ],
-                            //     ),
-                            //   ],
-                            // ),
-                            // Text('$radioButtonItem'),
-                          ],
+                          children: [SettingContnet()],
                         )
                       ],
                     ),

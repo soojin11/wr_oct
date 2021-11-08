@@ -27,6 +27,9 @@ class _SettingContnetState extends State<SettingContnet> {
                   radioBtnItem = 'Device';
                   id = 1;
                   print('디바이스 세팅 설정 시작');
+                  Container(
+                    child: Text('디바이스'),
+                  );
                 });
               },
             ),
