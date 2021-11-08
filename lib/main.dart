@@ -2,17 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wr_ui/controller/drop_down_controller.dart';
 import 'package:wr_ui/controller/setting_dialog_controller.dart';
-import 'package:wr_ui/service/file_picker.dart';
+import 'package:wr_ui/setting_dialog_test.dart';
 import 'package:wr_ui/style/pallette.dart';
-import 'package:wr_ui/ui/appbar/actions/chart_setting_btn.dart';
-import 'package:wr_ui/ui/appbar/actions/device_setting_btn.dart';
 import 'package:wr_ui/ui/appbar/drop_down/drop_down_chart.dart';
-import 'package:wr_ui/ui/appbar/drop_down/setting_pop_up_menu_btn.dart';
 import 'package:wr_ui/ui/appbar/leading/clock.dart';
 import 'package:wr_ui/ui/appbar/leading/recent_recipe_name.dart';
-import 'package:wr_ui/ui/appbar/return_homepage.dart';
 import 'package:wr_ui/ui/appbar/leading/run_error_status_mark.dart';
-import 'package:wr_ui/ui/radio_test.dart';
 import 'package:wr_ui/ui/right_side_menu/exit_btn.dart';
 import 'package:wr_ui/ui/right_side_menu/csv_creator.dart';
 import 'package:wr_ui/ui/right_side_menu/ini_creator.dart';
@@ -35,6 +30,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       theme: ThemeData(
+        accentColor: wrColors.wrPrimary,
         backgroundColor: Colors.grey[50],
         appBarTheme: AppBarTheme(
           color: wrColors.wrPrimary,
@@ -134,6 +130,7 @@ class WRappbar extends StatelessWidget implements PreferredSizeWidget {
           ),
           Spacer(),
           // ReturnHomePage(),
+
           SettingMenu(),
           SizedBox(
             width: 50,
@@ -344,7 +341,6 @@ class _WRbodyState extends State<WRbody> {
                           children: [
                             CSVButton(),
                             iniBtn(),
-                            filePickerBtn()
                             // TxtBtn(),
                           ],
                         ),
@@ -379,30 +375,4 @@ class _WRbodyState extends State<WRbody> {
       ],
     );
   }
-  // class ResetBtn extends StatefulWidget {
-  // const ResetBtn({Key? key}) : super(key: key);
-
-  // @override
-  // State<ResetBtn> createState() => _RefreshBtnState();
-// }
-
-// class _RefreshBtnState extends State<ResetBtn> {
-  // @override
-  // Widget build(BuildContext context) {
-  // return Container(
-  // child: TextButton.icon(
-  // onPressed: () {
-  // print('reset!!');
-  // Get.toNamed('/');
-  // Navigator.pushReplacement(
-  // context,
-  // MaterialPageRoute(
-  // builder: (BuildContext context) => super.widget));
-  // },
-  // icon: Icon(Icons.refresh),
-  // label: Text('Reset'),
-  // ),
-  // );
-  // }
-// }
 }

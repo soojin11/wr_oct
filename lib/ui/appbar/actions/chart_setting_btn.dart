@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wr_ui/style/pallette.dart';
-import 'package:wr_ui/ui/appbar/chart_setting_page.dart';
+import 'package:wr_ui/ui/appbar/actions/chart_setting_page.dart';
 
 class ChartSettingBtn extends StatelessWidget {
   const ChartSettingBtn({Key? key}) : super(key: key);
