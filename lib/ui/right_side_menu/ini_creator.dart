@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ini/ini.dart';
 import 'package:intl/intl.dart';
+import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 
 import 'package:wr_ui/style/pallette.dart';
@@ -15,7 +16,8 @@ class iniBtn extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () async {
-        await Get.find<iniControllerWithReactive>().iniWriteSave();
+        await Get.find<iniControllerWithReactive>().readIni();
+        Get.find<iniControllerWithReactive>().iniWriteSave();
         Get.find<iniControllerWithReactive>().fileSave;
       },
       child: Text('Ini',
@@ -38,6 +40,35 @@ class iniControllerWithReactive extends GetxController {
     super.onInit();
   }
 
+  // Future<String> get _localPath async {
+  //   final directory = await getApplicationDocumentsDirectory();
+  //   return directory.path;
+  // }
+
+  Future<File> get _localIniFile async {
+    final String fileName = 'FreqAI';
+    final path = "./inifiles/$fileName.ini";
+    // = await _localPath;
+    File file = File(path);
+    return file;
+  }
+
+  Future readIni() async {
+    final path = await _localIniFile;
+    if (File('$path').exists() == true) {
+      _readIni();
+    } else {
+      print(path.toString() + '파일이 없음');
+    }
+  }
+
+  _readIni() async {
+    var file = await _localIniFile;
+    Config config = new Config.fromStrings(file.readAsLinesSync());
+    print(config);
+    // OES = config.get('OES', 'IP');
+  }
+
   Future<File> iniSave() async {
     DateTime current = DateTime.now();
     final String fileName = '${DateFormat('yyyyMMdd_hhmmss').format(current)}';
@@ -52,18 +83,15 @@ class iniControllerWithReactive extends GetxController {
   }
 
   Future<File> iniWriteSave() async {
-    DateTime current = DateTime.now();
-    print("*.ini 로 저장");
-    final String fileName = DateFormat('yyyyMMdd-HHmmss').format(current);
-    // final String streamDateTime =
-    //     DateFormat('yyyy/MM/dd HH:mm:ss').format(current);
+    print("ini생성");
+    final String fileName = 'FreqAI';
     await Directory('inifiles').create();
-    path.value = "./inifiles/WR_$fileName.ini";
+    path.value = "./inifiles/$fileName.ini";
     // String startTime = streamDateTime;
     File file = File(path.value);
     Config config = new Config();
     config.addSection("OES");
-    config.set("OES", "IP", '192.168.0.1');
+    config.set("OES", "IP", "OES");
     config.set("OES", "PORT", '9000');
     config.set("OES", "NAME", 'qqq');
     print('파일 경로는?? ${file.path}');
@@ -71,4 +99,30 @@ class iniControllerWithReactive extends GetxController {
     print('------------------------------------------------------');
     return file.writeAsString(config.toString());
   }
+
+//   Future<String> get _localPath async {
+//     final directory = await getApplicationDocumentsDirectory();
+//     return directory.path;
+//   }
+
+//   Future<File> get _localIniFile async {
+//     final path = await _localPath;
+//     return File('$path/FreqAI.ini');
+//   }
+
+//   Future readIni() async {
+//     final path = await _localIniFile;
+//     if (File('$path').exists() == true) {
+//       _readIni();
+//     } else {
+//       print(path.toString() + '파일이 없음');
+//     }
+//   }
+
+//   _readIni() async {
+//     var file = await _localIniFile;
+//     Config config = new Config.fromStrings(file.readAsLinesSync());
+//     print(config);
+//   }
+// }
 }

@@ -24,22 +24,7 @@ Future<Map<String, dynamic>> settingsDialog(
           return SimpleDialog(
             contentPadding: EdgeInsets.zero,
             titlePadding: const EdgeInsets.fromLTRB(24, 10, 24, 0),
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('Settings'),
-                IconButton(
-                    onPressed: () {
-                      print('세팅창 닫음');
-
-                      Navigator.of(context).pop();
-                    },
-                    icon: Icon(
-                      Icons.close,
-                      color: wrColors.wrPrimary,
-                    ))
-              ],
-            ),
+            title: Text('Settings'),
             children: [
               Column(
                 children: [

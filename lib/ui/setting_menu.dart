@@ -113,6 +113,7 @@ class _SettingMenuState extends State<SettingMenu> {
         icon: Icon(
           Icons.settings,
           color: Colors.white,
+          size: 20,
         ),
         label: Text(
           'Setting',

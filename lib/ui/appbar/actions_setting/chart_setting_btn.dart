@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wr_ui/style/pallette.dart';
-import 'package:wr_ui/ui/appbar/actions/device_setting_page.dart';
+import 'package:wr_ui/ui/appbar/actions_setting/chart_setting_page.dart';
 
-class DeviceSettingBtn extends StatelessWidget {
-  const DeviceSettingBtn({Key? key}) : super(key: key);
+class ChartSettingBtn extends StatelessWidget {
+  const ChartSettingBtn({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       child: ElevatedButton.icon(
         onPressed: () {
-          Get.to(() => Settings());
+          Get.to(() => ChartSettings());
         },
-        icon: Icon(Icons.settings),
-        label: Text('Device Setting'),
+        icon: Icon(Icons.auto_graph_sharp),
+        label: Text('Chart Setting'),
         style: ElevatedButton.styleFrom(primary: wrColors.wrPrimary),
       ),
     );
