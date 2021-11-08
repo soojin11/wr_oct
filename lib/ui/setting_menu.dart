@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wr_ui/setting_dialog_test.dart';
+import 'package:wr_ui/setting_dialog_final.dart';
 import 'package:wr_ui/style/text.dart';
 
 class SettingMenu extends StatefulWidget {

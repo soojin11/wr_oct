@@ -20,8 +20,8 @@ class _ColorContainerState extends State<ColorContainer> {
                 shape: BoxShape.circle,
                 color: color,
               ),
-              width: 120,
-              height: 120,
+              width: 20,
+              height: 20,
             ),
             const SizedBox(
               height: 32,

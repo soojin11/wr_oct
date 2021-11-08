@@ -4,6 +4,8 @@ import 'package:ini/ini.dart';
 import 'package:intl/intl.dart';
 import 'dart:io';
 
+import 'package:wr_ui/style/pallette.dart';
+
 class iniBtn extends StatelessWidget {
   Future<void> updaeteINI() async {
     Get.find<iniControllerWithReactive>().iniSave();
@@ -20,7 +22,7 @@ class iniBtn extends StatelessWidget {
           style: TextStyle(
             fontWeight: FontWeight.bold,
           )),
-      style: ElevatedButton.styleFrom(primary: Colors.blueGrey[700]),
+      style: ElevatedButton.styleFrom(primary: wrColors.wrPrimary),
     );
   }
 }

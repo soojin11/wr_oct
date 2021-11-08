@@ -3,7 +3,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:wr_ui/setting_dialog_test.dart';
+import 'package:wr_ui/setting_dialog_final.dart';
 //디바이스개수,주기만 일단
 
 class ChartPage extends StatefulWidget {
@@ -15,13 +15,6 @@ class ChartPage extends StatefulWidget {
 
 class _ChartPageState extends State<ChartPage> {
   late Timer _timer;
-  //////////////디바이스세팅
-  Map<String, dynamic> deviceSettingsPage = <String, dynamic>{
-    'name': 'FirstDevice',
-    'interval': 200.22,
-    'unit': 'aa',
-  };
-  //////////////디바이스세팅
 
   final List<_ChartData> _chartData = <_ChartData>[
     _ChartData(DateTime.now(), 5),
@@ -59,12 +52,6 @@ class _ChartPageState extends State<ChartPage> {
             )
           ],
         ),
-
-        Text(deviceSettingsPage.toString()),
-
-        //////////////디바이스세팅
-
-        //////////////디바이스세팅
       ],
     );
   }

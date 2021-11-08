@@ -24,8 +24,21 @@ Future<Map<String, dynamic>> settingsDialog(
           return SimpleDialog(
             contentPadding: EdgeInsets.zero,
             titlePadding: const EdgeInsets.fromLTRB(24, 10, 24, 0),
-            title: const Center(
-              child: Text('Settings'),
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('Settings'),
+                IconButton(
+                    onPressed: () {
+                      print('세팅창 닫음');
+
+                      Navigator.of(context).pop();
+                    },
+                    icon: Icon(
+                      Icons.close,
+                      color: wrColors.wrPrimary,
+                    ))
+              ],
             ),
             children: [
               Column(
@@ -189,11 +202,11 @@ Future<Map<String, dynamic>> settingsDialog(
                   ),
                 ],
               ),
-              OutlinedButton(
+              ElevatedButton(
                 onPressed: () {
                   Navigator.of(context, rootNavigator: true)
                       .pop(<String, dynamic>{
-                    'name': deviceName,
+                    'deviceName': deviceName,
                     'interval': interval,
                     'unit': unit,
 
@@ -205,15 +218,9 @@ Future<Map<String, dynamic>> settingsDialog(
                     'scaleValue': scaleValue
                   });
                 },
-                child: const Text(
-                  'Apply',
-                  style: TextStyle(
-                    color: wrColors.wrPrimary,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                style: OutlinedButton.styleFrom(primary: wrColors.wrPrimary),
-              )
+                child: Text('Apply'),
+                style: ElevatedButton.styleFrom(primary: wrColors.wrPrimary),
+              ),
             ],
           );
         },

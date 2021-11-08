@@ -3,6 +3,7 @@ import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:wr_ui/style/pallette.dart';
 
 class CSVButton extends StatelessWidget {
   Future<void> updaeteCSV() async {
@@ -20,7 +21,7 @@ class CSVButton extends StatelessWidget {
         "Csv",
         style: TextStyle(fontWeight: FontWeight.bold),
       ),
-      style: ElevatedButton.styleFrom(primary: Colors.blueGrey[700]),
+      style: ElevatedButton.styleFrom(primary: wrColors.wrPrimary),
     );
   }
 }
