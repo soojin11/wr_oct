@@ -23,7 +23,7 @@ class CSVButton extends StatelessWidget {
             Get.find<LogListController>().clickedCsv();
             Get.find<ControllerWithReactive>().fileSave.value = true;
             Get.find<LogController>().loglist.add(
-                '${DateFormat('mm분 ss초').format(DateTime.now())} Start Saving' +
+                '${DateTime.now()} Start Saving' +
                     '\n');
             Get.find<LogController>().logSaveInit();
             Get.find<LogController>().fileSave.value = true;
@@ -37,8 +37,13 @@ class CSVButton extends StatelessWidget {
         ElevatedButton(
           onPressed: () async {
             await Get.find<ControllerWithReactive>().csvSaveInit();
-            Get.find<LogListController>().clickedCsv();
             Get.find<ControllerWithReactive>().fileSave.value = true;
+            Get.find<LogListController>().stopCsv();
+            Get.find<LogController>().loglist.add(
+                '${DateTime.now()} Stop Saving' +
+                    '\n');
+            Get.find<LogController>().logSaveInit();
+            Get.find<LogController>().fileSave.value = true;
           },
           child: Text(
             "Stop",

@@ -237,7 +237,7 @@ class _HomeState extends State<Home> {
                                     Get.find<LogListController>()
                                         .clickedReset();
                                     Get.find<LogController>().loglist.add(
-                                        '${DateFormat('mm분 ss초').format(DateTime.now())} Reset button is pressed' +
+                                        '${DateTime.now()} Reset button is pressed' +
                                             '\n');
                                     print('reset!!');
                                     // Get.toNamed('/');

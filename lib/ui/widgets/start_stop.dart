@@ -50,7 +50,7 @@ class StartStop extends StatelessWidget {
                   Get.find<ChartController>().updateDataSource);
               Get.find<LogListController>().clickedStart();
               Get.find<LogController>().loglist.add(
-                  '${DateFormat('mm분 ss초').format(DateTime.now())} Start button is pressed' +
+                  '${DateTime.now()} Start button is pressed' +
                       '\n');
               Get.find<LogController>().logSaveInit();
               Get.find<LogController>().fileSave.value = true;
@@ -62,7 +62,7 @@ class StartStop extends StatelessWidget {
               Get.find<LogListController>().clickedStop();
 
               Get.find<LogController>().loglist.add(
-                  '${DateFormat('mm분 ss초').format(DateTime.now())} Stop button is pressed' +
+                  '${DateTime.now()} Stop button is pressed' +
                       '\n');
               Get.find<LogController>().logSaveInit();
               Get.find<LogController>().fileSave.value = true;

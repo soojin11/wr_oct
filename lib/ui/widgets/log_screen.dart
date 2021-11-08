@@ -25,6 +25,9 @@ class LogListController extends GetxController {
   void clickedCsv() async {
     logData.add('Start Saving');
   }
+  void stopCsv() async {
+    logData.add('Stop Saving');
+  }
 
   void clickedIni() async {
     logData.add('Save config');
