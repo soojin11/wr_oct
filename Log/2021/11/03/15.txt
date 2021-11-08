@@ -1,0 +1,4 @@
+15시 로그
+[39분 35초 Start button is pressed
+, 39분 50초 Stop button is pressed
+]
