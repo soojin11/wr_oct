@@ -16,7 +16,7 @@ import 'package:wr_ui/ui/setting_menu.dart';
 Future main() async {
   Get.put(ControllerWithReactive());
   Get.put(iniControllerWithReactive());
-  Get.find<iniControllerWithReactive>().readIni();
+
   Get.find<iniControllerWithReactive>().iniWriteSave();
   Get.find<iniControllerWithReactive>().fileSave;
 

@@ -6,15 +6,15 @@ extension DropDownExtension on DropDown {
   String get name {
     switch (this) {
       case DropDown.ALL:
-        return '기본(ALL)메뉴';
+        return ' 기본(ALL)메뉴';
       case DropDown.OES:
-        return 'OES메뉴';
+        return ' OES메뉴';
       case DropDown.VI:
-        return 'VI메뉴';
+        return ' VI메뉴';
       case DropDown.CUSTOM:
-        return 'CUSTOM메뉴';
+        return ' CUSTOM메뉴';
       case DropDown.ADD:
-        return '메뉴 추가';
+        return ' 메뉴 추가';
     }
   }
 }

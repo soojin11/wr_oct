@@ -16,8 +16,7 @@ class iniBtn extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () async {
-        await Get.find<iniControllerWithReactive>().readIni();
-        Get.find<iniControllerWithReactive>().iniWriteSave();
+        await Get.find<iniControllerWithReactive>().iniWriteSave();
         Get.find<iniControllerWithReactive>().fileSave;
       },
       child: Text('Ini',
@@ -40,33 +39,15 @@ class iniControllerWithReactive extends GetxController {
     super.onInit();
   }
 
-  // Future<String> get _localPath async {
-  //   final directory = await getApplicationDocumentsDirectory();
-  //   return directory.path;
-  // }
+  Future<String> get _localPath async {
+    final directory = await getApplicationDocumentsDirectory();
+    return directory.path;
+  }
 
   Future<File> get _localIniFile async {
-    final String fileName = 'FreqAI';
-    final path = "./inifiles/$fileName.ini";
-    // = await _localPath;
-    File file = File(path);
-    return file;
-  }
+    final path = await _localPath;
 
-  Future readIni() async {
-    final path = await _localIniFile;
-    if (File('$path').exists() == true) {
-      _readIni();
-    } else {
-      print(path.toString() + '파일이 없음');
-    }
-  }
-
-  _readIni() async {
-    var file = await _localIniFile;
-    Config config = new Config.fromStrings(file.readAsLinesSync());
-    print(config);
-    // OES = config.get('OES', 'IP');
+    return File('$path');
   }
 
   Future<File> iniSave() async {
@@ -125,4 +106,5 @@ class iniControllerWithReactive extends GetxController {
 //     print(config);
 //   }
 // }
+
 }
