@@ -19,7 +19,7 @@ import 'ui/widgets/log_save.dart';
 // import 'package:wr_ui/wr_home_page.dart';
 
 Future main() async {
-  Get.put(ControllerWithReactive());
+  Get.put(CsvController());
   Get.put(iniControllerWithReactive());
   Get.put(ChartController());
   Get.put(LogListController());

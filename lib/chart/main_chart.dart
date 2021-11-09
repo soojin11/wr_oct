@@ -2,10 +2,12 @@ import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:fluent_ui/fluent_ui.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:wr_ui/ui/widgets/drop_down_chart.dart';
 import 'package:wr_ui/ui/widgets/log_screen.dart';
+import 'package:wr_ui/ui/widgets/save_file.dart';
 //디바이스개수,주기만 일단
 
 // class ChartPage extends StatefulWidget {
@@ -82,6 +84,7 @@ import 'package:wr_ui/ui/widgets/log_screen.dart';
 //GetX 사용
 class ChartController extends GetxController {
   RxList<SpecData> chartData = RxList.empty();
+  //RxList<Rx<Range>> forSaving = RxList.empty();
   late ChartSeriesController chartSeriesController;
   late ZoomPanBehavior zoomPanBehavior;
   late Timer timer;
@@ -92,9 +95,9 @@ class ChartController extends GetxController {
     //timer = Timer.periodic(Duration(milliseconds: 1000), updateDataSource);
     zoomPanBehavior = ZoomPanBehavior(
         enableSelectionZooming: true,
-        selectionRectBorderColor: Colors.red,
+        //selectionRectBorderColor: Colors.red,
         selectionRectBorderWidth: 1,
-        selectionRectColor: Colors.green,
+        //selectionRectColor: Colors.green,
         enableDoubleTapZooming: true,
         enableMouseWheelZooming: true,
         enablePinching: true,
@@ -113,8 +116,23 @@ class ChartController extends GetxController {
     chartData.add(SpecData(time: time++));
     chartSeriesController.updateDataSource(
         addedDataIndex: chartData.length - 1);
+        if(Get.find<CsvController>().fileSave.value)
+        await Get.find<CsvController>().csvSave();
   }
 }
+// class Range{
+//   Range({required this.cStart, required this.cEnd, required this.tableX, required this.rv,required this.value});
+//   int cStart;
+//   int cEnd;
+//   List<int> tableX;
+//   RangeValues rv;
+//   double value;
+
+
+//   factory Range.init(){
+//     return Range(cEnd: 0, cStart: 0, tableX: [], rv: RangeValues(0, 0), value: 0.0);
+//   }
+// }
 
 class SpecData {
   final int time;
@@ -126,6 +144,7 @@ class SpecData {
 }
 
 class MainChart extends GetView<ChartController> {
+  
   MainChart({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {

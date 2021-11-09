@@ -1,0 +1,10 @@
+13시 로그
+[16분 17초 Start button is pressed
+, 16분 18초 Stop button is pressed
+, 16분 20초 Start button is pressed
+, 16분 21초 Stop button is pressed
+, 16분 22초 Start button is pressed
+, 16분 24초 Start button is pressed
+, 16분 27초 Stop button is pressed
+, 16분 32초 Stop button is pressed
+]

@@ -1,0 +1,12 @@
+21시 로그
+[14분 18초 Start button is pressed
+, 14분 22초 Stop button is pressed
+, 22분 37초 Start button is pressed
+, 22분 38초 Stop button is pressed
+, 22분 48초 Start Saving
+, 22분 56초 Reset button is pressed
+, 18분 19초 Start Saving
+, 18분 23초 Start Saving
+, 18분 26초 Start button is pressed
+, 18분 34초 Stop button is pressed
+]
