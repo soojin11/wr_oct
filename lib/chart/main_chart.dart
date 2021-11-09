@@ -3,7 +3,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:wr_ui/setting_dialog_final.dart';
+import 'package:wr_ui/ui/appbar/actions_setting/setting_dialog_final.dart';
 //디바이스개수,주기만 일단
 
 class ChartPage extends StatefulWidget {

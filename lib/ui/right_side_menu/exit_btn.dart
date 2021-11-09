@@ -138,11 +138,12 @@ class ExitBtn extends StatelessWidget {
           },
           icon: Icon(
             Icons.exit_to_app,
-            color: Colors.red,
+            color: Colors.blueGrey,
           ),
           label: Text(
             'Exit',
-            style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+            style:
+                TextStyle(color: Colors.blueGrey, fontWeight: FontWeight.bold),
           ),
         ));
   }
