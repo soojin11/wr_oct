@@ -1,0 +1,3 @@
+14시 로그
+2021-11-09 14:01:23.836817 Start button is pressed
+2021-11-09 14:01:27.965556 Stop button is pressed

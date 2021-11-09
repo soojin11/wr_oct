@@ -43,21 +43,39 @@ class StartStop extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        OutlinedButton(
-            onPressed: () {
+        Obx(()=> IgnorePointer(ignoring: Get.find<ChartController>().igButton.value,
+        child: OutlinedButton(
+          child: Text('Start'),
+          style: OutlinedButton.styleFrom(
+            primary: Get.find<ChartController>().igButton.value ? Colors.grey : Colors.blue
+          ),
+            onPressed: () async{
+              Get.find<ChartController>().igButton.value = true;
+
               Get.find<ChartController>().timer = Timer.periodic(
                   Duration(milliseconds: 1000),
                   Get.find<ChartController>().updateDataSource);
+
+
+
               Get.find<LogListController>().clickedStart();
               Get.find<LogController>().loglist.add(
                   '${DateTime.now()} Start button is pressed' +
                       '\n');
               Get.find<LogController>().logSaveInit();
               Get.find<LogController>().fileSave.value = true;
+              
             },
-            child: Text('Start')),
-        OutlinedButton(
+            ),),),
+       Obx(()=>IgnorePointer(
+         ignoring : !Get.find<ChartController>().igButton.value,
+       child: OutlinedButton(
+         child: Text('Stop'),
+          style: OutlinedButton.styleFrom(
+            primary: Get.find<ChartController>().igButton.value ? Colors.blue : Colors.grey
+          ),
             onPressed: () {
+              Get.find<ChartController>().igButton.value=false;
               Get.find<ChartController>().timer.cancel();
               Get.find<LogListController>().clickedStop();
 
@@ -67,7 +85,8 @@ class StartStop extends StatelessWidget {
               Get.find<LogController>().logSaveInit();
               Get.find<LogController>().fileSave.value = true;
             },
-            child: Text('Stop'))
+            ),),),
+        
       ],
     );
   }
