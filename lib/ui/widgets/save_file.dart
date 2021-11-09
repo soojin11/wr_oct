@@ -66,20 +66,27 @@ class CsvController extends GetxController {
   Future<File> csvSave() async {
     DateTime current = DateTime.now();
     final String fileName = '${DateFormat('yyyyMMdd_hhmmss').format(current)}';
+    final String streamDateTime =
+        DateFormat('yyyy/MM/dd HH:mm:ss').format(current);
+        String startTime = streamDateTime;
     print('$fileName');
     List<dynamic> firstData = [];
+    List<dynamic> timeData = [];
     List<List<dynamic>> addFirstData = [];
     File file = File(path.value);
+    List<dynamic> initData = ["FileFormat:1","HWType:SPdbUSBm","Start Time : $startTime","Intergration Time:","Interval:","VIZ"];
 
-    firstData.add(fileName); //이게 1열에 시간 넣는거
+    //firstData.add(fileName); //이게 1열에 시간 넣는거
+    
     if(Get.find<CsvController>().fileSave.value){
       Get.find<ChartController>().chartData.forEach((e) {firstData.add(e.num);});
     }
-    addFirstData.add(firstData); //구간을 정해줘야하는데
-    
 
-    String csv = const ListToCsvConverter().convert(addFirstData) + '\n';
-    return file.writeAsString(csv, mode: FileMode.append);
+addFirstData.add(firstData);
+    String qwe = initData.join('\n')+'\n'+firstData.join('\n') + '\n';
+    
+    //String csv = const ListToCsvConverter().convert(addFirstData) + '\n'; //가로 저장
+    return file.writeAsString(qwe);
   }
 
   Future<File> csvSaveInit() async {

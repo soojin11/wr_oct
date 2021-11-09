@@ -64,8 +64,7 @@ class StartStop extends StatelessWidget {
               Get.find<LogController>().loglist.add(
                   '${DateFormat('mm분 ss초').format(DateTime.now())} Stop button is pressed' +
                       '\n');
-              Get.find<LogController>().logSaveInit();
-              Get.find<LogController>().fileSave.value = true;
+              
             },
             child: Text('Stop'))
       ],

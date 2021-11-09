@@ -1,0 +1,12 @@
+FileFormat:1
+HWType:SPdbUSBm
+Start Time : 2021/11/09 17:55:41
+Intergration Time:,Interval:
+Time,Viz
+20211109_055542,9,47,37,44,0,13,Instance of 'SpecData',Instance of 'SpecData',Instance of 'SpecData',Instance of 'SpecData',Instance of 'SpecData',Instance of 'SpecData'
+20211109_055543,9,47,37,44,0,13,43,Instance of 'SpecData',Instance of 'SpecData',Instance of 'SpecData',Instance of 'SpecData',Instance of 'SpecData',Instance of 'SpecData',Instance of 'SpecData'
+20211109_055544,9,47,37,44,0,13,43,31,Instance of 'SpecData',Instance of 'SpecData',Instance of 'SpecData',Instance of 'SpecData',Instance of 'SpecData',Instance of 'SpecData',Instance of 'SpecData',Instance of 'SpecData'
+20211109_055545,9,47,37,44,0,13,43,31,3,Instance of 'SpecData',Instance of 'SpecData',Instance of 'SpecData',Instance of 'SpecData',Instance of 'SpecData',Instance of 'SpecData',Instance of 'SpecData',Instance of 'SpecData',Instance of 'SpecData'
+20211109_055546,9,47,37,44,0,13,43,31,3,47,Instance of 'SpecData',Instance of 'SpecData',Instance of 'SpecData',Instance of 'SpecData',Instance of 'SpecData',Instance of 'SpecData',Instance of 'SpecData',Instance of 'SpecData',Instance of 'SpecData',Instance of 'SpecData'
+20211109_055547,9,47,37,44,0,13,43,31,3,47,17,Instance of 'SpecData',Instance of 'SpecData',Instance of 'SpecData',Instance of 'SpecData',Instance of 'SpecData',Instance of 'SpecData',Instance of 'SpecData',Instance of 'SpecData',Instance of 'SpecData',Instance of 'SpecData',Instance of 'SpecData'
+20211109_055548,9,47,37,44,0,13,43,31,3,47,17,12,Instance of 'SpecData',Instance of 'SpecData',Instance of 'SpecData',Instance of 'SpecData',Instance of 'SpecData',Instance of 'SpecData',Instance of 'SpecData',Instance of 'SpecData',Instance of 'SpecData',Instance of 'SpecData',Instance of 'SpecData',Instance of 'SpecData'

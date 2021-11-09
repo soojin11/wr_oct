@@ -1,0 +1,4 @@
+20시 로그
+[51분 04초 Start button is pressed
+, 51분 05초 Start Saving
+]

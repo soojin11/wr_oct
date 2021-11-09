@@ -1,0 +1,8 @@
+18시 로그
+[06분 39초 Start button is pressed
+, 06분 43초 Stop button is pressed
+, 06분 44초 Start button is pressed
+, 06분 46초 Stop button is pressed
+, 06분 47초 Start button is pressed
+, 06분 49초 Stop button is pressed
+]

@@ -1,0 +1,6 @@
+[Event Trigger] 2021-11-09 15:00:35.438331  :  Start button is pressed
+[Event Trigger] 2021-11-09 15:00:36.185989  :  Stop button is pressed
+[Event Trigger] 2021-11-09 15:13:44.822891  :  Start button is pressed
+[Event Trigger] 2021-11-09 15:13:45.956544  :  Stop button is pressed
+[Event Trigger] 2021-11-09 15:13:59.877792  :  Start button is pressed
+[Event Trigger] 2021-11-09 15:14:02.572875  :  Stop button is pressed
