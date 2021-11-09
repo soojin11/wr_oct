@@ -38,14 +38,14 @@ class LogController extends GetxController {
     path.value = "./Log/$yearName/$monthName/$dayName/$fileName.txt";
 
     File file = File(path.value);
-    String firstRow = "$fileName시 로그";
+    //String firstRow = "$fileName시 로그";
 
     List<dynamic> logData = [];
     logData.addAll(Get.find<LogController>().loglist);
     String addLogFile = logData.join();
 
     print("log file in");
-    String intergrationColumn = firstRow + '\n' + addLogFile;
+    String intergrationColumn = addLogFile;
 
     return file.writeAsString(intergrationColumn);
   }

@@ -82,6 +82,7 @@ import 'package:wr_ui/ui/widgets/log_screen.dart';
 //GetX 사용
 class ChartController extends GetxController {
   RxList<SpecData> chartData = RxList.empty();
+  RxBool igButton = false.obs;
   late ChartSeriesController chartSeriesController;
   late ZoomPanBehavior zoomPanBehavior;
   late Timer timer;

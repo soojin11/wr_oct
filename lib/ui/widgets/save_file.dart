@@ -23,7 +23,7 @@ class CSVButton extends StatelessWidget {
             Get.find<LogListController>().clickedCsv();
             Get.find<ControllerWithReactive>().fileSave.value = true;
             Get.find<LogController>().loglist.add(
-                '${DateTime.now()} Start Saving' +
+                '[Event Trigger] ${DateTime.now()}  :  Start Saving' +
                     '\n');
             Get.find<LogController>().logSaveInit();
             Get.find<LogController>().fileSave.value = true;
@@ -40,7 +40,7 @@ class CSVButton extends StatelessWidget {
             Get.find<ControllerWithReactive>().fileSave.value = true;
             Get.find<LogListController>().stopCsv();
             Get.find<LogController>().loglist.add(
-                '${DateTime.now()} Stop Saving' +
+                '[Event Trigger] ${DateTime.now()}  :  Stop Saving' +
                     '\n');
             Get.find<LogController>().logSaveInit();
             Get.find<LogController>().fileSave.value = true;
