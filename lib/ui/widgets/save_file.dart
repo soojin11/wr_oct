@@ -71,7 +71,6 @@ class CsvController extends GetxController {
         String startTime = streamDateTime;
     print('$fileName');
     List<dynamic> firstData = [];
-    List<dynamic> timeData = [];
     List<List<dynamic>> addFirstData = [];
     File file = File(path.value);
     List<dynamic> initData = ["FileFormat:1","HWType:SPdbUSBm","Start Time : $startTime","Intergration Time:","Interval:","VIZ"];
@@ -79,11 +78,14 @@ class CsvController extends GetxController {
     //firstData.add(fileName); //이게 1열에 시간 넣는거
     
     if(Get.find<CsvController>().fileSave.value){
-      Get.find<ChartController>().chartData.forEach((e) {firstData.add(e.num);});
+      //Get.find<ChartController>().chartData.forEach((e) {firstData.add(e.num);});
+      firstData.addAll(Get.find<ChartController>().chartData.toList());
     }
+    String aaa = firstData.toString();
 
-addFirstData.add(firstData);
-    String qwe = initData.join('\n')+'\n'+firstData.join('\n') + '\n';
+
+//addFirstData.add(firstData);
+    String qwe = initData.join('\n')+'\n'+aaa + '\n';
     
     //String csv = const ListToCsvConverter().convert(addFirstData) + '\n'; //가로 저장
     return file.writeAsString(qwe);
