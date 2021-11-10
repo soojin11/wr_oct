@@ -35,18 +35,21 @@ dependencies:
   fl_chart: ^0.40.2
   flutter:
     sdk: flutter
+  path: ^1.8.0
+  path_provider: ^2.0.6
+  sqflite: ^2.0.0+4
+  sqflite_common_ffi: ^2.1.0
+  flutter_colorpicker: ^0.6.0
   get: null
   ini: ^2.1.0
   intl: null
   open_file: ^3.2.1
-  path_provider: null
   syncfusion_flutter_charts: null
   syncfusion_flutter_core: ^19.3.47
   syncfusion_flutter_datagrid: ^19.3.47
   system_tray: ^0.0.7
   toggle_switch: ^1.2.0
   webview_flutter: ^2.1.2
-  flutter_colorpicker: ^0.6.0
 
 dev_dependencies:
   flutter_test:
