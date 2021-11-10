@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:wr_ui/chart/oes_chart.dart';
+import 'package:wr_ui/chart/viz_chart.dart';
 
 import 'log_save.dart';
 import 'log_screen.dart';
@@ -45,9 +46,9 @@ class StartStop extends StatelessWidget {
       children: [
         OutlinedButton(
             onPressed: () {
-              Get.find<ChartController>().timer = Timer.periodic(
+              Get.find<VizController>().timer = Timer.periodic(
                   Duration(milliseconds: 100),
-                  Get.find<ChartController>().updateDataSource);
+                  Get.find<VizController>().updateDataSource);
               Get.find<LogListController>().clickedStart();
               Get.find<LogController>().loglist.add(
                   '${DateFormat('mm분 ss초').format(DateTime.now())} Start button is pressed' +
@@ -58,7 +59,7 @@ class StartStop extends StatelessWidget {
             child: Text('Start')),
         OutlinedButton(
             onPressed: () {
-              Get.find<ChartController>().timer.cancel();
+              Get.find<VizController>().timer.cancel();
               Get.find<LogListController>().clickedStop();
 
               Get.find<LogController>().loglist.add(

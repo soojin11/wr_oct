@@ -3,13 +3,14 @@ import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:wr_ui/chart/main_chart.dart';
 
 import 'log_save.dart';
 import 'log_screen.dart';
 
 class CSVButton extends StatelessWidget {
   Future<void> updaeteCSV() async {
-    Get.find<ControllerWithReactive>().csvSave();
+    Get.find<CsvController>().csvSave();
   }
 
   @override
@@ -19,9 +20,11 @@ class CSVButton extends StatelessWidget {
       children: [
         ElevatedButton(
           onPressed: () async {
-            await Get.find<ControllerWithReactive>().csvSaveInit();
+            await Get.find<CsvController>().csvSaveInit();
+            Get.find<CsvController>().fileSave.value = true;
+            Get.find<CsvController>().vizDataList.add(Get.find<ChartController>().chartData );
+
             Get.find<LogListController>().clickedCsv();
-            Get.find<ControllerWithReactive>().fileSave.value = true;
             Get.find<LogController>().loglist.add(
                 '${DateFormat('mm분 ss초').format(DateTime.now())} Start Saving' +
                     '\n');
@@ -36,9 +39,7 @@ class CSVButton extends StatelessWidget {
         ),
         ElevatedButton(
           onPressed: () async {
-            await Get.find<ControllerWithReactive>().csvSaveInit();
-            Get.find<LogListController>().clickedCsv();
-            Get.find<ControllerWithReactive>().fileSave.value = true;
+            Get.find<CsvController>().fileSave.value = false;
           },
           child: Text(
             "Stop",
@@ -51,11 +52,12 @@ class CSVButton extends StatelessWidget {
   }
 }
 
-class ControllerWithReactive extends GetxController {
-  static ControllerWithReactive get to => Get.find();
+class CsvController extends GetxController {
+  static CsvController get to => Get.find();
   RxString path = ''.obs;
   RxBool fileSave = false.obs;
   RxBool ig = false.obs;
+  RxList vizDataList = RxList.empty();
   @override
   void onInit() {
     super.onInit();
@@ -64,13 +66,27 @@ class ControllerWithReactive extends GetxController {
   Future<File> csvSave() async {
     DateTime current = DateTime.now();
     final String fileName = '${DateFormat('yyyyMMdd_hhmmss').format(current)}';
+    final String streamDateTime =
+        DateFormat('yyyy/MM/dd HH:mm:ss').format(current);
+        String startTime = streamDateTime;
     print('$fileName');
     List<dynamic> firstData = [];
     List<List<dynamic>> addFirstData = [];
     File file = File(path.value);
-    addFirstData.add(firstData);
-    String csv = const ListToCsvConverter().convert(addFirstData) + '\n';
-    return file.writeAsString(csv, mode: FileMode.append);
+    List<dynamic> initData = ["FileFormat:1","HWType:SPdbUSBm","Start Time : $startTime","Intergration Time:","Interval:","VIZ"];
+
+    //firstData.add(fileName); //이게 1열에 시간 넣는거
+    
+    if(Get.find<CsvController>().fileSave.value){
+      Get.find<ChartController>().chartData.forEach((e) {firstData.add(e.num);});
+    }
+
+
+//addFirstData.add(firstData);
+    String qwe = initData.join('\n')+'\n'+firstData.join('\n') + '\n';
+    
+    //String csv = const ListToCsvConverter().convert(addFirstData) + '\n'; //가로 저장
+    return file.writeAsString(qwe);
   }
 
   Future<File> csvSaveInit() async {
@@ -89,6 +105,9 @@ class ControllerWithReactive extends GetxController {
     String fourthRowFirst = "Intergration Time:";
     String fourthRowSecond = "Interval:";
     print("exists in");
+
+   
+
     String intergrationColumn = firstRow +
         '\n' +
         secondRow +
@@ -103,7 +122,10 @@ class ControllerWithReactive extends GetxController {
         '\n' +
         "Time" +
         ',' +
+         "Viz" +
         '\n';
+
+
     return file.writeAsString(intergrationColumn);
   }
 }

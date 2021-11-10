@@ -1,0 +1,6 @@
+16시 로그
+[2021-11-10 16:58:27.949078 Start button is pressed
+, 2021-11-10 16:58:29.260443 Stop button is pressed
+, 58분 30초 Start button is pressed
+, 58분 31초 Stop button is pressed
+]

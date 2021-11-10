@@ -15,15 +15,17 @@ import 'package:wr_ui/ui/widgets/save_file.dart';
 import 'package:wr_ui/ui/widgets/ini_creator.dart';
 import 'package:wr_ui/ui/widgets/start_stop.dart';
 
+import 'chart/viz_chart.dart';
 import 'ui/widgets/log_save.dart';
 // import 'package:wr_ui/wr_home_page.dart';
 
 Future main() async {
-  Get.put(ControllerWithReactive());
+  Get.put(OesController());
   Get.put(iniControllerWithReactive());
-  Get.put(ChartController());
+  Get.put(VizController());
   Get.put(LogListController());
   Get.put(LogController());
+  Get.put(CsvController());
   // Get.put(txtControllerWithReactive());
   runApp(MyApp());
 }
@@ -140,7 +142,7 @@ class _HomeState extends State<Home> {
                     // Expanded(child: CahrtDropDown()),
                     Expanded(
                       flex: 2,
-                      child: MainChart(),
+                      child: VizChart(),
                     ),
                     SizedBox(height: 20),
                     // Expanded(
