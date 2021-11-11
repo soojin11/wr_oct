@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wr_ui/controller/drop_down_controller.dart';
+import 'package:wr_ui/controller/home_controller.dart';
+import 'package:wr_ui/service/dark_white_mode/mode.dart';
 import 'package:wr_ui/style/pallette.dart';
 import 'package:wr_ui/ui/appbar/actions_setting/device_setting_page.dart';
 import 'package:wr_ui/ui/appbar/actions_setting/recipe_menu_final.dart';
@@ -25,18 +27,38 @@ Future main() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  MyApp({Key? key}) : super(key: key);
+  ThemeData _lightTheme = ThemeData(
+    accentColor: Colors.pink,
+    brightness: Brightness.light,
+    primaryColor: wrColors.wrPrimary,
+    backgroundColor: Colors.grey[50],
+    appBarTheme: AppBarTheme(
+      color: wrColors.wrPrimary,
+      elevation: 0,
+    ),
+  );
+  ThemeData _darkTheme = ThemeData(
+      accentColor: Colors.red,
+      brightness: Brightness.dark,
+      primaryColor: Colors.amber);
+
+  RxBool _light = true.obs;
 
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      theme: ThemeData(
-        backgroundColor: Colors.grey[50],
-        appBarTheme: AppBarTheme(
-          color: wrColors.wrPrimary,
-          elevation: 0,
-        ),
-      ),
+      theme: Themes.light,
+      darkTheme: Themes.dark,
+      themeMode: ThemeService().theme
+      // ThemeData(
+      //   backgroundColor: Colors.grey[50],
+      //   appBarTheme: AppBarTheme(
+      //     color: wrColors.wrPrimary,
+      //     elevation: 0,
+      //   ),
+      // )
+      ,
       debugShowCheckedModeBanner: false,
       title: 'WR',
       //initialBinding..?
@@ -82,12 +104,15 @@ class _HomeState extends State<Home> {
 }
 
 class WRappbar extends StatelessWidget implements PreferredSizeWidget {
-  const WRappbar({
+  bool _lighttwo = true;
+  WRappbar({
     Key? key,
   }) : super(key: key);
 
   @override
   Size get preferredSize => Size.fromHeight(60.0);
+  final themeController = Get.put(HomeController());
+
   @override
   Widget build(BuildContext context) {
     return AppBar(
@@ -134,7 +159,30 @@ class WRappbar extends StatelessWidget implements PreferredSizeWidget {
           SettingMenu(),
           SizedBox(
             width: 50,
-          )
+          ),
+
+          GestureDetector(
+            onTap: () {
+              ThemeService().switchTheme();
+            },
+            child: Padding(
+              padding: const EdgeInsets.only(left: 20),
+              child: Icon(
+                  Get.isDarkMode
+                      ? Icons.toggle_off_outlined
+                      : Icons.toggle_on_outlined,
+                  size: 40),
+            ),
+          ),
+          SizedBox(
+            width: 20,
+          ),
+          // Switch(
+          //     value: _lighttwo,
+          //     onChanged: (state) {
+          //       print('스테이트 : ${state}');
+          //       themeController.changeTheme(state);
+          //     })
           // DeviceSettingBtn(),
           // ChartSettingBtn(),
         ] //
@@ -352,6 +400,7 @@ class _WRbodyState extends State<WRbody> {
                               ],
                             ),
                             Divider(
+                              color: Theme.of(context).backgroundColor,
                               indent: 10,
                               endIndent: 10,
                             ),

@@ -1,4 +1,4 @@
-import 'package:wr_ui/service/database/config_model.dart';
+import 'package:wr_ui/service/database/recipe/config_model.dart';
 
 class ConnectionSQL {
   static final CREATE_DATABASE = '''

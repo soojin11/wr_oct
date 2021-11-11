@@ -3,7 +3,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:sqflite/sqlite_api.dart';
 import 'package:path/path.dart';
-import 'package:wr_ui/service/database/sql.dart';
+import 'package:wr_ui/service/database/recipe/sql.dart';
 
 class ConnectionSQLiteService {
   ConnectionSQLiteService._();
@@ -13,7 +13,7 @@ class ConnectionSQLiteService {
     return _instance!;
   }
 
-  static const DATABASE_NAME = 'configs';
+  static const DATABASE_NAME = 'wonhee';
   static const DATABASE_VERSION = 1;
   Database? _db;
 
