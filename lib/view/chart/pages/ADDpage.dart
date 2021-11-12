@@ -13,20 +13,34 @@ class ADDpage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       // color: Colors.blueGrey,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'ADD페이지',
-          ),
-          chartTabBar(),
-          SizedBox(
-            height: 20,
-          ),
-          ///////////여기에 Add차트
-          ChartPage(),
-          ///////////여기에 Add차트
-        ],
+      body: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.2), //그림자 색
+              spreadRadius: 5,
+              blurRadius: 7,
+              offset: Offset(0, 2), // 그림자위치 바꾸는거
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'ADD페이지',
+            ),
+            chartTabBar(),
+            SizedBox(
+              height: 20,
+            ),
+            ///////////여기에 Add차트
+            ChartPage(),
+            ///////////여기에 Add차트
+          ],
+        ),
       ),
     );
   }

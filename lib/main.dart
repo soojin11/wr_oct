@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:wr_ui/const/style/pallette.dart';
+import 'package:wr_ui/controller/splash_controller.dart';
+import 'package:wr_ui/model/const/style/pallette.dart';
 import 'package:wr_ui/controller/drop_down_controller.dart';
 import 'package:wr_ui/controller/home_controller.dart';
 import 'package:wr_ui/service/dark_white_mode/mode.dart';
+import 'package:wr_ui/service/routes/app_pages.dart';
 import 'package:wr_ui/view/appbar/actions/setting/device_setting_page.dart';
 import 'package:wr_ui/view/appbar/actions/setting/recipe_menu_final.dart';
 import 'package:wr_ui/view/appbar/actions/setting/setting_menu_final.dart';
@@ -24,7 +26,6 @@ import 'package:wr_ui/view/right_side_menu/start_stop.dart';
 Future main() async {
   Get.put(ControllerWithReactive());
   Get.put(iniControllerWithReactive());
-
   Get.find<iniControllerWithReactive>().iniWriteSave();
   Get.find<iniControllerWithReactive>().fileSave;
 
@@ -58,18 +59,20 @@ class MyApp extends StatelessWidget {
       //   primarySwatch: Colors.blue,
       // ),
       home: Home(),
-      initialRoute: '/',
-      getPages: [
-        GetPage(
-          name: '/',
-          page: () => Home(),
-          transition: Transition.noTransition,
-        ),
-        GetPage(
-          name: '/setting',
-          page: () => Settings(),
-        )
-      ],
+      initialRoute: AppPages.INITIAL,
+      getPages: AppPages.routes,
+      //  '/',
+      // getPages: [
+      //   GetPage(
+      //     name: '/',
+      //     page: () => Home(),
+      //     transition: Transition.noTransition,
+      //   ),
+      //   GetPage(
+      //     name: '/setting',
+      //     page: () => Settings(),
+      //   )
+      // ],
     );
   }
 }
@@ -216,9 +219,14 @@ class _WRbodyState extends State<WRbody> {
                 ],
               ),
               child: Container(
+                decoration:
+                    BoxDecoration(borderRadius: BorderRadius.circular(10)),
                 //////////////차트 컨테이너 내에 페이지 이동
                 child: MaterialApp(
-                  theme: ThemeData(),
+                  debugShowCheckedModeBanner: true,
+                  theme: ThemeData(
+                      textTheme:
+                          TextTheme(bodyText2: TextStyle(color: Colors.black))),
                   initialRoute: '/all',
                   routes: {
                     '/all': (context) => ALLpage(),

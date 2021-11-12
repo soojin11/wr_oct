@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wr_ui/const/style/pallette.dart';
+import 'package:wr_ui/model/const/style/pallette.dart';
 import 'package:wr_ui/view/chart/pages/ADDpage.dart';
 import 'package:wr_ui/view/chart/pages/ALLpage.dart';
 import 'package:wr_ui/view/chart/pages/CUSTOMpage.dart';

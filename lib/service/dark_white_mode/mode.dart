@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:wr_ui/const/style/pallette.dart';
+import 'package:wr_ui/model/const/style/pallette.dart';
 
 class ThemeService {
   final _box = GetStorage();
@@ -29,6 +29,10 @@ class Themes {
     appBarTheme: AppBarTheme(
       color: wrColors.wrDarkPrimary,
       elevation: 0,
+
+      actionsIconTheme: IconThemeData(color: Colors.black),
+      titleTextStyle: TextStyle(color: Colors.amber),
+      // toolbarTextStyle: TextStyle(color: Colors.black),
     ),
     textTheme: TextTheme(
       bodyText2: TextStyle(color: Colors.black),

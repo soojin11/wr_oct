@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 
-import 'package:wr_ui/const/style/pallette.dart';
+import 'package:wr_ui/model/const/style/pallette.dart';
 
 class iniBtn extends StatelessWidget {
   Future<void> updaeteINI() async {

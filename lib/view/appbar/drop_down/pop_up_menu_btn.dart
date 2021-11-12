@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:wr_ui/const/style/pallette.dart';
 import 'package:wr_ui/controller/drop_down_controller.dart';
+import 'package:wr_ui/model/const/style/pallette.dart';
 
 class PopUpMenu extends GetView<DropDownController> {
   const PopUpMenu({Key? key}) : super(key: key);
