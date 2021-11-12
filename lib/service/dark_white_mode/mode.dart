@@ -30,7 +30,13 @@ class Themes {
       color: wrColors.wrDarkPrimary,
       elevation: 0,
     ),
-    textTheme: TextTheme(),
+    textTheme: TextTheme(
+      bodyText2: TextStyle(color: Colors.black),
+    ),
+    dividerTheme: DividerThemeData(
+      color: Colors.black,
+    ),
+
     // scaffoldBackgroundColor: Colors.amber
   );
 }

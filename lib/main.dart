@@ -4,9 +4,10 @@ import 'package:wr_ui/const/style/pallette.dart';
 import 'package:wr_ui/controller/drop_down_controller.dart';
 import 'package:wr_ui/controller/home_controller.dart';
 import 'package:wr_ui/service/dark_white_mode/mode.dart';
-import 'package:wr_ui/view/appbar/actions/recipe_menu_final.dart';
 import 'package:wr_ui/view/appbar/actions/setting/device_setting_page.dart';
-import 'package:wr_ui/view/appbar/actions/setting_menu_final.dart';
+import 'package:wr_ui/view/appbar/actions/setting/recipe_menu_final.dart';
+import 'package:wr_ui/view/appbar/actions/setting/setting_menu_final.dart';
+
 import 'package:wr_ui/view/appbar/leading/clock.dart';
 import 'package:wr_ui/view/appbar/leading/recent_recipe_name.dart';
 import 'package:wr_ui/view/appbar/leading/run_error_status_mark.dart';
