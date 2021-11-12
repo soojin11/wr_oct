@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:wr_ui/style/pallette.dart';
+import 'package:wr_ui/const/style/pallette.dart';
 
 class ThemeService {
   final _box = GetStorage();

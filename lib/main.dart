@@ -1,20 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:wr_ui/const/style/pallette.dart';
 import 'package:wr_ui/controller/drop_down_controller.dart';
 import 'package:wr_ui/controller/home_controller.dart';
 import 'package:wr_ui/service/dark_white_mode/mode.dart';
-import 'package:wr_ui/style/pallette.dart';
-import 'package:wr_ui/ui/appbar/actions_setting/device_setting_page.dart';
-import 'package:wr_ui/ui/appbar/actions_setting/recipe_menu_final.dart';
-import 'package:wr_ui/ui/appbar/drop_down/drop_down_chart.dart';
-import 'package:wr_ui/ui/appbar/leading/clock.dart';
-import 'package:wr_ui/ui/appbar/leading/recent_recipe_name.dart';
-import 'package:wr_ui/ui/appbar/leading/run_error_status_mark.dart';
-import 'package:wr_ui/ui/right_side_menu/exit_btn.dart';
-import 'package:wr_ui/ui/right_side_menu/csv_creator.dart';
-import 'package:wr_ui/ui/right_side_menu/ini_creator.dart';
-import 'package:wr_ui/ui/right_side_menu/start_stop.dart';
-import 'package:wr_ui/ui/appbar/actions_setting/setting_menu_final.dart';
+import 'package:wr_ui/view/appbar/actions/recipe_menu_final.dart';
+import 'package:wr_ui/view/appbar/actions/setting/device_setting_page.dart';
+import 'package:wr_ui/view/appbar/actions/setting_menu_final.dart';
+import 'package:wr_ui/view/appbar/leading/clock.dart';
+import 'package:wr_ui/view/appbar/leading/recent_recipe_name.dart';
+import 'package:wr_ui/view/appbar/leading/run_error_status_mark.dart';
+import 'package:wr_ui/view/chart/pages/ADDpage.dart';
+import 'package:wr_ui/view/chart/pages/ALLpage.dart';
+import 'package:wr_ui/view/chart/pages/CUSTOMpage.dart';
+import 'package:wr_ui/view/chart/pages/OESpage.dart';
+import 'package:wr_ui/view/chart/pages/VIpage.dart';
+import 'package:wr_ui/view/right_side_menu/csv_creator.dart';
+import 'package:wr_ui/view/right_side_menu/exit_btn.dart';
+import 'package:wr_ui/view/right_side_menu/ini_creator.dart';
+import 'package:wr_ui/view/right_side_menu/start_stop.dart';
 
 Future main() async {
   Get.put(ControllerWithReactive());
@@ -28,22 +32,6 @@ Future main() async {
 
 class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
-  ThemeData _lightTheme = ThemeData(
-    accentColor: Colors.pink,
-    brightness: Brightness.light,
-    primaryColor: wrColors.wrPrimary,
-    backgroundColor: Colors.grey[50],
-    appBarTheme: AppBarTheme(
-      color: wrColors.wrPrimary,
-      elevation: 0,
-    ),
-  );
-  ThemeData _darkTheme = ThemeData(
-      accentColor: Colors.red,
-      brightness: Brightness.dark,
-      primaryColor: Colors.amber);
-
-  RxBool _light = true.obs;
 
   @override
   Widget build(BuildContext context) {
@@ -226,7 +214,22 @@ class _WRbodyState extends State<WRbody> {
                   ),
                 ],
               ),
-              child: CahrtDropDown(),
+              child: Container(
+                //////////////차트 컨테이너 내에 페이지 이동
+                child: MaterialApp(
+                  theme: ThemeData(),
+                  initialRoute: '/all',
+                  routes: {
+                    '/all': (context) => ALLpage(),
+                    '/oes': (context) => OESpage(),
+                    '/vi': (context) => VIpage(),
+                    '/custom': (context) => CUSTOMpage(),
+                    '/add': (context) => ADDpage(),
+                  },
+                ),
+                //////////////차트 컨테이너 내에 페이지 이동
+                // CahrtDropDown(),
+              ),
             ),
           ),
         ),
