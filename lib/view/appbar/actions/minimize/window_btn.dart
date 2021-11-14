@@ -14,15 +14,15 @@ class WindowButtons extends StatelessWidget {
   }
 
   final windowBtnColors = WindowButtonColors(
-      iconNormal: Color(0xff0d47a1),
+      iconNormal: wrColors.white,
       mouseOver: Color(0xFFA2B4CE),
       // mouseDown: Color(0xff0d47a1),
-      iconMouseOver: Color(0xff0d47a1),
-      iconMouseDown: Colors.white);
+      iconMouseOver: wrColors.white,
+      iconMouseDown: wrColors.white);
 
   final closeBtnColors = WindowButtonColors(
-      iconNormal: Color(0xff0d47a1),
+      iconNormal: wrColors.white,
       mouseOver: Colors.redAccent,
       mouseDown: Color(0xff0d47a1),
-      iconMouseOver: Color(0xFFA2B4CE));
+      iconMouseOver: wrColors.white);
 }

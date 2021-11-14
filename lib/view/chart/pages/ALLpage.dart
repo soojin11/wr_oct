@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wr_ui/model/const/style/pallette.dart';
 import 'package:wr_ui/view/chart/chart_tabbar.dart';
 import 'package:wr_ui/view/chart/main_chart.dart';
 import 'package:wr_ui/view/chart/pages/ADDpage.dart';
@@ -16,16 +17,8 @@ class ALLpage extends StatelessWidget {
       // color: Colors.blueGrey,
       body: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: wrColors.white,
           borderRadius: BorderRadius.circular(10),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.2), //그림자 색
-              spreadRadius: 5,
-              blurRadius: 7,
-              offset: Offset(0, 2), // 그림자위치 바꾸는거
-            ),
-          ],
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

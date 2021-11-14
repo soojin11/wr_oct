@@ -214,8 +214,6 @@ class _WRbodyState extends State<WRbody> {
             padding: const EdgeInsets.only(top: 10.0, bottom: 10, left: 10),
             child: Container(
               decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.grey.withOpacity(0.2), //그림자 색
@@ -224,16 +222,21 @@ class _WRbodyState extends State<WRbody> {
                     offset: Offset(0, 2), // 그림자위치 바꾸는거
                   ),
                 ],
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
               ),
               child: Container(
-                decoration:
-                    BoxDecoration(borderRadius: BorderRadius.circular(10)),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.amber),
                 //////////////차트 컨테이너 내에 페이지 이동
                 child: MaterialApp(
                   debugShowCheckedModeBanner: true,
                   theme: ThemeData(
-                      textTheme:
-                          TextTheme(bodyText2: TextStyle(color: Colors.black))),
+                      textTheme: TextTheme(
+                        bodyText2: TextStyle(color: Colors.black),
+                      ),
+                      scaffoldBackgroundColor: Colors.transparent),
                   initialRoute: '/all',
                   routes: {
                     '/all': (context) => ALLpage(),
@@ -419,7 +422,6 @@ class _WRbodyState extends State<WRbody> {
                               ],
                             ),
                             Divider(
-                              color: Theme.of(context).backgroundColor,
                               indent: 10,
                               endIndent: 10,
                             ),

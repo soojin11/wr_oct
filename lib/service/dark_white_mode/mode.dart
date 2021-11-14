@@ -24,7 +24,7 @@ class Themes {
         elevation: 0,
       ));
   static final dark = ThemeData(
-    primaryColor: Colors.black,
+    backgroundColor: wrColors.wrDarkWeak,
     brightness: Brightness.dark,
     appBarTheme: AppBarTheme(
       color: wrColors.wrDarkPrimary,
