@@ -6,6 +6,7 @@ import 'package:wr_ui/controller/drop_down_controller.dart';
 import 'package:wr_ui/controller/home_controller.dart';
 import 'package:wr_ui/service/dark_white_mode/mode.dart';
 import 'package:wr_ui/service/routes/app_pages.dart';
+import 'package:wr_ui/view/appbar/actions/minimize/window_btn.dart';
 import 'package:wr_ui/view/appbar/actions/setting/device_setting_page.dart';
 import 'package:wr_ui/view/appbar/actions/setting/recipe_menu_final.dart';
 import 'package:wr_ui/view/appbar/actions/setting/setting_menu_final.dart';
@@ -102,83 +103,89 @@ class WRappbar extends StatelessWidget implements PreferredSizeWidget {
   }) : super(key: key);
 
   @override
-  Size get preferredSize => Size.fromHeight(60.0);
+  Size get preferredSize => Size.fromHeight(70);
   final themeController = Get.put(HomeController());
 
   @override
   Widget build(BuildContext context) {
-    return AppBar(
-        automaticallyImplyLeading: true,
-        // backgroundColor: Theme.of(context).backgroundColor,
-        leading: TextButton(
-          onPressed: () {
-            Get.to(() => Home());
-          },
-          child: Image.asset(
-            'assets/images/CI_nobg.png',
-            scale: 10,
-          ),
-        ),
-        actions: [
-          Container(
-            width: 600,
-            child: Row(
-              children: [
-                SizedBox(
-                  width: 100,
-                ),
-                Clock(),
-                SizedBox(
-                  width: 20,
-                ),
-                SizedBox(
-                  width: 20,
-                ),
-                RecentRecipeName(),
-                SizedBox(
-                  width: 20,
-                ),
-                SizedBox(
-                  width: 20,
-                ),
-                RunErrorStatus(),
-              ],
+    return Padding(
+      padding: const EdgeInsets.only(top: 16),
+      child: Container(
+        child: AppBar(
+            automaticallyImplyLeading: true,
+            // backgroundColor: Theme.of(context).backgroundColor,
+            leading: TextButton(
+              onPressed: () {
+                Get.to(() => Home());
+              },
+              child: Image.asset(
+                'assets/images/CI_nobg.png',
+                scale: 10,
+              ),
             ),
-          ),
-          Spacer(),
-          // ReturnHomePage(),
+            actions: [
+              Container(
+                width: 600,
+                child: Row(
+                  children: [
+                    SizedBox(
+                      width: 100,
+                    ),
+                    Clock(),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    RecentRecipeName(),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    RunErrorStatus(),
+                  ],
+                ),
+              ),
+              Spacer(),
+              // ReturnHomePage(),
 
-          SettingMenu(),
-          SizedBox(
-            width: 50,
-          ),
+              SettingMenu(),
+              SizedBox(
+                width: 50,
+              ),
 
-          GestureDetector(
-            onTap: () {
-              ThemeService().switchTheme();
-            },
-            child: Padding(
-              padding: const EdgeInsets.only(left: 20),
-              child: Icon(
-                  Get.isDarkMode
-                      ? Icons.toggle_off_outlined
-                      : Icons.toggle_on_outlined,
-                  size: 40),
+              GestureDetector(
+                onTap: () {
+                  ThemeService().switchTheme();
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 20),
+                  child: Icon(
+                      Get.isDarkMode
+                          ? Icons.toggle_off_outlined
+                          : Icons.toggle_on_outlined,
+                      size: 40),
+                ),
+              ),
+              SizedBox(
+                width: 20,
+              ),
+              WindowButtons(),
+              // Switch(
+              //     value: _lighttwo,
+              //     onChanged: (state) {
+              //       print('스테이트 : ${state}');
+              //       themeController.changeTheme(state);
+              //     })
+              // DeviceSettingBtn(),
+              // ChartSettingBtn(),
+            ] //
             ),
-          ),
-          SizedBox(
-            width: 20,
-          ),
-          // Switch(
-          //     value: _lighttwo,
-          //     onChanged: (state) {
-          //       print('스테이트 : ${state}');
-          //       themeController.changeTheme(state);
-          //     })
-          // DeviceSettingBtn(),
-          // ChartSettingBtn(),
-        ] //
-        );
+      ),
+    );
   }
 }
 

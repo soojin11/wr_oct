@@ -13,13 +13,20 @@ class SplashView extends GetView<SplashController> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Container(),
+            SizedBox(
+              height: 10,
+            ),
             Image.asset(
               'assets/images/CI_nobg.png',
               width: 300,
             ),
+            SizedBox(
+              height: 5,
+            ),
             CircularProgressIndicator(
-              color: wrColors.wrPrimary,
+              backgroundColor: Color(0xFF83ACB9),
+              color: Colors.blue[900],
+              strokeWidth: 6,
             )
           ],
         ),

@@ -29,7 +29,11 @@ class chartTabBar extends StatelessWidget {
             hoverColor: Colors.blue,
             onTap: () {
               Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => ALLpage()));
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation1, animation2) => ALLpage(),
+                    transitionDuration: Duration.zero,
+                  ));
             },
             child: Text(
               '  ALL  ',
@@ -47,7 +51,12 @@ class chartTabBar extends StatelessWidget {
             hoverColor: Colors.blue,
             onTap: () {
               Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => OESpage()));
+                context,
+                PageRouteBuilder(
+                  pageBuilder: (context, animation1, animation2) => OESpage(),
+                  transitionDuration: Duration.zero,
+                ),
+              );
             },
             child: Text(
               '  OES  ',
@@ -65,7 +74,11 @@ class chartTabBar extends StatelessWidget {
             hoverColor: Colors.blue,
             onTap: () {
               Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => VIpage()));
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation1, animation2) => VIpage(),
+                    transitionDuration: Duration.zero,
+                  ));
             },
             child: Text(
               '  VI  ',
@@ -82,8 +95,13 @@ class chartTabBar extends StatelessWidget {
             ),
             hoverColor: Colors.blue,
             onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => CUSTOMpage()));
+              Navigator.push(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation1, animation2) =>
+                        CUSTOMpage(),
+                    transitionDuration: Duration.zero,
+                  ));
             },
             child: Text(
               '  CUSTOM  ',
@@ -101,7 +119,11 @@ class chartTabBar extends StatelessWidget {
             hoverColor: Colors.blue,
             onTap: () {
               Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => ADDpage()));
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation1, animation2) => ADDpage(),
+                    transitionDuration: Duration.zero,
+                  ));
             },
             child: Row(
               children: [

@@ -1,5 +1,6 @@
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
+import 'package:wr_ui/model/const/style/pallette.dart';
 
 class WindowButtons extends StatelessWidget {
   @override
@@ -15,13 +16,13 @@ class WindowButtons extends StatelessWidget {
   final windowBtnColors = WindowButtonColors(
       iconNormal: Color(0xff0d47a1),
       mouseOver: Color(0xFFA2B4CE),
-      mouseDown: Color(0xff0d47a1),
+      // mouseDown: Color(0xff0d47a1),
       iconMouseOver: Color(0xff0d47a1),
       iconMouseDown: Colors.white);
 
   final closeBtnColors = WindowButtonColors(
       iconNormal: Color(0xff0d47a1),
-      mouseOver: Color(0xFFA2B4CE),
+      mouseOver: Colors.redAccent,
       mouseDown: Color(0xff0d47a1),
-      iconMouseOver: Colors.white);
+      iconMouseOver: Color(0xFFA2B4CE));
 }
