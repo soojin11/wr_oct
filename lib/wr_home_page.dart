@@ -27,7 +27,7 @@ class wrHomePage extends StatelessWidget {
                   height: Height * 0.1,
                   decoration: BoxDecoration(
                       border: Border.all(color: Colors.black, width: 1)),
-                  child: Image.asset("images/CI_nobg.png"),
+                  child: Image.asset("images/CI_nobg.png", fit: BoxFit.fill),
                 ),
                 Container(
                     padding: EdgeInsets.only(left: 27, top: 12),
