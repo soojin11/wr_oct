@@ -216,6 +216,8 @@ class _WRbodyState extends State<WRbody> {
                 ],
               ),
               child: Container(
+                decoration:
+                    BoxDecoration(borderRadius: BorderRadius.circular(10)),
                 //////////////차트 컨테이너 내에 페이지 이동
                 child: MaterialApp(
                   theme: ThemeData(),
