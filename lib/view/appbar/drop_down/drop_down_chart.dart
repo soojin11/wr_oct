@@ -47,7 +47,6 @@ class CahrtDropDown extends GetView<DropDownController> {
                     }
                   },
                 ),
-                ChartPage(),
               ],
             ),
           ),

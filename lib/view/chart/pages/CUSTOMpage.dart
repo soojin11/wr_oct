@@ -36,7 +36,7 @@ class CUSTOMpage extends StatelessWidget {
               height: 20,
             ),
             ///////////여기에 custom차트
-            ChartPage(),
+
             ///////////여기에 custom차트
           ],
         ),

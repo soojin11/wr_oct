@@ -15,18 +15,6 @@ class CSVButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-<<<<<<< HEAD:lib/view/right_side_menu/csv_creator.dart
-    return ElevatedButton(
-      onPressed: () async {
-        await Get.find<ControllerWithReactive>().csvSaveInit();
-        Get.find<ControllerWithReactive>().fileSave.value = true;
-      },
-      child: Text(
-        "Csv",
-        style: TextStyle(fontWeight: FontWeight.bold),
-      ),
-      style: ElevatedButton.styleFrom(primary: wrColors.wrPrimary),
-=======
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -36,8 +24,7 @@ class CSVButton extends StatelessWidget {
             Get.find<LogListController>().clickedCsv();
             Get.find<ControllerWithReactive>().fileSave.value = true;
             Get.find<LogController>().loglist.add(
-                '[Event Trigger] ${DateTime.now()}  :  Start Saving' +
-                    '\n');
+                '[Event Trigger] ${DateTime.now()}  :  Start Saving' + '\n');
             Get.find<LogController>().logSaveInit();
             Get.find<LogController>().fileSave.value = true;
           },
@@ -53,8 +40,7 @@ class CSVButton extends StatelessWidget {
             Get.find<ControllerWithReactive>().fileSave.value = true;
             Get.find<LogListController>().stopCsv();
             Get.find<LogController>().loglist.add(
-                '[Event Trigger] ${DateTime.now()}  :  Stop Saving' +
-                    '\n');
+                '[Event Trigger] ${DateTime.now()}  :  Stop Saving' + '\n');
             Get.find<LogController>().logSaveInit();
             Get.find<LogController>().fileSave.value = true;
           },
@@ -65,7 +51,6 @@ class CSVButton extends StatelessWidget {
           style: ElevatedButton.styleFrom(primary: Colors.blueGrey[700]),
         ),
       ],
->>>>>>> F20211029-007:lib/ui/widgets/save_file.dart
     );
   }
 }

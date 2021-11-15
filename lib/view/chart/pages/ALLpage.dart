@@ -31,7 +31,6 @@ class ALLpage extends StatelessWidget {
               height: 20,
             ),
             ///////////여기에 ALL차트
-            ChartPage(),
             ///////////여기에 ALL차트
           ],
         ),

@@ -43,7 +43,6 @@ class _VIpageState extends State<VIpage> {
             ),
             ///////////여기에 vi차트
 
-            ChartPage(),
             ///////////여기에 vi차트
           ],
         ),
