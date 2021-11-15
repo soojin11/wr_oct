@@ -13,11 +13,7 @@ class _HoverPageState extends State<HoverPage> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
-      child: Center(
-        child: Container(
-          child: btnUI(),
-        ),
-      ),
+      child: btnUI(),
     );
   }
 
