@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wr_ui/view/chart/chart_tabbar.dart';
-import 'package:wr_ui/view/chart/main_chart.dart';
+import 'package:wr_ui/view/chart/oes_chart.dart';
+import 'package:wr_ui/view/chart/viz_chart.dart';
 import 'package:wr_ui/view/chart/pages/ADDpage.dart';
 import 'package:wr_ui/view/chart/pages/ALLpage.dart';
 import 'package:wr_ui/view/chart/pages/CUSTOMpage.dart';
@@ -36,8 +37,7 @@ class OESpage extends StatelessWidget {
             SizedBox(
               height: 20,
             ),
-            ///////////여기에 oes차트
-///////////여기에 oes차트
+            OesChart()
           ],
         ),
       ),

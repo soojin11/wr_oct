@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wr_ui/view/chart/chart_tabbar.dart';
-import 'package:wr_ui/view/chart/main_chart.dart';
+import 'package:wr_ui/view/chart/viz_chart.dart';
 import 'package:wr_ui/view/chart/pages/ADDpage.dart';
 import 'package:wr_ui/view/chart/pages/ALLpage.dart';
 import 'package:wr_ui/view/chart/pages/CUSTOMpage.dart';
@@ -41,8 +41,8 @@ class _VIpageState extends State<VIpage> {
             SizedBox(
               height: 20,
             ),
+            VizChart()
             ///////////여기에 vi차트
-
             ///////////여기에 vi차트
           ],
         ),

@@ -13,7 +13,7 @@ import 'package:wr_ui/view/appbar/actions/setting/setting_menu_final.dart';
 import 'package:wr_ui/view/appbar/leading/clock.dart';
 import 'package:wr_ui/view/appbar/leading/recent_recipe_name.dart';
 import 'package:wr_ui/view/appbar/leading/run_error_status_mark.dart';
-import 'package:wr_ui/view/chart/main_chart.dart';
+import 'package:wr_ui/view/chart/viz_chart.dart';
 import 'package:wr_ui/view/chart/pages/ADDpage.dart';
 import 'package:wr_ui/view/chart/pages/ALLpage.dart';
 import 'package:wr_ui/view/chart/pages/CUSTOMpage.dart';
@@ -27,9 +27,9 @@ import 'package:wr_ui/view/right_side_menu/log_screen.dart';
 import 'package:wr_ui/view/right_side_menu/start_stop.dart';
 
 Future main() async {
-  Get.put(ControllerWithReactive());
+  Get.put(CsvController());
   Get.put(iniControllerWithReactive());
-  Get.put(ChartController());
+  Get.put(VizController());
   Get.put(LogListController());
   Get.put(LogController());
   // Get.put(txtControllerWithReactive());
@@ -235,11 +235,10 @@ class _WRbodyState extends State<WRbody> {
   Widget build(BuildContext context) {
     return Row(children: [
       //////////////////////////차트공간
-
       Expanded(
         flex: 4,
         child: Padding(
-          padding: const EdgeInsets.only(top: 10.0, bottom: 10, left: 10),
+          padding: const EdgeInsets.only(top: 10.0, bottom: 30, left: 10,right: 10),
           child: Container(
             decoration: BoxDecoration(
               boxShadow: [
@@ -258,7 +257,7 @@ class _WRbodyState extends State<WRbody> {
                   BoxDecoration(borderRadius: BorderRadius.circular(10)),
               //////////////차트 컨테이너 내에 페이지 이동
               child: MaterialApp(
-                debugShowCheckedModeBanner: true,
+                debugShowCheckedModeBanner: false,
                 theme: ThemeData(
                     textTheme: TextTheme(
                       bodyText2: TextStyle(color: Colors.black),
@@ -330,7 +329,7 @@ class _WRbodyState extends State<WRbody> {
                                 width: 20,
                               ),
                               Text(
-                                'Start / Stop / Reset',
+                                'Chart Start / Stop',
                                 style: TextStyle(
                                   color: Colors.blueGrey[800],
                                   fontWeight: FontWeight.bold,
@@ -346,29 +345,7 @@ class _WRbodyState extends State<WRbody> {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               StartStop(),
-                              TextButton.icon(
-                                onPressed: () {
-                                  Get.find<LogListController>().clickedReset();
-                                  Get.find<LogController>().loglist.add(
-                                      '[Event Trigger] ${DateTime.now()}  :  Reset button is pressed' +
-                                          '\n');
-                                  print('reset!!');
-                                  // Get.toNamed('/');
-                                  Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (BuildContext context) =>
-                                          super.widget,
-                                    ),
-                                  );
-                                } // super.dispose();
-                                ,
-                                icon: Icon(
-                                  Icons.refresh,
-                                  color: Colors.blueGrey[700],
-                                ),
-                                label: Text('reset'),
-                              ),
+                              
                             ],
                           ),
                           //////////////스타트스탑리셋
@@ -376,7 +353,6 @@ class _WRbodyState extends State<WRbody> {
                       ),
                     ),
                   ), //////////////파일매니저
-
                   Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: Container(
@@ -388,7 +364,7 @@ class _WRbodyState extends State<WRbody> {
                                 width: 20,
                               ),
                               Text(
-                                'File Manager',
+                                'Save File',
                                 style: TextStyle(
                                   color: Colors.blueGrey[800],
                                   fontWeight: FontWeight.bold,
