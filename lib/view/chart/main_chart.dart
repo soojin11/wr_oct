@@ -33,24 +33,16 @@ class _ChartPageState extends State<ChartPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        //all oes vi +선택하는 드롭다운
-
-        //all oes vi +선택하는 드롭다운
-        SfCartesianChart(
-          enableAxisAnimation: true,
-          primaryXAxis:
-              DateTimeAxis(intervalType: DateTimeIntervalType.seconds),
-          series: <LineSeries<_ChartData, DateTime>>[
-            LineSeries(
-              color: Colors.blue,
-              dataSource: _chartData,
-              xValueMapper: (_ChartData sales, _) => sales.x,
-              yValueMapper: (_ChartData sales, _) => sales.y,
-            )
-          ],
-        ),
+    return SfCartesianChart(
+      enableAxisAnimation: true,
+      primaryXAxis: DateTimeAxis(intervalType: DateTimeIntervalType.seconds),
+      series: <LineSeries<_ChartData, DateTime>>[
+        LineSeries(
+          color: Colors.blue,
+          dataSource: _chartData,
+          xValueMapper: (_ChartData sales, _) => sales.x,
+          yValueMapper: (_ChartData sales, _) => sales.y,
+        )
       ],
     );
   }

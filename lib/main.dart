@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:wr_ui/model/const/style/pallette.dart';
 import 'package:wr_ui/controller/drop_down_controller.dart';
 import 'package:wr_ui/controller/home_controller.dart';
+import 'package:wr_ui/new/hover.dart';
 import 'package:wr_ui/service/dark_white_mode/mode.dart';
 import 'package:wr_ui/service/routes/app_pages.dart';
 import 'package:wr_ui/view/appbar/actions/minimize/window_btn.dart';
@@ -186,45 +187,61 @@ class _WRbodyState extends State<WRbody> {
 
         Expanded(
           flex: 4,
-          child: Padding(
-            padding: const EdgeInsets.only(top: 10.0, bottom: 10, left: 10),
-            child: Container(
-              decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.2), //그림자 색
-                    spreadRadius: 5,
-                    blurRadius: 7,
-                    offset: Offset(0, 2), // 그림자위치 바꾸는거
-                  ),
-                ],
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Container(
-                decoration:
-                    BoxDecoration(borderRadius: BorderRadius.circular(10)),
-                //////////////차트 컨테이너 내에 페이지 이동
-                child: MaterialApp(
-                  debugShowCheckedModeBanner: true,
-                  theme: ThemeData(
-                      textTheme: TextTheme(
-                        bodyText2: TextStyle(color: Colors.black),
+          child: Column(
+            children: [
+              Expanded(
+                flex: 2,
+                child: Padding(
+                  padding:
+                      const EdgeInsets.only(top: 10.0, bottom: 10, left: 10),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.2), //그림자 색
+                          spreadRadius: 5,
+                          blurRadius: 7,
+                          offset: Offset(0, 2), // 그림자위치 바꾸는거
+                        ),
+                      ],
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10)),
+                      //////////////차트 컨테이너 내에 페이지 이동
+                      child: MaterialApp(
+                        debugShowCheckedModeBanner: true,
+                        theme: ThemeData(
+                            textTheme: TextTheme(
+                              bodyText2: TextStyle(color: Colors.black),
+                            ),
+                            scaffoldBackgroundColor: Colors.transparent),
+                        initialRoute: '/all',
+                        routes: {
+                          '/all': (context) => ALLpage(),
+                          '/oes': (context) => OESpage(),
+                          '/vi': (context) => VIpage(),
+                          '/custom': (context) => CUSTOMpage(),
+                          '/add': (context) => ADDpage(),
+                        },
                       ),
-                      scaffoldBackgroundColor: Colors.transparent),
-                  initialRoute: '/all',
-                  routes: {
-                    '/all': (context) => ALLpage(),
-                    '/oes': (context) => OESpage(),
-                    '/vi': (context) => VIpage(),
-                    '/custom': (context) => CUSTOMpage(),
-                    '/add': (context) => ADDpage(),
-                  },
+                      //////////////차트 컨테이너 내에 페이지 이동
+                      // CahrtDropDown(),
+                    ),
+                  ),
                 ),
-                //////////////차트 컨테이너 내에 페이지 이동
-                // CahrtDropDown(),
               ),
-            ),
+              Expanded(
+                flex: 1,
+                child: Column(
+                  children: [
+                    HoverPage(),
+                  ],
+                ),
+              ),
+            ],
           ),
         ),
 
