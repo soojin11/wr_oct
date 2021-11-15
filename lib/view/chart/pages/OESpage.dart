@@ -18,14 +18,6 @@ class OESpage extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(10),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.2), //그림자 색
-              spreadRadius: 5,
-              blurRadius: 7,
-              offset: Offset(0, 2), // 그림자위치 바꾸는거
-            ),
-          ],
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

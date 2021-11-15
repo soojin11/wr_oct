@@ -238,7 +238,11 @@ class _WRbodyState extends State<WRbody> {
       Expanded(
         flex: 4,
         child: Padding(
+<<<<<<< HEAD
           padding: const EdgeInsets.only(top: 10.0, bottom: 30, left: 10,right: 10),
+=======
+          padding: const EdgeInsets.all(10),
+>>>>>>> adafa0d4ae449b367e9aed3149b6cc8063b7252b
           child: Container(
             decoration: BoxDecoration(
               boxShadow: [
@@ -283,37 +287,35 @@ class _WRbodyState extends State<WRbody> {
           flex: 1,
           child: Container(
             child: Padding(
-              padding: const EdgeInsets.only(top: 20, bottom: 20),
+              padding: const EdgeInsets.all(10),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   //////////로그
                   Padding(
                     padding: const EdgeInsets.all(10.0),
-                    child: Container(
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              SizedBox(
-                                width: 20,
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            SizedBox(
+                              width: 20,
+                            ),
+                            Text(
+                              'Log View',
+                              style: TextStyle(
+                                color: Colors.blueGrey[800],
+                                fontWeight: FontWeight.bold,
                               ),
-                              Text(
-                                'Log View',
-                                style: TextStyle(
-                                  color: Colors.blueGrey[800],
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
-                          Divider(
-                            indent: 10,
-                            endIndent: 10,
-                          ),
-                          LogList()
-                        ],
-                      ),
+                            ),
+                          ],
+                        ),
+                        Divider(
+                          indent: 10,
+                          endIndent: 10,
+                        ),
+                        LogList()
+                      ],
                     ),
                   ),
                   //////////로그
@@ -345,7 +347,33 @@ class _WRbodyState extends State<WRbody> {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               StartStop(),
+<<<<<<< HEAD
                               
+=======
+                              // TextButton.icon(
+                              //   onPressed: () {
+                              //     Get.find<LogListController>().clickedReset();
+                              //     Get.find<LogController>().loglist.add(
+                              //         '[Event Trigger] ${DateTime.now()}  :  Reset button is pressed' +
+                              //             '\n');
+                              //     print('reset!!');
+                              //     // Get.toNamed('/');
+                              //     Navigator.pushReplacement(
+                              //       context,
+                              //       MaterialPageRoute(
+                              //         builder: (BuildContext context) =>
+                              //             super.widget,
+                              //       ),
+                              //     );
+                              //   } // super.dispose();
+                              //   ,
+                              //   icon: Icon(
+                              //     Icons.refresh,
+                              //     color: Colors.blueGrey[700],
+                              //   ),
+                              //   label: Text('reset'),
+                              // ),
+>>>>>>> adafa0d4ae449b367e9aed3149b6cc8063b7252b
                             ],
                           ),
                           //////////////스타트스탑리셋
