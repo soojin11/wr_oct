@@ -238,11 +238,7 @@ class _WRbodyState extends State<WRbody> {
       Expanded(
         flex: 4,
         child: Padding(
-<<<<<<< HEAD
-          padding: const EdgeInsets.only(top: 10.0, bottom: 30, left: 10,right: 10),
-=======
           padding: const EdgeInsets.all(10),
->>>>>>> adafa0d4ae449b367e9aed3149b6cc8063b7252b
           child: Container(
             decoration: BoxDecoration(
               boxShadow: [
@@ -347,9 +343,6 @@ class _WRbodyState extends State<WRbody> {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               StartStop(),
-<<<<<<< HEAD
-                              
-=======
                               // TextButton.icon(
                               //   onPressed: () {
                               //     Get.find<LogListController>().clickedReset();
@@ -373,7 +366,6 @@ class _WRbodyState extends State<WRbody> {
                               //   ),
                               //   label: Text('reset'),
                               // ),
->>>>>>> adafa0d4ae449b367e9aed3149b6cc8063b7252b
                             ],
                           ),
                           //////////////스타트스탑리셋
