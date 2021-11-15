@@ -1,6 +1,5 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:wr_ui/service/database/recipe/connection_sqlite_service.dart';
-import 'package:wr_ui/service/database/recipe/sql.dart';
 import 'package:wr_ui/service/database/setting/setting_model.dart';
 import 'package:wr_ui/service/database/setting/setting_sql.dart';
 

@@ -1,14 +1,12 @@
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:wr_ui/controller/splash_controller.dart';
 import 'package:wr_ui/model/const/style/pallette.dart';
 import 'package:wr_ui/controller/drop_down_controller.dart';
 import 'package:wr_ui/controller/home_controller.dart';
 import 'package:wr_ui/service/dark_white_mode/mode.dart';
 import 'package:wr_ui/service/routes/app_pages.dart';
 import 'package:wr_ui/view/appbar/actions/minimize/window_btn.dart';
-import 'package:wr_ui/view/appbar/actions/setting/device_setting_page.dart';
 import 'package:wr_ui/view/appbar/actions/setting/recipe_menu_final.dart';
 import 'package:wr_ui/view/appbar/actions/setting/setting_menu_final.dart';
 
@@ -83,8 +81,8 @@ class _HomeState extends State<Home> {
   }
 }
 
+// ignore: must_be_immutable
 class WRappbar extends StatelessWidget implements PreferredSizeWidget {
-  bool _lighttwo = true;
   WRappbar({
     Key? key,
   }) : super(key: key);
