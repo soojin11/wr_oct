@@ -1,3 +1,4 @@
+import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wr_ui/controller/splash_controller.dart';
@@ -31,6 +32,16 @@ Future main() async {
   Get.find<iniControllerWithReactive>().fileSave;
 
   runApp(MyApp());
+  doWhenWindowReady(() {
+    final win = appWindow;
+    final initialSize = Size(1920, 1080);
+    win.minSize = initialSize;
+    win.maxSize = initialSize;
+    win.size = initialSize;
+    win.alignment = Alignment.center;
+    win.title = "WR";
+    win.show();
+  });
 }
 
 class MyApp extends StatelessWidget {
@@ -41,39 +52,15 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       theme: Themes.light,
       darkTheme: Themes.dark,
-      themeMode: ThemeService().theme
-      // ThemeData(
-      //   backgroundColor: Colors.grey[50],
-      //   appBarTheme: AppBarTheme(
-      //     color: wrColors.wrPrimary,
-      //     elevation: 0,
-      //   ),
-      // )
-      ,
+      themeMode: ThemeService().theme,
       debugShowCheckedModeBanner: false,
       title: 'WR',
-      //initialBinding..?
       initialBinding: BindingsBuilder(() {
         Get.put(DropDownController());
       }),
-      // theme: ThemeData(
-      //   primarySwatch: Colors.blue,
-      // ),
       home: Home(),
       initialRoute: AppPages.INITIAL,
       getPages: AppPages.routes,
-      //  '/',
-      // getPages: [
-      //   GetPage(
-      //     name: '/',
-      //     page: () => Home(),
-      //     transition: Transition.noTransition,
-      //   ),
-      //   GetPage(
-      //     name: '/setting',
-      //     page: () => Settings(),
-      //   )
-      // ],
     );
   }
 }
@@ -174,16 +161,7 @@ class WRappbar extends StatelessWidget implements PreferredSizeWidget {
                 width: 20,
               ),
               WindowButtons(),
-              // Switch(
-              //     value: _lighttwo,
-              //     onChanged: (state) {
-              //       print('스테이트 : ${state}');
-              //       themeController.changeTheme(state);
-              //     })
-              // DeviceSettingBtn(),
-              // ChartSettingBtn(),
-            ] //
-            ),
+            ]),
       ),
     );
   }
@@ -260,8 +238,6 @@ class _WRbodyState extends State<WRbody> {
           child: Padding(
             padding: const EdgeInsets.all(10.0),
             child: Container(
-              width: 500,
-              height: 950,
               child: Padding(
                 padding: const EdgeInsets.only(top: 20, bottom: 20),
                 child: Column(
