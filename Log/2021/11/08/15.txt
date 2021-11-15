@@ -1,0 +1,3 @@
+15시 로그
+2021-11-08 15:41:49.982016 Start button is pressed
+2021-11-08 15:41:51.011589 Stop button is pressed

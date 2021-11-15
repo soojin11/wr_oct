@@ -5,6 +5,9 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:wr_ui/model/const/style/pallette.dart';
 
+import 'log_save.dart';
+import 'log_screen.dart';
+
 class CSVButton extends StatelessWidget {
   Future<void> updaeteCSV() async {
     Get.find<ControllerWithReactive>().csvSave();
@@ -12,6 +15,7 @@ class CSVButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+<<<<<<< HEAD:lib/view/right_side_menu/csv_creator.dart
     return ElevatedButton(
       onPressed: () async {
         await Get.find<ControllerWithReactive>().csvSaveInit();
@@ -22,6 +26,46 @@ class CSVButton extends StatelessWidget {
         style: TextStyle(fontWeight: FontWeight.bold),
       ),
       style: ElevatedButton.styleFrom(primary: wrColors.wrPrimary),
+=======
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        ElevatedButton(
+          onPressed: () async {
+            await Get.find<ControllerWithReactive>().csvSaveInit();
+            Get.find<LogListController>().clickedCsv();
+            Get.find<ControllerWithReactive>().fileSave.value = true;
+            Get.find<LogController>().loglist.add(
+                '[Event Trigger] ${DateTime.now()}  :  Start Saving' +
+                    '\n');
+            Get.find<LogController>().logSaveInit();
+            Get.find<LogController>().fileSave.value = true;
+          },
+          child: Text(
+            "Start",
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          style: ElevatedButton.styleFrom(primary: Colors.blueGrey[700]),
+        ),
+        ElevatedButton(
+          onPressed: () async {
+            await Get.find<ControllerWithReactive>().csvSaveInit();
+            Get.find<ControllerWithReactive>().fileSave.value = true;
+            Get.find<LogListController>().stopCsv();
+            Get.find<LogController>().loglist.add(
+                '[Event Trigger] ${DateTime.now()}  :  Stop Saving' +
+                    '\n');
+            Get.find<LogController>().logSaveInit();
+            Get.find<LogController>().fileSave.value = true;
+          },
+          child: Text(
+            "Stop",
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          style: ElevatedButton.styleFrom(primary: Colors.blueGrey[700]),
+        ),
+      ],
+>>>>>>> F20211029-007:lib/ui/widgets/save_file.dart
     );
   }
 }

@@ -1,8 +1,13 @@
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+<<<<<<< HEAD
 import 'package:wr_ui/controller/splash_controller.dart';
 import 'package:wr_ui/model/const/style/pallette.dart';
+=======
+import 'package:intl/intl.dart';
+import 'package:wr_ui/chart/main_chart.dart';
+>>>>>>> F20211029-007
 import 'package:wr_ui/controller/drop_down_controller.dart';
 import 'package:wr_ui/controller/home_controller.dart';
 import 'package:wr_ui/service/dark_white_mode/mode.dart';
@@ -12,6 +17,7 @@ import 'package:wr_ui/view/appbar/actions/setting/device_setting_page.dart';
 import 'package:wr_ui/view/appbar/actions/setting/recipe_menu_final.dart';
 import 'package:wr_ui/view/appbar/actions/setting/setting_menu_final.dart';
 
+<<<<<<< HEAD
 import 'package:wr_ui/view/appbar/leading/clock.dart';
 import 'package:wr_ui/view/appbar/leading/recent_recipe_name.dart';
 import 'package:wr_ui/view/appbar/leading/run_error_status_mark.dart';
@@ -24,13 +30,32 @@ import 'package:wr_ui/view/right_side_menu/csv_creator.dart';
 import 'package:wr_ui/view/right_side_menu/exit_btn.dart';
 import 'package:wr_ui/view/right_side_menu/ini_creator.dart';
 import 'package:wr_ui/view/right_side_menu/start_stop.dart';
+=======
+import 'package:wr_ui/ui/widgets/drop_down_chart.dart';
+import 'package:wr_ui/ui/widgets/clock.dart';
+import 'package:wr_ui/ui/widgets/exit_btn.dart';
+import 'package:wr_ui/ui/widgets/log_screen.dart';
+import 'package:wr_ui/ui/widgets/save_file.dart';
+import 'package:wr_ui/ui/widgets/ini_creator.dart';
+import 'package:wr_ui/ui/widgets/start_stop.dart';
+
+import 'ui/widgets/log_save.dart';
+// import 'package:wr_ui/wr_home_page.dart';
+>>>>>>> F20211029-007
 
 Future main() async {
   Get.put(ControllerWithReactive());
   Get.put(iniControllerWithReactive());
+<<<<<<< HEAD
   Get.find<iniControllerWithReactive>().iniWriteSave();
   Get.find<iniControllerWithReactive>().fileSave;
 
+=======
+  Get.put(ChartController());
+  Get.put(LogListController());
+  Get.put(LogController());
+  // Get.put(txtControllerWithReactive());
+>>>>>>> F20211029-007
   runApp(MyApp());
   doWhenWindowReady(() {
     final win = appWindow;
@@ -122,6 +147,7 @@ class WRappbar extends StatelessWidget implements PreferredSizeWidget {
                     SizedBox(
                       width: 20,
                     ),
+<<<<<<< HEAD
                     SizedBox(
                       width: 20,
                     ),
@@ -133,6 +159,29 @@ class WRappbar extends StatelessWidget implements PreferredSizeWidget {
                       width: 20,
                     ),
                     RunErrorStatus(),
+=======
+                  ],
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    // Expanded(child: CahrtDropDown()),
+                    Expanded(
+                      flex: 2,
+                      child: MainChart(),
+                    ),
+                    SizedBox(height: 20),
+                    // Expanded(
+                    //     flex: 1,
+                    //     child: GridView.count(
+                    //       crossAxisSpacing: 10,
+                    //       crossAxisCount: 8,
+                    //       shrinkWrap: true,
+                    //       children: List.generate(8, (index) => MainChart()),
+                    //     )
+                    //     // ChartPage(),
+                    //     ),
+>>>>>>> F20211029-007
                   ],
                 ),
               ),
@@ -230,6 +279,7 @@ class _WRbodyState extends State<WRbody> {
           ),
         ),
 
+<<<<<<< HEAD
         //////////////////////////차트공간
 
         ///////////////////////////오른쪽메뉴부분
@@ -274,6 +324,54 @@ class _WRbodyState extends State<WRbody> {
                             Text('Mylist 5'),
                           ],
                         ),
+=======
+          Expanded(
+            flex: 1,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Container(
+                  width: 200,
+                  decoration: BoxDecoration(
+                    color: Colors.grey[40]?.withOpacity(0.5),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.2), //그림자 색
+                            spreadRadius: 5,
+                            blurRadius: 7,
+                            offset: Offset(0, 2), // 그림자위치 바꾸는거
+                          ),
+                        ],
+                      ),
+                      child: LogList()),
+                ),
+                Container(
+                  width: 200,
+                  height: 100,
+                  decoration: BoxDecoration(
+                    color: Colors.grey[40]?.withOpacity(0.5),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Center(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.2), //그림자 색
+                            spreadRadius: 5,
+                            blurRadius: 7,
+                            offset: Offset(0, 2), // 그림자위치 바꾸는거
+                          ),
+                        ],
+>>>>>>> F20211029-007
                       ),
                     ),
                     //////////로그
@@ -288,11 +386,46 @@ class _WRbodyState extends State<WRbody> {
                                 SizedBox(
                                   width: 20,
                                 ),
+<<<<<<< HEAD
                                 Text(
                                   'Start / Stop / Reset',
                                   style: TextStyle(
                                     color: Colors.blueGrey[800],
                                     fontWeight: FontWeight.bold,
+=======
+                              ),
+                            ],
+                          ),
+                          Divider(
+                            indent: 10,
+                            endIndent: 10,
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              StartStop(),
+                              TextButton.icon(
+                                  onPressed: () {
+                                    Get.find<LogListController>()
+                                        .clickedReset();
+                                    Get.find<LogController>().loglist.add(
+                                        '[Event Trigger] ${DateTime.now()}  :  Reset button is pressed' +
+                                            '\n');
+                                    print('reset!!');
+                                    // Get.toNamed('/');
+                                    Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (BuildContext context) =>
+                                            super.widget,
+                                      ),
+                                    );
+                                  } // super.dispose();
+                                  ,
+                                  icon: Icon(
+                                    Icons.refresh,
+                                    color: Colors.blueGrey[700],
+>>>>>>> F20211029-007
                                   ),
                                 ),
                               ],
@@ -373,6 +506,7 @@ class _WRbodyState extends State<WRbody> {
                             ),
                           ],
                         ),
+<<<<<<< HEAD
                       ),
                     ),
                     /////////////파일매니저
@@ -402,6 +536,21 @@ class _WRbodyState extends State<WRbody> {
                             ),
                             RecipeMenu()
                           ],
+=======
+                        Divider(
+                          indent: 10,
+                          endIndent: 10,
+                        ),
+                        Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              CSVButton(),
+                              iniBtn()
+                              // TxtBtn(),
+                            ],
+                          ),
+>>>>>>> F20211029-007
                         ),
                       ),
                     ),
