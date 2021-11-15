@@ -1,10 +1,11 @@
 // import 'package:flutter/material.dart';
-// import 'package:wr_ui/ui/right_side_menu/exit_btn.dart';
-// import 'package:wr_ui/ui/right_side_menu/log.dart';
+// import 'package:wr_ui/ui/widgets/clock.dart';
+// import 'package:wr_ui/ui/widgets/exit_btn.dart';
+// import 'package:wr_ui/ui/widgets/log_screen.dart';
 // // import 'package:wr_ui/ui/widgets/reset_btn.dart';
-// import 'package:wr_ui/ui/right_side_menu/csv_creator.dart';
+// import 'package:wr_ui/ui/widgets/save_file.dart';
 // // ignore: unused_import
-// import 'package:wr_ui/ui/right_side_menu/start_stop.dart';
+// import 'package:wr_ui/ui/widgets/start_stop.dart';
 
 // class wrHomePage extends StatelessWidget {
 //   wrHomePage({Key? key}) : super(key: key);
@@ -26,7 +27,7 @@
 //                   height: Height * 0.1,
 //                   decoration: BoxDecoration(
 //                       border: Border.all(color: Colors.black, width: 1)),
-//                   child: Image.asset("images/CI_nobg.png", fit: BoxFit.cover),
+//                   child: Image.asset("images/CI_nobg.png"),
 //                 ),
 //                 Container(
 //                     padding: EdgeInsets.only(left: 27, top: 12),
@@ -90,7 +91,7 @@
 //                               decoration: BoxDecoration(
 //                                   border: Border.all(
 //                                       color: Colors.black, width: 1)),
-//                               child: MyList(),
+//                               child: LogList(),
 //                             ),
 //                             Container(
 //                               width: Width * 0.15,
