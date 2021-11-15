@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:wr_ui/const/style/pallette.dart';
+import 'package:wr_ui/controller/splash_controller.dart';
+import 'package:wr_ui/model/const/style/pallette.dart';
 import 'package:wr_ui/controller/drop_down_controller.dart';
 import 'package:wr_ui/controller/home_controller.dart';
 import 'package:wr_ui/service/dark_white_mode/mode.dart';
+import 'package:wr_ui/service/routes/app_pages.dart';
+import 'package:wr_ui/view/appbar/actions/minimize/window_btn.dart';
 import 'package:wr_ui/view/appbar/actions/setting/device_setting_page.dart';
 import 'package:wr_ui/view/appbar/actions/setting/recipe_menu_final.dart';
 import 'package:wr_ui/view/appbar/actions/setting/setting_menu_final.dart';
@@ -24,7 +27,6 @@ import 'package:wr_ui/view/right_side_menu/start_stop.dart';
 Future main() async {
   Get.put(ControllerWithReactive());
   Get.put(iniControllerWithReactive());
-
   Get.find<iniControllerWithReactive>().iniWriteSave();
   Get.find<iniControllerWithReactive>().fileSave;
 
@@ -58,18 +60,20 @@ class MyApp extends StatelessWidget {
       //   primarySwatch: Colors.blue,
       // ),
       home: Home(),
-      initialRoute: '/',
-      getPages: [
-        GetPage(
-          name: '/',
-          page: () => Home(),
-          transition: Transition.noTransition,
-        ),
-        GetPage(
-          name: '/setting',
-          page: () => Settings(),
-        )
-      ],
+      initialRoute: AppPages.INITIAL,
+      getPages: AppPages.routes,
+      //  '/',
+      // getPages: [
+      //   GetPage(
+      //     name: '/',
+      //     page: () => Home(),
+      //     transition: Transition.noTransition,
+      //   ),
+      //   GetPage(
+      //     name: '/setting',
+      //     page: () => Settings(),
+      //   )
+      // ],
     );
   }
 }
@@ -99,83 +103,89 @@ class WRappbar extends StatelessWidget implements PreferredSizeWidget {
   }) : super(key: key);
 
   @override
-  Size get preferredSize => Size.fromHeight(60.0);
+  Size get preferredSize => Size.fromHeight(70);
   final themeController = Get.put(HomeController());
 
   @override
   Widget build(BuildContext context) {
-    return AppBar(
-        automaticallyImplyLeading: true,
-        // backgroundColor: Theme.of(context).backgroundColor,
-        leading: TextButton(
-          onPressed: () {
-            Get.to(() => Home());
-          },
-          child: Image.asset(
-            'assets/images/CI_nobg.png',
-            scale: 10,
-          ),
-        ),
-        actions: [
-          Container(
-            width: 600,
-            child: Row(
-              children: [
-                SizedBox(
-                  width: 100,
-                ),
-                Clock(),
-                SizedBox(
-                  width: 20,
-                ),
-                SizedBox(
-                  width: 20,
-                ),
-                RecentRecipeName(),
-                SizedBox(
-                  width: 20,
-                ),
-                SizedBox(
-                  width: 20,
-                ),
-                RunErrorStatus(),
-              ],
+    return Padding(
+      padding: const EdgeInsets.only(top: 16),
+      child: Container(
+        child: AppBar(
+            automaticallyImplyLeading: true,
+            // backgroundColor: Theme.of(context).backgroundColor,
+            leading: TextButton(
+              onPressed: () {
+                Get.to(() => Home());
+              },
+              child: Image.asset(
+                'assets/images/CI_nobg.png',
+                scale: 10,
+              ),
             ),
-          ),
-          Spacer(),
-          // ReturnHomePage(),
+            actions: [
+              Container(
+                width: 600,
+                child: Row(
+                  children: [
+                    SizedBox(
+                      width: 100,
+                    ),
+                    Clock(),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    RecentRecipeName(),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    RunErrorStatus(),
+                  ],
+                ),
+              ),
+              Spacer(),
+              // ReturnHomePage(),
 
-          SettingMenu(),
-          SizedBox(
-            width: 50,
-          ),
+              SettingMenu(),
+              SizedBox(
+                width: 50,
+              ),
 
-          GestureDetector(
-            onTap: () {
-              ThemeService().switchTheme();
-            },
-            child: Padding(
-              padding: const EdgeInsets.only(left: 20),
-              child: Icon(
-                  Get.isDarkMode
-                      ? Icons.toggle_off_outlined
-                      : Icons.toggle_on_outlined,
-                  size: 40),
+              GestureDetector(
+                onTap: () {
+                  ThemeService().switchTheme();
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 20),
+                  child: Icon(
+                      Get.isDarkMode
+                          ? Icons.toggle_off_outlined
+                          : Icons.toggle_on_outlined,
+                      size: 40),
+                ),
+              ),
+              SizedBox(
+                width: 20,
+              ),
+              WindowButtons(),
+              // Switch(
+              //     value: _lighttwo,
+              //     onChanged: (state) {
+              //       print('스테이트 : ${state}');
+              //       themeController.changeTheme(state);
+              //     })
+              // DeviceSettingBtn(),
+              // ChartSettingBtn(),
+            ] //
             ),
-          ),
-          SizedBox(
-            width: 20,
-          ),
-          // Switch(
-          //     value: _lighttwo,
-          //     onChanged: (state) {
-          //       print('스테이트 : ${state}');
-          //       themeController.changeTheme(state);
-          //     })
-          // DeviceSettingBtn(),
-          // ChartSettingBtn(),
-        ] //
-        );
+      ),
+    );
   }
 }
 
@@ -204,8 +214,6 @@ class _WRbodyState extends State<WRbody> {
             padding: const EdgeInsets.only(top: 10.0, bottom: 10, left: 10),
             child: Container(
               decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.grey.withOpacity(0.2), //그림자 색
@@ -214,13 +222,20 @@ class _WRbodyState extends State<WRbody> {
                     offset: Offset(0, 2), // 그림자위치 바꾸는거
                   ),
                 ],
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
               ),
               child: Container(
                 decoration:
                     BoxDecoration(borderRadius: BorderRadius.circular(10)),
                 //////////////차트 컨테이너 내에 페이지 이동
                 child: MaterialApp(
-                  theme: ThemeData(),
+                  debugShowCheckedModeBanner: true,
+                  theme: ThemeData(
+                      textTheme: TextTheme(
+                        bodyText2: TextStyle(color: Colors.black),
+                      ),
+                      scaffoldBackgroundColor: Colors.transparent),
                   initialRoute: '/all',
                   routes: {
                     '/all': (context) => ALLpage(),
@@ -406,7 +421,6 @@ class _WRbodyState extends State<WRbody> {
                               ],
                             ),
                             Divider(
-                              color: Theme.of(context).backgroundColor,
                               indent: 10,
                               endIndent: 10,
                             ),

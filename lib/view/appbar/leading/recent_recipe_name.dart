@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wr_ui/const/style/text.dart';
+import 'package:wr_ui/model/const/style/text.dart';
 
 class RecentRecipeName extends StatelessWidget {
   const RecentRecipeName({

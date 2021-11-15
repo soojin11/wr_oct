@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:wr_ui/const/style/pallette.dart';
+import 'package:wr_ui/model/const/style/pallette.dart';
 import 'package:wr_ui/service/database/recipe/config_dao.dart';
 import 'package:wr_ui/service/database/recipe/config_model.dart';
 
