@@ -52,21 +52,18 @@ class StartStop extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                   primary: Get.find<VizController>().inactiveBtn.value
                       ? Colors.grey
-                      : Colors.blue,
+                      : Colors.blueGrey,
                   textStyle:
-                      TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
-              onPressed: () async {
+                      TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+              onPressed: () {
                 Get.find<VizController>().inactiveBtn.value = true;
-                Get.find<VizController>().timer = Timer.periodic(
-                    Duration(microseconds: 100),
-                    Get.find<VizController>().updateDataSource);
-
-                Get.find<OesController>().timer = Timer.periodic(
-                    Duration(milliseconds: 100),
-                    Get.find<OesController>().updateDataSource);
-                Get.find<OesController>().oesData;
-
-                Get.find<LogListController>().clickedStart();
+                Get.find<OesController>().inactiveBtn.value = true;
+               Get.find<OesController>().timer = Timer.periodic(
+                  Duration(milliseconds: 100), Get.find<OesController>().updateDataSource);
+                  Get.find<OesController>().oesData;
+                  Get.find<VizController>().timer = Timer.periodic(
+                  Duration(milliseconds: 100), Get.find<VizController>().updateDataSource);
+                  Get.find<LogListController>().clickedStart();
               },
             ),
           ),
@@ -79,10 +76,10 @@ class StartStop extends StatelessWidget {
               child: Text('Stop'),
               style: ElevatedButton.styleFrom(
                   primary: Get.find<VizController>().inactiveBtn.value
-                      ? Colors.blue
+                      ? Colors.blueGrey
                       : Colors.grey,
                   textStyle:
-                      TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
+                      TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
               onPressed: () {
                 Get.find<VizController>().inactiveBtn.value = false;
                 Get.find<VizController>().timer.cancel();
