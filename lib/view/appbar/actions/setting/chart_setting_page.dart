@@ -211,6 +211,8 @@ import 'package:flutter/material.dart';
 import 'package:wr_ui/main.dart';
 import 'package:wr_ui/service/color_picker.dart';
 
+import '../../../../wr_home_page.dart';
+
 class ChartSettings extends StatefulWidget {
   const ChartSettings({Key? key}) : super(key: key);
 

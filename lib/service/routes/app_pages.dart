@@ -7,6 +7,8 @@ import 'package:wr_ui/view/chart/pages/OESpage.dart';
 import 'package:wr_ui/view/chart/pages/VIpage.dart';
 import 'package:wr_ui/view/splash/splash_binding.dart';
 import 'package:wr_ui/view/splash/splash_view.dart';
+
+import '../../wr_home_page.dart';
 part 'app_routes.dart';
 
 class AppPages {

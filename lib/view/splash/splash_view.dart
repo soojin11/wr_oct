@@ -4,6 +4,8 @@ import 'package:wr_ui/controller/splash_controller.dart';
 import 'package:wr_ui/main.dart';
 import 'package:wr_ui/model/const/style/pallette.dart';
 
+import '../../wr_home_page.dart';
+
 class SplashView extends GetView<SplashController> {
   @override
   Widget build(BuildContext context) {
