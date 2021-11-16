@@ -90,9 +90,10 @@ class OesChart extends GetView<OesController> {
         primaryXAxis:
             NumericAxis(minimum: 0, maximum: 150, labelFormat: '{value}nm'),
         primaryYAxis: NumericAxis(minimum: 0, maximum: 60),
-        title: ChartTitle(text: 'OES'),
+        //title: ChartTitle(text: 'OES'),
         series: <ChartSeries<OESData, int>>[
           SplineSeries(
+            animationDuration: 0,
             width: 1,
             color: Colors.green,
             name: 'OES_1',

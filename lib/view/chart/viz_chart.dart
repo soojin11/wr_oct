@@ -114,9 +114,9 @@ class VizChart extends GetView<VizController> {
           position: LegendPosition.top),
       zoomPanBehavior: controller.zoomPanBehavior,
       trackballBehavior: controller.trackballBehavior,
-      primaryXAxis:NumericAxis(autoScrollingDelta: 300, isVisible: false),
+      primaryXAxis:NumericAxis(autoScrollingDelta: 500, isVisible: false),
       primaryYAxis: NumericAxis(minimum: 0, maximum: 60, labelFormat: '{value}k',),
-      title: ChartTitle(text: 'VIZ'),
+      //title: ChartTitle(text: 'VIZ'),
       series: <ChartSeries<SpecData, int>>[
         SplineSeries(
           animationDuration: 0,

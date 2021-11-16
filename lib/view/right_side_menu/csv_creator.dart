@@ -211,6 +211,7 @@ class CSVButton extends StatelessWidget {
               ),
               style: ElevatedButton.styleFrom(primary: Colors.blueGrey[700]),
             ),
+            SizedBox(width: 30),
             ElevatedButton(
               onPressed: () async {
                 Get.find<CsvController>().fileSave.value = false;
