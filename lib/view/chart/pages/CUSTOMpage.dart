@@ -29,7 +29,7 @@ class CUSTOMpage extends StatelessWidget {
               height: 20,
             ),
             ///////////여기에 custom차트
-
+            MainChart()
             ///////////여기에 custom차트
           ],
         ),

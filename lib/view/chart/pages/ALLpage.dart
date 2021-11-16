@@ -10,7 +10,6 @@ import 'package:wr_ui/view/chart/pages/VIpage.dart';
 class ALLpage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       // color: Colors.blueGrey,
       body: Container(
@@ -29,6 +28,7 @@ class ALLpage extends StatelessWidget {
               height: 20,
             ),
             ///////////여기에 ALL차트
+            MainChart()
             ///////////여기에 ALL차트
           ],
         ),

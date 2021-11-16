@@ -29,11 +29,11 @@ class ChartController extends GetxController {
     super.onInit();
   }
 
-  // @override
-  // void onClose() {
-  //   timer.cancel();
-  //   super.onClose();
-  // }
+  @override
+  void onClose() {
+    timer.cancel();
+    super.onClose();
+  }
 
   int time = 0;
   void updateDataSource(Timer timer) async {

@@ -34,7 +34,7 @@ class _VIpageState extends State<VIpage> {
               height: 20,
             ),
             ///////////여기에 vi차트
-
+            MainChart()
             ///////////여기에 vi차트
           ],
         ),
