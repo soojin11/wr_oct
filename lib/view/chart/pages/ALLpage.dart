@@ -10,9 +10,7 @@ import 'package:wr_ui/view/chart/pages/VIpage.dart';
 class ALLpage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // return Expanded(
-    //   child: ChartPage(),
-    // );
+
     return Scaffold(
       // color: Colors.blueGrey,
       body: Container(

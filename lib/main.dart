@@ -165,58 +165,6 @@ class WRappbar extends StatelessWidget implements PreferredSizeWidget {
     );
   }
 }
-//                 child: Column(
-//                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//                   children: [
-//                     // Expanded(child: CahrtDropDown()),
-//                     Expanded(
-//                       flex: 2,
-//                       child: MainChart(),
-//                     ),
-//                     SizedBox(height: 20),
-//                     // Expanded(
-//                     //     flex: 1,
-//                     //     child: GridView.count(
-//                     //       crossAxisSpacing: 10,
-//                     //       crossAxisCount: 8,
-//                     //       shrinkWrap: true,
-//                     //       children: List.generate(8, (index) => MainChart()),
-//                     //     )
-//                     //     // ChartPage(),
-//                     //     ),
-//                   ],
-//                 ),
-//               ),
-//               Spacer(),
-//               // ReturnHomePage(),
-
-//               SettingMenu(),
-//               SizedBox(
-//                 width: 50,
-//               ),
-
-//               GestureDetector(
-//                 onTap: () {
-//                   ThemeService().switchTheme();
-//                 },
-//                 child: Padding(
-//                   padding: const EdgeInsets.only(left: 20),
-//                   child: Icon(
-//                       Get.isDarkMode
-//                           ? Icons.toggle_off_outlined
-//                           : Icons.toggle_on_outlined,
-//                       size: 40),
-//                 ),
-//               ),
-//               SizedBox(
-//                 width: 20,
-//               ),
-//               WindowButtons(),
-//             ]),
-//       ),
-//     );
-//   }
-// }
 
 class WRbody extends StatefulWidget {
   const WRbody({
