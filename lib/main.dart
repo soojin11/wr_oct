@@ -32,7 +32,6 @@ Future main() async {
   Get.put(ChartController());
   Get.put(LogListController());
   Get.put(LogController());
-  // Get.put(txtControllerWithReactive());
   runApp(MyApp());
   doWhenWindowReady(() {
     final win = appWindow;
@@ -181,7 +180,7 @@ class WRbody extends StatefulWidget {
 class _WRbodyState extends State<WRbody> {
   @override
   Widget build(BuildContext context) {
-    return Row(children: [
+    return Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
       //////////////////////////차트공간
 
       Expanded(
@@ -230,212 +229,220 @@ class _WRbodyState extends State<WRbody> {
 
       Expanded(
           flex: 1,
-          child: Container(
-            child: Padding(
-              padding: const EdgeInsets.all(10),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  //////////로그
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Column(
-                      children: [
-                        Row(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Container(
+                height: 1002,
+                child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      //////////로그
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Column(
                           children: [
-                            SizedBox(
-                              width: 20,
-                            ),
-                            Text(
-                              'Log View',
-                              style: TextStyle(
-                                color: Colors.blueGrey[800],
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Divider(
-                          indent: 10,
-                          endIndent: 10,
-                        ),
-                        LogList()
-                      ],
-                    ),
-                  ),
-                  //////////로그
-                  //////////스타트스탑리셋
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Container(
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              SizedBox(
-                                width: 20,
-                              ),
-                              Text(
-                                'Start / Stop / Reset',
-                                style: TextStyle(
-                                  color: Colors.blueGrey[800],
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
-                          Divider(
-                            indent: 10,
-                            endIndent: 10,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              StartStop(),
-                              // TextButton.icon(
-                              //   onPressed: () {
-                              //     Get.find<LogListController>().clickedReset();
-                              //     Get.find<LogController>().loglist.add(
-                              //         '[Event Trigger] ${DateTime.now()}  :  Reset button is pressed' +
-                              //             '\n');
-                              //     print('reset!!');
-                              //     // Get.toNamed('/');
-                              //     Navigator.pushReplacement(
-                              //       context,
-                              //       MaterialPageRoute(
-                              //         builder: (BuildContext context) =>
-                              //             super.widget,
-                              //       ),
-                              //     );
-                              //   } // super.dispose();
-                              //   ,
-                              //   icon: Icon(
-                              //     Icons.refresh,
-                              //     color: Colors.blueGrey[700],
-                              //   ),
-                              //   label: Text('reset'),
-                              // ),
-                            ],
-                          ),
-                          //////////////스타트스탑리셋
-                        ],
-                      ),
-                    ),
-                  ), //////////////파일매니저
-
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Container(
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              SizedBox(
-                                width: 20,
-                              ),
-                              Text(
-                                'File Manager',
-                                style: TextStyle(
-                                  color: Colors.blueGrey[800],
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
-                          Divider(
-                            indent: 10,
-                            endIndent: 10,
-                          ),
-                          Center(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            Row(
                               children: [
-                                CSVButton(),
-                                // iniBtn(),
-                                // TxtBtn(),
+                                SizedBox(
+                                  width: 20,
+                                ),
+                                Text(
+                                  'Log View',
+                                  style: TextStyle(
+                                    color: Colors.blueGrey[800],
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                               ],
                             ),
-                          ),
-                        ],
+                            Divider(
+                              indent: 10,
+                              endIndent: 10,
+                            ),
+                            LogList()
+                          ],
+                        ),
                       ),
-                    ),
-                  ),
-                  /////////////파일매니저
-                  /////////////레시피버튼
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Container(
-                      child: Column(
-                        children: [
-                          Row(
+                      //////////로그
+                      //////////스타트스탑리셋
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Container(
+                          child: Column(
                             children: [
-                              SizedBox(
-                                width: 20,
+                              Row(
+                                children: [
+                                  SizedBox(
+                                    width: 20,
+                                  ),
+                                  Text(
+                                    'Start / Stop / Reset',
+                                    style: TextStyle(
+                                      color: Colors.blueGrey[800],
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
                               ),
-                              Text(
-                                'Recipe',
-                                style: TextStyle(
-                                  color: Colors.blueGrey[800],
-                                  fontWeight: FontWeight.bold,
+                              Divider(
+                                indent: 10,
+                                endIndent: 10,
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  StartStop(),
+                                  // TextButton.icon(
+                                  //   onPressed: () {
+                                  //     Get.find<LogListController>().clickedReset();
+                                  //     Get.find<LogController>().loglist.add(
+                                  //         '[Event Trigger] ${DateTime.now()}  :  Reset button is pressed' +
+                                  //             '\n');
+                                  //     print('reset!!');
+                                  //     // Get.toNamed('/');
+                                  //     Navigator.pushReplacement(
+                                  //       context,
+                                  //       MaterialPageRoute(
+                                  //         builder: (BuildContext context) =>
+                                  //             super.widget,
+                                  //       ),
+                                  //     );
+                                  //   } // super.dispose();
+                                  //   ,
+                                  //   icon: Icon(
+                                  //     Icons.refresh,
+                                  //     color: Colors.blueGrey[700],
+                                  //   ),
+                                  //   label: Text('reset'),
+                                  // ),
+                                ],
+                              ),
+                              //////////////스타트스탑리셋
+                            ],
+                          ),
+                        ),
+                      ), //////////////파일매니저
+
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Container(
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  SizedBox(
+                                    width: 20,
+                                  ),
+                                  Text(
+                                    'File Manager',
+                                    style: TextStyle(
+                                      color: Colors.blueGrey[800],
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Divider(
+                                indent: 10,
+                                endIndent: 10,
+                              ),
+                              Center(
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    CSVButton(),
+                                    // iniBtn(),
+                                    // TxtBtn(),
+                                  ],
                                 ),
                               ),
                             ],
                           ),
-                          Divider(
-                            indent: 10,
-                            endIndent: 10,
-                          ),
-                          RecipeMenu()
-                        ],
+                        ),
                       ),
-                    ),
-                  ),
-                  /////////////레시피버튼
-                  ////////////나가기
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Container(
-                      child: Column(
-                        children: [
-                          Row(
+                      /////////////파일매니저
+                      /////////////레시피버튼
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Container(
+                          child: Column(
                             children: [
-                              SizedBox(
-                                width: 20,
+                              Row(
+                                children: [
+                                  SizedBox(
+                                    width: 20,
+                                  ),
+                                  Text(
+                                    'Recipe',
+                                    style: TextStyle(
+                                      color: Colors.blueGrey[800],
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
                               ),
-                              Text(
-                                'Exit',
-                                style: TextStyle(
-                                  color: Colors.blueGrey[800],
-                                  fontWeight: FontWeight.bold,
-                                ),
+                              Divider(
+                                indent: 10,
+                                endIndent: 10,
                               ),
+                              RecipeMenu()
                             ],
                           ),
-                          Divider(
-                            indent: 10,
-                            endIndent: 10,
-                          ),
-                          ExitBtn()
-                        ],
+                        ),
                       ),
-                    ),
-                  )
-                  ////////////나가기
-                ],
-              ),
-            ),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.2), //그림자 색
-                  spreadRadius: 5,
-                  blurRadius: 7,
-                  offset: Offset(0, 2), // 그림자위치 바꾸는거
+                      /////////////레시피버튼
+                      ////////////나가기
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Container(
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  SizedBox(
+                                    width: 20,
+                                  ),
+                                  Text(
+                                    'Exit',
+                                    style: TextStyle(
+                                      color: Colors.blueGrey[800],
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Divider(
+                                indent: 10,
+                                endIndent: 10,
+                              ),
+                              ExitBtn()
+                            ],
+                          ),
+                        ),
+                      )
+                      ////////////나가기
+                    ],
+                  ),
                 ),
-              ],
-            ),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.2), //그림자 색
+                      spreadRadius: 5,
+                      blurRadius: 7,
+                      offset: Offset(0, 2), // 그림자위치 바꾸는거
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ))
     ]);
   }
