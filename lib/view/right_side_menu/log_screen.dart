@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+
+import 'log_save.dart';
 
 class LogListController extends GetxController {
   RxList logData = RxList.empty();
@@ -15,26 +18,77 @@ class LogListController extends GetxController {
   }
 
   void clickedStop() async {
-    logData.add('Stop button is pressed');
+    // logData.add('Stop button is pressed');
+    DateTime current = DateTime.now();
+    String ms = DateTime.now().millisecondsSinceEpoch.toString();
+    int msLength = ms.length;
+    int third = int.parse(ms.substring(msLength-3, msLength));
+    String msDate = '${DateFormat('yyyy-MM-dd HH:mm:ss').format(current)}.$third';
+    String screenDate = '${DateFormat('HH:mm:ss').format(current)}.$third';
+
+            Get.find<LogController>().loglist.add('${msDate} [Event Trigger] Stop button is pressed' + '\n');
+
+
+              Get.find<LogController>().logSaveInit();
+              Get.find<LogController>().fileSave.value = true;
+              logData.add('${screenDate} Stop button is pressed');
   }
 
   void clickedStart() async {
-    logData.add('Start buttton is pressed');
+    //logData.add('Start buttton is pressed');
+    DateTime current = DateTime.now();
+    String ms = DateTime.now().millisecondsSinceEpoch.toString();
+    int msLength = ms.length;
+    int third = int.parse(ms.substring(msLength-3, msLength));
+    String msDate = '${DateFormat('yyyy-MM-dd HH:mm:ss').format(current)}.$third';
+    String screenDate = '${DateFormat('HH:mm:ss').format(current)}.$third';
+
+    logData.add('${screenDate} Start button is pressed');
+    Get.find<LogController>()
+                  .loglist
+                  .add('${msDate} [Event Trigger] Start button is pressed' + '\n');
+              Get.find<LogController>().logSaveInit();
+              Get.find<LogController>().fileSave.value = true;
   }
 
-  void clickedCsv() async {
-    logData.add('Start Saving');
+  void startCsv() async {
+    //logData.add('Start Saving');
+    DateTime current = DateTime.now();
+    String ms = DateTime.now().millisecondsSinceEpoch.toString();
+    int msLength = ms.length;
+    int third = int.parse(ms.substring(msLength-3, msLength));
+    String msDate = '${DateFormat('yyyy-MM-dd HH:mm:ss').format(current)}.$third';
+    String screenDate = '${DateFormat('HH:mm:ss').format(current)}.$third';
+    
+    logData.add('${screenDate} Start Saving Data');
+    Get.find<LogController>()
+                  .loglist
+                  .add('${msDate} [Event Trigger] Save start button is pressed' + '\n');
+              Get.find<LogController>().logSaveInit();
+              Get.find<LogController>().fileSave.value = true;
   }
   void stopCsv() async {
-    logData.add('Stop Saving');
+    //logData.add('Stop Saving');
+    DateTime current = DateTime.now();
+    String ms = DateTime.now().millisecondsSinceEpoch.toString();
+    int msLength = ms.length;
+    int third = int.parse(ms.substring(msLength-3, msLength));
+    String msDate = '${DateFormat('yyyy-MM-dd HH:mm:ss').format(current)}.$third';
+    String screenDate = '${DateFormat('HH:mm:ss').format(current)}.$third';
+    logData.add('${screenDate} Stop Saving Data');
+    Get.find<LogController>()
+                  .loglist
+                  .add('${msDate} [Event Trigger] Save Stop button is pressed' + '\n');
+              Get.find<LogController>().logSaveInit();
+              Get.find<LogController>().fileSave.value = true;
   }
 
   void clickedIni() async {
-    logData.add('Save config');
+    //logData.add('Save config');
   }
 
   void clickedReset() async {
-    logData.add('Reset button is pressed');
+    //logData.add('Reset button is pressed');
   }
 }
 

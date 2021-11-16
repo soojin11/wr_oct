@@ -67,11 +67,6 @@ class StartStop extends StatelessWidget {
                 Get.find<OesController>().oesData;
 
                 Get.find<LogListController>().clickedStart();
-                Get.find<LogController>().loglist.add(
-                    '[Event Trigger] ${DateTime.now()}  :  Start button is pressed' +
-                        '\n');
-                Get.find<LogController>().logSaveInit();
-                Get.find<LogController>().fileSave.value = true;
               },
             ),
           ),
@@ -93,12 +88,6 @@ class StartStop extends StatelessWidget {
                 Get.find<VizController>().timer.cancel();
                 Get.find<OesController>().timer.cancel();
                 Get.find<LogListController>().clickedStop();
-
-                Get.find<LogController>().loglist.add(
-                    '[Event Trigger] ${DateTime.now()}  :  Stop button is pressed' +
-                        '\n');
-                Get.find<LogController>().logSaveInit();
-                Get.find<LogController>().fileSave.value = true;
               },
             ),
           ),

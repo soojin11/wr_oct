@@ -16,6 +16,8 @@ import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:wr_ui/main.dart';
 
+import '../../../../wr_home_page.dart';
+
 class SettingList {
   SettingList(this.num, this.parameters, this.value, this.etc);
   final int num;

@@ -202,8 +202,8 @@ class CSVButton extends StatelessWidget {
             ElevatedButton(
               onPressed: () async {
                 await Get.find<CsvController>().csvSaveInit();
-                //Get.find<VizController>().chartData.clear();
                 Get.find<CsvController>().fileSave.value = true;
+                Get.find<LogListController>().startCsv();
               },
               child: Text(
                 "Save Start",
@@ -214,6 +214,7 @@ class CSVButton extends StatelessWidget {
             ElevatedButton(
               onPressed: () async {
                 Get.find<CsvController>().fileSave.value = false;
+                Get.find<LogListController>().stopCsv();
               },
               child: Text(
                 "Save Stop",
