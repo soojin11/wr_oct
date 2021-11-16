@@ -103,7 +103,9 @@ class VizChart extends GetView<VizController> {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-        child: SfCartesianChart(
+        child: GetBuilder<VizController>(
+              builder:(controller) => 
+        SfCartesianChart(
           
           //plotAreaBackgroundColor: Colors.red,
       legend: Legend(
@@ -141,6 +143,6 @@ class VizChart extends GetView<VizController> {
           yValueMapper: (SpecData spec, _) => spec.num,
         ),
       ],
-    ));
+    )));
   }
 }
