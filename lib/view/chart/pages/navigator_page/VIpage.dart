@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:wr_ui/view/chart/chart_tabbar.dart';
 import 'package:wr_ui/view/chart/viz_chart.dart';
-import 'package:wr_ui/view/chart/pages/ADDpage.dart';
-import 'package:wr_ui/view/chart/pages/ALLpage.dart';
-import 'package:wr_ui/view/chart/pages/CUSTOMpage.dart';
-import 'package:wr_ui/view/chart/pages/OESpage.dart';
+import 'package:wr_ui/view/chart/pages/navigator_page/ADDpage.dart';
+import 'package:wr_ui/view/chart/pages/navigator_page/ALLpage.dart';
+import 'package:wr_ui/view/chart/pages/navigator_page/CUSTOMpage.dart';
+import 'package:wr_ui/view/chart/pages/navigator_page/OESpage.dart';
 
 class VIpage extends StatefulWidget {
   const VIpage({Key? key}) : super(key: key);

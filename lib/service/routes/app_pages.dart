@@ -1,10 +1,10 @@
 import 'package:get/get.dart';
 import 'package:wr_ui/main.dart';
-import 'package:wr_ui/view/chart/pages/ADDpage.dart';
-import 'package:wr_ui/view/chart/pages/ALLpage.dart';
-import 'package:wr_ui/view/chart/pages/CUSTOMpage.dart';
-import 'package:wr_ui/view/chart/pages/OESpage.dart';
-import 'package:wr_ui/view/chart/pages/VIpage.dart';
+import 'package:wr_ui/view/chart/pages/navigator_page/ADDpage.dart';
+import 'package:wr_ui/view/chart/pages/navigator_page/ALLpage.dart';
+import 'package:wr_ui/view/chart/pages/navigator_page/CUSTOMpage.dart';
+import 'package:wr_ui/view/chart/pages/navigator_page/OESpage.dart';
+import 'package:wr_ui/view/chart/pages/navigator_page/VIpage.dart';
 import 'package:wr_ui/view/splash/splash_binding.dart';
 import 'package:wr_ui/view/splash/splash_view.dart';
 part 'app_routes.dart';

@@ -14,12 +14,13 @@ import 'package:wr_ui/view/appbar/leading/clock.dart';
 import 'package:wr_ui/view/appbar/leading/recent_recipe_name.dart';
 import 'package:wr_ui/view/appbar/leading/run_error_status_mark.dart';
 import 'package:wr_ui/view/chart/oes_chart.dart';
+import 'package:wr_ui/view/chart/pages/hover_chart/hover_card.dart';
 import 'package:wr_ui/view/chart/viz_chart.dart';
-import 'package:wr_ui/view/chart/pages/ADDpage.dart';
-import 'package:wr_ui/view/chart/pages/ALLpage.dart';
-import 'package:wr_ui/view/chart/pages/CUSTOMpage.dart';
-import 'package:wr_ui/view/chart/pages/OESpage.dart';
-import 'package:wr_ui/view/chart/pages/VIpage.dart';
+import 'package:wr_ui/view/chart/pages/navigator_page/ADDpage.dart';
+import 'package:wr_ui/view/chart/pages/navigator_page/ALLpage.dart';
+import 'package:wr_ui/view/chart/pages/navigator_page/CUSTOMpage.dart';
+import 'package:wr_ui/view/chart/pages/navigator_page/OESpage.dart';
+import 'package:wr_ui/view/chart/pages/navigator_page/VIpage.dart';
 import 'package:wr_ui/view/right_side_menu/csv_creator.dart';
 import 'package:wr_ui/view/right_side_menu/exit_btn.dart';
 import 'package:wr_ui/view/right_side_menu/ini_creator.dart';
@@ -239,51 +240,65 @@ class _WRbodyState extends State<WRbody> {
       //////////////////////////차트공간
       Expanded(
         flex: 4,
-        child: Padding(
-          padding: const EdgeInsets.all(10),
-          child: Container(
-            decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.2), //그림자 색
-                  spreadRadius: 5,
-                  blurRadius: 7,
-                  offset: Offset(0, 2), // 그림자위치 바꾸는거
-                ),
-              ],
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Container(
-              decoration:
-                  BoxDecoration(borderRadius: BorderRadius.circular(10)),
-              //////////////차트 컨테이너 내에 페이지 이동
-              child: MaterialApp(
-                debugShowCheckedModeBanner: false,
-                theme: ThemeData(
-                    textTheme: TextTheme(
-                      bodyText2: TextStyle(color: Colors.black),
+        child: Column(
+          children: [
+            Expanded(
+              flex: 3,
+              child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: Container(
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.2), //그림자 색
+                        spreadRadius: 5,
+                        blurRadius: 7,
+                        offset: Offset(0, 2), // 그림자위치 바꾸는거
+                      ),
+                    ],
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Container(
+                    decoration:
+                        BoxDecoration(borderRadius: BorderRadius.circular(10)),
+                    //////////////차트 컨테이너 내에 페이지 이동
+                    child: MaterialApp(
+                      debugShowCheckedModeBanner: false,
+                      theme: ThemeData(
+                          textTheme: TextTheme(
+                            bodyText2: TextStyle(color: Colors.black),
+                          ),
+                          scaffoldBackgroundColor: Colors.transparent),
+                      initialRoute: '/all',
+                      routes: {
+                        '/all': (context) => ALLpage(),
+                        '/oes': (context) => OESpage(),
+                        '/vi': (context) => VIpage(),
+                        '/custom': (context) => CUSTOMpage(),
+                        '/add': (context) => ADDpage(),
+                      },
                     ),
-                    scaffoldBackgroundColor: Colors.transparent),
-                initialRoute: '/all',
-                routes: {
-                  '/all': (context) => ALLpage(),
-                  '/oes': (context) => OESpage(),
-                  '/vi': (context) => VIpage(),
-                  '/custom': (context) => CUSTOMpage(),
-                  '/add': (context) => ADDpage(),
-                },
+                    //////////////차트 컨테이너 내에 페이지 이동
+                    // CahrtDropDown(),
+                  ),
+                ),
               ),
-              //////////////차트 컨테이너 내에 페이지 이동
-              // CahrtDropDown(),
             ),
-          ),
+            Expanded(
+                flex: 1,
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: HoverCard(),
+                ))
+          ],
         ),
       ),
 
       Expanded(
           flex: 1,
           child: Container(
+            height: 992,
             child: Padding(
               padding: const EdgeInsets.all(10),
               child: Column(
