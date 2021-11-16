@@ -13,12 +13,12 @@ class OesController extends GetxController {
   late ChartSeriesController chartSeriesController;
   late ZoomPanBehavior zoomPanBehavior;
   late TrackballBehavior trackballBehavior;
-  Timer? timer;
+  late Timer timer;
   @override
   void onInit() {
     //wonhee
-    timer;
-    chartSeriesController;
+    // timer;
+    // chartSeriesController;
 
     //wonhee
     oesData;
@@ -39,14 +39,14 @@ class OesController extends GetxController {
     super.onInit();
   }
 
-  @override
-  void dispose() {
-    if (timer != null) {
-      timer!.cancel();
-      timer = null;
-    }
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   if (timer != null) {
+  //     timer!.cancel();
+  //     timer = null;
+  //   }
+  //   super.dispose();
+  // }
 
   // @override
   // void onClose() {

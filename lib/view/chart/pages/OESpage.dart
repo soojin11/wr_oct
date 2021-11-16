@@ -29,13 +29,7 @@ class OESpage extends StatelessWidget {
             SizedBox(
               height: 20,
             ),
-<<<<<<< HEAD
             OesChart()
-=======
-            ///////////여기에 oes차트
-            MainChart()
-///////////여기에 oes차트
->>>>>>> aa794375bb7d6f53115909ff98de6f31c353c1dd
           ],
         ),
       ),

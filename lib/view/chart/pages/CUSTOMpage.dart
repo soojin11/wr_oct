@@ -29,10 +29,6 @@ class CUSTOMpage extends StatelessWidget {
               height: 20,
             ),
             ///////////여기에 custom차트
-<<<<<<< HEAD
-=======
-            MainChart()
->>>>>>> aa794375bb7d6f53115909ff98de6f31c353c1dd
             ///////////여기에 custom차트
           ],
         ),

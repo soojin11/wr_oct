@@ -35,10 +35,6 @@ class _VIpageState extends State<VIpage> {
             ),
             VizChart()
             ///////////여기에 vi차트
-<<<<<<< HEAD
-=======
-            MainChart()
->>>>>>> aa794375bb7d6f53115909ff98de6f31c353c1dd
             ///////////여기에 vi차트
           ],
         ),

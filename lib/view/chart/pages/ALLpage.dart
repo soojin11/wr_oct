@@ -31,7 +31,7 @@ class ALLpage extends StatelessWidget {
             VizChart(),
             OesChart()
             ///////////여기에 ALL차트
-            MainChart()
+            
             ///////////여기에 ALL차트
           ],
         ),

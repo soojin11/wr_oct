@@ -91,7 +91,7 @@ class StartStop extends StatelessWidget {
               onPressed: () {
                 Get.find<VizController>().inactiveBtn.value = false;
                 Get.find<VizController>().timer.cancel();
-                Get.find<OesController>().timer!.cancel();
+                Get.find<OesController>().timer.cancel();
                 Get.find<LogListController>().clickedStop();
 
                 Get.find<LogController>().loglist.add(

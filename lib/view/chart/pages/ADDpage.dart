@@ -29,7 +29,7 @@ class ADDpage extends StatelessWidget {
               height: 20,
             ),
             ///////////여기에 Add차트
-            MainChart()
+            
             ///////////여기에 Add차트
           ],
         ),

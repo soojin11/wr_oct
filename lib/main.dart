@@ -13,6 +13,7 @@ import 'package:wr_ui/view/appbar/actions/setting/setting_menu_final.dart';
 import 'package:wr_ui/view/appbar/leading/clock.dart';
 import 'package:wr_ui/view/appbar/leading/recent_recipe_name.dart';
 import 'package:wr_ui/view/appbar/leading/run_error_status_mark.dart';
+import 'package:wr_ui/view/chart/oes_chart.dart';
 import 'package:wr_ui/view/chart/viz_chart.dart';
 import 'package:wr_ui/view/chart/pages/ADDpage.dart';
 import 'package:wr_ui/view/chart/pages/ALLpage.dart';
@@ -30,8 +31,10 @@ Future main() async {
   Get.put(CsvController());
   Get.put(iniControllerWithReactive());
   Get.put(VizController());
+  Get.put(OesController());
   Get.put(LogListController());
   Get.put(LogController());
+  // Get.put(txtControllerWithReactive());
   runApp(MyApp());
   doWhenWindowReady(() {
     final win = appWindow;
@@ -164,6 +167,58 @@ class WRappbar extends StatelessWidget implements PreferredSizeWidget {
     );
   }
 }
+//                 child: Column(
+//                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//                   children: [
+//                     // Expanded(child: CahrtDropDown()),
+//                     Expanded(
+//                       flex: 2,
+//                       child: MainChart(),
+//                     ),
+//                     SizedBox(height: 20),
+//                     // Expanded(
+//                     //     flex: 1,
+//                     //     child: GridView.count(
+//                     //       crossAxisSpacing: 10,
+//                     //       crossAxisCount: 8,
+//                     //       shrinkWrap: true,
+//                     //       children: List.generate(8, (index) => MainChart()),
+//                     //     )
+//                     //     // ChartPage(),
+//                     //     ),
+//                   ],
+//                 ),
+//               ),
+//               Spacer(),
+//               // ReturnHomePage(),
+
+//               SettingMenu(),
+//               SizedBox(
+//                 width: 50,
+//               ),
+
+//               GestureDetector(
+//                 onTap: () {
+//                   ThemeService().switchTheme();
+//                 },
+//                 child: Padding(
+//                   padding: const EdgeInsets.only(left: 20),
+//                   child: Icon(
+//                       Get.isDarkMode
+//                           ? Icons.toggle_off_outlined
+//                           : Icons.toggle_on_outlined,
+//                       size: 40),
+//                 ),
+//               ),
+//               SizedBox(
+//                 width: 20,
+//               ),
+//               WindowButtons(),
+//             ]),
+//       ),
+//     );
+//   }
+// }
 
 class WRbody extends StatefulWidget {
   const WRbody({
@@ -180,7 +235,7 @@ class WRbody extends StatefulWidget {
 class _WRbodyState extends State<WRbody> {
   @override
   Widget build(BuildContext context) {
-    return Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+    return Row(children: [
       //////////////////////////차트공간
       Expanded(
         flex: 4,
@@ -228,111 +283,60 @@ class _WRbodyState extends State<WRbody> {
 
       Expanded(
           flex: 1,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Container(
-                height: 1002,
-                child: Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      //////////로그
-                      Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Column(
+          child: Container(
+            child: Padding(
+              padding: const EdgeInsets.all(10),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  //////////로그
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Column(
+                      children: [
+                        Row(
                           children: [
-                            Row(
-                              children: [
-                                SizedBox(
-                                  width: 20,
-                                ),
-                                Text(
-                                  'Log View',
-                                  style: TextStyle(
-                                    color: Colors.blueGrey[800],
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
+                            SizedBox(
+                              width: 20,
                             ),
-                            Divider(
-                              indent: 10,
-                              endIndent: 10,
+                            Text(
+                              'Log View',
+                              style: TextStyle(
+                                color: Colors.blueGrey[800],
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                            LogList()
                           ],
                         ),
-                      ),
-                      //////////로그
-                      //////////스타트스탑리셋
-                      Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Container(
-                          child: Column(
+                        Divider(
+                          indent: 10,
+                          endIndent: 10,
+                        ),
+                        LogList()
+                      ],
+                    ),
+                  ),
+                  //////////로그
+                  //////////스타트스탑리셋
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Container(
+                      child: Column(
+                        children: [
+                          Row(
                             children: [
-                              Row(
-                                children: [
-                                  SizedBox(
-                                    width: 20,
-                                  ),
-                                  Text(
-                                    'Start / Stop / Reset',
-                                    style: TextStyle(
-                                      color: Colors.blueGrey[800],
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ],
+                              SizedBox(
+                                width: 20,
                               ),
-<<<<<<< HEAD
                               Text(
                                 'Chart Start / Stop',
                                 style: TextStyle(
                                   color: Colors.blueGrey[800],
                                   fontWeight: FontWeight.bold,
                                 ),
-=======
-                              Divider(
-                                indent: 10,
-                                endIndent: 10,
->>>>>>> aa794375bb7d6f53115909ff98de6f31c353c1dd
                               ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  StartStop(),
-                                  // TextButton.icon(
-                                  //   onPressed: () {
-                                  //     Get.find<LogListController>().clickedReset();
-                                  //     Get.find<LogController>().loglist.add(
-                                  //         '[Event Trigger] ${DateTime.now()}  :  Reset button is pressed' +
-                                  //             '\n');
-                                  //     print('reset!!');
-                                  //     // Get.toNamed('/');
-                                  //     Navigator.pushReplacement(
-                                  //       context,
-                                  //       MaterialPageRoute(
-                                  //         builder: (BuildContext context) =>
-                                  //             super.widget,
-                                  //       ),
-                                  //     );
-                                  //   } // super.dispose();
-                                  //   ,
-                                  //   icon: Icon(
-                                  //     Icons.refresh,
-                                  //     color: Colors.blueGrey[700],
-                                  //   ),
-                                  //   label: Text('reset'),
-                                  // ),
-                                ],
-                              ),
-                              //////////////스타트스탑리셋
                             ],
                           ),
-<<<<<<< HEAD
                           Divider(
                             indent: 10,
                             endIndent: 10,
@@ -377,135 +381,113 @@ class _WRbodyState extends State<WRbody> {
                       child: Column(
                         children: [
                           Row(
-=======
-                        ),
-                      ), //////////////파일매니저
-
-                      Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Container(
-                          child: Column(
->>>>>>> aa794375bb7d6f53115909ff98de6f31c353c1dd
                             children: [
-                              Row(
-                                children: [
-                                  SizedBox(
-                                    width: 20,
-                                  ),
-                                  Text(
-                                    'File Manager',
-                                    style: TextStyle(
-                                      color: Colors.blueGrey[800],
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ],
+                              SizedBox(
+                                width: 20,
                               ),
-<<<<<<< HEAD
                               Text(
                                 'Save File',
                                 style: TextStyle(
                                   color: Colors.blueGrey[800],
                                   fontWeight: FontWeight.bold,
-=======
-                              Divider(
-                                indent: 10,
-                                endIndent: 10,
-                              ),
-                              Center(
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    CSVButton(),
-                                    // iniBtn(),
-                                    // TxtBtn(),
-                                  ],
->>>>>>> aa794375bb7d6f53115909ff98de6f31c353c1dd
                                 ),
                               ),
                             ],
                           ),
-                        ),
-                      ),
-                      /////////////파일매니저
-                      /////////////레시피버튼
-                      Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Container(
-                          child: Column(
-                            children: [
-                              Row(
-                                children: [
-                                  SizedBox(
-                                    width: 20,
-                                  ),
-                                  Text(
-                                    'Recipe',
-                                    style: TextStyle(
-                                      color: Colors.blueGrey[800],
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Divider(
-                                indent: 10,
-                                endIndent: 10,
-                              ),
-                              RecipeMenu()
-                            ],
+                          Divider(
+                            indent: 10,
+                            endIndent: 10,
                           ),
-                        ),
-                      ),
-                      /////////////레시피버튼
-                      ////////////나가기
-                      Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Container(
-                          child: Column(
-                            children: [
-                              Row(
-                                children: [
-                                  SizedBox(
-                                    width: 20,
-                                  ),
-                                  Text(
-                                    'Exit',
-                                    style: TextStyle(
-                                      color: Colors.blueGrey[800],
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Divider(
-                                indent: 10,
-                                endIndent: 10,
-                              ),
-                              ExitBtn()
-                            ],
+                          Center(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                CSVButton(),
+                                // iniBtn(),
+                                // TxtBtn(),
+                              ],
+                            ),
                           ),
-                        ),
-                      )
-                      ////////////나가기
-                    ],
-                  ),
-                ),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.2), //그림자 색
-                      spreadRadius: 5,
-                      blurRadius: 7,
-                      offset: Offset(0, 2), // 그림자위치 바꾸는거
+                        ],
+                      ),
                     ),
-                  ],
-                ),
+                  ),
+                  /////////////파일매니저
+                  /////////////레시피버튼
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Container(
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Text(
+                                'Recipe',
+                                style: TextStyle(
+                                  color: Colors.blueGrey[800],
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Divider(
+                            indent: 10,
+                            endIndent: 10,
+                          ),
+                          RecipeMenu()
+                        ],
+                      ),
+                    ),
+                  ),
+                  /////////////레시피버튼
+                  ////////////나가기
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Container(
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Text(
+                                'Exit',
+                                style: TextStyle(
+                                  color: Colors.blueGrey[800],
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Divider(
+                            indent: 10,
+                            endIndent: 10,
+                          ),
+                          ExitBtn()
+                        ],
+                      ),
+                    ),
+                  )
+                  ////////////나가기
+                ],
               ),
-            ],
+            ),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.2), //그림자 색
+                  spreadRadius: 5,
+                  blurRadius: 7,
+                  offset: Offset(0, 2), // 그림자위치 바꾸는거
+                ),
+              ],
+            ),
           ))
     ]);
   }
