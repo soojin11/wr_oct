@@ -7,8 +7,7 @@ import 'package:wr_ui/view/chart/pages/navigator_page/OESpage.dart';
 import 'package:wr_ui/view/chart/pages/navigator_page/VIpage.dart';
 
 class ADDpage extends StatelessWidget {
-  const ADDpage({Key? key}) : super(key: key);
-
+  ADDpage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(

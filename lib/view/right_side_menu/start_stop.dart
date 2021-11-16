@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:toggle_switch/toggle_switch.dart';
+import 'package:wr_ui/model/const/style/pallette.dart';
 import 'package:wr_ui/view/chart/oes_chart.dart';
 import 'package:wr_ui/view/chart/viz_chart.dart';
 
@@ -41,20 +42,32 @@ class StartStop extends StatelessWidget {
   // }
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
+        SizedBox(height: 30),
         Obx(
           () => IgnorePointer(
             ignoring: Get.find<VizController>().inactiveBtn.value,
             child: ElevatedButton(
-              child: Text('Start'),
+              child: Container(
+                width: 200,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text('Start'),
+                    Icon(
+                      Icons.play_arrow,
+                      size: 16,
+                    )
+                  ],
+                ),
+              ),
               style: ElevatedButton.styleFrom(
                   primary: Get.find<VizController>().inactiveBtn.value
                       ? Colors.grey
-                      : Colors.blue,
-                  textStyle:
-                      TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
+                      : Colors.greenAccent[700],
+                  textStyle: TextStyle(fontSize: 16)),
               onPressed: () async {
                 Get.find<VizController>().inactiveBtn.value = true;
                 Get.find<VizController>().timer = Timer.periodic(
@@ -71,18 +84,23 @@ class StartStop extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(width: 30),
+        SizedBox(height: 30),
         Obx(
           () => IgnorePointer(
             ignoring: !Get.find<VizController>().inactiveBtn.value,
             child: ElevatedButton(
-              child: Text('Stop'),
+              child: Container(
+                width: 200,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [Text('Stop'), Icon(Icons.stop)],
+                ),
+              ),
               style: ElevatedButton.styleFrom(
                   primary: Get.find<VizController>().inactiveBtn.value
-                      ? Colors.blue
+                      ? Colors.red
                       : Colors.grey,
-                  textStyle:
-                      TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
+                  textStyle: TextStyle(fontSize: 16)),
               onPressed: () {
                 Get.find<VizController>().inactiveBtn.value = false;
                 Get.find<VizController>().timer.cancel();
