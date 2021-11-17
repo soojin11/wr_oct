@@ -18,16 +18,32 @@ class ThemeService {
 
 class Themes {
   static final light = ThemeData(
-      backgroundColor: Colors.grey[50],
-      appBarTheme: AppBarTheme(
-        color: wrColors.wrPrimary,
-        elevation: 0,
-      ));
+    scaffoldBackgroundColor: Colors.transparent,
+    //컨테이너 색
+
+    backgroundColor: Colors.grey[50],
+    //컨테이너 색
+    shadowColor: Colors.grey.withOpacity(0.2),
+    appBarTheme: AppBarTheme(
+      color: wrColors.wrPrimary,
+      foregroundColor: Colors.white,
+      elevation: 0,
+    ),
+    textTheme: TextTheme(
+      bodyText2: TextStyle(
+        color: Colors.blueGrey[800],
+        fontWeight: FontWeight.bold,
+      ),
+    ),
+  );
   static final dark = ThemeData(
-    backgroundColor: wrColors.wrDarkWeak,
+    scaffoldBackgroundColor: Colors.transparent,
+    shadowColor: Colors.black26,
+    backgroundColor: wrColors.wrDarkbg,
     brightness: Brightness.dark,
     appBarTheme: AppBarTheme(
-      color: wrColors.wrDarkPrimary,
+      color: Colors.blueGrey[800],
+      foregroundColor: wrColors.wrDarkAppBar,
       elevation: 0,
 
       actionsIconTheme: IconThemeData(color: Colors.black),
@@ -35,14 +51,24 @@ class Themes {
       // toolbarTextStyle: TextStyle(color: Colors.black),
     ),
     textTheme: TextTheme(
-      bodyText2: TextStyle(color: Colors.black),
+      // subtitle1: TextStyle(color: Colors.white),
+      // subtitle2: TextStyle(color: Colors.white),
+      // overline: TextStyle(color: Colors.white),
+      // bodyText1: TextStyle(color: Colors.white),
+      bodyText2: TextStyle(
+        color: Colors.white,
+        fontWeight: FontWeight.bold,
+      ),
     ),
     dividerTheme: DividerThemeData(
-      color: Colors.black,
+      color: Color(0xff37383a),
     ),
-
-    // scaffoldBackgroundColor: Colors.amber
+    // cardTheme: CardTheme(color: Colors.amber),
   );
 }
+
+class NavThemes {}
+
+
 
 //다크 화이트모드

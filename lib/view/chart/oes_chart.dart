@@ -77,36 +77,40 @@ class OesChart extends GetView<OesController> {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(OesController());
-    return Expanded(
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      child: Container(
         child: GetBuilder<OesController>(
-      builder: (controller) => SfCartesianChart(
-        //plotAreaBackgroundColor: Colors.red,
-        legend: Legend(
-            isVisible: true,
-            toggleSeriesVisibility: true,
-            position: LegendPosition.top),
-        zoomPanBehavior: controller.zoomPanBehavior,
-        trackballBehavior: controller.trackballBehavior,
-        primaryXAxis:
-            NumericAxis(minimum: 0, maximum: 150, labelFormat: '{value}nm'),
-        primaryYAxis: NumericAxis(minimum: 0, maximum: 60),
-        //title: ChartTitle(text: 'OES'),
-        series: <ChartSeries<OESData, int>>[
-          SplineSeries(
-            animationDuration: 0,
-            width: 1,
-            color: Colors.green,
-            name: 'OES_1',
-            enableTooltip: true,
-            onRendererCreated: (ChartSeriesController ctrl) {
-              controller.chartSeriesController = ctrl;
-            },
-            dataSource: controller.oesData,
-            xValueMapper: (OESData spec, _) => spec.range,
-            yValueMapper: (OESData spec, _) => spec.num,
+          builder: (controller) => SfCartesianChart(
+            //plotAreaBackgroundColor: Colors.red,
+            legend: Legend(
+                isVisible: true,
+                toggleSeriesVisibility: true,
+                position: LegendPosition.top),
+            zoomPanBehavior: controller.zoomPanBehavior,
+            trackballBehavior: controller.trackballBehavior,
+            primaryXAxis:
+                NumericAxis(minimum: 0, maximum: 150, labelFormat: '{value}nm'),
+            primaryYAxis: NumericAxis(minimum: 0, maximum: 60),
+            //title: ChartTitle(text: 'OES'),
+            series: <ChartSeries<OESData, int>>[
+              SplineSeries(
+                animationDuration: 0,
+                width: 1,
+                color: Colors.green,
+                name: 'OES_1',
+                enableTooltip: true,
+                onRendererCreated: (ChartSeriesController ctrl) {
+                  controller.chartSeriesController = ctrl;
+                },
+                dataSource: controller.oesData,
+                xValueMapper: (OESData spec, _) => spec.range,
+                yValueMapper: (OESData spec, _) => spec.num,
+              ),
+            ],
           ),
-        ],
+        ),
       ),
-    ));
+    );
   }
 }

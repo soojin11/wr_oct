@@ -46,9 +46,9 @@ class _BtnHoverState extends State<BtnHover> {
                       spreadRadius: 5,
                       color: isHover
                           ? Colors.cyan.withOpacity(0.2)
-                          : Colors.grey.withOpacity(0.2))
+                          : Theme.of(context).shadowColor)
                 ],
-                color: Colors.white,
+                color: Theme.of(context).appBarTheme.foregroundColor,
                 borderRadius: BorderRadius.all(
                   Radius.circular(10),
                 )

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:wr_ui/model/const/style/pallette.dart';
 import 'package:wr_ui/view/chart/pages/navigator_page/ADDpage.dart';
 import 'package:wr_ui/view/chart/pages/navigator_page/ALLpage.dart';
@@ -27,6 +28,7 @@ class _chartTabBarState extends State<chartTabBar> {
             width: 40,
           ),
           Material(
+            color: Colors.transparent,
             child: InkWell(
               // autofocus: true,
               // focusColor: wrColors.wrPrimary,
@@ -36,6 +38,7 @@ class _chartTabBarState extends State<chartTabBar> {
                 setState(() {
                   _index = 0;
                 });
+                // Get.to(() => ALLpage());
                 Navigator.push(
                     context,
                     PageRouteBuilder(
@@ -55,7 +58,7 @@ class _chartTabBarState extends State<chartTabBar> {
                     '  ALL  ',
                     style: TextStyle(
                         fontSize: 16,
-                        color: _index == 0 ? wrColors.white : Colors.black,
+                        color: _index == 0 ? wrColors.white : Colors.grey,
                         fontWeight:
                             _index == 0 ? FontWeight.bold : FontWeight.normal),
                   ),
@@ -67,6 +70,7 @@ class _chartTabBarState extends State<chartTabBar> {
             width: 30,
           ),
           Material(
+            color: Colors.transparent,
             child: InkWell(
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(5),
@@ -77,6 +81,7 @@ class _chartTabBarState extends State<chartTabBar> {
                 setState(() {
                   _index = 1;
                 });
+                // Get.to(() => OESpage());
                 Navigator.push(
                   context,
                   PageRouteBuilder(
@@ -96,7 +101,7 @@ class _chartTabBarState extends State<chartTabBar> {
                     '  OES  ',
                     style: TextStyle(
                         fontSize: 16,
-                        color: _index == 1 ? wrColors.white : Colors.black,
+                        color: _index == 1 ? wrColors.white : Colors.grey,
                         fontWeight:
                             _index == 1 ? FontWeight.bold : FontWeight.normal),
                   ),
@@ -108,6 +113,7 @@ class _chartTabBarState extends State<chartTabBar> {
             width: 30,
           ),
           Material(
+            color: Colors.transparent,
             child: InkWell(
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(5),
@@ -118,6 +124,7 @@ class _chartTabBarState extends State<chartTabBar> {
                 setState(() {
                   _index = 2;
                 });
+                // Get.to(() => VIpage());
                 Navigator.push(
                     context,
                     PageRouteBuilder(
@@ -137,7 +144,7 @@ class _chartTabBarState extends State<chartTabBar> {
                     '  VI  ',
                     style: TextStyle(
                         fontSize: 16,
-                        color: _index == 2 ? wrColors.white : Colors.black,
+                        color: _index == 2 ? wrColors.white : Colors.grey,
                         fontWeight:
                             _index == 2 ? FontWeight.bold : FontWeight.normal),
                   ),
@@ -149,6 +156,7 @@ class _chartTabBarState extends State<chartTabBar> {
             width: 30,
           ),
           Material(
+            color: Colors.transparent,
             child: InkWell(
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(5),
@@ -159,6 +167,7 @@ class _chartTabBarState extends State<chartTabBar> {
                 setState(() {
                   _index = 3;
                 });
+                // Get.to(() => CUSTOMpage());
                 Navigator.push(
                     context,
                     PageRouteBuilder(
@@ -175,7 +184,7 @@ class _chartTabBarState extends State<chartTabBar> {
                   '  CUSTOM  ',
                   style: TextStyle(
                       fontSize: 16,
-                      color: _index == 3 ? wrColors.white : Colors.black,
+                      color: _index == 3 ? wrColors.white : Colors.grey,
                       fontWeight:
                           _index == 3 ? FontWeight.bold : FontWeight.normal),
                 ),
@@ -186,6 +195,7 @@ class _chartTabBarState extends State<chartTabBar> {
             width: 30,
           ),
           Material(
+            color: Colors.transparent,
             child: InkWell(
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(5),
@@ -196,6 +206,7 @@ class _chartTabBarState extends State<chartTabBar> {
                 setState(() {
                   _index = 4;
                 });
+                // Get.to(() => ADDpage());
                 Navigator.push(
                     context,
                     PageRouteBuilder(
@@ -214,14 +225,14 @@ class _chartTabBarState extends State<chartTabBar> {
                       '  ADD  ',
                       style: TextStyle(
                           fontSize: 16,
-                          color: _index == 4 ? wrColors.white : Colors.black,
+                          color: _index == 4 ? wrColors.white : Colors.grey,
                           fontWeight: _index == 4
                               ? FontWeight.bold
                               : FontWeight.normal),
                     ),
                     Icon(
                       Icons.add,
-                      color: _index == 4 ? wrColors.white : Colors.black,
+                      color: _index == 4 ? wrColors.white : Colors.grey,
                     )
                   ],
                 ),

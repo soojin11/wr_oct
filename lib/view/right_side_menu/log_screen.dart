@@ -22,16 +22,18 @@ class LogListController extends GetxController {
     DateTime current = DateTime.now();
     String ms = DateTime.now().millisecondsSinceEpoch.toString();
     int msLength = ms.length;
-    int third = int.parse(ms.substring(msLength-3, msLength));
-    String msDate = '${DateFormat('yyyy-MM-dd HH:mm:ss').format(current)}.$third';
+    int third = int.parse(ms.substring(msLength - 3, msLength));
+    String msDate =
+        '${DateFormat('yyyy-MM-dd HH:mm:ss').format(current)}.$third';
     String screenDate = '${DateFormat('HH:mm:ss').format(current)}.$third';
 
-            Get.find<LogController>().loglist.add('${msDate} [Event Trigger] Stop button is pressed' + '\n');
+    Get.find<LogController>()
+        .loglist
+        .add('${msDate} [Event Trigger] Stop button is pressed' + '\n');
 
-
-              Get.find<LogController>().logSaveInit();
-              Get.find<LogController>().fileSave.value = true;
-              logData.add('${screenDate} Stop button is pressed');
+    Get.find<LogController>().logSaveInit();
+    Get.find<LogController>().fileSave.value = true;
+    logData.add('${screenDate} Stop button is pressed');
   }
 
   void clickedStart() async {
@@ -39,16 +41,17 @@ class LogListController extends GetxController {
     DateTime current = DateTime.now();
     String ms = DateTime.now().millisecondsSinceEpoch.toString();
     int msLength = ms.length;
-    int third = int.parse(ms.substring(msLength-3, msLength));
-    String msDate = '${DateFormat('yyyy-MM-dd HH:mm:ss').format(current)}.$third';
+    int third = int.parse(ms.substring(msLength - 3, msLength));
+    String msDate =
+        '${DateFormat('yyyy-MM-dd HH:mm:ss').format(current)}.$third';
     String screenDate = '${DateFormat('HH:mm:ss').format(current)}.$third';
 
     logData.add('${screenDate} Start button is pressed');
     Get.find<LogController>()
-                  .loglist
-                  .add('${msDate} [Event Trigger] Start button is pressed' + '\n');
-              Get.find<LogController>().logSaveInit();
-              Get.find<LogController>().fileSave.value = true;
+        .loglist
+        .add('${msDate} [Event Trigger] Start button is pressed' + '\n');
+    Get.find<LogController>().logSaveInit();
+    Get.find<LogController>().fileSave.value = true;
   }
 
   void startCsv() async {
@@ -56,31 +59,34 @@ class LogListController extends GetxController {
     DateTime current = DateTime.now();
     String ms = DateTime.now().millisecondsSinceEpoch.toString();
     int msLength = ms.length;
-    int third = int.parse(ms.substring(msLength-3, msLength));
-    String msDate = '${DateFormat('yyyy-MM-dd HH:mm:ss').format(current)}.$third';
+    int third = int.parse(ms.substring(msLength - 3, msLength));
+    String msDate =
+        '${DateFormat('yyyy-MM-dd HH:mm:ss').format(current)}.$third';
     String screenDate = '${DateFormat('HH:mm:ss').format(current)}.$third';
-    
+
     logData.add('${screenDate} Start Saving Data');
     Get.find<LogController>()
-                  .loglist
-                  .add('${msDate} [Event Trigger] Save start button is pressed' + '\n');
-              Get.find<LogController>().logSaveInit();
-              Get.find<LogController>().fileSave.value = true;
+        .loglist
+        .add('${msDate} [Event Trigger] Save start button is pressed' + '\n');
+    Get.find<LogController>().logSaveInit();
+    Get.find<LogController>().fileSave.value = true;
   }
+
   void stopCsv() async {
     //logData.add('Stop Saving');
     DateTime current = DateTime.now();
     String ms = DateTime.now().millisecondsSinceEpoch.toString();
     int msLength = ms.length;
-    int third = int.parse(ms.substring(msLength-3, msLength));
-    String msDate = '${DateFormat('yyyy-MM-dd HH:mm:ss').format(current)}.$third';
+    int third = int.parse(ms.substring(msLength - 3, msLength));
+    String msDate =
+        '${DateFormat('yyyy-MM-dd HH:mm:ss').format(current)}.$third';
     String screenDate = '${DateFormat('HH:mm:ss').format(current)}.$third';
     logData.add('${screenDate} Stop Saving Data');
     Get.find<LogController>()
-                  .loglist
-                  .add('${msDate} [Event Trigger] Save Stop button is pressed' + '\n');
-              Get.find<LogController>().logSaveInit();
-              Get.find<LogController>().fileSave.value = true;
+        .loglist
+        .add('${msDate} [Event Trigger] Save Stop button is pressed' + '\n');
+    Get.find<LogController>().logSaveInit();
+    Get.find<LogController>().fileSave.value = true;
   }
 
   void clickedIni() async {
@@ -98,27 +104,32 @@ class LogListController extends GetxController {
 // }
 
 class LogList extends GetView<LogListController> {
-  const LogList({Key? key}) : super(key: key);
-
+  LogList({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
         //decoration: BoxDecoration(border: Border.all(width: 1)),
-        width: 200,
-        height: 100,
-        child: Obx(
-          () => ListView.separated(
-            padding: const EdgeInsets.all(8),
-            itemCount: controller.logData.length,
-            itemBuilder: (BuildContext context, int index) {
-              return Container(
-                height: 20,
-                child: Text('${controller.logData[index]}'),
-              );
-            },
-            separatorBuilder: (BuildContext context, int index) =>
-                const Divider(),
-          ),
-        ));
+        width: 350,
+        height: 395,
+        child: Obx(() {
+          if (controller.logData.isEmpty) {
+            return Center(child: Text('log does not exist.'));
+          } else {
+            return ListView.separated(
+              padding: const EdgeInsets.all(8),
+              itemCount: controller.logData.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Container(
+                  height: 20,
+                  child: Text(
+                    '${controller.logData[index]}',
+                  ),
+                );
+              },
+              separatorBuilder: (BuildContext context, int index) =>
+                  const Divider(),
+            );
+          }
+        }));
   }
 }

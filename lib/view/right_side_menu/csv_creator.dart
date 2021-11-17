@@ -64,7 +64,7 @@
 //     // String s =
 //     //     Get.find<ChartController>().chartData.toString().splitMapJoin(',');
 
-//     // List<String> addtime = []; 
+//     // List<String> addtime = [];
 
 //     // Get.find<ChartController>().chartData.forEach((e) {
 //     //   addtime.add(e.time.toString());
@@ -75,19 +75,14 @@
 // // timeData.add(fileName);
 // // String qwe = timeData.join('\n');
 
-
 //     List<int> addData = [];
 //     //addData.add(fileName);
 //     Get.find<ChartController>().chartData.forEach((e) {
 //       addData.add(e.num);
-      
+
 //     });
-  
 
 //     String qwe =  addData.join('\n'); //viz 데이터
-    
-
-
 
 //     // String oes = ss.join(',') + s;
 //     // String s = Get.find<ChartController>().chartData[0].value.tableX.join(',');
@@ -123,12 +118,12 @@
 //             // ',' +
 //             // fourthRowThird +
 //             '\n' +
-            
+
 //             "VIZ" +
-//                 '\n' 
+//                 '\n'
 //          +qwe
 //         //timeVal + ',' +
-    
+
 //         // //oes
 //         //Get.find<ChartController>().chartData.toString();
 //         ;
@@ -153,7 +148,7 @@
 
 //                 Get.find<LogListController>().clickedSave(); //화면에 로그 뜨는거
 //                 Get.find<LogController>().loglist.add(
-//                     '${DateTime.now()} Start Saving Data' + 
+//                     '${DateTime.now()} Start Saving Data' +
 //                         '\n'); //로그 안에 내용 저장
 //                         //
 //                 Get.find<LogController>().logSaveInit(); //로그 초기화
@@ -177,13 +172,12 @@
 // }
 import 'dart:async';
 import 'dart:io';
-import 'dart:math';
 import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:wr_ui/model/const/style/pallette.dart';
 import 'package:wr_ui/view/chart/oes_chart.dart';
-import 'package:wr_ui/view/chart/viz_chart.dart';
 
 import 'log_screen.dart';
 
@@ -196,35 +190,42 @@ class CSVButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton(
-              onPressed: () async {
-                await Get.find<CsvController>().csvSaveInit();
-                Get.find<CsvController>().fileSave.value = true;
-                Get.find<LogListController>().startCsv();
-              },
+        SizedBox(height: 30),
+        ElevatedButton(
+          onPressed: () async {
+            await Get.find<CsvController>().csvSaveInit();
+            Get.find<CsvController>().fileSave.value = true;
+            Get.find<LogListController>().startCsv();
+          },
+          child: Container(
+            width: 200,
+            child: Center(
               child: Text(
                 "Save Start",
-                style: TextStyle(fontWeight: FontWeight.bold),
               ),
-              style: ElevatedButton.styleFrom(primary: Colors.blueGrey[700]),
             ),
-            SizedBox(width: 30),
-            ElevatedButton(
-              onPressed: () async {
-                Get.find<CsvController>().fileSave.value = false;
-                Get.find<LogListController>().stopCsv();
-              },
+          ),
+          style: ElevatedButton.styleFrom(
+            primary: wrColors.wrPrimary,
+          ),
+        ),
+        SizedBox(height: 30),
+        ElevatedButton(
+          onPressed: () async {
+            Get.find<CsvController>().fileSave.value = false;
+            Get.find<LogListController>().stopCsv();
+          },
+          child: Container(
+            width: 200,
+            child: Center(
               child: Text(
                 "Save Stop",
-                style: TextStyle(fontWeight: FontWeight.bold),
               ),
-              style: ElevatedButton.styleFrom(primary: Colors.blueGrey[700]),
             ),
-          ],
-          
+          ),
+          style: ElevatedButton.styleFrom(
+            primary: wrColors.wrPrimary,
+          ),
         ),
         // SizedBox(height: 50),
         // Row(mainAxisAlignment: MainAxisAlignment.center,
@@ -235,12 +236,12 @@ class CSVButton extends StatelessWidget {
         //           Get.find<VizController>().timer = Timer.periodic(
         //           Duration(milliseconds: 100), Get.find<VizController>().updateDataSource);
         //           Get.find<LogListController>().clickedStart();
-        //           }, 
+        //           },
         //           child: Text('All Start')),
         //           OutlinedButton(
         //             onPressed: (){Get.find<VizController>().timer.cancel();
         //             Get.find<OesController>().timer.cancel();
-        //             Get.find<LogListController>().clickedStop();}, 
+        //             Get.find<LogListController>().clickedStop();},
         //             child: Text('All Stop'))],)
       ],
     );
@@ -258,14 +259,12 @@ class CsvController extends GetxController {
   void onInit() {
     super.onInit();
   }
-  
-  
 
   Future<File> csvSave() async {
-        DateTime current = DateTime.now();
+    DateTime current = DateTime.now();
     String ms = DateTime.now().millisecondsSinceEpoch.toString();
     int msLength = ms.length;
-    int third = int.parse(ms.substring(msLength-3, msLength));
+    int third = int.parse(ms.substring(msLength - 3, msLength));
     String fileName = '${DateFormat('HH:mm:ss').format(current)}.$third';
     //print('$fileName');
     File file = File(path.value);
@@ -284,24 +283,22 @@ class CsvController extends GetxController {
 //     String qwe = initData.join('\n')+'\n'+"VIZ"+','+rangeData.join(',')+'\n'+firstData.join('\n') + ','+oesVal.join(',');
 //     return file.writeAsString(qwe);
 
+    List<dynamic> firstData = [];
+    List<List<dynamic>> addFirstData = [];
+    firstData.add(fileName);
+    if (Get.find<CsvController>().fileSave.value) {
+      firstData.add(yVal.value);
+      Get.find<OesController>().oesData.forEach((v) {
+        firstData.add(v.num);
+      });
+    }
 
-List<dynamic> firstData = [];
-List<List<dynamic>> addFirstData = [];
-firstData.add(fileName);
-if(Get.find<CsvController>().fileSave.value){
-  firstData.add(yVal.value);
-   Get.find<OesController>().oesData.forEach((v) {firstData.add(v.num);});
-}
-
-
-addFirstData.add(firstData);
-String csv = const ListToCsvConverter().convert(addFirstData) + '\n';
-return file.writeAsString(csv, mode: FileMode.append);
+    addFirstData.add(firstData);
+    String csv = const ListToCsvConverter().convert(addFirstData) + '\n';
+    return file.writeAsString(csv, mode: FileMode.append);
 
 //return file.writeAsString("${vizData.join('\n')},${oesData.join(',')}" );
-
   }
-
 
   Future<File> csvSaveInit() async {
     DateTime current = DateTime.now();
@@ -313,21 +310,29 @@ return file.writeAsString(csv, mode: FileMode.append);
     path.value = "./datafiles/$fileName.csv";
     String startTime = streamDateTime;
     File file = File(path.value);
- 
-     List<dynamic> initData = ["FileFormat:1","HWType:SPdbUSBm","Start Time : $startTime","Intergration Time:","Interval:"];
+
+    List<dynamic> initData = [
+      "FileFormat:1",
+      "HWType:SPdbUSBm",
+      "Start Time : $startTime",
+      "Intergration Time:",
+      "Interval:"
+    ];
     //print("exists in");
 
     List<int> rangeData = [];
-    Get.find<OesController>().oesData.forEach((v) {rangeData.add(v.range);});
+    Get.find<OesController>().oesData.forEach((v) {
+      rangeData.add(v.range);
+    });
 
-    String intergrationColumn = initData.join('\n')+
+    String intergrationColumn = initData.join('\n') +
         '\n' +
         "Time" +
         ',' +
-        "VIZ_1" + ',' +
-        rangeData.join(',')+
+        "VIZ_1" +
+        ',' +
+        rangeData.join(',') +
         '\n';
-
 
     return file.writeAsString(intergrationColumn);
   }

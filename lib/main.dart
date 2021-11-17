@@ -27,7 +27,6 @@ import 'package:wr_ui/view/right_side_menu/ini_creator.dart';
 import 'package:wr_ui/view/right_side_menu/log_save.dart';
 import 'package:wr_ui/view/right_side_menu/log_screen.dart';
 import 'package:wr_ui/view/right_side_menu/start_stop.dart';
-import 'package:wr_ui/wr_home_page.dart';
 
 Future main() async {
   Get.put(CsvController());
@@ -68,8 +67,8 @@ class MyApp extends StatelessWidget {
       initialRoute: AppPages.INITIAL,
       getPages: AppPages.routes,
     );
-  }}
-
+  }
+}
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -90,7 +89,6 @@ class _HomeState extends State<Home> {
 }
 
 class WRappbar extends StatelessWidget implements PreferredSizeWidget {
-  bool _lighttwo = true;
   WRappbar({
     Key? key,
   }) : super(key: key);
@@ -154,10 +152,12 @@ class WRappbar extends StatelessWidget implements PreferredSizeWidget {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 20),
                   child: Icon(
-                      Get.isDarkMode
-                          ? Icons.toggle_off_outlined
-                          : Icons.toggle_on_outlined,
-                      size: 40),
+                    Get.isDarkMode
+                        ? Icons.toggle_on_outlined
+                        : Icons.toggle_off_outlined,
+                    size: 38,
+                    color: Get.isDarkMode ? Colors.white : Colors.black,
+                  ),
                 ),
               ),
               SizedBox(
@@ -169,6 +169,7 @@ class WRappbar extends StatelessWidget implements PreferredSizeWidget {
     );
   }
 }
+
 class WRbody extends StatefulWidget {
   const WRbody({
     Key? key,
@@ -195,29 +196,36 @@ class _WRbodyState extends State<WRbody> {
               child: Padding(
                 padding: const EdgeInsets.all(10),
                 child: Container(
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.2), //그림자 색
-                        spreadRadius: 5,
-                        blurRadius: 7,
-                        offset: Offset(0, 2), // 그림자위치 바꾸는거
-                      ),
-                    ],
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
+                  // decoration: BoxDecoration(
+                  //   boxShadow: [
+                  //     BoxShadow(
+                  //       color: Colors.grey.withOpacity(0.2), //그림자 색
+                  //       spreadRadius: 5,
+                  //       blurRadius: 7,
+                  //       offset: Offset(0, 2), // 그림자위치 바꾸는거
+                  //     ),
+                  //   ],
+                  //   color: Colors.white,
+                  //   borderRadius: BorderRadius.circular(10),
+                  // ),
+
                   child: Container(
                     decoration:
                         BoxDecoration(borderRadius: BorderRadius.circular(10)),
                     //////////////차트 컨테이너 내에 페이지 이동
                     child: MaterialApp(
                       debugShowCheckedModeBanner: false,
-                      theme: ThemeData(
-                          textTheme: TextTheme(
-                            bodyText2: TextStyle(color: Colors.black),
-                          ),
-                          scaffoldBackgroundColor: Colors.transparent),
+                      theme: Themes.light,
+                      darkTheme: Themes.dark,
+                      // darkTheme: Themes.dark,
+
+                      // ThemeData(
+                      //     textTheme: TextTheme(
+                      //       bodyText2: TextStyle(color: Colors.black),
+                      //     ),
+                      // scaffoldBackgroundColor: Colors.transparent),
+                      // initialRoute: AppPages.CHART_INITIAL,
+                      // getPages: AppPages.chart_routes,
                       initialRoute: '/all',
                       routes: {
                         '/all': (context) => ALLpage(),
@@ -253,163 +261,151 @@ class _WRbodyState extends State<WRbody> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   //////////로그
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            SizedBox(
-                              width: 20,
-                            ),
-                            Text(
-                              'Log View',
-                              style: TextStyle(
-                                color: Colors.blueGrey[800],
-                                fontWeight: FontWeight.bold,
+                  Container(
+                    // color: Colors.amber,
+                    height: 450,
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              SizedBox(
+                                width: 20,
                               ),
-                            ),
-                          ],
-                        ),
-                        Divider(
-                          indent: 10,
-                          endIndent: 10,
-                        ),
-                        LogList()
-                      ],
+                              Text('Log View',
+                                  style: Theme.of(context).textTheme.bodyText2),
+                            ],
+                          ),
+                          Divider(
+                            indent: 10,
+                            endIndent: 10,
+                          ),
+                          LogList()
+                        ],
+                      ),
                     ),
                   ),
                   //////////로그
                   //////////스타트스탑리셋
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Container(
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              SizedBox(
-                                width: 20,
-                              ),
-                              Text(
-                                'Chart Start / Stop',
-                                style: TextStyle(
-                                  color: Colors.blueGrey[800],
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
-                          Divider(
-                            indent: 10,
-                            endIndent: 10,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              StartStop(),
-                            ],
-                          ),
-                          //////////////스타트스탑리셋
-                        ],
-                      ),
-                    ),
-                  ), //////////////파일매니저
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Container(
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              SizedBox(
-                                width: 20,
-                              ),
-                              Text(
-                                'Save File',
-                                style: TextStyle(
-                                  color: Colors.blueGrey[800],
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
-                          Divider(
-                            indent: 10,
-                            endIndent: 10,
-                          ),
-                          Center(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  Container(
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Container(
+                            child: Column(
                               children: [
-                                CSVButton(),
-                                // iniBtn(),
-                                // TxtBtn(),
+                                Row(
+                                  children: [
+                                    SizedBox(
+                                      width: 20,
+                                    ),
+                                    Text(
+                                      'Chart Start / Stop',
+                                      style:
+                                          Theme.of(context).textTheme.bodyText2,
+                                    ),
+                                  ],
+                                ),
+                                Divider(
+                                  indent: 10,
+                                  endIndent: 10,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    StartStop(),
+                                  ],
+                                ),
+                                //////////////스타트스탑리셋
                               ],
                             ),
                           ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  /////////////파일매니저
-                  /////////////레시피버튼
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Container(
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              SizedBox(
-                                width: 20,
-                              ),
-                              Text(
-                                'Recipe',
-                                style: TextStyle(
-                                  color: Colors.blueGrey[800],
-                                  fontWeight: FontWeight.bold,
+                        ), //////////////파일매니저
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Container(
+                            child: Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    SizedBox(
+                                      width: 20,
+                                    ),
+                                    Text('Save File',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyText2),
+                                  ],
                                 ),
-                              ),
-                            ],
-                          ),
-                          Divider(
-                            indent: 10,
-                            endIndent: 10,
-                          ),
-                          RecipeMenu()
-                        ],
-                      ),
-                    ),
-                  ),
-                  /////////////레시피버튼
-                  ////////////나가기
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Container(
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              SizedBox(
-                                width: 20,
-                              ),
-                              Text(
-                                'Exit',
-                                style: TextStyle(
-                                  color: Colors.blueGrey[800],
-                                  fontWeight: FontWeight.bold,
+                                Divider(
+                                  indent: 10,
+                                  endIndent: 10,
                                 ),
-                              ),
-                            ],
+                                Center(
+                                  child: CSVButton(),
+                                ),
+                              ],
+                            ),
                           ),
-                          Divider(
-                            indent: 10,
-                            endIndent: 10,
+                        ),
+                        /////////////파일매니저
+                        /////////////레시피버튼
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Container(
+                            child: Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    SizedBox(
+                                      width: 20,
+                                    ),
+                                    Text('Recipe',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyText2),
+                                  ],
+                                ),
+                                Divider(
+                                  indent: 10,
+                                  endIndent: 10,
+                                ),
+                                RecipeMenu()
+                              ],
+                            ),
                           ),
-                          ExitBtn()
-                        ],
-                      ),
+                        ),
+                        /////////////레시피버튼
+                        ////////////나가기
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Container(
+                            child: Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    SizedBox(
+                                      width: 20,
+                                    ),
+                                    Text('Exit',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyText2),
+                                  ],
+                                ),
+                                Divider(
+                                  indent: 10,
+                                  endIndent: 10,
+                                ),
+                                ExitBtn()
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   )
                   ////////////나가기
@@ -417,11 +413,11 @@ class _WRbodyState extends State<WRbody> {
               ),
             ),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: Theme.of(context).appBarTheme.foregroundColor,
               borderRadius: BorderRadius.circular(10),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.grey.withOpacity(0.2), //그림자 색
+                  color: Theme.of(context).shadowColor, //그림자 색
                   spreadRadius: 5,
                   blurRadius: 7,
                   offset: Offset(0, 2), // 그림자위치 바꾸는거

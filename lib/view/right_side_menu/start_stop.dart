@@ -66,24 +66,19 @@ class StartStop extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                   primary: Get.find<VizController>().inactiveBtn.value
                       ? Colors.grey
-<<<<<<< HEAD
                       : Colors.greenAccent[700],
                   textStyle: TextStyle(fontSize: 16)),
               onPressed: () async {
-=======
-                      : Colors.blueGrey,
-                  textStyle:
-                      TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-              onPressed: () {
->>>>>>> 19414d3d77bb093f55b4e8f5617b98a957a4b892
                 Get.find<VizController>().inactiveBtn.value = true;
                 Get.find<OesController>().inactiveBtn.value = true;
-               Get.find<OesController>().timer = Timer.periodic(
-                  Duration(milliseconds: 100), Get.find<OesController>().updateDataSource);
-                  Get.find<OesController>().oesData;
-                  Get.find<VizController>().timer = Timer.periodic(
-                  Duration(milliseconds: 100), Get.find<VizController>().updateDataSource);
-                  Get.find<LogListController>().clickedStart();
+                Get.find<OesController>().timer = Timer.periodic(
+                    Duration(milliseconds: 100),
+                    Get.find<OesController>().updateDataSource);
+                Get.find<OesController>().oesData;
+                Get.find<VizController>().timer = Timer.periodic(
+                    Duration(milliseconds: 100),
+                    Get.find<VizController>().updateDataSource);
+                Get.find<LogListController>().clickedStart();
               },
             ),
           ),
@@ -97,21 +92,20 @@ class StartStop extends StatelessWidget {
                 width: 200,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [Text('Stop'), Icon(Icons.stop)],
+                  children: [
+                    Text('Stop'),
+                    Icon(
+                      Icons.pause,
+                      size: 16,
+                    )
+                  ],
                 ),
               ),
               style: ElevatedButton.styleFrom(
                   primary: Get.find<VizController>().inactiveBtn.value
-<<<<<<< HEAD
                       ? Colors.red
                       : Colors.grey,
                   textStyle: TextStyle(fontSize: 16)),
-=======
-                      ? Colors.blueGrey
-                      : Colors.grey,
-                  textStyle:
-                      TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
->>>>>>> 19414d3d77bb093f55b4e8f5617b98a957a4b892
               onPressed: () {
                 Get.find<VizController>().inactiveBtn.value = false;
                 Get.find<VizController>().timer.cancel();
