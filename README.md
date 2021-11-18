@@ -14,3 +14,7 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+
+git 커밋 시에 아래와 같은 포맷 지켜주세요.
+[WR][담당자이름][커밋날짜 ex)21.11.18][브랜치이름 ex)F20211029-007] - 작업 내용 코멘트
