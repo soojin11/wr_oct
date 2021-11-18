@@ -281,7 +281,7 @@ class _WRbodyState extends State<WRbody> {
                             indent: 10,
                             endIndent: 10,
                           ),
-                          LogList()
+                          Container(height: 395,child: LogList())
                         ],
                       ),
                     ),
