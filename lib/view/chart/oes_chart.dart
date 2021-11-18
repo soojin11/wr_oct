@@ -39,22 +39,6 @@ class OesController extends GetxController {
     super.onInit();
   }
 
-  // @override
-  // void dispose() {
-  //   if (timer != null) {
-  //     timer!.cancel();
-  //     timer = null;
-  //   }
-  //   super.dispose();
-  // }
-
-  // @override
-  // void onClose() {
-  //   timer.cancel();
-  //   super.onClose();
-  // }
-  //안돼서 잠깐 주석처리, 위에 dispose삭제하고 이 주석 해제하면 원상복귀됨
-
   void updateDataSource(Timer timer) async {
     if (oesData.isNotEmpty) {
       oesData.clear();

@@ -98,10 +98,6 @@ class LogListController extends GetxController {
   }
 }
 
-// class Logs {
-//   final String hey;
-//   Logs({required this.hey});
-// }
 
 class LogList extends GetView<LogListController> {
   LogList({Key? key}) : super(key: key);

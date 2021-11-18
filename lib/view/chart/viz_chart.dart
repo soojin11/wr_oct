@@ -9,16 +9,8 @@ import 'package:wr_ui/view/right_side_menu/log_screen.dart';
 class VizController extends GetxController {
   RxList<SpecData> chartData = RxList.empty();
   RxList<SpecData> firstData = RxList.empty();
-
   RxBool inactiveBtn = false.obs;
-  RxList<Rx<ChartSetting>> chartSet = RxList.empty();
 
-  //RxBool cStart = false.obs;
-
-  // RxBool boolStart = false.obs;
-  //RxList<Rx<SpecData>> chartData = RxList.empty();
-  // RxInt time = 0.obs;
-  // RxInt num = 0.obs;
 
   late ChartSeriesController chartSeriesController, firstChartCtrl;
   late ZoomPanBehavior zoomPanBehavior;
@@ -28,7 +20,6 @@ class VizController extends GetxController {
   void onInit() {
     chartData;
     firstData;
-    //timer = Timer.periodic(Duration(milliseconds: 10), updateDataSource);
     zoomPanBehavior = ZoomPanBehavior(
         enableSelectionZooming: true,
         selectionRectBorderColor: Colors.red,
@@ -74,13 +65,8 @@ class VizController extends GetxController {
 class SpecData {
   int time;
   double num;
-  int tStart = 0;
-  int tEnd = 0;
   SpecData({required this.time, required this.num});
 
-  // factory SpecData.init() {
-  //   return SpecData(time: 0);
-  // }
 }
 
 class ChartSetting {
