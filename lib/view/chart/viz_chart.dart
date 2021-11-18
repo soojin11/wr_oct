@@ -53,6 +53,10 @@ class VizController extends GetxController {
     firstChartCtrl.updateDataSource(addedDataIndex: firstData.length - 1);
     if (Get.find<CsvController>().fileSave.value)
       await Get.find<CsvController>().csvSave();
+      if(chartData.length>500&&firstData.length>500){
+        chartData.removeAt(0);
+        firstData.removeAt(0);
+      }
   }
 
   double setRandomData() {
