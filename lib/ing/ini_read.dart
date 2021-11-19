@@ -32,5 +32,5 @@ class iniRead extends GetxController {
     //scaleValue
   }
   //ini파일에서 불러와서 세팅다이얼로그에 값 세팅
-//F20211029-011브랜치 테스
+//F20211029-011브랜치 테스트
 }

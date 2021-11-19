@@ -181,10 +181,17 @@ import 'package:wr_ui/view/chart/oes_chart.dart';
 
 import 'log_screen.dart';
 
-class CSVButton extends StatelessWidget {
+class CSVButton extends StatefulWidget {
+  @override
+  State<CSVButton> createState() => _CSVButtonState();
+}
+
+class _CSVButtonState extends State<CSVButton> {
   Future<void> updaeteCSV() async {
     Get.find<CsvController>().csvSave();
   }
+
+  bool isSaving = false;
 
   @override
   Widget build(BuildContext context) {
@@ -196,17 +203,33 @@ class CSVButton extends StatelessWidget {
             await Get.find<CsvController>().csvSaveInit();
             Get.find<CsvController>().fileSave.value = true;
             Get.find<LogListController>().startCsv();
+            setState(() {
+              isSaving = true;
+            });
           },
           child: Container(
             width: 200,
             child: Center(
-              child: Text(
-                "Save Start",
-              ),
-            ),
+                child: isSaving
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Text(
+                            "Saving",
+                          ),
+                          Container(
+                            width: 12,
+                            height: 12,
+                            child: CircularProgressIndicator(
+                              color: Colors.white,
+                            ),
+                          )
+                        ],
+                      )
+                    : Text('Save Start')),
           ),
           style: ElevatedButton.styleFrom(
-            primary: wrColors.wrPrimary,
+            primary: isSaving ? Colors.grey : wrColors.wrPrimary,
           ),
         ),
         SizedBox(height: 30),
@@ -214,17 +237,29 @@ class CSVButton extends StatelessWidget {
           onPressed: () async {
             Get.find<CsvController>().fileSave.value = false;
             Get.find<LogListController>().stopCsv();
+            setState(() {
+              isSaving = false;
+            });
           },
           child: Container(
             width: 200,
             child: Center(
-              child: Text(
-                "Save Stop",
+              child: Row(
+                children: [
+                  SizedBox(width: 60),
+                  Text(
+                    "Save Stop",
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Icon(Icons.stop)
+                ],
               ),
             ),
           ),
           style: ElevatedButton.styleFrom(
-            primary: wrColors.wrPrimary,
+            primary: isSaving ? Colors.red : wrColors.wrPrimary,
           ),
         ),
         // SizedBox(height: 50),

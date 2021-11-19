@@ -45,16 +45,10 @@ class Themes {
       color: Colors.blueGrey[800],
       foregroundColor: wrColors.wrDarkAppBar,
       elevation: 0,
-
       actionsIconTheme: IconThemeData(color: Colors.black),
       titleTextStyle: TextStyle(color: Colors.amber),
-      // toolbarTextStyle: TextStyle(color: Colors.black),
     ),
     textTheme: TextTheme(
-      // subtitle1: TextStyle(color: Colors.white),
-      // subtitle2: TextStyle(color: Colors.white),
-      // overline: TextStyle(color: Colors.white),
-      // bodyText1: TextStyle(color: Colors.white),
       bodyText2: TextStyle(
         color: Colors.white,
         fontWeight: FontWeight.bold,

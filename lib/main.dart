@@ -114,37 +114,77 @@ class WRappbar extends StatelessWidget implements PreferredSizeWidget {
               },
               child: Image.asset(
                 'assets/images/CI_nobg.png',
-                scale: 10,
+                width: 300,
               ),
             ),
             actions: [
+              SizedBox(
+                width: 200,
+              ),
               Container(
-                width: 600,
+                width: 900,
                 child: Row(
                   children: [
                     SizedBox(
                       width: 100,
                     ),
+                    VerticalDivider(
+                      color: Colors.white,
+                      indent: 10,
+                      endIndent: 10,
+                    ),
                     Clock(),
-                    SizedBox(
-                      width: 20,
+                    VerticalDivider(
+                      color: Colors.white,
+                      indent: 10,
+                      endIndent: 10,
                     ),
                     SizedBox(
-                      width: 20,
+                      width: 100,
+                    ),
+                    VerticalDivider(
+                      color: Colors.white,
+                      indent: 10,
+                      endIndent: 10,
                     ),
                     RecentRecipeName(),
-                    SizedBox(
-                      width: 20,
+                    VerticalDivider(
+                      color: Colors.white,
+                      indent: 10,
+                      endIndent: 10,
                     ),
                     SizedBox(
-                      width: 20,
+                      width: 100,
+                    ),
+                    VerticalDivider(
+                      color: Colors.white,
+                      indent: 10,
+                      endIndent: 10,
                     ),
                     RunErrorStatus(),
+                    VerticalDivider(
+                      color: Colors.white,
+                      indent: 10,
+                      endIndent: 10,
+                    ),
                   ],
                 ),
               ),
-              Spacer(),
+              SizedBox(
+                width: 100,
+              ),
+              VerticalDivider(
+                color: Colors.white,
+                indent: 10,
+                endIndent: 10,
+              ),
               SettingMenu(),
+              VerticalDivider(
+                color: Colors.white,
+                indent: 10,
+                endIndent: 10,
+              ),
+              Spacer(),
               SizedBox(
                 width: 50,
               ),
@@ -199,19 +239,6 @@ class _WRbodyState extends State<WRbody> {
               child: Padding(
                 padding: const EdgeInsets.all(10),
                 child: Container(
-                  // decoration: BoxDecoration(
-                  //   boxShadow: [
-                  //     BoxShadow(
-                  //       color: Colors.grey.withOpacity(0.2), //그림자 색
-                  //       spreadRadius: 5,
-                  //       blurRadius: 7,
-                  //       offset: Offset(0, 2), // 그림자위치 바꾸는거
-                  //     ),
-                  //   ],
-                  //   color: Colors.white,
-                  //   borderRadius: BorderRadius.circular(10),
-                  // ),
-
                   child: Container(
                     decoration:
                         BoxDecoration(borderRadius: BorderRadius.circular(10)),
@@ -220,15 +247,6 @@ class _WRbodyState extends State<WRbody> {
                       debugShowCheckedModeBanner: false,
                       theme: Themes.light,
                       darkTheme: Themes.dark,
-                      // darkTheme: Themes.dark,
-
-                      // ThemeData(
-                      //     textTheme: TextTheme(
-                      //       bodyText2: TextStyle(color: Colors.black),
-                      //     ),
-                      // scaffoldBackgroundColor: Colors.transparent),
-                      // initialRoute: AppPages.CHART_INITIAL,
-                      // getPages: AppPages.chart_routes,
                       initialRoute: '/all',
                       routes: {
                         '/all': (context) => ALLpage(),
@@ -239,7 +257,6 @@ class _WRbodyState extends State<WRbody> {
                       },
                     ),
                     //////////////차트 컨테이너 내에 페이지 이동
-                    // CahrtDropDown(),
                   ),
                 ),
               ),
@@ -257,9 +274,7 @@ class _WRbodyState extends State<WRbody> {
       Expanded(
           flex: 1,
           child: Container(
-            height:
-                // 500,
-                992,
+            height: 992,
             child: Padding(
               padding: const EdgeInsets.all(10),
               child: Column(
@@ -267,7 +282,6 @@ class _WRbodyState extends State<WRbody> {
                 children: [
                   //////////로그
                   Container(
-                    // color: Colors.amber,
                     height: 450,
                     child: Padding(
                       padding: const EdgeInsets.all(10.0),
