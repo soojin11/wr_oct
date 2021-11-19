@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 // ignore: unused_import
 import 'package:webview_flutter/webview_flutter.dart';
-import 'package:wr_ui/model/const/style/pallette.dart';
+import 'package:wr_ui/model/pallette.dart';
 
 // ignore: must_be_immutable
 class ExitBtn extends StatelessWidget {

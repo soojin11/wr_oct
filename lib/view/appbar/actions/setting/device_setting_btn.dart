@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:wr_ui/model/const/style/pallette.dart';
+import 'package:wr_ui/model/pallette.dart';
 import 'package:wr_ui/view/appbar/actions/setting/device_setting_page.dart';
 
 class DeviceSettingBtn extends StatelessWidget {

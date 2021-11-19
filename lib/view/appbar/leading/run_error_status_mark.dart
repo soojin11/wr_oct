@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wr_ui/model/const/style/text.dart';
+import 'package:wr_ui/model/text.dart';
 
 // class runErrorStatusMark extends StatelessWidget {
 // const runErrorStatusMark({Key? key}) : super(key: key);

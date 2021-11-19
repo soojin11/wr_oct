@@ -26,11 +26,11 @@ class LogListController extends GetxController {
     String msDate =
         '${DateFormat('yyyy-MM-dd HH:mm:ss').format(current)}.$third';
     String screenDate = '${DateFormat('HH:mm:ss').format(current)}.$third';
-
+    print('aaa${Get.find<LogController>().loglist}');
     Get.find<LogController>()
         .loglist
         .add('${msDate} [Event Trigger] Stop button is pressed' + '\n');
-
+    print('bbb${Get.find<LogController>().loglist}');
     Get.find<LogController>().logSaveInit();
     Get.find<LogController>().fileSave.value = true;
     logData.add('${screenDate} Stop button is pressed');
@@ -52,6 +52,7 @@ class LogListController extends GetxController {
         .add('${msDate} [Event Trigger] Start button is pressed' + '\n');
     Get.find<LogController>().logSaveInit();
     Get.find<LogController>().fileSave.value = true;
+    print('logData:\n$logData');
   }
 
   void startCsv() async {
@@ -121,12 +122,21 @@ class LogList extends GetView<LogListController> {
               itemBuilder: (BuildContext context, int index) {
                 return Container(
                   height: 20,
-                  child: Text(
-                    '${controller.logData[index]}',
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        '${controller.logData[index]}',
+                      ),
+                    ],
                   ),
                 );
               },
               separatorBuilder: (BuildContext context, int index) =>
+                  //  Container(
+                  //       width:20,
+                  //       color: Colors.black,
+                  //     )
                   const Divider(),
             );
           }

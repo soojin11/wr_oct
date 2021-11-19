@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wr_ui/controller/splash_controller.dart';
 import 'package:wr_ui/main.dart';
-import 'package:wr_ui/model/const/style/pallette.dart';
+import 'package:wr_ui/model/pallette.dart';
 
 import '../../wr_home_page.dart';
 

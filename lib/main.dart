@@ -1,13 +1,12 @@
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:wr_ui/controller/drop_down_controller.dart';
 import 'package:wr_ui/controller/home_controller.dart';
+import 'package:wr_ui/ing/ini_read.dart';
 import 'package:wr_ui/service/dark_white_mode/mode.dart';
 import 'package:wr_ui/service/routes/app_pages.dart';
 import 'package:wr_ui/view/appbar/actions/minimize/window_btn.dart';
-import 'package:wr_ui/view/appbar/actions/setting/device_setting_page.dart';
 import 'package:wr_ui/view/appbar/actions/setting/recipe_menu_final.dart';
 import 'package:wr_ui/view/appbar/actions/setting/setting_menu_final.dart';
 import 'package:wr_ui/view/appbar/leading/clock.dart';
@@ -30,7 +29,11 @@ import 'package:wr_ui/view/right_side_menu/start_stop.dart';
 
 Future main() async {
   Get.put(CsvController());
-  Get.put(iniControllerWithReactive());
+  Get.put(doConfigController()).iniWriteSave();
+  Get.find<doConfigController>().fileSave;
+  Get.put(doConfigController()).iniReader();
+  Get.put(iniRead()).allocateValueToSetting();
+
   Get.put(VizController());
   Get.put(OesController());
   Get.put(LogListController());
@@ -254,7 +257,9 @@ class _WRbodyState extends State<WRbody> {
       Expanded(
           flex: 1,
           child: Container(
-            height: 992,
+            height:
+                // 500,
+                992,
             child: Padding(
               padding: const EdgeInsets.all(10),
               child: Column(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:wr_ui/model/const/style/pallette.dart';
+import 'package:wr_ui/model/pallette.dart';
 import 'package:wr_ui/view/appbar/actions/setting/chart_setting_page.dart';
 
 class ChartSettingBtn extends StatelessWidget {

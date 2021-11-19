@@ -176,7 +176,7 @@ import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:wr_ui/model/const/style/pallette.dart';
+import 'package:wr_ui/model/pallette.dart';
 import 'package:wr_ui/view/chart/oes_chart.dart';
 
 import 'log_screen.dart';

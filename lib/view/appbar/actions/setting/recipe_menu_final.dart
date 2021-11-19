@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wr_ui/model/const/style/pallette.dart';
+import 'package:wr_ui/model/pallette.dart';
 import 'package:wr_ui/view/appbar/actions/setting/recipe_dialog_final.dart';
 
 class RecipeMenu extends StatefulWidget {

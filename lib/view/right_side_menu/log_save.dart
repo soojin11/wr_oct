@@ -42,6 +42,7 @@ class LogController extends GetxController {
 
     List<dynamic> logData = [];
     logData.addAll(Get.find<LogController>().loglist);
+    print('logData:' + '$logData');
     String addLogFile = logData.join();
 
     print("log file in");

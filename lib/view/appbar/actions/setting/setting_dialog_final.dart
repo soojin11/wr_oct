@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wr_ui/model/const/style/pallette.dart';
+import 'package:wr_ui/model/pallette.dart';
 
 Future<Map<String, dynamic>> settingsDialog(
     BuildContext context, Map<String, dynamic> settings) async {
