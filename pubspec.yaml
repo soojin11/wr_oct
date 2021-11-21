@@ -52,7 +52,6 @@ dependencies:
   system_tray: ^0.0.7
   toggle_switch: ^1.2.0
   webview_flutter: ^2.1.2
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
