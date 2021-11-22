@@ -5,6 +5,8 @@ import 'package:wr_ui/model/const/style/text.dart';
 import 'package:wr_ui/view/right_side_menu/ini_creator.dart';
 
 class runErrorStatusController extends GetxController {
+  RxString textmsg = 'STOP'.obs;
+  RxBool connect = false.obs;
   // void runStatus() {
   //   var aa = Get.find<iniControllerWithReactive>().Readini();
   //   Config config = Get.find<iniControllerWithReactive>().Readini();
@@ -25,13 +27,16 @@ class RunErrorStatus extends GetView<runErrorStatusController> {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(top: 5, bottom: 5),
-      child: ElevatedButton(
-        onPressed: () {
-          Get.find<iniControllerWithReactive>().iniWriteSave();
-        },
-        child: Text(
-          'Run/Error status',
-          style: WrText.WrLeadingFont,
+      child: Obx(()=>Container(
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),color: controller.connect.value ? Colors.amber : Colors.red),
+          height: 30,
+          width: 200,
+          child: Center(
+            child: Text(
+              controller.textmsg.value,
+              style: WrText.WrLeadingFont,
+            ),
+          ),
         ),
       ),
     );

@@ -39,10 +39,10 @@ class ADDpage extends StatelessWidget {
             //   'ADD페이지',
             // ),
             chartTabBar(),
-            Expanded(
-              flex: 1,
-              child: VizChart(),
-            ),
+            // Expanded(
+            //   flex: 1,
+            //   child: VizChart(),
+            // ),
             Expanded(
               flex: 1,
               child: OesChart(),

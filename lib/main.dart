@@ -33,7 +33,7 @@ Future main() async {
   Get.put(iniControllerWithReactive()).Readini();
   Get.put(iniControllerWithReactive()).iniWriteSave();
   Get.put(CsvController());
-  Get.put(VizController());
+  //Get.put(VizController());
   Get.put(OesController());
   Get.put(LogListController());
   Get.put(LogController());
@@ -105,25 +105,36 @@ class WRappbar extends StatelessWidget implements PreferredSizeWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 16),
       child: Container(
-        child: AppBar(
-            automaticallyImplyLeading: true,
+        child: AppBar(automaticallyImplyLeading: false,
             // backgroundColor: Theme.of(context).backgroundColor,
-            leading: TextButton(
-              onPressed: () {
-                Get.to(() => Home());
-              },
-              child: Image.asset(
-                'assets/images/CI_nobg.png',
-                scale: 10,
-              ),
-            ),
+            // leading: TextButton(
+            //   onPressed: () {
+            //     Get.to(() => Home());
+            //   },
+            //   child: Image.asset(
+            //     'assets/images/CI_nobg.png',
+            //     scale: 10,
+            //   ),
+            // ),
             actions: [
               Container(
-                width: 600,
+                //width: 600,
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
+                    GestureDetector(
+                        onTap: () {
+                          () => Get.offAll(Home());
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: Image.asset(
+                            'assets/images/CI_nobg.png',
+                            fit: BoxFit.fitHeight,
+                          ),
+                        )),
                     SizedBox(
-                      width: 100,
+                      width: 40,
                     ),
                     Clock(),
                     SizedBox(
@@ -261,7 +272,7 @@ class _WRbodyState extends State<WRbody> {
                             indent: 10,
                             endIndent: 10,
                           ),
-                          Container(height: 395,child: LogList())
+                          Container(height: 395, child: LogList())
                         ],
                       ),
                     ),

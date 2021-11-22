@@ -43,7 +43,7 @@ class _VIpageState extends State<VIpage> {
             SizedBox(
               height: 20,
             ),
-            VizChart()
+            //VizChart()
             ///////////여기에 vi차트
             ///////////여기에 vi차트
           ],

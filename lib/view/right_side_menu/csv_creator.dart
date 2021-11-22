@@ -85,7 +85,7 @@ class CsvController extends GetxController {
     firstData.add(fileName);
     if (Get.find<CsvController>().fileSave.value) {
       firstData.add(yVal.value);
-      Get.find<OesController>().oesData.forEach((v) {
+      Get.find<OesController>().oneData.forEach((v) {
         firstData.add(v.num);
       });
     }
@@ -115,7 +115,7 @@ class CsvController extends GetxController {
     ];
 
     List<int> rangeData = [];
-    Get.find<OesController>().oesData.forEach((v) {
+    Get.find<OesController>().oneData.forEach((v) {
       rangeData.add(v.range);
     });
 

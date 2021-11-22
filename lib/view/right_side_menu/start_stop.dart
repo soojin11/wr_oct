@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:wr_ui/model/const/style/pallette.dart';
+import 'package:wr_ui/view/appbar/leading/run_error_status_mark.dart';
 import 'package:wr_ui/view/chart/oes_chart.dart';
 import 'package:wr_ui/view/chart/viz_chart.dart';
 
@@ -14,6 +15,32 @@ import 'log_screen.dart';
 class StartStop extends StatelessWidget {
   const StartStop({Key? key}) : super(key: key);
 
+  // @override
+  // Widget build(BuildContext context) {
+  //   return ToggleSwitch(
+  //     minWidth: 50,
+  //     minHeight: 20,
+  //     cornerRadius: 10.0,
+  //     activeBgColors: [
+  //       [Colors.green[800]!],
+  //       [Colors.red[800]!]
+  //     ],
+  //     activeFgColor: Colors.white,
+  //     inactiveBgColor: Colors.grey,
+  //     inactiveFgColor: Colors.white,
+  //     initialLabelIndex: 1,
+  //     totalSwitches: 2,
+  //     labels: ['Start', 'Stop'],
+  //     radiusStyle: true,
+  //     onToggle: (index) {
+  //       if (index == 1) {
+  //         Get.find<LogListController>().clickedStop();
+  //       } else {
+  //         Get.find<LogListController>().clickedStart();
+  //       }
+  //     },
+  //   );
+  // }
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -22,7 +49,7 @@ class StartStop extends StatelessWidget {
         SizedBox(height: 30),
         Obx(
           () => IgnorePointer(
-            ignoring: Get.find<VizController>().inactiveBtn.value,
+            ignoring: Get.find<OesController>().inactiveBtn.value,
             child: ElevatedButton(
               child: Container(
                 width: 200,
@@ -38,20 +65,24 @@ class StartStop extends StatelessWidget {
                 ),
               ),
               style: ElevatedButton.styleFrom(
-                  primary: Get.find<VizController>().inactiveBtn.value
+                  primary: Get.find<OesController>().inactiveBtn.value
                       ? Colors.grey
                       : Colors.greenAccent[700],
-                  textStyle: TextStyle(fontSize: 16)),
+                  textStyle: TextStyle(fontSize: 16),
+                  ),
               onPressed: () async {
-                Get.find<VizController>().inactiveBtn.value = true;
+                //Get.find<VizController>().inactiveBtn.value = true;
                 Get.find<OesController>().inactiveBtn.value = true;
                 Get.find<OesController>().timer = Timer.periodic(
                     Duration(milliseconds: 100),
                     Get.find<OesController>().updateDataSource);
-                Get.find<OesController>().oesData;
-                Get.find<VizController>().timer = Timer.periodic(
-                    Duration(milliseconds: 100),
-                    Get.find<VizController>().updateDataSource);
+                Get.find<OesController>().oneData;
+                Get.find<runErrorStatusController>().connect.value = true;
+                Get.find<runErrorStatusController>().textmsg.value = 'SIMULATION';
+                
+                // Get.find<VizController>().timer = Timer.periodic(
+                //     Duration(milliseconds: 100),
+                    //Get.find<VizController>().updateDataSource);
                 Get.find<LogListController>().clickedStart();
               },
             ),
@@ -60,7 +91,7 @@ class StartStop extends StatelessWidget {
         SizedBox(height: 30),
         Obx(
           () => IgnorePointer(
-            ignoring: !Get.find<VizController>().inactiveBtn.value,
+            ignoring: !Get.find<OesController>().inactiveBtn.value,
             child: ElevatedButton(
               child: Container(
                 width: 200,
@@ -76,15 +107,18 @@ class StartStop extends StatelessWidget {
                 ),
               ),
               style: ElevatedButton.styleFrom(
-                  primary: Get.find<VizController>().inactiveBtn.value
+                  primary: Get.find<OesController>().inactiveBtn.value
                       ? Colors.red
                       : Colors.grey,
                   textStyle: TextStyle(fontSize: 16)),
               onPressed: () {
-                Get.find<VizController>().inactiveBtn.value = false;
-                Get.find<VizController>().timer.cancel();
+                Get.find<OesController>().inactiveBtn.value = false;
+                // Get.find<VizController>().inactiveBtn.value = false;
+                // Get.find<VizController>().timer.cancel();
                 Get.find<OesController>().timer.cancel();
                 Get.find<LogListController>().clickedStop();
+                Get.find<runErrorStatusController>().connect.value = false;
+                Get.find<runErrorStatusController>().textmsg.value = 'STOP';
               },
             ),
           ),

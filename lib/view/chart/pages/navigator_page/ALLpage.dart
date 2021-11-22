@@ -35,10 +35,10 @@ class ALLpage extends StatelessWidget {
             //   'ALL페이지',
             // ),
             chartTabBar(),
-            Expanded(
-              flex: 1,
-              child: VizChart(),
-            ),
+            // Expanded(
+            //   flex: 1,
+            //   child: VizChart(),
+            // ),
             Expanded(
               flex: 1,
               child: OesChart(),

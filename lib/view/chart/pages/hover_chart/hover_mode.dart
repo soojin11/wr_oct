@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'oes_hover.dart';
+
 class BtnHover extends StatefulWidget {
   final int index;
   final String title;
@@ -70,6 +72,7 @@ class _BtnHoverState extends State<BtnHover> {
             duration: Duration(milliseconds: 200),
             width: isHover ? 200 : 180,
             height: isHover ? 200 : 150,
+            child: OesHoverChart(),
           ),
         ),
       ),
