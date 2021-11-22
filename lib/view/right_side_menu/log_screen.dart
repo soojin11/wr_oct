@@ -107,6 +107,7 @@ class LogList extends GetView<LogListController> {
         //decoration: BoxDecoration(border: Border.all(width: 1)),
         width: 350,
         height: 395,
+        //////////merge 할 때, 이 부분을 받을것,, 그래야지 시작정렬됨
         child: Obx(() {
           if (controller.logData.isEmpty) {
             return Center(child: Text('log does not exist.'));
