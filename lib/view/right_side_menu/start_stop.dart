@@ -8,6 +8,7 @@ import 'package:wr_ui/model/const/style/pallette.dart';
 import 'package:wr_ui/view/appbar/leading/run_error_status_mark.dart';
 import 'package:wr_ui/view/chart/oes_chart.dart';
 import 'package:wr_ui/view/chart/viz_chart.dart';
+import 'package:wr_ui/view/right_side_menu/ini_creator.dart';
 
 import 'log_save.dart';
 import 'log_screen.dart';
@@ -65,11 +66,11 @@ class StartStop extends StatelessWidget {
                 ),
               ),
               style: ElevatedButton.styleFrom(
-                  primary: Get.find<OesController>().inactiveBtn.value
-                      ? Colors.grey
-                      : Colors.greenAccent[700],
-                  textStyle: TextStyle(fontSize: 16),
-                  ),
+                primary: Get.find<OesController>().inactiveBtn.value
+                    ? Colors.grey
+                    : Colors.greenAccent[700],
+                textStyle: TextStyle(fontSize: 16),
+              ),
               onPressed: () async {
                 //Get.find<VizController>().inactiveBtn.value = true;
                 Get.find<OesController>().inactiveBtn.value = true;
@@ -78,11 +79,13 @@ class StartStop extends StatelessWidget {
                     Get.find<OesController>().updateDataSource);
                 Get.find<OesController>().oneData;
                 Get.find<runErrorStatusController>().connect.value = true;
-                Get.find<runErrorStatusController>().textmsg.value = 'SIMULATION';
-                
+                Get.find<runErrorStatusController>().textmsg.value =
+                    'SIMULATION';
+                Get.find<iniControllerWithReactive>().deviceSimulation.value =
+                    1;
                 // Get.find<VizController>().timer = Timer.periodic(
                 //     Duration(milliseconds: 100),
-                    //Get.find<VizController>().updateDataSource);
+                //Get.find<VizController>().updateDataSource);
                 Get.find<LogListController>().clickedStart();
               },
             ),
@@ -119,6 +122,8 @@ class StartStop extends StatelessWidget {
                 Get.find<LogListController>().clickedStop();
                 Get.find<runErrorStatusController>().connect.value = false;
                 Get.find<runErrorStatusController>().textmsg.value = 'STOP';
+                Get.find<iniControllerWithReactive>().deviceSimulation.value =
+                    0;
               },
             ),
           ),

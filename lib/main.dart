@@ -29,9 +29,9 @@ import 'package:wr_ui/view/right_side_menu/log_screen.dart';
 import 'package:wr_ui/view/right_side_menu/start_stop.dart';
 
 Future main() async {
-  // Get.put(iniControllerWithReactive());
+  Get.put(iniControllerWithReactive()).writeIniFile();
   Get.put(iniControllerWithReactive()).Readini();
-  Get.put(iniControllerWithReactive()).iniWriteSave();
+
   Get.put(CsvController());
   //Get.put(VizController());
   Get.put(OesController());
