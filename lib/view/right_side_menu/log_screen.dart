@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:wr_ui/view/right_side_menu/ini_creator.dart';
 
 import 'log_save.dart';
 
@@ -98,7 +99,6 @@ class LogListController extends GetxController {
   }
 }
 
-
 class LogList extends GetView<LogListController> {
   LogList({Key? key}) : super(key: key);
   @override
@@ -110,16 +110,29 @@ class LogList extends GetView<LogListController> {
         //////////merge 할 때, 이 부분을 받을것,, 그래야지 시작정렬됨
         child: Obx(() {
           if (controller.logData.isEmpty) {
-            return Center(child: Text('log does not exist.'));
+            return Center(
+                child: Column(
+              children: [
+                Text(
+                    'deviceSimulation=>${Get.find<iniControllerWithReactive>().deviceSimulation}'),
+                Text('log does not exist.'),
+              ],
+            ));
           } else {
             return ListView.separated(
               padding: const EdgeInsets.all(8),
               itemCount: controller.logData.length,
               itemBuilder: (BuildContext context, int index) {
                 return Container(
-                  height: 20,
-                  child: Text(
-                    '${controller.logData[index]}',
+                  height: 50,
+                  child: Column(
+                    children: [
+                      Text(
+                          'deviceSimulation=>${Get.find<iniControllerWithReactive>().deviceSimulation}'),
+                      Text(
+                        '${controller.logData[index]}',
+                      ),
+                    ],
                   ),
                 );
               },

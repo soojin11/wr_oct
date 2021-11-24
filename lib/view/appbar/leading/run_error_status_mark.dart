@@ -5,7 +5,10 @@ import 'package:wr_ui/model/const/style/text.dart';
 import 'package:wr_ui/view/right_side_menu/ini_creator.dart';
 
 class runErrorStatusController extends GetxController {
-  RxString textmsg = 'STOP'.obs;
+  RxString textmsg =
+      Get.find<iniControllerWithReactive>().deviceSimulation == null
+          ? 'STOP'.obs
+          : 'SIMULATION'.obs;
   RxBool connect = false.obs;
 
   // void runStatus() {
@@ -32,9 +35,17 @@ class RunErrorStatus extends GetView<runErrorStatusController> {
         () => Container(
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              color: Get.find<iniControllerWithReactive>().deviceSimulation == 1
-                  ? Colors.amber
-                  : Colors.red),
+              color: Get.find<iniControllerWithReactive>()
+                          .measureStartAtProgStart
+                          .value ==
+                      ''
+                  ? Colors.red
+                  : Colors.yellow[700]
+              // Get.find<iniControllerWithReactive>().deviceSimulation == null
+              //     ? Colors.red
+              //     : Colors.yellow[700]
+              ),
+
           // BoxDecoration(borderRadius: BorderRadius.circular(10),color: controller.connect.value ? Colors.amber : Colors.red),
           height: 30,
           width: 200,

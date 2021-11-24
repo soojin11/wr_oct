@@ -1,13 +1,12 @@
+import 'dart:async';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:wr_ui/controller/drop_down_controller.dart';
 import 'package:wr_ui/controller/home_controller.dart';
 import 'package:wr_ui/service/dark_white_mode/mode.dart';
 import 'package:wr_ui/service/routes/app_pages.dart';
 import 'package:wr_ui/view/appbar/actions/minimize/window_btn.dart';
-import 'package:wr_ui/view/appbar/actions/setting/device_setting_page.dart';
 import 'package:wr_ui/view/appbar/actions/setting/recipe_menu_final.dart';
 import 'package:wr_ui/view/appbar/actions/setting/setting_menu_final.dart';
 import 'package:wr_ui/view/appbar/leading/clock.dart';
@@ -15,7 +14,6 @@ import 'package:wr_ui/view/appbar/leading/recent_recipe_name.dart';
 import 'package:wr_ui/view/appbar/leading/run_error_status_mark.dart';
 import 'package:wr_ui/view/chart/oes_chart.dart';
 import 'package:wr_ui/view/chart/pages/hover_chart/hover_card.dart';
-import 'package:wr_ui/view/chart/viz_chart.dart';
 import 'package:wr_ui/view/chart/pages/navigator_page/ADDpage.dart';
 import 'package:wr_ui/view/chart/pages/navigator_page/ALLpage.dart';
 import 'package:wr_ui/view/chart/pages/navigator_page/CUSTOMpage.dart';
@@ -29,16 +27,17 @@ import 'package:wr_ui/view/right_side_menu/log_screen.dart';
 import 'package:wr_ui/view/right_side_menu/start_stop.dart';
 
 Future main() async {
-  Get.put(iniControllerWithReactive()).writeIniFile();
-  Get.put(iniControllerWithReactive()).Readini();
+  Get.put(iniControllerWithReactive()).writeIni();
+  Get.put(iniControllerWithReactive()).readIni();
 
+  Get.put(iniControllerWithReactive(), permanent: true);
+  Get.put(runErrorStatusController());
+  Get.put(StartStopController());
   Get.put(CsvController());
   //Get.put(VizController());
-  Get.put(OesController());
+  Get.put(OesController(), permanent: true);
   Get.put(LogListController());
   Get.put(LogController());
-  Get.put(runErrorStatusController());
-  // Get.put(txtControllerWithReactive());
   runApp(MyApp());
   doWhenWindowReady(() {
     final win = appWindow;
@@ -50,6 +49,17 @@ Future main() async {
     win.title = "WR";
     win.show();
   });
+  print(
+      'Get.find<iniControllerWithReactive>().deviceSimulation 초기값==>${Get.find<iniControllerWithReactive>().deviceSimulation}');
+  if (Get.find<iniControllerWithReactive>().deviceSimulation == '1') {
+    Get.find<OesController>().inactiveBtn.value = true;
+    Get.find<OesController>().timer = Timer.periodic(
+        Duration(milliseconds: 100),
+        Get.find<OesController>().updateDataSource);
+    Get.find<OesController>().oneData;
+  } else {
+    print('ini가 1이 아님');
+  }
 }
 
 class MyApp extends StatelessWidget {
@@ -105,80 +115,69 @@ class WRappbar extends StatelessWidget implements PreferredSizeWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 16),
       child: Container(
-        child: AppBar(automaticallyImplyLeading: false,
-            // backgroundColor: Theme.of(context).backgroundColor,
-            // leading: TextButton(
-            //   onPressed: () {
-            //     Get.to(() => Home());
-            //   },
-            //   child: Image.asset(
-            //     'assets/images/CI_nobg.png',
-            //     scale: 10,
-            //   ),
-            // ),
-            actions: [
-              Container(
-                //width: 600,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    GestureDetector(
-                        onTap: () {
-                          () => Get.offAll(Home());
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.all(5.0),
-                          child: Image.asset(
-                            'assets/images/CI_nobg.png',
-                            fit: BoxFit.fitHeight,
-                          ),
-                        )),
-                    SizedBox(
-                      width: 40,
-                    ),
-                    Clock(),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    RecentRecipeName(),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    RunErrorStatus(),
-                  ],
+        child: AppBar(automaticallyImplyLeading: false, actions: [
+          Container(
+            //width: 600,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                GestureDetector(
+                    onTap: () {
+                      () => Get.offAll(Home());
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Image.asset(
+                        'assets/images/CI_nobg.png',
+                        fit: BoxFit.fitHeight,
+                      ),
+                    )),
+                SizedBox(
+                  width: 40,
                 ),
-              ),
-              Spacer(),
-              SettingMenu(),
-              SizedBox(
-                width: 50,
-              ),
-              GestureDetector(
-                onTap: () {
-                  ThemeService().switchTheme();
-                },
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 20),
-                  child: Icon(
-                    Get.isDarkMode
-                        ? Icons.toggle_on_outlined
-                        : Icons.toggle_off_outlined,
-                    size: 38,
-                    color: Get.isDarkMode ? Colors.white : Colors.black,
-                  ),
+                Clock(),
+                SizedBox(
+                  width: 20,
                 ),
+                SizedBox(
+                  width: 20,
+                ),
+                RecentRecipeName(),
+                SizedBox(
+                  width: 20,
+                ),
+                SizedBox(
+                  width: 20,
+                ),
+                RunErrorStatus(),
+              ],
+            ),
+          ),
+          Spacer(),
+          SettingMenu(),
+          SizedBox(
+            width: 50,
+          ),
+          GestureDetector(
+            onTap: () {
+              ThemeService().switchTheme();
+            },
+            child: Padding(
+              padding: const EdgeInsets.only(left: 20),
+              child: Icon(
+                Get.isDarkMode
+                    ? Icons.toggle_on_outlined
+                    : Icons.toggle_off_outlined,
+                size: 38,
+                color: Get.isDarkMode ? Colors.white : Colors.black,
               ),
-              SizedBox(
-                width: 20,
-              ),
-              WindowButtons(),
-            ]),
+            ),
+          ),
+          SizedBox(
+            width: 20,
+          ),
+          WindowButtons(),
+        ]),
       ),
     );
   }
@@ -252,6 +251,7 @@ class _WRbodyState extends State<WRbody> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   //////////로그
+
                   Container(
                     // color: Colors.amber,
                     height: 450,
@@ -272,7 +272,10 @@ class _WRbodyState extends State<WRbody> {
                             indent: 10,
                             endIndent: 10,
                           ),
-                          Container(height: 395, child: LogList())
+                          Container(
+                            height: 395,
+                            child: LogList(),
+                          )
                         ],
                       ),
                     ),

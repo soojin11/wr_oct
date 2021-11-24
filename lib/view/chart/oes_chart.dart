@@ -65,7 +65,7 @@ class OesController extends GetxController {
       sevenData.clear();
       eightData.clear();
     }
-    for (int i = 190; i < 760; i++){
+    for (int i = 190; i < 760; i++) {
       oneData.add(OESData(range: i));
       twoData.add(OESData(range: i));
       threeData.add(OESData(range: i));
@@ -74,8 +74,8 @@ class OesController extends GetxController {
       sixData.add(OESData(range: i));
       sevenData.add(OESData(range: i));
       eightData.add(OESData(range: i++));
-      }
-      if (Get.find<CsvController>().fileSave.value)
+    }
+    if (Get.find<CsvController>().fileSave.value)
       await Get.find<CsvController>().csvSave();
     update();
   }
@@ -99,15 +99,15 @@ class OesChart extends GetView<OesController> {
           builder: (controller) => SfCartesianChart(
             //plotAreaBackgroundColor: Colors.red,
             legend: Legend(
-              iconHeight: 0,
-              iconWidth: 30,
+                iconHeight: 0,
+                iconWidth: 30,
                 isVisible: true,
                 toggleSeriesVisibility: true,
                 position: LegendPosition.top),
             zoomPanBehavior: controller.zoomPanBehavior,
             trackballBehavior: controller.trackballBehavior,
-            primaryXAxis:
-                NumericAxis(minimum: 190, maximum: 760, labelFormat: '{value}nm'),
+            primaryXAxis: NumericAxis(
+                minimum: 190, maximum: 760, labelFormat: '{value}nm'),
             primaryYAxis: NumericAxis(minimum: 0, maximum: 60),
             //title: ChartTitle(text: 'OES'),
             series: <ChartSeries<OESData, int>>[
