@@ -1,15 +1,12 @@
 import 'package:get/get.dart';
 import 'package:ini/ini.dart';
-import 'package:wr_ui/view/appbar/leading/run_error_status_mark.dart';
 import 'dart:io';
 
-import 'package:wr_ui/view/chart/oes_chart.dart';
-import 'package:wr_ui/view/right_side_menu/start_stop.dart';
-
-class iniControllerWithReactive extends GetxService {
+class iniControllerWithReactive extends GetxController {
   static iniControllerWithReactive get to => Get.find();
 
   /////////파일쓰기
+  RxString fileName = ''.obs;
   RxString path = ''.obs;
   File? file;
   String? deviceSimulation = '1';
@@ -22,6 +19,9 @@ class iniControllerWithReactive extends GetxService {
   RxString CSVsavePath = './datafiles/'.obs;
   RxInt saveFromStartSignal = 0.obs;
   RxDouble dataViewStartFromMoreValueOES = 0.0.obs;
+  RxInt exposureTime = 0.obs;
+  RxInt delayTime = 0.obs;
+
   //////////프로그램 구동 시 자동시작
   @override
   void onInit() {
@@ -32,10 +32,11 @@ class iniControllerWithReactive extends GetxService {
   }
 
   Future<File> get _iniPath async {
-    final String fileName = 'FreqAI';
-    await Directory('inifiles').create();
-    path.value = "./inifiles/$fileName.ini";
-    // String startTime = streamDateTime;
+    fileName.value = 'FreqAI';
+    path.value = "./inifiles/${fileName.value}.ini";
+    Directory iniFolder = Directory('inifiles');
+    await iniFolder.create();
+
     File file = File(path.value);
     print('wrFile의 경로는??$file');
     return file;
@@ -46,17 +47,12 @@ class iniControllerWithReactive extends GetxService {
   ////////read
   Future readIni() async {
     print('===============ini read start================');
-
     _readIni();
   }
 
   _readIni() async {
     var file = await _iniPath;
     Config c = new Config.fromStrings(file.readAsLinesSync());
-    // String? newop1 = c.get('new', 'newop1');
-    // String? newop2 = c.get('new', 'newop2');
-    // print('newop1 : ${newop1}');
-    // print('newop2 : ${newop2}');
     print('new : ${c.toString()}');
     print('===============ini read end=============');
     return c;
@@ -67,9 +63,10 @@ class iniControllerWithReactive extends GetxService {
     final file = await _iniPath;
     Config c = new Config();
     c.addSection('deviceSettings');
-    c.set('deviceSettings', 'deviceSimulation', '1');
     c.set('deviceSettings', 'measureStartAtProgStart',
         measureStartAtProgStart.value);
+    c.set('deviceSettings', 'exposureTime', exposureTime.string);
+    c.set('deviceSettings', 'delayTime', delayTime.string);
     c.addSection('chartSettings');
     c.set('chartSettings', 'OESsimulation', OESsimulation.string);
     c.set('chartSettings', 'OESsimulation', OESchannelCount.string);
@@ -81,7 +78,7 @@ class iniControllerWithReactive extends GetxService {
     c.set('saveSettings', 'saveFromStartSignal', saveFromStartSignal.string);
     c.set('saveSettings', 'saveFromStartSignal',
         dataViewStartFromMoreValueOES.string);
-    print('new : ${c.toString()}');
+    print('ini content => ${c.toString()}');
     print('===============write ini end============');
     return file.writeAsString(c.toString());
   }

@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:wr_ui/view/right_side_menu/csv_creator.dart';
-import 'package:wr_ui/view/right_side_menu/log_screen.dart';
 
 class OesController extends GetxController {
   RxList<OESData> oneData = RxList.empty();

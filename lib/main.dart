@@ -27,9 +27,8 @@ import 'package:wr_ui/view/right_side_menu/log_screen.dart';
 import 'package:wr_ui/view/right_side_menu/start_stop.dart';
 
 Future main() async {
-  Get.put(iniControllerWithReactive()).writeIni();
   Get.put(iniControllerWithReactive()).readIni();
-
+  Get.put(iniControllerWithReactive()).writeIni();
   Get.put(iniControllerWithReactive(), permanent: true);
   Get.put(runErrorStatusController());
   Get.put(StartStopController());
