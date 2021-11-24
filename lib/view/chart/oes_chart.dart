@@ -4,6 +4,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:wr_ui/view/appbar/actions/setting/setting_menu_final.dart';
 import 'package:wr_ui/view/right_side_menu/csv_creator.dart';
 import 'package:wr_ui/view/right_side_menu/log_screen.dart';
 
@@ -96,7 +97,7 @@ class OesChart extends GetView<OesController> {
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Container(
         child: GetBuilder<OesController>(
-          builder: (controller) => SfCartesianChart(
+          builder: (controller) => Obx(()=>SfCartesianChart(
             //plotAreaBackgroundColor: Colors.red,
             legend: Legend(
                 iconHeight: 0,
@@ -109,7 +110,7 @@ class OesChart extends GetView<OesController> {
             primaryXAxis: NumericAxis(
                 minimum: 190, maximum: 760, labelFormat: '{value}nm'),
             primaryYAxis: NumericAxis(minimum: 0, maximum: 60),
-            //title: ChartTitle(text: 'OES'),
+            title: ChartTitle(text: Get.find<SettingController>().chartName.value),
             series: <ChartSeries<OESData, int>>[
               SplineSeries(
                 animationDuration: 0,
@@ -211,6 +212,6 @@ class OesChart extends GetView<OesController> {
           ),
         ),
       ),
-    );
+    ));
   }
 }

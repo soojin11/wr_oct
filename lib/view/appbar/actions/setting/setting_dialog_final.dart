@@ -130,15 +130,15 @@ Future<Map<String, dynamic>> settingsDialog(
                           Padding(
                             padding: const EdgeInsets.all(8),
                             child: TextFormField(
-                              initialValue: chartName,
-                              decoration: const InputDecoration(
+                              initialValue: 'First Chart',
+                              decoration: InputDecoration(
                                 icon: Icon(Icons.label),
                                 labelText: 'Chart Name',
+                                hintText: 'Write Chart Name',
                               ),
-                              onChanged: (String value) {
-                                setState(() {
-                                  chartName = value;
-                                });
+                              onSaved: (v) {
+                                Get.find<SettingController>().chartName.value =
+                                    v.toString();
                               },
                             ),
                           ),
