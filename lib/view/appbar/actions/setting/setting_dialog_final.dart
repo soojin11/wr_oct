@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:wr_ui/model/const/style/pallette.dart';
+import 'package:wr_ui/view/appbar/actions/setting/setting_menu_final.dart';
 
 Future<Map<String, dynamic>> settingsDialog(
     BuildContext context, Map<String, dynamic> settings) async {
@@ -39,166 +41,186 @@ Future<Map<String, dynamic>> settingsDialog(
                   titlePadding: const EdgeInsets.fromLTRB(24, 10, 24, 0),
                   title: Text('Settings'),
                   children: [
-                    Column(
-                      children: [
-                        Divider(
-                          thickness: 0.3,
-                          color: Colors.grey[700],
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 40),
-                          child: Row(
-                            children: [
-                              Text(
-                                'Device Setting',
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  color: wrColors.wrPrimary,
+                    Form(
+                      key: Get.find<SettingController>().key,
+                      child: Column(
+                        children: [
+                          Divider(
+                            thickness: 0.3,
+                            color: Colors.grey[700],
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 40),
+                            child: Row(
+                              children: [
+                                Text(
+                                  'Device Setting',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    color: wrColors.wrPrimary,
+                                  ),
                                 ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: TextFormField(
+                              initialValue: deviceName,
+                              decoration: const InputDecoration(
+                                icon: Icon(Icons.label),
+                                labelText: 'DeviceName',
                               ),
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8),
-                          child: TextFormField(
-                            initialValue: deviceName,
-                            decoration: const InputDecoration(
-                              icon: Icon(Icons.label),
-                              labelText: 'DeviceName',
+                              onChanged: (String value) {
+                                setState(() {
+                                  deviceName = value;
+                                });
+                              },
                             ),
-                            onChanged: (String value) {
-                              setState(() {
-                                deviceName = value;
-                              });
-                            },
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8),
-                          child: TextFormField(
-                            initialValue: interval.toString(),
-                            decoration: const InputDecoration(
-                              icon: Icon(Icons.label),
-                              labelText: 'interval',
+                          Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: TextFormField(
+                              initialValue: interval.toString(),
+                              decoration: const InputDecoration(
+                                icon: Icon(Icons.label),
+                                labelText: 'interval',
+                              ),
+                              onChanged: (var value) {
+                                setState(() {
+                                  interval = double.parse(value);
+                                });
+                              },
                             ),
-                            onChanged: (var value) {
-                              setState(() {
-                                interval = double.parse(value);
-                              });
-                            },
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8),
-                          child: TextFormField(
-                            initialValue: unit.toString(),
-                            decoration: const InputDecoration(
-                              icon: Icon(Icons.label),
-                              labelText: 'unit',
+                          Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: TextFormField(
+                              initialValue: unit.toString(),
+                              decoration: const InputDecoration(
+                                icon: Icon(Icons.label),
+                                labelText: 'unit',
+                              ),
+                              onChanged: (String value) {
+                                setState(() {
+                                  unit = value;
+                                });
+                              },
                             ),
-                            onChanged: (String value) {
-                              setState(() {
-                                unit = value;
-                              });
-                            },
                           ),
-                        ),
-                        ///////////차트세팅
-                        Divider(
-                          thickness: 0.3,
-                          color: Colors.grey[700],
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 40),
-                          child: Row(
-                            children: [
-                              Text(
-                                'Chart Setting',
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  color: wrColors.wrPrimary,
+                          ///////////차트세팅
+                          Divider(
+                            thickness: 0.3,
+                            color: Colors.grey[700],
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 40),
+                            child: Row(
+                              children: [
+                                Text(
+                                  'Chart Setting',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    color: wrColors.wrPrimary,
+                                  ),
                                 ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: TextFormField(
+                              initialValue: chartName,
+                              decoration: const InputDecoration(
+                                icon: Icon(Icons.label),
+                                labelText: 'Chart Name',
                               ),
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8),
-                          child: TextFormField(
-                            initialValue: chartName,
-                            decoration: const InputDecoration(
-                              icon: Icon(Icons.label),
-                              labelText: 'Chart Name',
+                              onChanged: (String value) {
+                                setState(() {
+                                  chartName = value;
+                                });
+                              },
                             ),
-                            onChanged: (String value) {
-                              setState(() {
-                                chartName = value;
-                              });
-                            },
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8),
-                          child: TextFormField(
-                            initialValue: chartColor.toString(),
-                            decoration: const InputDecoration(
-                              icon: Icon(Icons.label),
-                              labelText: 'Chart Color',
+                          Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: TextFormField(
+                              initialValue: chartColor.toString(),
+                              decoration: const InputDecoration(
+                                icon: Icon(Icons.label),
+                                labelText: 'Chart Color',
+                              ),
+                              onChanged: (String value) {
+                                setState(() {
+                                  chartColor = value;
+                                });
+                              },
                             ),
-                            onChanged: (String value) {
-                              setState(() {
-                                chartColor = value;
-                              });
-                            },
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8),
-                          child: TextFormField(
-                            initialValue: chartTheme.toString(),
-                            decoration: const InputDecoration(
-                              icon: Icon(Icons.label),
-                              labelText: 'Chart Theme',
+                          Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: TextFormField(
+                              initialValue: chartTheme.toString(),
+                              decoration: const InputDecoration(
+                                icon: Icon(Icons.label),
+                                labelText: 'Chart Theme',
+                              ),
+                              onChanged: (String value) {
+                                setState(() {
+                                  chartTheme = value;
+                                });
+                              },
                             ),
-                            onChanged: (String value) {
-                              setState(() {
-                                chartTheme = value;
-                              });
-                            },
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8),
-                          child: TextFormField(
-                            initialValue: seriesType.toString(),
-                            decoration: const InputDecoration(
-                              icon: Icon(Icons.label),
-                              labelText: 'Series Type',
+                          Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: TextFormField(
+                              initialValue: seriesType.toString(),
+                              decoration: const InputDecoration(
+                                icon: Icon(Icons.label),
+                                labelText: 'Series Type',
+                              ),
+                              onChanged: (String value) {
+                                setState(() {
+                                  seriesType = value;
+                                });
+                              },
                             ),
-                            onChanged: (String value) {
-                              setState(() {
-                                seriesType = value;
-                              });
-                            },
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8),
-                          child: TextFormField(
-                            initialValue: scaleValue.toString(),
-                            decoration: const InputDecoration(
-                              icon: Icon(Icons.label),
-                              labelText: 'Scale Value',
+                          Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: TextFormField(
+                              initialValue: scaleValue.toString(),
+                              decoration: const InputDecoration(
+                                icon: Icon(Icons.label),
+                                labelText: 'Scale Value',
+                              ),
+                              onChanged: (String value) {
+                                setState(() {
+                                  scaleValue = double.parse(value);
+                                });
+                              },
                             ),
-                            onChanged: (String value) {
-                              setState(() {
-                                scaleValue = double.parse(value);
-                              });
-                            },
                           ),
-                        ),
-                      ],
+                          Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: TextFormField(
+                              initialValue: '100',
+                              decoration: InputDecoration(
+                                icon: Icon(Icons.label),
+                                labelText: 'Exposure Time',
+                                hintText: 'milliseconds',
+                              ),
+                              onSaved: (v) {
+                                Get.find<SettingController>()
+                                    .exposureTime
+                                    .value = v.toString();
+                                print(v);
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                     ElevatedButton(
                       onPressed: () {
@@ -213,8 +235,9 @@ Future<Map<String, dynamic>> settingsDialog(
                           'chartColor': chartColor,
                           'chartTheme': chartTheme,
                           'seriesType': seriesType,
-                          'scaleValue': scaleValue
+                          'scaleValue': scaleValue,
                         });
+                        Get.find<SettingController>().key.currentState!.save();
                       },
                       child: Text('Save'),
                       style:

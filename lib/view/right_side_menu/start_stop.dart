@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wr_ui/service/database/recipe/config_model.dart';
+import 'package:wr_ui/view/appbar/actions/setting/setting_menu_final.dart';
 import 'package:wr_ui/view/appbar/leading/run_error_status_mark.dart';
 import 'package:wr_ui/view/chart/oes_chart.dart';
 import 'package:wr_ui/view/right_side_menu/ini_creator.dart';
@@ -46,9 +47,12 @@ class StartStop extends GetView<StartStopController> {
               onPressed: () async {
                 //Get.find<VizController>().inactiveBtn.value = true;
                 Get.find<OesController>().inactiveBtn.value = true;
-                Get.find<OesController>().timer = Timer.periodic(
-                    Duration(milliseconds: 100),
-                    Get.find<OesController>().updateDataSource);
+                // Get.find<OesController>().timer = Timer.periodic(
+                //     Duration(milliseconds: 100),
+                //     Get.find<OesController>().updateDataSource);
+                    try{Get.find<OesController>().timer = Timer.periodic(
+                      Duration(milliseconds: int.parse(Get.find<SettingController>().exposureTime.value)),
+                      Get.find<OesController>().updateDataSource);} on FormatException{print('format error');}
                 Get.find<OesController>().oneData;
                 Get.find<runErrorStatusController>().connect.value = true;
                 Get.find<runErrorStatusController>().textmsg.value =

@@ -38,6 +38,7 @@ Future main() async {
   Get.put(OesController(), permanent: true);
   Get.put(LogListController());
   Get.put(LogController());
+  Get.put(SettingController());
   runApp(MyApp());
   doWhenWindowReady(() {
     final win = appWindow;

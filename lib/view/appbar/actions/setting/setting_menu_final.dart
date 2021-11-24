@@ -1,6 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:wr_ui/model/const/style/text.dart';
 import 'package:wr_ui/view/appbar/actions/setting/setting_dialog_final.dart';
+class SettingController extends GetxController{
+  final GlobalKey<FormState> key = GlobalKey<FormState>();
+  RxString deviceName = 'firstDevice'.obs;
+  RxDouble interval = 200.22.obs;
+  RxString unit = 'aa'.obs;
+
+  RxString chartName = 'First Chart'.obs;
+  RxString chartColor = 'green'.obs;
+  RxDouble scaleValue = 0.0.obs;
+  RxString delayTime = ''.obs;
+  RxString exposureTime = '100'.obs;
+  RxString deviceSimul = ''.obs;
+}
 
 class SettingMenu extends StatefulWidget {
   @override
@@ -10,16 +24,19 @@ class SettingMenu extends StatefulWidget {
 class _SettingMenuState extends State<SettingMenu> {
   Map<String, dynamic> settingsPage = <String, dynamic>{
     //디바이스세팅
-    'deviceName': 'firstDevice',
-    'interval': 200.22,
-    'unit': 'aa',
+    'deviceName': Get.find<SettingController>().deviceName.value,
+    'interval': Get.find<SettingController>().interval.value,
+    'unit': Get.find<SettingController>().unit.value,
+    'deviceSimul' : Get.find<SettingController>().deviceSimul.value,
 
     ///차트세팅
-    'chartName': 'firstChart',
-    'chartColor': 'green',
+    'chartName': Get.find<SettingController>().chartName.value,
+    'chartColor': Get.find<SettingController>().chartColor.value,
     'chartTheme': 'bar type',
-    'seriesType': 'aaa',
-    'scaleValue': 20.33
+    'seriesType': 'aaa', //chartTheme이랑 seriesType 은.. 일단 뻈어요..-21.11.24수진
+    'scaleValue': Get.find<SettingController>().scaleValue.value,
+    'delayTime' : Get.find<SettingController>().delayTime.value,
+    'exposureTime' : Get.find<SettingController>().exposureTime.value
   };
   @override
   Widget build(BuildContext context) {
