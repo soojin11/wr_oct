@@ -8,6 +8,7 @@ import 'package:wr_ui/view/appbar/leading/run_error_status_mark.dart';
 import 'package:wr_ui/view/chart/oes_chart.dart';
 import 'package:wr_ui/view/right_side_menu/ini_creator.dart';
 
+import 'csv_creator.dart';
 import 'log_screen.dart';
 
 class StartStopController extends GetxController {}
@@ -100,6 +101,7 @@ class StartStop extends GetView<StartStopController> {
                 // Get.find<VizController>().timer.cancel();
                 Get.find<OesController>().timer.cancel();
                 Get.find<LogListController>().clickedStop();
+                Get.find<CsvController>().fileSave.value = false;
                 Get.find<runErrorStatusController>().connect.value = false;
                 Get.find<runErrorStatusController>().textmsg.value = 'STOP';
                 Get.find<iniControllerWithReactive>()

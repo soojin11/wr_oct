@@ -32,7 +32,7 @@ class LogListController extends GetxController {
         .loglist
         .add('${msDate} [Event Trigger] Stop button is pressed' + '\n');
 
-    Get.find<LogController>().logSaveInit();
+    Get.find<LogController>().logSave();
     Get.find<LogController>().fileSave.value = true;
     logData.add('${screenDate} Stop button is pressed');
   }
@@ -51,7 +51,7 @@ class LogListController extends GetxController {
     Get.find<LogController>()
         .loglist
         .add('${msDate} [Event Trigger] Start button is pressed' + '\n');
-    Get.find<LogController>().logSaveInit();
+    Get.find<LogController>().logSave();
     Get.find<LogController>().fileSave.value = true;
   }
 
@@ -69,7 +69,7 @@ class LogListController extends GetxController {
     Get.find<LogController>()
         .loglist
         .add('${msDate} [Event Trigger] Save start button is pressed' + '\n');
-    Get.find<LogController>().logSaveInit();
+    Get.find<LogController>().logSave();
     Get.find<LogController>().fileSave.value = true;
   }
 
@@ -86,7 +86,7 @@ class LogListController extends GetxController {
     Get.find<LogController>()
         .loglist
         .add('${msDate} [Event Trigger] Save Stop button is pressed' + '\n');
-    Get.find<LogController>().logSaveInit();
+    Get.find<LogController>().logSave();
     Get.find<LogController>().fileSave.value = true;
   }
 

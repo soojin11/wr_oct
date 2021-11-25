@@ -165,7 +165,7 @@ Future<Map<String, dynamic>> settingsDialog(
                                 icon: Icon(Icons.label),
                                 labelText: 'Chart Theme',
                               ),
-                              onChanged: (String value) {
+                               onChanged: (String value) {
                                 setState(() {
                                   chartTheme = value;
                                 });

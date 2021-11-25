@@ -9,7 +9,7 @@ import 'package:wr_ui/view/chart/oes_chart.dart';
 
 import 'log_screen.dart';
 
-class CSVButton extends StatelessWidget {
+class CSVButton extends GetView<CsvController> {
   Future<void> updaeteCSV() async {
     Get.find<CsvController>().csvSave();
   }
@@ -21,16 +21,32 @@ class CSVButton extends StatelessWidget {
         SizedBox(height: 30),
         ElevatedButton(
           onPressed: () async {
-            await Get.find<CsvController>().csvSaveInit();
-            Get.find<CsvController>().fileSave.value = true;
+            await controller.csvSaveInit();
+            controller.fileSave.value = true;
             Get.find<LogListController>().startCsv();
           },
           child: Container(
             width: 200,
-            child: Center(
-              child: Text(
-                "Save Start",
-              ),
+            child: Row(
+              children: [
+                Container(
+                    padding: EdgeInsets.only(left: 30),
+                    width: 65,
+                    child: Obx(() => Visibility(
+                          visible: controller.fileSave.value,
+                          child: Row(
+                            children: [
+                              FadeTransition(
+                                  opacity: controller.animation,
+                                  child: Icon(Icons.circle,
+                                      size: 17, color: Colors.red)),
+                            ],
+                          ),
+                        ))),
+                Text(
+                  "Save Start",
+                ),
+              ],
             ),
           ),
           style: ElevatedButton.styleFrom(
@@ -40,7 +56,7 @@ class CSVButton extends StatelessWidget {
         SizedBox(height: 30),
         ElevatedButton(
           onPressed: () async {
-            Get.find<CsvController>().fileSave.value = false;
+            controller.fileSave.value = false;
             Get.find<LogListController>().stopCsv();
           },
           child: Container(
@@ -60,17 +76,16 @@ class CSVButton extends StatelessWidget {
   }
 }
 
-class CsvController extends GetxController {
-  static CsvController get to => Get.find();
+class CsvController extends GetxController with SingleGetTickerProviderMixin {
+  late AnimationController animationCtrl =
+      AnimationController(vsync: this, duration: Duration(seconds: 1))
+        ..repeat();
+  late Animation<double> animation =
+      CurvedAnimation(parent: animationCtrl, curve: Curves.ease);
   RxString path = ''.obs;
   RxBool fileSave = false.obs;
   RxBool inactiveBtn = false.obs;
-  RxDouble yVal = 0.0.obs;
-  RxList vizYVal = RxList.empty();
-  @override
-  void onInit() {
-    super.onInit();
-  }
+  RxInt fileNum = 1.obs;
 
   Future<File> csvSave() async {
     DateTime current = DateTime.now();
@@ -84,7 +99,6 @@ class CsvController extends GetxController {
     List<List<dynamic>> addFirstData = [];
     firstData.add(fileName);
     if (Get.find<CsvController>().fileSave.value) {
-      firstData.add(yVal.value);
       Get.find<OesController>().oneData.forEach((v) {
         firstData.add(v.num);
       });
@@ -102,7 +116,7 @@ class CsvController extends GetxController {
     final String streamDateTime =
         DateFormat('yyyy/MM/dd HH:mm:ss').format(current);
     await Directory('datafiles').create();
-    path.value = "./datafiles/$fileName.csv";
+    path.value = "./datafiles/$fileName\_$fileNum.csv";
     String startTime = streamDateTime;
     File file = File(path.value);
 
@@ -123,8 +137,8 @@ class CsvController extends GetxController {
         '\n' +
         "Time" +
         ',' +
-        "VIZ_1" +
-        ',' +
+        // "VIZ_1" +
+        // ',' +
         rangeData.join(',') +
         '\n';
 
