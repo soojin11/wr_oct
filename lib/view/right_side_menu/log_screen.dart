@@ -113,8 +113,6 @@ class LogList extends GetView<LogListController> {
             return Center(
                 child: Column(
               children: [
-                Text(
-                    'deviceSimulation=>${Get.find<iniControllerWithReactive>().deviceSimulation}'),
                 Text('log does not exist.'),
               ],
             ));
@@ -124,11 +122,9 @@ class LogList extends GetView<LogListController> {
               itemCount: controller.logData.length,
               itemBuilder: (BuildContext context, int index) {
                 return Container(
-                  height: 50,
+                  height: 20,
                   child: Column(
                     children: [
-                      Text(
-                          'deviceSimulation=>${Get.find<iniControllerWithReactive>().deviceSimulation}'),
                       Text(
                         '${controller.logData[index]}',
                       ),

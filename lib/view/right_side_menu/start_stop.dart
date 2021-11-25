@@ -50,14 +50,20 @@ class StartStop extends GetView<StartStopController> {
                 // Get.find<OesController>().timer = Timer.periodic(
                 //     Duration(milliseconds: 100),
                 //     Get.find<OesController>().updateDataSource);
-                    try{Get.find<OesController>().timer = Timer.periodic(
-                      Duration(milliseconds: int.parse(Get.find<SettingController>().exposureTime.value)),
-                      Get.find<OesController>().updateDataSource);} on FormatException{print('format error');}
+                try {
+                  Get.find<OesController>().timer = Timer.periodic(
+                      Duration(
+                          milliseconds: int.parse(Get.find<SettingController>()
+                              .exposureTime
+                              .value)),
+                      Get.find<OesController>().updateDataSource);
+                } on FormatException {
+                  print('format error');
+                }
                 Get.find<OesController>().oneData;
                 Get.find<runErrorStatusController>().connect.value = true;
                 Get.find<runErrorStatusController>().textmsg.value =
                     'SIMULATION';
-                Get.find<iniControllerWithReactive>().deviceSimulation = '0';
                 Get.find<iniControllerWithReactive>()
                     .measureStartAtProgStart
                     .value = '0';

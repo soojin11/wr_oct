@@ -6,20 +6,10 @@ import 'package:wr_ui/view/right_side_menu/ini_creator.dart';
 
 class runErrorStatusController extends GetxController {
   RxString textmsg =
-      Get.find<iniControllerWithReactive>().deviceSimulation == null
+      Get.find<iniControllerWithReactive>().measureStartAtProgStart.value == ''
           ? 'STOP'.obs
           : 'SIMULATION'.obs;
   RxBool connect = false.obs;
-
-  // void runStatus() {
-  //   var aa = Get.find<iniControllerWithReactive>().Readini();
-  //   Config config = Get.find<iniControllerWithReactive>().Readini();
-  //   if (config.hasSection('OES')) {
-  //     print('has section oes');
-  //   } else {
-  //     print('oes section 없어');
-  //   }
-  // }
 }
 
 class RunErrorStatus extends GetView<runErrorStatusController> {
@@ -40,13 +30,7 @@ class RunErrorStatus extends GetView<runErrorStatusController> {
                           .value ==
                       ''
                   ? Colors.red
-                  : Colors.yellow[700]
-              // Get.find<iniControllerWithReactive>().deviceSimulation == null
-              //     ? Colors.red
-              //     : Colors.yellow[700]
-              ),
-
-          // BoxDecoration(borderRadius: BorderRadius.circular(10),color: controller.connect.value ? Colors.amber : Colors.red),
+                  : Colors.yellow[700]),
           height: 30,
           width: 200,
           child: Center(
