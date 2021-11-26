@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:wr_ui/ing/dialog_test.dart';
+import 'package:wr_ui/model/const/style/pallette.dart';
 import 'package:wr_ui/model/const/style/text.dart';
 
-class dialogBtn extends StatelessWidget {
+class dialogBtn extends GetView<settingDialogController> {
   const dialogBtn({Key? key}) : super(key: key);
 
   @override
@@ -12,7 +14,10 @@ class dialogBtn extends StatelessWidget {
         onPressed: () {
           displayDialog(context);
         },
-        icon: Icon(Icons.settings),
+        icon: Icon(
+          Icons.settings,
+          color: wrColors.white,
+        ),
         label: Text(
           'Setting',
           style: WrText.WrLeadingFont,

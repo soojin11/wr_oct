@@ -121,17 +121,6 @@ class ExitBtn extends StatelessWidget {
                               ],
                             ));
                   },
-
-                  //////////////////////
-                  // onPressed: () async {
-                  //   Get.find<iniControllerWithReactive>()
-                  //       .measureStartAtProgStart
-                  //       .value = 0;
-                  //   // exit(0);
-                  //   // Navigator.pop(context, true);
-                  //   // SystemNavigator.pop();
-                  // },
-                  ///////////////
                   child: Text(
                     '측정 종료',
                     style: TextStyle(color: Colors.white, fontSize: 12),
@@ -164,119 +153,113 @@ class ExitBtn extends StatelessWidget {
           final shouldPop = await showWarning(context);
           return shouldPop ?? false;
         },
-        child: TextButton.icon(
-          onPressed: () {
-            print(
-                '트라이캐치 ->${Get.find<iniControllerWithReactive>().measureStartAtProgStart}');
-            if (Get.find<iniControllerWithReactive>().measureStartAtProgStart ==
-                '') {
-              print('바로닫기');
-              showDialog(
-                context: context,
-                builder: (ctx) => AlertDialog(
-                  title: Column(
-                    children: [
-                      Text('종료하시겠습니까?'),
-                      Divider(
-                        indent: 5,
-                        endIndent: 5,
+        child: Container(
+          width: 230,
+          child: ElevatedButton.icon(
+            onPressed: () {
+              print(
+                  '트라이캐치 ->${Get.find<iniControllerWithReactive>().measureStartAtProgStart}');
+              if (Get.find<iniControllerWithReactive>()
+                      .measureStartAtProgStart ==
+                  '') {
+                print('바로닫기');
+                showDialog(
+                  context: context,
+                  builder: (ctx) => AlertDialog(
+                    title: Column(
+                      children: [
+                        Text('종료하시겠습니까?'),
+                        Divider(
+                          indent: 5,
+                          endIndent: 5,
+                        )
+                      ],
+                    ),
+                    content: Row(
+                      children: [
+                        Icon(
+                          Icons.warning,
+                          color: Colors.red,
+                        ),
+                        Text(
+                          '프로그램이 완전히 종료됩니다',
+                          style: TextStyle(
+                            color: Colors.red,
+                          ),
+                        ),
+                      ],
+                    ),
+                    actions: [
+                      ElevatedButton(
+                        onPressed: () {
+                          exit(0);
+                        },
+                        child: Text(
+                          '예',
+                          style: TextStyle(color: Colors.white, fontSize: 12),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                            primary: wrColors.wrPrimary,
+                            onPrimary: Colors.blue[700],
+                            shadowColor: wrColors.wrPrimary),
+                      ),
+                      OutlinedButton(
+                        onPressed: () {
+                          Navigator.pop(context, false);
+                        },
+                        child: Text(
+                          '아니오',
+                          style: TextStyle(
+                            color: wrColors.wrPrimary,
+                            fontSize: 12,
+                          ),
+                        ),
+                        style: OutlinedButton.styleFrom(
+                          side: BorderSide(
+                            color: wrColors.wrPrimary,
+                          ),
+                        ),
                       )
                     ],
                   ),
-                  content: Row(
-                    children: [
-                      Icon(
-                        Icons.warning,
-                        color: Colors.red,
-                      ),
-                      Text(
-                        '프로그램이 완전히 종료됩니다',
-                        style: TextStyle(
-                          color: Colors.red,
-                        ),
-                      ),
-                    ],
-                  ),
-                  actions: [
-                    ElevatedButton(
-                      onPressed: () {
-                        exit(0);
-                      },
-                      child: Text(
-                        '예',
-                        style: TextStyle(color: Colors.white, fontSize: 12),
-                      ),
-                      style: ElevatedButton.styleFrom(
-                          primary: wrColors.wrPrimary,
-                          onPrimary: Colors.blue[700],
-                          shadowColor: wrColors.wrPrimary),
-                    ),
-                    OutlinedButton(
-                      onPressed: () {
-                        Navigator.pop(context, false);
-                      },
-                      child: Text(
-                        '아니오',
-                        style: TextStyle(
-                          color: wrColors.wrPrimary,
-                          fontSize: 12,
-                        ),
-                      ),
-                      style: OutlinedButton.styleFrom(
-                        side: BorderSide(
-                          color: wrColors.wrPrimary,
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              );
-              // AlertDialog(
-              //   title: Text('바로닫기'),
-              //   content: Text('종료??????'),
-              //   actions: [
-              //     ElevatedButton(
-              //       onPressed: () {},
-              //       child: Text('예'),
-              //     ),
-              //     ElevatedButton(
-              //       onPressed: () {},
-              //       child: Text('아니요'),
-              //     )
-              //   ],
-              // );
-            } else {
-              try {
-                Get.find<iniControllerWithReactive>().measureStartAtProgStart ==
-                        '0' ||
-                    Get.find<iniControllerWithReactive>()
-                            .measureStartAtProgStart ==
-                        '1';
-                print('에러발생');
+                );
+              } else {
+                try {
+                  Get.find<iniControllerWithReactive>()
+                              .measureStartAtProgStart ==
+                          '0' ||
+                      Get.find<iniControllerWithReactive>()
+                              .measureStartAtProgStart ==
+                          '1';
+                  print('에러발생');
 
-                if (Get.find<iniControllerWithReactive>()
-                            .measureStartAtProgStart ==
-                        '0' ||
-                    Get.find<iniControllerWithReactive>()
-                            .measureStartAtProgStart ==
-                        '1') {
-                  throw new Exception("프로그램 실행중");
+                  if (Get.find<iniControllerWithReactive>()
+                              .measureStartAtProgStart ==
+                          '0' ||
+                      Get.find<iniControllerWithReactive>()
+                              .measureStartAtProgStart ==
+                          '1') {
+                    throw new Exception("프로그램 실행중");
+                  }
+                } catch (e) {
+                  showWarning(context);
+                  print('프로그램 실행중! 종료못함$e');
+                  // showWarning(context);
                 }
-              } catch (e) {
-                showWarning(context);
-                print('프로그램 실행중! 종료못함$e');
-                // showWarning(context);
               }
-            }
-          },
-          icon: Icon(
-            Icons.exit_to_app,
-            color: Colors.blueGrey,
-          ),
-          label: Text(
-            'Exit',
-            style:
-                TextStyle(color: Colors.blueGrey, fontWeight: FontWeight.bold),
+            },
+            icon: Icon(
+              Icons.exit_to_app,
+              color: wrColors.white,
+            ),
+            label: Text(
+              'Exit',
+              style: TextStyle(
+                color: wrColors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            style: ElevatedButton.styleFrom(primary: wrColors.wrPrimary),
           ),
         ));
   }

@@ -6,7 +6,7 @@ import 'package:wr_ui/controller/drop_down_controller.dart';
 import 'package:wr_ui/controller/home_controller.dart';
 import 'package:wr_ui/ing/dialog_btn_test.dart';
 import 'package:wr_ui/ing/dialog_test.dart';
-import 'package:wr_ui/model/const/style/pallette.dart';
+import 'package:wr_ui/model/divider.dart';
 import 'package:wr_ui/service/dark_white_mode/mode.dart';
 import 'package:wr_ui/service/routes/app_pages.dart';
 import 'package:wr_ui/setting_content.dart';
@@ -44,7 +44,23 @@ Future main() async {
   Get.put(LogController());
   Get.put(SettingController());
   Get.put(SettingContnet());
+  Get.put(settingDialogController());
   runApp(MyApp());
+  if (Get.find<iniControllerWithReactive>().measureStartAtProgStart.value ==
+      '1') {
+    print(
+        '자동측정 시작=>"measureStartAtProgStart가 ${Get.find<iniControllerWithReactive>().measureStartAtProgStart.value}"');
+    Get.find<OesController>().inactiveBtn.value = true;
+    Get.find<OesController>().timer = Timer.periodic(
+        Duration(milliseconds: 100),
+        Get.find<OesController>().updateDataSource);
+    Get.find<OesController>().oneData;
+  } else if (Get.find<iniControllerWithReactive>()
+          .measureStartAtProgStart
+          .value ==
+      '0') {
+    print('수동측정 시작하시오');
+  }
   doWhenWindowReady(() {
     final win = appWindow;
     final initialSize = Size(1920, 1080);
@@ -55,17 +71,6 @@ Future main() async {
     win.title = "WR";
     win.show();
   });
-  print(
-      'measureStartAtProgStart 초기값==>${Get.find<iniControllerWithReactive>().measureStartAtProgStart}');
-  if (Get.find<iniControllerWithReactive>().measureStartAtProgStart == '1') {
-    Get.find<OesController>().inactiveBtn.value = true;
-    Get.find<OesController>().timer = Timer.periodic(
-        Duration(milliseconds: 100),
-        Get.find<OesController>().updateDataSource);
-    Get.find<OesController>().oneData;
-  } else {
-    print('ini가 1이 아님');
-  }
 }
 
 class MyApp extends StatelessWidget {
@@ -141,35 +146,23 @@ class WRappbar extends StatelessWidget implements PreferredSizeWidget {
                 SizedBox(
                   width: 40,
                 ),
-                VerticalDivider(
-                  color: Colors.black.withOpacity(0.5),
-                ),
+                wrAppBarDivider(),
                 Clock(),
-                VerticalDivider(
-                  color: Colors.black.withOpacity(0.5),
-                ),
+                wrAppBarDivider(),
                 SizedBox(width: 40),
-                VerticalDivider(
-                  color: Colors.black.withOpacity(0.5),
-                ),
+                wrAppBarDivider(),
                 RecentRecipeName(),
-                VerticalDivider(
-                  color: Colors.black.withOpacity(0.5),
-                ),
+                wrAppBarDivider(),
                 SizedBox(width: 40),
-                VerticalDivider(
-                  color: Colors.black.withOpacity(0.5),
-                ),
+                wrAppBarDivider(),
                 RunErrorStatus(),
-                VerticalDivider(
-                  color: Colors.black.withOpacity(0.5),
-                ),
+                wrAppBarDivider(),
               ],
             ),
           ),
           Spacer(),
-          // dialogBtn(),
-          SettingMenu(),
+          dialogBtn(),
+          // SettingMenu(),
           SizedBox(
             width: 50,
           ),
@@ -362,30 +355,33 @@ class _WRbodyState extends State<WRbody> {
                         ),
                         /////////////파일매니저
                         /////////////레시피버튼
-                        Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Container(
-                            child: Column(
-                              children: [
-                                Row(
-                                  children: [
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    Text('Recipe',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyText2),
-                                  ],
-                                ),
-                                Divider(
-                                  indent: 10,
-                                  endIndent: 10,
-                                ),
-                                RecipeMenu()
-                              ],
+                        Visibility(
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Container(
+                              child: Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      SizedBox(
+                                        width: 20,
+                                      ),
+                                      Text('Recipe',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyText2),
+                                    ],
+                                  ),
+                                  Divider(
+                                    indent: 10,
+                                    endIndent: 10,
+                                  ),
+                                  RecipeMenu()
+                                ],
+                              ),
                             ),
                           ),
+                          visible: false,
                         ),
                         /////////////레시피버튼
                         ////////////나가기

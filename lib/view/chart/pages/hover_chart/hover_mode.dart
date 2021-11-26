@@ -53,22 +53,7 @@ class _BtnHoverState extends State<BtnHover> {
                 color: Theme.of(context).appBarTheme.foregroundColor,
                 borderRadius: BorderRadius.all(
                   Radius.circular(10),
-                )
-                //  BorderRadius.only(
-                //   topRight: (isHover || index == 0)
-                //       ? Radius.circular(10)
-                //       : Radius.circular(0),
-                //   topLeft: (isHover || index == 0)
-                //       ? Radius.circular(10)
-                //       : Radius.circular(0),
-                //   bottomLeft: (isHover || index == 5)
-                //       ? Radius.circular(10)
-                //       : Radius.circular(0),
-                //   bottomRight: (isHover || index == 5)
-                //       ? Radius.circular(10)
-                //       : Radius.circular(0),
-                // ),
-                ),
+                )),
             duration: Duration(milliseconds: 200),
             width: isHover ? 200 : 180,
             height: isHover ? 200 : 150,
