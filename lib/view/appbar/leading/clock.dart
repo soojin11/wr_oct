@@ -11,23 +11,26 @@ class Clock extends StatelessWidget {
     return StreamBuilder(
       stream: Stream.periodic(Duration(seconds: 1)),
       builder: (context, snapshot) {
-        return Container(
-          padding: EdgeInsets.only(
-            top: 5,
-            bottom: 5,
+        return Padding(
+          padding: const EdgeInsets.only(
+            left: 6,
+            right: 6,
+            top: 4,
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                DateFormat('yyyy/MM/dd \n hh:mm:ss').format(DateTime.now()),
-                style: WrText.WrLeadingFont,
-              ),
-              // Text(
-              //   DateFormat('hh:mm:ss').format(DateTime.now()),
-              //   style: WrText.WrLeadingFont,
-              // ),
-            ],
+          child: Container(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  DateFormat('yyyy/MM/dd').format(DateTime.now()),
+                  style: WrText.WrLeadingFont,
+                ),
+                Text(
+                  DateFormat('hh:mm:ss').format(DateTime.now()),
+                  style: WrText.WrLeadingFont,
+                ),
+              ],
+            ),
           ),
         );
       },

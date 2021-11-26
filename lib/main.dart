@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wr_ui/controller/drop_down_controller.dart';
 import 'package:wr_ui/controller/home_controller.dart';
+import 'package:wr_ui/controller/setting_controller.dart';
+import 'package:wr_ui/model/const/style/pallette.dart';
 import 'package:wr_ui/service/dark_white_mode/mode.dart';
 import 'package:wr_ui/service/routes/app_pages.dart';
 import 'package:wr_ui/setting_content.dart';
@@ -31,7 +33,6 @@ import 'package:wr_ui/view/right_side_menu/start_stop.dart';
 Future main() async {
   await Get.put(iniControllerWithReactive()).writeIni();
   Get.put(iniControllerWithReactive()).readIni();
-
   Get.put(iniControllerWithReactive(), permanent: true);
   Get.put(runErrorStatusController());
   Get.put(StartStopController());
@@ -112,19 +113,19 @@ class WRappbar extends StatelessWidget implements PreferredSizeWidget {
   }) : super(key: key);
 
   @override
-  Size get preferredSize => Size.fromHeight(70);
+  Size get preferredSize => Size.fromHeight(80);
   final themeController = Get.put(HomeController());
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 16),
-      child: Container(
-        child: AppBar(automaticallyImplyLeading: false, actions: [
-          Container(
+      padding: const EdgeInsets.only(top: 18),
+      child: AppBar(automaticallyImplyLeading: false, actions: [
+        Padding(
+          padding: const EdgeInsets.only(top: 8),
+          child: Container(
             //width: 600,
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 GestureDetector(
                     onTap: () {
@@ -137,88 +138,130 @@ class WRappbar extends StatelessWidget implements PreferredSizeWidget {
                         fit: BoxFit.fitHeight,
                       ),
                     )),
-                SizedBox(width: 120),
-                VerticalDivider(
-                  color: Colors.black.withOpacity(0.5),
+                SizedBox(
+                  width: 160,
                 ),
-                Clock(),
-                VerticalDivider(
-                  color: Colors.black.withOpacity(0.5),
-                ),
-                SizedBox(width: 160),
-                VerticalDivider(
-                  color: Colors.black.withOpacity(0.5),
-                ),
-                RecentRecipeName(),
-                VerticalDivider(
-                  color: Colors.black.withOpacity(0.5),
-                ),
-                SizedBox(width: 160),
-                VerticalDivider(
-                  color: Colors.black.withOpacity(0.5),
-                ),
-                RunErrorStatus(),
-                VerticalDivider(
-                  color: Colors.black.withOpacity(0.5),
-                ),
-                SizedBox(width: 160),
-                VerticalDivider(
-                  color: Colors.black.withOpacity(0.5),
-                ),
-                SettingMenu(),
-                VerticalDivider(
-                  color: Colors.black.withOpacity(0.5),
-                ),
-                SizedBox(width: 160),
-                VerticalDivider(
-                  color: Colors.black.withOpacity(0.5),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    ThemeService().switchTheme();
-                  },
-                  child: Icon(
-                    Get.isDarkMode
-                        ? Icons.toggle_on_outlined
-                        : Icons.toggle_off_outlined,
-                    size: 38,
-                    color: Get.isDarkMode ? Colors.white : Colors.black,
+                Container(
+                  height: 48,
+                  child: Clock(),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black),
                   ),
                 ),
-                VerticalDivider(
-                  color: Colors.black.withOpacity(0.5),
+                SizedBox(
+                  width: 160,
                 ),
+                Container(
+                  height: 48,
+                  child: RecentRecipeName(),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black),
+                  ),
+                ),
+                SizedBox(
+                  width: 160,
+                ),
+                VerticalDivider(
+                  color: Colors.black,
+                  indent: 6,
+                  endIndent: 6,
+                ),
+                SizedBox(
+                  width: 20,
+                ),
+                RunErrorStatus(),
+                SizedBox(
+                  width: 20,
+                ),
+                VerticalDivider(
+                  color: Colors.black,
+                  indent: 6,
+                  endIndent: 6,
+                ),
+                SizedBox(
+                  width: 160,
+                ),
+                Container(
+                  height: 48,
+                  child: SettingMenu(),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black),
+                  ),
+                ),
+                SizedBox(
+                  width: 120,
+                ),
+                Container(
+                  height: 48,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black),
+                  ),
+                  child: TextButton.icon(
+                    icon: Get.isDarkMode
+                        ? Icon(
+                            Icons.toggle_on_outlined,
+                            color: Colors.white,
+                          )
+                        : Icon(
+                            Icons.toggle_off_outlined,
+                            color: Colors.black,
+                          ),
+                    label: Get.isDarkMode
+                        ? Text(
+                            'go white mode',
+                            style: TextStyle(color: Colors.white),
+                          )
+                        : Text(
+                            'go dark mode',
+                            style: TextStyle(color: Colors.black),
+                          ),
+
+                    // Get.isDarkMode
+                    //     ? Icon(Icons.toggle_on_outlined)
+                    //     : Icons.toggle_off_outlined,
+                    onPressed: () {
+                      ThemeService().switchTheme();
+                    },
+                  ),
+                ),
+
+                // SizedBox(
+                //   width: 180,
+                // ),
               ],
             ),
           ),
-          Spacer(),
-          // dialogBtn(),
-          // SettingMenu(),
-          // SizedBox(
-          //   width: 50,
-          // ),
-          // GestureDetector(
-          //   onTap: () {
-          //     ThemeService().switchTheme();
-          //   },
-          //   child: Padding(
-          //     padding: const EdgeInsets.only(left: 20),
-          //     child: Icon(
-          //       Get.isDarkMode
-          //           ? Icons.toggle_on_outlined
-          //           : Icons.toggle_off_outlined,
-          //       size: 38,
-          //       color: Get.isDarkMode ? Colors.white : Colors.black,
-          //     ),
-          //   ),
-          // ),
-          // SizedBox(
-          //   width: 20,
-          // ),
+        ),
+        Spacer(),
+        // dialogBtn(),
+        // SettingMenu(),
+        // SizedBox(
+        //   width: 50,
+        // ),
+        // GestureDetector(
+        //   onTap: () {
+        //     ThemeService().switchTheme();
+        //   },
+        //   child: Padding(
+        //     padding: const EdgeInsets.only(left: 20),
+        //     child: Icon(
+        //       Get.isDarkMode
+        //           ? Icons.toggle_on_outlined
+        //           : Icons.toggle_off_outlined,
+        //       size: 38,
+        //       color: Get.isDarkMode ? Colors.white : Colors.black,
+        //     ),
+        //   ),
+        // ),
+        // SizedBox(
+        //   width: 20,
+        // ),
 
-          WindowButtons(),
-        ]),
-      ),
+        Padding(
+          padding: const EdgeInsets.only(top: 6.0),
+          child: WindowButtons(),
+        ),
+      ]),
     );
   }
 }

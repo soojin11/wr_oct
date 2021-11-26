@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:wr_ui/controller/setting_controller.dart';
 import 'package:wr_ui/model/const/style/pallette.dart';
 import 'package:wr_ui/setting_content.dart';
 import 'package:wr_ui/view/appbar/actions/setting/setting_menu_final.dart';

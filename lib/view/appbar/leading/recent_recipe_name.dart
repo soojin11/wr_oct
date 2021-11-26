@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:wr_ui/model/const/style/text.dart';
+import 'package:get/get.dart';
+import 'package:wr_ui/controller/setting_controller.dart';
 
 class RecentRecipeName extends StatelessWidget {
   const RecentRecipeName({
@@ -9,10 +10,12 @@ class RecentRecipeName extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(top: 5, bottom: 5),
-      child: Text(
-        'ExampleRecipeName',
-        style: WrText.WrLeadingFont,
+      padding: EdgeInsets.only(top: 5, left: 70, right: 70),
+      child: Center(
+        child: Text(
+          '${Get.find<SettingController>().chartName.value}',
+          style: TextStyle(fontSize: 18),
+        ),
       ),
     );
   }

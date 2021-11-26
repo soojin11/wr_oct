@@ -7,8 +7,26 @@ class WindowButtons extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        MinimizeWindowButton(colors: windowBtnColors),
-        CloseWindowButton(colors: closeBtnColors),
+        Container(
+          height: 48,
+          child: MinimizeWindowButton(colors: windowBtnColors),
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.black),
+          ),
+        ),
+        SizedBox(
+          width: 10,
+        ),
+        Container(
+          height: 48,
+          child: CloseWindowButton(colors: closeBtnColors),
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.black),
+          ),
+        ),
+        SizedBox(
+          width: 10,
+        ),
       ],
     );
   }

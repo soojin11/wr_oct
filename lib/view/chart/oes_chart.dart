@@ -4,6 +4,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:wr_ui/controller/setting_controller.dart';
 import 'package:wr_ui/view/appbar/actions/setting/setting_menu_final.dart';
 import 'package:wr_ui/view/right_side_menu/csv_creator.dart';
 import 'package:wr_ui/view/right_side_menu/log_screen.dart';
@@ -94,124 +95,126 @@ class OesChart extends GetView<OesController> {
   Widget build(BuildContext context) {
     //final controller = Get.put(OesController());
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: Container(
-        child: GetBuilder<OesController>(
-          builder: (controller) => Obx(()=>SfCartesianChart(
-            //plotAreaBackgroundColor: Colors.red,
-            legend: Legend(
-                iconHeight: 0,
-                iconWidth: 30,
-                isVisible: true,
-                toggleSeriesVisibility: true,
-                position: LegendPosition.top),
-            zoomPanBehavior: controller.zoomPanBehavior,
-            trackballBehavior: controller.trackballBehavior,
-            primaryXAxis: NumericAxis(
-                minimum: 190, maximum: 760, labelFormat: '{value}nm'),
-            primaryYAxis: NumericAxis(minimum: 0, maximum: 60),
-            title: ChartTitle(text: Get.find<SettingController>().chartName.value),
-            series: <ChartSeries<OESData, int>>[
-              SplineSeries(
-                animationDuration: 0,
-                width: 1,
-                name: 'OES_1',
-                enableTooltip: true,
-                onRendererCreated: (ChartSeriesController ctrl) {
-                  controller.oneCtrl = ctrl;
-                },
-                dataSource: controller.oneData,
-                xValueMapper: (OESData spec, _) => spec.range,
-                yValueMapper: (OESData spec, _) => spec.num,
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: Container(
+          child: GetBuilder<OesController>(
+            builder: (controller) => Obx(
+              () => SfCartesianChart(
+                //plotAreaBackgroundColor: Colors.red,
+                legend: Legend(
+                    iconHeight: 0,
+                    iconWidth: 30,
+                    isVisible: true,
+                    toggleSeriesVisibility: true,
+                    position: LegendPosition.top),
+                zoomPanBehavior: controller.zoomPanBehavior,
+                trackballBehavior: controller.trackballBehavior,
+                primaryXAxis: NumericAxis(
+                    minimum: 190, maximum: 760, labelFormat: '{value}nm'),
+                primaryYAxis: NumericAxis(minimum: 0, maximum: 60),
+                title: ChartTitle(
+                    text: Get.find<SettingController>().chartName.value),
+                series: <ChartSeries<OESData, int>>[
+                  SplineSeries(
+                    animationDuration: 0,
+                    width: 1,
+                    name: 'OES_1',
+                    enableTooltip: true,
+                    onRendererCreated: (ChartSeriesController ctrl) {
+                      controller.oneCtrl = ctrl;
+                    },
+                    dataSource: controller.oneData,
+                    xValueMapper: (OESData spec, _) => spec.range,
+                    yValueMapper: (OESData spec, _) => spec.num,
+                  ),
+                  SplineSeries(
+                    animationDuration: 0,
+                    width: 1,
+                    name: 'OES_2',
+                    enableTooltip: true,
+                    onRendererCreated: (ChartSeriesController ctrl) {
+                      controller.twoCtrl = ctrl;
+                    },
+                    dataSource: controller.twoData,
+                    xValueMapper: (OESData spec, _) => spec.range,
+                    yValueMapper: (OESData spec, _) => spec.num,
+                  ),
+                  SplineSeries(
+                    animationDuration: 0,
+                    width: 1,
+                    name: 'OES_3',
+                    enableTooltip: true,
+                    onRendererCreated: (ChartSeriesController ctrl) {
+                      controller.threeCtrl = ctrl;
+                    },
+                    dataSource: controller.threeData,
+                    xValueMapper: (OESData spec, _) => spec.range,
+                    yValueMapper: (OESData spec, _) => spec.num,
+                  ),
+                  SplineSeries(
+                    animationDuration: 0,
+                    width: 1,
+                    name: 'OES_4',
+                    enableTooltip: true,
+                    onRendererCreated: (ChartSeriesController ctrl) {
+                      controller.fourCtrl = ctrl;
+                    },
+                    dataSource: controller.fourData,
+                    xValueMapper: (OESData spec, _) => spec.range,
+                    yValueMapper: (OESData spec, _) => spec.num,
+                  ),
+                  SplineSeries(
+                    animationDuration: 0,
+                    width: 1,
+                    name: 'OES_5',
+                    enableTooltip: true,
+                    onRendererCreated: (ChartSeriesController ctrl) {
+                      controller.fiveCtrl = ctrl;
+                    },
+                    dataSource: controller.fiveData,
+                    xValueMapper: (OESData spec, _) => spec.range,
+                    yValueMapper: (OESData spec, _) => spec.num,
+                  ),
+                  SplineSeries(
+                    animationDuration: 0,
+                    width: 1,
+                    name: 'OES_6',
+                    enableTooltip: true,
+                    onRendererCreated: (ChartSeriesController ctrl) {
+                      controller.sixCtrl = ctrl;
+                    },
+                    dataSource: controller.sixData,
+                    xValueMapper: (OESData spec, _) => spec.range,
+                    yValueMapper: (OESData spec, _) => spec.num,
+                  ),
+                  SplineSeries(
+                    animationDuration: 0,
+                    width: 1,
+                    name: 'OES_7',
+                    enableTooltip: true,
+                    onRendererCreated: (ChartSeriesController ctrl) {
+                      controller.sevenCtrl = ctrl;
+                    },
+                    dataSource: controller.sevenData,
+                    xValueMapper: (OESData spec, _) => spec.range,
+                    yValueMapper: (OESData spec, _) => spec.num,
+                  ),
+                  SplineSeries(
+                    animationDuration: 0,
+                    width: 1,
+                    name: 'OES_8',
+                    enableTooltip: true,
+                    onRendererCreated: (ChartSeriesController ctrl) {
+                      controller.eightCtrl = ctrl;
+                    },
+                    dataSource: controller.eightData,
+                    xValueMapper: (OESData spec, _) => spec.range,
+                    yValueMapper: (OESData spec, _) => spec.num,
+                  ),
+                ],
               ),
-              SplineSeries(
-                animationDuration: 0,
-                width: 1,
-                name: 'OES_2',
-                enableTooltip: true,
-                onRendererCreated: (ChartSeriesController ctrl) {
-                  controller.twoCtrl = ctrl;
-                },
-                dataSource: controller.twoData,
-                xValueMapper: (OESData spec, _) => spec.range,
-                yValueMapper: (OESData spec, _) => spec.num,
-              ),
-              SplineSeries(
-                animationDuration: 0,
-                width: 1,
-                name: 'OES_3',
-                enableTooltip: true,
-                onRendererCreated: (ChartSeriesController ctrl) {
-                  controller.threeCtrl = ctrl;
-                },
-                dataSource: controller.threeData,
-                xValueMapper: (OESData spec, _) => spec.range,
-                yValueMapper: (OESData spec, _) => spec.num,
-              ),
-              SplineSeries(
-                animationDuration: 0,
-                width: 1,
-                name: 'OES_4',
-                enableTooltip: true,
-                onRendererCreated: (ChartSeriesController ctrl) {
-                  controller.fourCtrl = ctrl;
-                },
-                dataSource: controller.fourData,
-                xValueMapper: (OESData spec, _) => spec.range,
-                yValueMapper: (OESData spec, _) => spec.num,
-              ),
-              SplineSeries(
-                animationDuration: 0,
-                width: 1,
-                name: 'OES_5',
-                enableTooltip: true,
-                onRendererCreated: (ChartSeriesController ctrl) {
-                  controller.fiveCtrl = ctrl;
-                },
-                dataSource: controller.fiveData,
-                xValueMapper: (OESData spec, _) => spec.range,
-                yValueMapper: (OESData spec, _) => spec.num,
-              ),
-              SplineSeries(
-                animationDuration: 0,
-                width: 1,
-                name: 'OES_6',
-                enableTooltip: true,
-                onRendererCreated: (ChartSeriesController ctrl) {
-                  controller.sixCtrl = ctrl;
-                },
-                dataSource: controller.sixData,
-                xValueMapper: (OESData spec, _) => spec.range,
-                yValueMapper: (OESData spec, _) => spec.num,
-              ),
-              SplineSeries(
-                animationDuration: 0,
-                width: 1,
-                name: 'OES_7',
-                enableTooltip: true,
-                onRendererCreated: (ChartSeriesController ctrl) {
-                  controller.sevenCtrl = ctrl;
-                },
-                dataSource: controller.sevenData,
-                xValueMapper: (OESData spec, _) => spec.range,
-                yValueMapper: (OESData spec, _) => spec.num,
-              ),
-              SplineSeries(
-                animationDuration: 0,
-                width: 1,
-                name: 'OES_8',
-                enableTooltip: true,
-                onRendererCreated: (ChartSeriesController ctrl) {
-                  controller.eightCtrl = ctrl;
-                },
-                dataSource: controller.eightData,
-                xValueMapper: (OESData spec, _) => spec.range,
-                yValueMapper: (OESData spec, _) => spec.num,
-              ),
-            ],
+            ),
           ),
-        ),
-      ),
-    ));
+        ));
   }
 }
