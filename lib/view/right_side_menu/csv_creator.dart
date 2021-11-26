@@ -4,7 +4,6 @@ import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:wr_ui/model/const/style/pallette.dart';
 import 'package:wr_ui/view/chart/oes_chart.dart';
 
 import 'log_screen.dart';
@@ -19,58 +18,69 @@ class CSVButton extends GetView<CsvController> {
     return Column(
       children: [
         SizedBox(height: 30),
-        ElevatedButton(
-          onPressed: () async {
-            await controller.csvSaveInit();
-            controller.fileSave.value = true;
-            Get.find<LogListController>().startCsv();
-          },
-          child: Container(
-            width: 200,
-            child: Row(
-              children: [
-                Container(
-                    padding: EdgeInsets.only(left: 30),
-                    width: 65,
-                    child: Obx(() => Visibility(
-                          visible: controller.fileSave.value,
-                          child: Row(
-                            children: [
-                              FadeTransition(
-                                  opacity: controller.animation,
-                                  child: Icon(Icons.circle,
-                                      size: 17, color: Colors.red)),
-                            ],
-                          ),
-                        ))),
-                Text(
-                  "Save Start",
+        Obx(() => IgnorePointer(
+            ignoring: controller.inactiveBtn.value,
+            child: ElevatedButton(
+              onPressed: () async {
+                await controller.csvSaveInit();
+                controller.fileSave.value = true;
+                Get.find<LogListController>().startCsv();
+                controller.inactiveBtn.value = true;
+              },
+              child: Container(
+                width: 200,
+                child: Row(
+                  children: [
+                    Container(
+                        padding: EdgeInsets.only(left: 30),
+                        width: 65,
+                        child: Obx(() => Visibility(
+                              visible: controller.fileSave.value,
+                              child: Row(
+                                children: [
+                                  FadeTransition(
+                                      opacity: controller.animation,
+                                      child: Icon(Icons.circle,
+                                          size: 17, color: Colors.red)),
+                                ],
+                              ),
+                            ))),
+                    Text(
+                      "Save Start",
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          ),
-          style: ElevatedButton.styleFrom(
-            primary: wrColors.wrPrimary,
-          ),
-        ),
-        SizedBox(height: 30),
-        ElevatedButton(
-          onPressed: () async {
-            controller.fileSave.value = false;
-            Get.find<LogListController>().stopCsv();
-          },
-          child: Container(
-            width: 200,
-            child: Center(
-              child: Text(
-                "Save Stop",
               ),
-            ),
-          ),
-          style: ElevatedButton.styleFrom(
-            primary: wrColors.wrPrimary,
-          ),
-        ),
+              style: ElevatedButton.styleFrom(
+                primary: controller.inactiveBtn.value
+                    ? Colors.grey
+                    : Colors.greenAccent[700],
+                textStyle: TextStyle(fontSize: 16),
+              ),
+            ))),
+        SizedBox(height: 30),
+        Obx(() => IgnorePointer(
+              ignoring: !controller.inactiveBtn.value,
+              child: ElevatedButton(
+                onPressed: () async {
+                  controller.fileSave.value = false;
+                  Get.find<LogListController>().stopCsv();
+                  controller.inactiveBtn.value = false;
+                },
+                child: Container(
+                  width: 200,
+                  child: Center(
+                    child: Text(
+                      "Save Stop",
+                    ),
+                  ),
+                ),
+                style: ElevatedButton.styleFrom(
+                    primary:
+                        controller.inactiveBtn.value ? Colors.red : Colors.grey,
+                    textStyle: TextStyle(fontSize: 16)),
+              ),
+            ))
       ],
     );
   }

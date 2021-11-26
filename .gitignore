@@ -5,6 +5,7 @@
 *.swp
 *.txt
 *.csv
+*.ini
 .DS_Store
 .atom/
 .buildlog/
