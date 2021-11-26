@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wr_ui/model/const/style/pallette.dart';
 import 'package:wr_ui/view/appbar/actions/setting/setting_menu_final.dart';
+import 'package:wr_ui/view/right_side_menu/ini_creator.dart';
 
 Future<Map<String, dynamic>> settingsDialog(
     BuildContext context, Map<String, dynamic> settings) async {
@@ -20,6 +21,7 @@ Future<Map<String, dynamic>> settingsDialog(
       String chartTheme = settings['chartTheme'].toString();
       String seriesType = settings['seriesType'].toString();
       double scaleValue = settings['scaleValue'] as double;
+      String exposureTime = settings['exposureTime'].toString();
       var top = 100.0;
       var left = 800.0;
       return StatefulBuilder(
@@ -205,18 +207,43 @@ Future<Map<String, dynamic>> settingsDialog(
                           Padding(
                             padding: const EdgeInsets.all(8),
                             child: TextFormField(
-                              initialValue: '100',
+                              initialValue:
+                                  Get.find<iniControllerWithReactive>()
+                                      .exposureTime
+                                      .value,
                               decoration: InputDecoration(
                                 icon: Icon(Icons.label),
                                 labelText: 'Exposure Time',
                                 hintText: 'milliseconds',
                               ),
-                              onSaved: (v) {
-                                Get.find<SettingController>()
+                              onSaved: (val) {
+                                // Get.find<SettingController>()
+                                //     .exposureTime
+                                //     .value = savedValue.toString();
+                                //val(텍스트폼에 친거)->
+                                Get.find<iniControllerWithReactive>()
                                     .exposureTime
-                                    .value = v.toString();
-                                print(v);
+                                    .value = val.toString();
+                                // setState(() {
+                                // exposureTime = val;
+                                // });
+                                print(
+                                    ' Setting창에서 저장 된 exposureTime=>"${Get.find<iniControllerWithReactive>().exposureTime.value}"  "${Get.find<SettingController>().exposureTime.value}"');
                               },
+                              // onSaved: (savedValue) {
+                              //   Get.find<SettingController>()
+                              //       .exposureTime
+                              //       .value = savedValue.toString();
+
+                              //   Get.find<iniControllerWithReactive>()
+                              //       .exposureTime
+                              //       .value = savedValue.toString();
+                              //   setState(() {
+                              //     exposureTime = savedValue.toString();
+                              //   });
+                              //   print(
+                              //       ' Setting창에서 저장 된 exposureTime=>"${Get.find<iniControllerWithReactive>().exposureTime.value}"');
+                              // },
                             ),
                           ),
                         ],
@@ -236,6 +263,7 @@ Future<Map<String, dynamic>> settingsDialog(
                           'chartTheme': chartTheme,
                           'seriesType': seriesType,
                           'scaleValue': scaleValue,
+                          'exposureTime': exposureTime
                         });
                         Get.find<SettingController>().key.currentState!.save();
                       },

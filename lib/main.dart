@@ -4,8 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wr_ui/controller/drop_down_controller.dart';
 import 'package:wr_ui/controller/home_controller.dart';
+import 'package:wr_ui/ing/dialog_btn_test.dart';
+import 'package:wr_ui/ing/dialog_test.dart';
+import 'package:wr_ui/model/const/style/pallette.dart';
 import 'package:wr_ui/service/dark_white_mode/mode.dart';
 import 'package:wr_ui/service/routes/app_pages.dart';
+import 'package:wr_ui/setting_content.dart';
 import 'package:wr_ui/view/appbar/actions/minimize/window_btn.dart';
 import 'package:wr_ui/view/appbar/actions/setting/recipe_menu_final.dart';
 import 'package:wr_ui/view/appbar/actions/setting/setting_menu_final.dart';
@@ -27,7 +31,7 @@ import 'package:wr_ui/view/right_side_menu/log_screen.dart';
 import 'package:wr_ui/view/right_side_menu/start_stop.dart';
 
 Future main() async {
-  Get.put(iniControllerWithReactive()).writeIni();
+  await Get.put(iniControllerWithReactive()).writeIni();
   Get.put(iniControllerWithReactive()).readIni();
 
   Get.put(iniControllerWithReactive(), permanent: true);
@@ -39,6 +43,7 @@ Future main() async {
   Get.put(LogListController());
   Get.put(LogController());
   Get.put(SettingController());
+  Get.put(SettingContnet());
   runApp(MyApp());
   doWhenWindowReady(() {
     final win = appWindow;
@@ -51,8 +56,8 @@ Future main() async {
     win.show();
   });
   print(
-      'Get.find<iniControllerWithReactive>().deviceSimulation 초기값==>${Get.find<iniControllerWithReactive>().deviceSimulation}');
-  if (Get.find<iniControllerWithReactive>().deviceSimulation == '1') {
+      'measureStartAtProgStart 초기값==>${Get.find<iniControllerWithReactive>().measureStartAtProgStart}');
+  if (Get.find<iniControllerWithReactive>().measureStartAtProgStart == '1') {
     Get.find<OesController>().inactiveBtn.value = true;
     Get.find<OesController>().timer = Timer.periodic(
         Duration(milliseconds: 100),
@@ -136,25 +141,34 @@ class WRappbar extends StatelessWidget implements PreferredSizeWidget {
                 SizedBox(
                   width: 40,
                 ),
-                Clock(),
-                SizedBox(
-                  width: 20,
+                VerticalDivider(
+                  color: Colors.black.withOpacity(0.5),
                 ),
-                SizedBox(
-                  width: 20,
+                Clock(),
+                VerticalDivider(
+                  color: Colors.black.withOpacity(0.5),
+                ),
+                SizedBox(width: 40),
+                VerticalDivider(
+                  color: Colors.black.withOpacity(0.5),
                 ),
                 RecentRecipeName(),
-                SizedBox(
-                  width: 20,
+                VerticalDivider(
+                  color: Colors.black.withOpacity(0.5),
                 ),
-                SizedBox(
-                  width: 20,
+                SizedBox(width: 40),
+                VerticalDivider(
+                  color: Colors.black.withOpacity(0.5),
                 ),
                 RunErrorStatus(),
+                VerticalDivider(
+                  color: Colors.black.withOpacity(0.5),
+                ),
               ],
             ),
           ),
           Spacer(),
+          // dialogBtn(),
           SettingMenu(),
           SizedBox(
             width: 50,
