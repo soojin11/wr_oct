@@ -98,7 +98,9 @@ class CsvController extends GetxController with SingleGetTickerProviderMixin {
     List<dynamic> firstData = [];
     List<List<dynamic>> addFirstData = [];
     firstData.add(fileName);
-    if (Get.find<CsvController>().fileSave.value) {
+    if (Get.find<CsvController>().fileSave.value &&
+        Get.find<OesController>().oneData.length > 284 &&
+        Get.find<OesController>().oneData.length <= 285) {
       Get.find<OesController>().oneData.forEach((v) {
         firstData.add(v.num);
       });
