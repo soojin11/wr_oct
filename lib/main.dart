@@ -4,9 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wr_ui/controller/drop_down_controller.dart';
 import 'package:wr_ui/controller/home_controller.dart';
-import 'package:wr_ui/ing/dialog_btn_test.dart';
-import 'package:wr_ui/ing/dialog_test.dart';
-import 'package:wr_ui/model/const/style/pallette.dart';
 import 'package:wr_ui/service/dark_white_mode/mode.dart';
 import 'package:wr_ui/service/routes/app_pages.dart';
 import 'package:wr_ui/setting_content.dart';
@@ -140,9 +137,7 @@ class WRappbar extends StatelessWidget implements PreferredSizeWidget {
                         fit: BoxFit.fitHeight,
                       ),
                     )),
-                SizedBox(
-                  width: 40,
-                ),
+                SizedBox(width: 120),
                 VerticalDivider(
                   color: Colors.black.withOpacity(0.5),
                 ),
@@ -150,7 +145,7 @@ class WRappbar extends StatelessWidget implements PreferredSizeWidget {
                 VerticalDivider(
                   color: Colors.black.withOpacity(0.5),
                 ),
-                SizedBox(width: 40),
+                SizedBox(width: 160),
                 VerticalDivider(
                   color: Colors.black.withOpacity(0.5),
                 ),
@@ -158,11 +153,38 @@ class WRappbar extends StatelessWidget implements PreferredSizeWidget {
                 VerticalDivider(
                   color: Colors.black.withOpacity(0.5),
                 ),
-                SizedBox(width: 40),
+                SizedBox(width: 160),
                 VerticalDivider(
                   color: Colors.black.withOpacity(0.5),
                 ),
                 RunErrorStatus(),
+                VerticalDivider(
+                  color: Colors.black.withOpacity(0.5),
+                ),
+                SizedBox(width: 160),
+                VerticalDivider(
+                  color: Colors.black.withOpacity(0.5),
+                ),
+                SettingMenu(),
+                VerticalDivider(
+                  color: Colors.black.withOpacity(0.5),
+                ),
+                SizedBox(width: 160),
+                VerticalDivider(
+                  color: Colors.black.withOpacity(0.5),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    ThemeService().switchTheme();
+                  },
+                  child: Icon(
+                    Get.isDarkMode
+                        ? Icons.toggle_on_outlined
+                        : Icons.toggle_off_outlined,
+                    size: 38,
+                    color: Get.isDarkMode ? Colors.white : Colors.black,
+                  ),
+                ),
                 VerticalDivider(
                   color: Colors.black.withOpacity(0.5),
                 ),
@@ -171,28 +193,29 @@ class WRappbar extends StatelessWidget implements PreferredSizeWidget {
           ),
           Spacer(),
           // dialogBtn(),
-          SettingMenu(),
-          SizedBox(
-            width: 50,
-          ),
-          GestureDetector(
-            onTap: () {
-              ThemeService().switchTheme();
-            },
-            child: Padding(
-              padding: const EdgeInsets.only(left: 20),
-              child: Icon(
-                Get.isDarkMode
-                    ? Icons.toggle_on_outlined
-                    : Icons.toggle_off_outlined,
-                size: 38,
-                color: Get.isDarkMode ? Colors.white : Colors.black,
-              ),
-            ),
-          ),
-          SizedBox(
-            width: 20,
-          ),
+          // SettingMenu(),
+          // SizedBox(
+          //   width: 50,
+          // ),
+          // GestureDetector(
+          //   onTap: () {
+          //     ThemeService().switchTheme();
+          //   },
+          //   child: Padding(
+          //     padding: const EdgeInsets.only(left: 20),
+          //     child: Icon(
+          //       Get.isDarkMode
+          //           ? Icons.toggle_on_outlined
+          //           : Icons.toggle_off_outlined,
+          //       size: 38,
+          //       color: Get.isDarkMode ? Colors.white : Colors.black,
+          //     ),
+          //   ),
+          // ),
+          // SizedBox(
+          //   width: 20,
+          // ),
+
           WindowButtons(),
         ]),
       ),
