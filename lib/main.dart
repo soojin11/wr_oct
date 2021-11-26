@@ -17,7 +17,8 @@ import 'package:wr_ui/view/appbar/leading/clock.dart';
 import 'package:wr_ui/view/appbar/leading/recent_recipe_name.dart';
 import 'package:wr_ui/view/appbar/leading/run_error_status_mark.dart';
 import 'package:wr_ui/view/chart/oes_chart.dart';
-import 'package:wr_ui/view/chart/pages/hover_chart/hover_card.dart';
+import 'package:wr_ui/view/chart/pages/hover_chart/hover_func.dart';
+import 'package:wr_ui/view/chart/pages/hover_chart/hover_row.dart';
 import 'package:wr_ui/view/chart/pages/navigator_page/ADDpage.dart';
 import 'package:wr_ui/view/chart/pages/navigator_page/ALLpage.dart';
 import 'package:wr_ui/view/chart/pages/navigator_page/CUSTOMpage.dart';
@@ -44,6 +45,7 @@ Future main() async {
   Get.put(LogController());
   Get.put(SettingController());
   Get.put(SettingContnet());
+  Get.put(BtnHoverCtrl());
   runApp(MyApp());
   doWhenWindowReady(() {
     final win = appWindow;
@@ -250,7 +252,7 @@ class _WRbodyState extends State<WRbody> {
                 flex: 1,
                 child: Padding(
                   padding: const EdgeInsets.all(10.0),
-                  child: HoverCard(),
+                  child: ArrangeHover(),
                 ))
           ],
         ),
