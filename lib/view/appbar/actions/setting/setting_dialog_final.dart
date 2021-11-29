@@ -87,8 +87,6 @@ Future settingsDialog(BuildContext context) async {
                                 // setState(() {
                                 // ExposureTime = val;
                                 // });
-                                print(
-                                    ' Setting창에서 저장 된 ExposureTime=>"${Get.find<iniControllerWithReactive>().ExposureTime.value}"  "${Get.find<SettingController>().ExposureTime.value}"');
                               },
                               // onSaved: (savedValue) {
                               //   Get.find<SettingController>()
@@ -251,8 +249,6 @@ Future settingsDialog(BuildContext context) async {
                                 // setState(() {
                                 // ExposureTime = val;
                                 // });
-                                print(
-                                    ' Setting창에서 저장 된 ExposureTime=>"${Get.find<iniControllerWithReactive>().ExposureTime.value}"  "${Get.find<SettingController>().ExposureTime.value}"');
                               },
                               // onSaved: (savedValue) {
                               //   Get.find<SettingController>()

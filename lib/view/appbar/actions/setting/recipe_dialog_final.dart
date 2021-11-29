@@ -99,9 +99,7 @@ Future<Map<String, dynamic>> recipesDialog(
                             style: ElevatedButton.styleFrom(
                               primary: wrColors.wrPrimary,
                             ),
-                            onPressed: () {
-                              print('레시피 삭제');
-                            },
+                            onPressed: () {},
                             child: Text('Delete'),
                           ),
                           ElevatedButton(

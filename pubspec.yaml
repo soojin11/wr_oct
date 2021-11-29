@@ -28,9 +28,9 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   bitsdojo_window: ^0.1.1+1
-  carousel_slider: ^4.0.0
   csv: null
   cupertino_icons: ^1.0.2
+  dllimport_gen: ^1.2.3
   file_picker: ^4.2.0
   fl_chart: ^0.40.2
   flutter:

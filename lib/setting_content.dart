@@ -26,7 +26,6 @@ class _SettingContnetState extends State<SettingContnet> {
                 setState(() {
                   radioBtnItem = 'Device';
                   id = 1;
-                  print('디바이스 세팅 설정 시작');
                 });
               },
             ),
@@ -42,7 +41,6 @@ class _SettingContnetState extends State<SettingContnet> {
                 setState(() {
                   radioBtnItem = 'Chart';
                   id = 2;
-                  print('차트 세팅 설정 시작');
                 });
               },
             ),

@@ -166,8 +166,6 @@ class ExitBtn extends StatelessWidget {
         },
         child: TextButton.icon(
           onPressed: () {
-            print(
-                '트라이캐치 ->${Get.find<iniControllerWithReactive>().measureStartAtProgStart}');
             if (Get.find<iniControllerWithReactive>().measureStartAtProgStart ==
                 '') {
               print('바로닫기');

@@ -26,7 +26,6 @@ class ConfigDAO {
       Database db = await _getDatabase();
       int ccc = await db.rawUpdate(ConnectionSQL.modifyConfig(config));
       if (ccc > 0) {
-        print('ccc??' + ccc.toString());
         return true;
       }
       return false;
@@ -39,7 +38,6 @@ class ConfigDAO {
     try {
       Database db = await _getDatabase();
       List<Map> bbb = await db.rawQuery(ConnectionSQL.selectConfig());
-      print('bbb??' + bbb.toString());
       List<Config> config = Config.fromSQLiteList(bbb);
       return config;
     } catch (error) {

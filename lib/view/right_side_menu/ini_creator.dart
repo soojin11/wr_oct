@@ -46,7 +46,6 @@ class iniControllerWithReactive extends GetxService {
     path.value = "./inifiles/$fileName.ini";
     // String startTime = streamDateTime;
     File file = File(path.value);
-    print('wrFile의 경로는??$file');
     return file;
   }
 
@@ -63,11 +62,7 @@ class iniControllerWithReactive extends GetxService {
     var file = await _iniPath;
 
     Config c = new Config.fromStrings(file.readAsLinesSync());
-    print('new : ${c.toString()}');
-    // print('default=>"${c.defaults()['dsd' 'dsd']}"');
-    print('section=>"${c.sections()}');
-    print('items=>"${c.items('deviceSettings')}"');
-    print('get?=>"${c.get('deviceSettings', 'measureStartAtProgStart')}"');
+
     print('===============ini read end=============');
     return c;
   }
@@ -77,7 +72,6 @@ class iniControllerWithReactive extends GetxService {
     final file = await _iniPath;
     Config c = new Config();
     String? aa = c.get('deviceSettings', 'measureStartAtProgStart');
-    print('get?=>"${c.get('deviceSettings', 'measureStartAtProgStart')}"');
     c.addSection('Common');
     c.set('Common', 'OES_Simulation',
         Get.find<iniControllerWithReactive>().OES_Simulation.value);
@@ -108,7 +102,7 @@ class iniControllerWithReactive extends GetxService {
     c.set('OES_Chart_Setting', 'Series_Color_002',
         Get.find<iniControllerWithReactive>().Series_Color_002.value);
 
-    print('new : ${c.toString()}');
+    print('${c.toString()}');
     print('===============write ini end============');
 
     return file.writeAsString(c.toString());
