@@ -1,14 +1,8 @@
 import 'package:get/get.dart';
 import 'package:wr_ui/main.dart';
-import 'package:wr_ui/view/chart/pages/navigator_page/ADDpage.dart';
-import 'package:wr_ui/view/chart/pages/navigator_page/ALLpage.dart';
-import 'package:wr_ui/view/chart/pages/navigator_page/CUSTOMpage.dart';
-import 'package:wr_ui/view/chart/pages/navigator_page/OESpage.dart';
-import 'package:wr_ui/view/chart/pages/navigator_page/VIpage.dart';
 import 'package:wr_ui/view/splash/splash_binding.dart';
 import 'package:wr_ui/view/splash/splash_view.dart';
 
-import '../../wr_home_page.dart';
 part 'app_routes.dart';
 
 class AppPages {
@@ -27,27 +21,27 @@ class AppPages {
       binding: SplashBinding(),
     ),
   ];
-  static const CHART_INITIAL = Routes.ALL;
-  static final chart_routes = [
-    GetPage(
-      name: _Paths.ALL,
-      page: () => ALLpage(),
-    ),
-    GetPage(
-      name: _Paths.OES,
-      page: () => OESpage(),
-    ),
-    GetPage(
-      name: _Paths.VI,
-      page: () => VIpage(),
-    ),
-    GetPage(
-      name: _Paths.CUSTOM,
-      page: () => CUSTOMpage(),
-    ),
-    GetPage(
-      name: _Paths.ADD,
-      page: () => ADDpage(),
-    ),
-  ];
+  // static const CHART_INITIAL = Routes.ALL;
+  // static final chart_routes = [
+  //   GetPage(
+  //     name: _Paths.ALL,
+  //     page: () => ALLpage(),
+  //   ),
+  //   GetPage(
+  //     name: _Paths.OES,
+  //     page: () => OESpage(),
+  //   ),
+  //   GetPage(
+  //     name: _Paths.VI,
+  //     page: () => VIpage(),
+  //   ),
+  //   GetPage(
+  //     name: _Paths.CUSTOM,
+  //     page: () => CUSTOMpage(),
+  //   ),
+  //   GetPage(
+  //     name: _Paths.ADD,
+  //     page: () => ADDpage(),
+  //   ),
+  // ];
 }

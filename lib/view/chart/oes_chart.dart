@@ -47,11 +47,11 @@ class OesController extends GetxController {
         enableMouseWheelZooming: true,
         enablePinching: true,
         enablePanning: true);
-    trackballBehavior = TrackballBehavior(
-        enable: true,
-        activationMode: ActivationMode.singleTap,
-        lineType: TrackballLineType.vertical,
-        tooltipSettings: const InteractiveTooltip(format: 'point.x : point.y'));
+    // trackballBehavior = TrackballBehavior(
+    //     enable: true,
+    //     activationMode: ActivationMode.singleTap,
+    //     lineType: TrackballLineType.vertical,
+    //     tooltipSettings: const InteractiveTooltip(format: 'point.x : point.y'));
     super.onInit();
   }
 
@@ -106,7 +106,7 @@ class OesChart extends GetView<OesController> {
                 toggleSeriesVisibility: true,
                 position: LegendPosition.top),
             zoomPanBehavior: controller.zoomPanBehavior,
-            trackballBehavior: controller.trackballBehavior,
+            //trackballBehavior: controller.trackballBehavior,
             primaryXAxis: NumericAxis(
                 minimum: 190, maximum: 760, labelFormat: '{value}nm'),
             primaryYAxis: NumericAxis(minimum: 0, maximum: 60),

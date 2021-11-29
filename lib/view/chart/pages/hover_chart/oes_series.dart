@@ -108,7 +108,7 @@ OesChartHover({
               iconHeight: 0,
               iconWidth: 30,
               isVisible: true,
-              toggleSeriesVisibility: true,
+              toggleSeriesVisibility: false,
               position: LegendPosition.top),
           primaryXAxis:
               NumericAxis(minimum: 190, maximum: 760, labelFormat: '{value}nm'),
