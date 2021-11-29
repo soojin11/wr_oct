@@ -1,0 +1,1 @@
+2021-11-26 15:38:08.78 [Event Trigger] Stop button is pressed

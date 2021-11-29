@@ -1,0 +1,2 @@
+2021-11-28 03:18:43.925 [Event Trigger] Start button is pressed
+2021-11-28 03:18:45.187 [Event Trigger] Stop button is pressed
