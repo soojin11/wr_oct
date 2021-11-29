@@ -32,12 +32,12 @@ Future main() async {
   await Get.put(iniControllerWithReactive()).writeIni();
   Get.put(iniControllerWithReactive()).readIni();
 
-  Get.put(iniControllerWithReactive(), permanent: true);
+  Get.put(iniControllerWithReactive());
   Get.put(runErrorStatusController());
   Get.put(StartStopController());
   Get.put(CsvController());
   //Get.put(VizController());
-  Get.put(OesController(), permanent: true);
+  Get.put(OesController());
   Get.put(LogListController());
   Get.put(LogController());
   Get.put(SettingController());
@@ -54,16 +54,17 @@ Future main() async {
     win.title = "WR";
     win.show();
   });
-  print(
-      'measureStartAtProgStart 초기값==>${Get.find<iniControllerWithReactive>().measureStartAtProgStart}');
-  if (Get.find<iniControllerWithReactive>().measureStartAtProgStart == '1') {
+
+  if (Get.find<iniControllerWithReactive>().measureStartAtProgStart.value ==
+      '1') {
+    print('auto start');
     Get.find<OesController>().inactiveBtn.value = true;
     Get.find<OesController>().timer = Timer.periodic(
         Duration(milliseconds: 100),
         Get.find<OesController>().updateDataSource);
     Get.find<OesController>().oneData;
   } else {
-    print('ini가 1이 아님');
+    print('manual start');
   }
 }
 

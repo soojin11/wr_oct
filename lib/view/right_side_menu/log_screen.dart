@@ -122,12 +122,16 @@ class LogList extends GetView<LogListController> {
               itemCount: controller.logData.length,
               itemBuilder: (BuildContext context, int index) {
                 return Container(
-                  height: 20,
+                  height: 60,
                   child: Column(
                     children: [
                       Text(
                         '${controller.logData[index]}',
                       ),
+                      Visibility(
+                        child: Text('인덱스 레인지에러??인덱스확인=>$index'),
+                        visible: false,
+                      )
                     ],
                   ),
                 );

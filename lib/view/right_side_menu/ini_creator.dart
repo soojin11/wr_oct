@@ -14,15 +14,22 @@ class iniControllerWithReactive extends GetxService {
   File? file;
 
   //////////프로그램 구동 시 자동시작
-  RxString measureStartAtProgStart = '1'.obs;
-  RxInt OESsimulation = 0.obs;
-  RxInt OESchannelCount = 8.obs;
-  RxInt currentDirectoryAutoSave = 1.obs;
-  RxString CSVsavePath = './datafiles/'.obs;
-  RxInt saveFromStartSignal = 0.obs;
+  RxString measureStartAtProgStart = '0'.obs;
+  RxString OES_Simulation = '0'.obs;
+  RxString OES_Count = '8'.obs;
+  RxString VI_Simulation = '0'.obs;
+  RxString VI_Count = '0'.obs;
+  RxString currentDirectoryAutoSave = '1'.obs;
+  RxString DataPath = './datafiles/'.obs;
+  RxString saveFromStartSignal = '1'.obs;
   RxDouble dataViewStartFromMoreValueOES = 0.0.obs;
-  RxString exposureTime = '100'.obs;
-  RxInt delayTime = 0.obs;
+  /////////////여기부터 세팅창
+  RxString ExposureTime = '100'.obs;
+  RxString DelayTime = '200'.obs;
+  RxString Series_Color_001 = 'red'.obs;
+  RxString Series_Color_002 = 'red'.obs;
+  RxString a = ''.obs;
+  RxString b = ''.obs;
   //////////프로그램 구동 시 자동시작
   @override
   void onInit() {
@@ -30,7 +37,7 @@ class iniControllerWithReactive extends GetxService {
     ever(measureStartAtProgStart, (m) => writeIni()
         // print('measureStartAtProgStart이 변경됨=>$_')
         );
-    ever(exposureTime, (m) => writeIni());
+    ever(ExposureTime, (m) => writeIni());
   }
 
   Future<File> get _iniPath async {
@@ -57,7 +64,7 @@ class iniControllerWithReactive extends GetxService {
 
     Config c = new Config.fromStrings(file.readAsLinesSync());
     print('new : ${c.toString()}');
-    print('default=>"${c.defaults()['dsd' 'dsd']}"');
+    // print('default=>"${c.defaults()['dsd' 'dsd']}"');
     print('section=>"${c.sections()}');
     print('items=>"${c.items('deviceSettings')}"');
     print('get?=>"${c.get('deviceSettings', 'measureStartAtProgStart')}"');
@@ -69,32 +76,38 @@ class iniControllerWithReactive extends GetxService {
     print('===============write ini start============');
     final file = await _iniPath;
     Config c = new Config();
-    if (c.hasOption('option', 'defaultValue')) {
-      print('${c.hasOption('option', 'defaultValue')}');
-      c.addSection('name');
-    }
-    print('${c.hasOption('option', 'defaultValue')}');
-    c.defaults()['option'] = 'defaultValue';
-    c.defaults()['name'] = 'defaultname';
-    c.addSection('deviceSettings');
+    String? aa = c.get('deviceSettings', 'measureStartAtProgStart');
+    print('get?=>"${c.get('deviceSettings', 'measureStartAtProgStart')}"');
+    c.addSection('Common');
+    c.set('Common', 'OES_Simulation',
+        Get.find<iniControllerWithReactive>().OES_Simulation.value);
+    c.set('Common', 'OES_Count',
+        Get.find<iniControllerWithReactive>().OES_Count.value);
+    c.set('Common', 'VI_Simulation',
+        Get.find<iniControllerWithReactive>().VI_Simulation.value);
+    c.set('Common', 'VI_Count',
+        Get.find<iniControllerWithReactive>().VI_Count.value);
+    c.set('Common', 'DataPath',
+        Get.find<iniControllerWithReactive>().DataPath.value);
+    c.set('Common', 'SaveFromStartSignal ',
+        Get.find<iniControllerWithReactive>().saveFromStartSignal.value);
+    c.set('Common', 'measureStartAtProgStart ',
+        Get.find<iniControllerWithReactive>().measureStartAtProgStart.value);
+    //////////////////////////////////
+    c.addSection('OES_Setting');
+    c.set('OES_Setting', 'ExposureTime',
+        Get.find<iniControllerWithReactive>().ExposureTime.value);
+    c.set('OES_Setting', 'DelayTime',
+        Get.find<iniControllerWithReactive>().DelayTime.value);
+    c.addSection('VI_Setting');
+    c.set('VI_Setting', 'a', Get.find<iniControllerWithReactive>().a.value);
+    c.set('VI_Setting', 'b', Get.find<iniControllerWithReactive>().b.value);
+    c.addSection('OES_Chart_Setting');
+    c.set('OES_Chart_Setting', 'Series_Color_001',
+        Get.find<iniControllerWithReactive>().Series_Color_001.value);
+    c.set('OES_Chart_Setting', 'Series_Color_002',
+        Get.find<iniControllerWithReactive>().Series_Color_002.value);
 
-    c.set('deviceSettings', 'deviceSimulation', '1');
-    c.set('deviceSettings', 'measureStartAtProgStart',
-        measureStartAtProgStart.value);
-
-    c.set('deviceSettings', 'exposureTime', exposureTime.string);
-    c.set('deviceSettings', 'delayTime', delayTime.string);
-    c.addSection('chartSettings');
-    c.set('chartSettings', 'OESsimulation', OESsimulation.string);
-    c.set('chartSettings', 'OESchannelCount', OESchannelCount.string);
-
-    c.addSection('saveSettings');
-    c.set('saveSettings', 'currentDirectoryAutoSave',
-        currentDirectoryAutoSave.string);
-    c.set('saveSettings', 'CSVsavePath', path.value);
-    c.set('saveSettings', 'saveFromStartSignal', saveFromStartSignal.string);
-    c.set('saveSettings', 'dataViewStartFromMoreValueOES',
-        dataViewStartFromMoreValueOES.string);
     print('new : ${c.toString()}');
     print('===============write ini end============');
 

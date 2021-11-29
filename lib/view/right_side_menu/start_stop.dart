@@ -55,7 +55,7 @@ class StartStop extends GetView<StartStopController> {
                   Get.find<OesController>().timer = Timer.periodic(
                       Duration(
                           milliseconds: int.parse(Get.find<SettingController>()
-                              .exposureTime
+                              .ExposureTime
                               .value)),
                       Get.find<OesController>().updateDataSource);
                 } on FormatException {
@@ -65,9 +65,7 @@ class StartStop extends GetView<StartStopController> {
                 Get.find<runErrorStatusController>().connect.value = true;
                 Get.find<runErrorStatusController>().textmsg.value =
                     'SIMULATION';
-                Get.find<iniControllerWithReactive>()
-                    .measureStartAtProgStart
-                    .value = '0';
+
                 // Get.find<iniControllerWithReactive>().writeIni();
 
                 // Get.find<VizController>().timer = Timer.periodic(

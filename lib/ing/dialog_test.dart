@@ -44,9 +44,6 @@ Future displayDialog(BuildContext context) async {
                 Padding(
                   padding: const EdgeInsets.all(8),
                   child: TextFormField(
-                    initialValue: Get.find<iniControllerWithReactive>()
-                        .measureStartAtProgStart
-                        .value,
                     decoration: const InputDecoration(
                       icon: Icon(Icons.label),
                       labelText: 'measureStartAtProgStart',
@@ -55,9 +52,6 @@ Future displayDialog(BuildContext context) async {
                       // setState(() {
                       //   deviceName = value;
                       // });
-                      Get.find<iniControllerWithReactive>()
-                          .measureStartAtProgStart
-                          .value = value;
                     },
                   ),
                 ),
@@ -65,7 +59,7 @@ Future displayDialog(BuildContext context) async {
                   padding: const EdgeInsets.all(8),
                   child: TextFormField(
                     initialValue: Get.find<iniControllerWithReactive>()
-                        .exposureTime
+                        .ExposureTime
                         .value,
                     decoration: InputDecoration(
                       icon: Icon(Icons.label),
@@ -74,31 +68,31 @@ Future displayDialog(BuildContext context) async {
                     ),
                     onSaved: (val) {
                       // Get.find<SettingController>()
-                      //     .exposureTime
+                      //     .ExposureTime
                       //     .value = savedValue.toString();
                       //val(텍스트폼에 친거)->
-                      Get.find<iniControllerWithReactive>().exposureTime.value =
+                      Get.find<iniControllerWithReactive>().ExposureTime.value =
                           val.toString();
                       // setState(() {
-                      // exposureTime = val;
+                      // ExposureTime = val;
                       // });
-                      print(
-                          ' Setting창에서 저장 된 exposureTime=>"${Get.find<iniControllerWithReactive>().exposureTime.value}"  "${Get.find<SettingController>().exposureTime.value}"');
-                    },
-                    // onSaved: (savedValue) {
-                    //   Get.find<SettingController>()
-                    //       .exposureTime
-                    //       .value = savedValue.toString();
+                      //   print(
+                      //       ' Setting창에서 저장 된 ExposureTime=>"${Get.find<iniControllerWithReactive>().ExposureTime.value}"  "${Get.find<SettingController>().ExposureTime.value}"');
+                      // },
+                      // onSaved: (savedValue) {
+                      //   Get.find<SettingController>()
+                      //       .ExposureTime
+                      //       .value = savedValue.toString();
 
-                    //   Get.find<iniControllerWithReactive>()
-                    //       .exposureTime
-                    //       .value = savedValue.toString();
-                    //   setState(() {
-                    //     exposureTime = savedValue.toString();
-                    //   });
-                    //   print(
-                    //       ' Setting창에서 저장 된 exposureTime=>"${Get.find<iniControllerWithReactive>().exposureTime.value}"');
-                    // },
+                      //   Get.find<iniControllerWithReactive>()
+                      //       .ExposureTime
+                      //       .value = savedValue.toString();
+                      //   setState(() {
+                      //     ExposureTime = savedValue.toString();
+                      //   });
+                      //   print(
+                      //       ' Setting창에서 저장 된 ExposureTime=>"${Get.find<iniControllerWithReactive>().ExposureTime.value}"');
+                    },
                   ),
                 ),
               ],
@@ -111,7 +105,7 @@ Future displayDialog(BuildContext context) async {
           // keyboardType: TextInputType.numberWithOptions(),
           // decoration: InputDecoration(
           // hintText:
-          // Get.find<iniControllerWithReactive>().exposureTime.value),
+          // Get.find<iniControllerWithReactive>().ExposureTime.value),
           // ),
           actions: [
             ElevatedButton(
