@@ -1,12 +1,15 @@
 import 'dart:async';
 import 'dart:ffi';
+import 'dart:io';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:dllimport_gen/annotations.dart';
+import 'package:dllimport_gen/dll_import.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wr_ui/controller/drop_down_controller.dart';
 import 'package:wr_ui/controller/home_controller.dart';
 import 'package:wr_ui/ing/data_monitor.dart';
+import 'package:wr_ui/ing/data_monitor_class.dart';
 import 'package:wr_ui/service/dark_white_mode/mode.dart';
 import 'package:wr_ui/service/routes/app_pages.dart';
 import 'package:wr_ui/setting_content.dart';
@@ -31,32 +34,20 @@ import 'package:wr_ui/view/right_side_menu/log_save.dart';
 import 'package:wr_ui/view/right_side_menu/log_screen.dart';
 import 'package:wr_ui/view/right_side_menu/start_stop.dart';
 
-class FFIOcr {
-  final DynamicLibrary _dylib;
-  static final _instance = FFIOcr._();
-
-  FFIOcr._() : _dylib = DynamicLibrary.open('OCR.dll');
-
-  factory FFIOcr() => _instance;
-
-  Function get _Open => _dylib.lookupFunction('SetCursorPos');
-  int Open() => _Open();
-}
-
-@DllImport('OCR.dll')
-abstract class OCR {
-  int Open();
-}
+// @DllImport('OCR.dll')
+// abstract class OCR {
+//   int OpenAllSpectrometers();
+// }
 
 Future main() async {
   await Get.put(iniControllerWithReactive()).writeIni();
   Get.put(iniControllerWithReactive()).readIni();
-  var ocr = FFIOcr();
-  var success = ocr.Open() != 0;
-  if (!success) {
-    print('success=>${ocr.Open().toString()}');
-  }
-  print("find & init data monitor ctrl");
+
+  // var ocr = FFIOCR();
+  // var success = ocr.OpenAllSpectrometers() != 0;
+  // if (!success) {
+  //   print('ocr monitor fail==>' + '${ocr.OpenAllSpectrometers()}');
+  // }
   Get.put(iniControllerWithReactive());
   Get.put(runErrorStatusController());
   Get.put(StartStopController());
