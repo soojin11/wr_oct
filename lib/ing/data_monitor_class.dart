@@ -1,22 +1,42 @@
 import 'dart:ffi';
-
 import 'dart:io';
 
-typedef _OpenAllSpectrometersC = Uint32 Function();
-typedef _OpenAllSpectrometersDart = int Function();
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class FFIOCR {
-  final DynamicLibrary dylib;
-  static final _instance = FFIOCR._();
+// final DynamicLibrary FT232H = Platform.isWindows
+//     ? DynamicLibrary.open('WGSCOM.dll')
+//     : DynamicLibrary.process();
 
-  FFIOCR._()
-      : dylib = DynamicLibrary.open(
-            Platform.script.resolve('./OCR.dll').toFilePath());
+// final DynamicLibrary FT232Hfunc = Platform.isWindows
+//     ? DynamicLibrary.open('WGSCOM.dll')
+//     : DynamicLibrary.process();
+final DynamicLibrary FT232H = DynamicLibrary.open('ClassLibrary1.dll');
+// final DynamicLibrary WGSFunction = DynamicLibrary.open('WGSFunction.dll');
 
-  factory FFIOCR() => _instance;
+class DataMonitor extends GetxController {
+  late void Function(Pointer<Int16> GetMPM2000Component) GetMPM2000Component;
+  late int Function(int spectrometerIndex) GetMaxScansToAverage;
+  late void Function(int a) Close;
 
-  Function get OpenAllSpectrometersFunc =>
-      dylib.lookupFunction<_OpenAllSpectrometersC, _OpenAllSpectrometersDart>(
-          'OpenAllSpectrometers');
-  int OpenAllSpectrometers() => OpenAllSpectrometersFunc();
+  Future<void> init() async {
+    // GetMPM2000Component = FT232H
+    //     .lookup<NativeFunction<Void Function(Pointer<Int16>)>>(
+    //         'GetMPM2000Component')
+    //     .asFunction();
+    // print('GetMPM2000Component init');
+
+    // Close = FT232H
+    //     .lookup<NativeFunction<Void Function(Int32)>>('Close')
+    //     .asFunction();
+    // print('Close init');
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(border: Border.all(color: Colors.redAccent)),
+      child: Text(''),
+    );
+  }
 }

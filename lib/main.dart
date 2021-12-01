@@ -1,14 +1,9 @@
 import 'dart:async';
-import 'dart:ffi';
-import 'dart:io';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
-import 'package:dllimport_gen/annotations.dart';
-import 'package:dllimport_gen/dll_import.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wr_ui/controller/drop_down_controller.dart';
 import 'package:wr_ui/controller/home_controller.dart';
-import 'package:wr_ui/ing/data_monitor.dart';
 import 'package:wr_ui/ing/data_monitor_class.dart';
 import 'package:wr_ui/service/dark_white_mode/mode.dart';
 import 'package:wr_ui/service/routes/app_pages.dart';
@@ -42,6 +37,8 @@ import 'package:wr_ui/view/right_side_menu/start_stop.dart';
 Future main() async {
   await Get.put(iniControllerWithReactive()).writeIni();
   Get.put(iniControllerWithReactive()).readIni();
+  // Get.put(DataMonitor());
+  // Get.find<DataMonitor>().init();
 
   // var ocr = FFIOCR();
   // var success = ocr.OpenAllSpectrometers() != 0;
