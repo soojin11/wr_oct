@@ -12,10 +12,12 @@ class iniControllerWithReactive extends GetxController {
   /////////파일쓰기
   RxString path = ''.obs;
   File? file;
-  RxString OES_Simulation = '0'.obs;
-  RxString OES_Count = '0'.obs;
-  RxString VI_Simulation = '0'.obs;
-  RxString VI_Count = '0'.obs;
+  RxInt OES_Simulation = 0.obs;
+  RxInt OES_Count = 0.obs;
+  RxBool bOESConnect = false.obs;
+  RxInt VI_Simulation = 0.obs;
+  RxInt VI_Count = 0.obs;
+  RxBool bVIConnect = false.obs;
   RxString DataPath = ''.obs;
   RxString SaveFromStartSignal = '1'.obs;
   RxString measureStartAtProgStart = '1'.obs;
@@ -46,9 +48,24 @@ class iniControllerWithReactive extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    ever(measureStartAtProgStart, (m) => writeIni());
+    ever(OES_Simulation, (m) => writeIni());
+    ever(OES_Count, (m) => writeIni());
+    ever(bOESConnect, (m) => writeIni());
+    ever(VI_Simulation, (m) => writeIni());
+    ever(VI_Count, (m) => writeIni());
+    ever(bVIConnect, (m) => writeIni());
+    ever(DataPath, (m) => writeIni());
+    ever(SaveFromStartSignal, (m) => writeIni());
     ever(measureStartAtProgStart, (m) => writeIni());
     ever(ExposureTime, (m) => writeIni());
+    ever(DelayTime, (m) => writeIni());
+    ever(a, (m) => writeIni());
+    ever(b, (m) => writeIni());
+    ever(Series_Color_001, (m) => writeIni());
+    ever(Series_Color_002, (m) => writeIni());
+    ever(Series_Color_003, (m) => writeIni());
+    ever(Series_Color_004, (m) => writeIni());
+    ever(Series_Color_005, (m) => writeIni());
   }
 
   Future<File> get _iniPath async {
@@ -90,13 +107,18 @@ class iniControllerWithReactive extends GetxController {
 
     c.addSection('Common');
     c.set('Common', 'OES_Simulation',
-        Get.find<iniControllerWithReactive>().OES_Simulation.value);
+        Get.find<iniControllerWithReactive>().OES_Simulation.value.toString());
+
     c.set('Common', 'OES_Count',
-        Get.find<iniControllerWithReactive>().OES_Count.value);
+        Get.find<iniControllerWithReactive>().OES_Count.value.toString());
+    c.set('Common', 'bOESConnect',
+        Get.find<iniControllerWithReactive>().bOESConnect.value.toString());
     c.set('Common', 'VI_Simulation',
-        Get.find<iniControllerWithReactive>().VI_Simulation.value);
+        Get.find<iniControllerWithReactive>().VI_Simulation.value.toString());
     c.set('Common', 'VI_Count',
-        Get.find<iniControllerWithReactive>().VI_Count.value);
+        Get.find<iniControllerWithReactive>().VI_Count.value.toString());
+    c.set('Common', 'bVIConnect',
+        Get.find<iniControllerWithReactive>().bVIConnect.value.toString());
     c.set('Common', 'DataPath',
         Get.find<iniControllerWithReactive>().DataPath.value);
     c.set('Common', 'SaveFromStartSignal ',

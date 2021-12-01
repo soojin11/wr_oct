@@ -1,30 +1,28 @@
 import 'package:wr_ui/service/database/setting/setting_model.dart';
 
-class deviceSQL {
+class OESSQL {
   static final CREATE_DATABASE =
-      '''CREATE TABLE "devicesets"(`id`	INTEGER PRIMARY KEY AUTOINCREMENT,
-`devicename` TEXT,
-`interval` REAL,
-`unit` TEXT);''';
-  static String selectDevice() {
-    return 'select * from devicesets;';
+      '''CREATE TABLE "OESsets"(`id`	INTEGER PRIMARY KEY AUTOINCREMENT,
+`ExposureTime` TEXT,
+`DelayTime` TEXT);''';
+  static String selectOES() {
+    return 'select * from OESsets;';
   }
 
-  static String addDevice(Deviceset deviceset) {
-    return '''insert into devicesets(devicename,interval,unit) values('${deviceset.devicename},'${deviceset.interval}','${deviceset.unit}');''';
+  static String addOES(OESSet OESset) {
+    return '''insert into OESsets(ExposureTime,DelayTime) values('${OESset.ExposureTime},'${OESset.DelayTime}');''';
   }
 
-  static String updateDevice(Deviceset deviceset) {
+  static String updateOES(OESSet OESset) {
     return '''
-    update devicesets
-    set devicename='${deviceset.devicename}',
-    interval='${deviceset.interval}',
-    unit='${deviceset.unit}',
-    where id=${deviceset.id};
+    update OESsets
+    set ExposureTime='${OESset.ExposureTime}',
+    DelayTime='${OESset.DelayTime}',
+    where id=${OESset.id};
     ''';
   }
 
-  static String deleteDevice(Deviceset deviceset) {
-    return 'delete from devicesets where id = ${deviceset.id};';
+  static String deleteOES(OESSet OESset) {
+    return 'delete from OESsets where id = ${OESset.id};';
   }
 }

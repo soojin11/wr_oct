@@ -1,33 +1,33 @@
-class Deviceset {
+import 'package:get/get.dart';
+
+class OESSet {
   int? id;
-  String devicename;
-  double interval;
-  String unit;
+  String? ExposureTime;
+  String? DelayTime;
 
-  Deviceset(
-      {this.id,
-      required this.devicename,
-      required this.interval,
-      required this.unit});
+  OESSet({
+    this.id,
+    required this.ExposureTime,
+    required this.DelayTime,
+  });
 
-  factory Deviceset.fromSQLite(Map map) {
-    return Deviceset(
+  factory OESSet.fromSQLite(Map map) {
+    return OESSet(
       id: map['id'],
-      devicename: map['devicename'],
-      interval: map['interval'],
-      unit: map['unit'],
+      ExposureTime: map['ExposureTime'],
+      DelayTime: map['DelayTime'],
     );
   }
 
-  static List<Deviceset> fromSQLiteList(List<Map> listMap) {
-    List<Deviceset> devicesets = [];
+  static List<OESSet> fromSQLiteList(List<Map> listMap) {
+    List<OESSet> OESsets = [];
     for (Map item in listMap) {
-      devicesets.add(Deviceset.fromSQLite(item));
+      OESsets.add(OESSet.fromSQLite(item));
     }
-    return devicesets;
+    return OESsets;
   }
 
-  factory Deviceset.empty() {
-    return Deviceset(devicename: '', interval: 0.0, unit: '');
+  factory OESSet.empty() {
+    return OESSet(ExposureTime: '', DelayTime: '');
   }
 }

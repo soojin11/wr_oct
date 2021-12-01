@@ -44,6 +44,48 @@ Future main() async {
   Get.put(SettingContnet());
   Get.put(BtnHoverCtrl());
   runApp(MyApp());
+  //OES Check [begin]
+  if (Get.find<iniControllerWithReactive>().OES_Simulation.value == 1) {
+    Get.find<iniControllerWithReactive>().bOESConnect.value = true;
+    print('bOESConnect = true');
+  } else if (Get.find<iniControllerWithReactive>().OES_Count.value <= 0) {
+    Get.find<iniControllerWithReactive>().bOESConnect.value = true;
+    print('bOESConnect = true');
+  } else // oes simulation 상태가 아니고, 디바이스 카운트가 0보다 크다.
+  {
+    print('bOESConnect = OES_Connect(); & c++ 접속 요청');
+  }
+//OES Check [end]
+//VI Check [begin]
+  if (Get.find<iniControllerWithReactive>().VI_Simulation.value == 1) {
+    Get.find<iniControllerWithReactive>().bVIConnect.value = true;
+    print('bVIConnect = true');
+  } else if (Get.find<iniControllerWithReactive>().VI_Count.value <= 0) {
+    Get.find<iniControllerWithReactive>().bVIConnect.value = true;
+    print('bVIConnect = true');
+  } else // vi simulation 상태가 아니고, 디바이스 카운트가 0보다 크다.
+  {
+    print(' bVIConnect = VI_Connect(); // c++ 접속 요청');
+  }
+//VI Check [end]
+// if (
+//   Get.find<iniControllerWithReactive>().OES_Simulation.value==1 && Get.find<iniControllerWithReactive>().VI_Simulation.value==1
+
+//   )
+// {
+//    print('Status = "SIM"');
+// }
+// else
+// {
+//    if (true == bOESConnect && true == bVIConnect)
+//    {
+//       Status = "RUN"
+//    }
+//    else
+//    {
+//       Status = "Error"
+//    }
+// }
   doWhenWindowReady(() {
     final win = appWindow;
     final initialSize = Size(1920, 1080);

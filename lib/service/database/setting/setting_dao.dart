@@ -1,31 +1,30 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:wr_ui/service/database/recipe/connection_sqlite_service.dart';
-import 'package:wr_ui/service/database/recipe/sql.dart';
 import 'package:wr_ui/service/database/setting/setting_model.dart';
 import 'package:wr_ui/service/database/setting/setting_sql.dart';
 
-class DevicesetDAO {
+class OESsetDAO {
   ConnectionSQLiteService _connection = ConnectionSQLiteService.instance;
 
   Future<Database> _getDatabase() async {
     return await _connection.db;
   }
 
-  Future<Deviceset> addNewDevicesetDao(Deviceset deviceset) async {
+  Future<OESSet> addNewOESsetDao(OESSet OESset) async {
     try {
       Database db = await _getDatabase();
-      int id = await db.rawInsert(deviceSQL.addDevice(deviceset));
-      deviceset.id = id;
-      return deviceset;
+      int id = await db.rawInsert(OESSQL.addOES(OESset));
+      OESset.id = id;
+      return OESset;
     } catch (error) {
       throw Exception();
     }
   }
 
-  Future<bool> modifyDevicesetDao(Deviceset deviceset) async {
+  Future<bool> modifyOESsetDao(OESSet OESset) async {
     try {
       Database db = await _getDatabase();
-      int ccc = await db.rawUpdate(deviceSQL.updateDevice(deviceset));
+      int ccc = await db.rawUpdate(OESSQL.updateOES(OESset));
       if (ccc > 0) {
         print('ccc??' + ccc.toString());
         return true;
@@ -36,22 +35,22 @@ class DevicesetDAO {
     }
   }
 
-  Future<List<Deviceset>> selectDevicesetDao() async {
+  Future<List<OESSet>> selectOESsetDao() async {
     try {
       Database db = await _getDatabase();
-      List<Map> bbb = await db.rawQuery(deviceSQL.selectDevice());
+      List<Map> bbb = await db.rawQuery(OESSQL.selectOES());
       print('bbb??' + bbb.toString());
-      List<Deviceset> deviceset = Deviceset.fromSQLiteList(bbb);
-      return deviceset;
+      List<OESSet> OESset = OESSet.fromSQLiteList(bbb);
+      return OESset;
     } catch (error) {
       throw Exception();
     }
   }
 
-  Future<bool> deleteDevicesetDao(Deviceset deviceset) async {
+  Future<bool> deleteOESsetDao(OESSet OESset) async {
     try {
       Database db = await _getDatabase();
-      int ccc = await db.rawUpdate(deviceSQL.deleteDevice(deviceset));
+      int ccc = await db.rawUpdate(OESSQL.deleteOES(OESset));
       if (ccc > 0) {
         return true;
       }
