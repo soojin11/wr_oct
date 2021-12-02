@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wr_ui/controller/drop_down_controller.dart';
 import 'package:wr_ui/controller/home_controller.dart';
+import 'package:wr_ui/ing/data%20monitor.dart';
 import 'package:wr_ui/service/dark_white_mode/mode.dart';
 import 'package:wr_ui/service/routes/app_pages.dart';
 import 'package:wr_ui/setting_content.dart';
 import 'package:wr_ui/view/appbar/actions/minimize/window_btn.dart';
+import 'package:wr_ui/view/appbar/actions/setting/ini_and_setting_final_final.dart';
 import 'package:wr_ui/view/appbar/actions/setting/recipe_menu_final.dart';
 import 'package:wr_ui/view/appbar/actions/setting/setting_menu_final.dart';
 import 'package:wr_ui/view/appbar/leading/clock.dart';
@@ -29,10 +31,11 @@ import 'package:wr_ui/view/right_side_menu/log_screen.dart';
 import 'package:wr_ui/view/right_side_menu/start_stop.dart';
 
 Future main() async {
-  await Get.put(iniControllerWithReactive()).writeIni();
-  Get.put(iniControllerWithReactive()).readIni();
-
-  Get.put(iniControllerWithReactive(), permanent: true);
+  Get.put(DialogStorageCtrl(), permanent: true);
+  // await Get.put(iniControllerWithReactive()).writeIni();
+  // Get.put(iniControllerWithReactive()).readIni();
+  // Get.put(CsvController());
+  Get.put(iniControllerWithReactive());
   Get.put(runErrorStatusController());
   Get.put(StartStopController());
   Get.put(CsvController());
@@ -45,23 +48,23 @@ Future main() async {
   Get.put(BtnHoverCtrl());
   runApp(MyApp());
   //OES Check [begin]
-  if (Get.find<iniControllerWithReactive>().OES_Simulation.value == 1) {
-    Get.find<iniControllerWithReactive>().bOESConnect.value = true;
-    print('bOESConnect = true');
-  } else if (Get.find<iniControllerWithReactive>().OES_Count.value <= 0) {
-    Get.find<iniControllerWithReactive>().bOESConnect.value = true;
-    print('bOESConnect = true');
-  } else // oes simulation 상태가 아니고, 디바이스 카운트가 0보다 크다.
-  {
-    print('bOESConnect = OES_Connect(); & c++ 접속 요청');
-  }
+  // if (Get.find<iniControllerWithReactive>().OES_Simulation.value == 1) {
+  //   Get.find<iniControllerWithReactive>().bOESConnect.value = true;
+  //   print('bOESConnect = true');
+  // } else if (Get.find<iniControllerWithReactive>().OES_Count.value <= 0) {
+  //   Get.find<iniControllerWithReactive>().bOESConnect.value = true;
+  //   print('bOESConnect = true');
+  // } else // oes simulation 상태가 아니고, 디바이스 카운트가 0보다 크다.
+  // {
+  //   print('bOESConnect = OES_Connect(); & c++ 접속 요청');
+  // }
 //OES Check [end]
 //VI Check [begin]
-  if (Get.find<iniControllerWithReactive>().VI_Simulation.value == 1) {
-    Get.find<iniControllerWithReactive>().bVIConnect.value = true;
+  if (Get.find<DialogStorageCtrl>().VI_Simulation.value == 1) {
+    Get.find<DialogStorageCtrl>().bVIConnect.value = true;
     print('bVIConnect = true');
-  } else if (Get.find<iniControllerWithReactive>().VI_Count.value <= 0) {
-    Get.find<iniControllerWithReactive>().bVIConnect.value = true;
+  } else if (Get.find<DialogStorageCtrl>().VI_Count.value <= 0) {
+    Get.find<DialogStorageCtrl>().bVIConnect.value = true;
     print('bVIConnect = true');
   } else // vi simulation 상태가 아니고, 디바이스 카운트가 0보다 크다.
   {
@@ -207,7 +210,8 @@ class WRappbar extends StatelessWidget implements PreferredSizeWidget {
                 VerticalDivider(
                   color: Colors.black.withOpacity(0.5),
                 ),
-                SettingMenu(),
+                SetBtn(),
+                // SettingMenu(),
                 VerticalDivider(
                   color: Colors.black.withOpacity(0.5),
                 ),
@@ -234,30 +238,6 @@ class WRappbar extends StatelessWidget implements PreferredSizeWidget {
             ),
           ),
           Spacer(),
-          // dialogBtn(),
-          // SettingMenu(),
-          // SizedBox(
-          //   width: 50,
-          // ),
-          // GestureDetector(
-          //   onTap: () {
-          //     ThemeService().switchTheme();
-          //   },
-          //   child: Padding(
-          //     padding: const EdgeInsets.only(left: 20),
-          //     child: Icon(
-          //       Get.isDarkMode
-          //           ? Icons.toggle_on_outlined
-          //           : Icons.toggle_off_outlined,
-          //       size: 38,
-          //       color: Get.isDarkMode ? Colors.white : Colors.black,
-          //     ),
-          //   ),
-          // ),
-          // SizedBox(
-          //   width: 20,
-          // ),
-
           WindowButtons(),
         ]),
       ),
@@ -428,29 +408,36 @@ class _WRbodyState extends State<WRbody> {
                           ),
                         ),
                         /////////////파일매니저
+                        //dll test
+                        DataMonitorTest(),
+                        //dll test
                         /////////////레시피버튼
-                        Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Container(
-                            child: Column(
-                              children: [
-                                Row(
-                                  children: [
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    Text('Recipe',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyText2),
-                                  ],
-                                ),
-                                Divider(
-                                  indent: 10,
-                                  endIndent: 10,
-                                ),
-                                RecipeMenu()
-                              ],
+
+                        Visibility(
+                          visible: false,
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Container(
+                              child: Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      SizedBox(
+                                        width: 20,
+                                      ),
+                                      Text('Recipe',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyText2),
+                                    ],
+                                  ),
+                                  Divider(
+                                    indent: 10,
+                                    endIndent: 10,
+                                  ),
+                                  RecipeMenu()
+                                ],
+                              ),
                             ),
                           ),
                         ),
