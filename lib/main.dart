@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:ffi';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
@@ -31,21 +32,44 @@ import 'package:wr_ui/view/right_side_menu/log_save.dart';
 import 'package:wr_ui/view/right_side_menu/log_screen.dart';
 import 'package:wr_ui/view/right_side_menu/start_stop.dart';
 
-final DynamicLibrary wgsTest11 = DynamicLibrary.open("WGSFunction.dll");
+final DynamicLibrary wgsFunction = DynamicLibrary.open("WGSFunction.dll");
+late int Function() ocrStart;
+late int Function(int a) getBoxcarWidth;
+late void Function(int a) testtest;
+late void Function(int a) setmsg;
+late void Function(int a) test;
+late void Function() getMPM2000Component;
+late void Function() SetIntegrationTime;
+String portName = 'RS-232';
+late int Function() OpenAllSpectrometers;
+late int Function(int spectrometerIndex, int slot, double val)
+    setNonlinearityCofficient;
+late void Function() closeAll;
+//bool은 Int8
 Future main() async {
-  late int Function() ocrStart11;
-  //late int Function(int a) getBoxcarWidth;
-  //late void Function(int a) testtest;
-  //late void Function(int a) setmsg;
-  //late void Function(int a) test;
-  //late void Function(int a) getMPM2000Component;
-  //late int Function() OpenAllSpectrometers;
+  ///////////app start
+  ocrStart = wgsFunction
+      .lookup<NativeFunction<Int8 Function()>>('OCR_Start')
+      .asFunction();
+  int ocrs = ocrStart();
+  print('ocrStart??' + '${ocrs}');
 
-  //OpenAllSpectrometers = wgsTest
-  //    .lookup<NativeFunction<Int8 Function()>>('OpenAllSpectrometers')
-  //    .asFunction();
-  //OpenAllSpectrometers();
-  //print('OpenAllSpectrometers' + '${OpenAllSpectrometers.toString()}');
+  OpenAllSpectrometers = wgsFunction
+      .lookup<NativeFunction<Int8 Function()>>('OpenAllSpectrometers')
+      .asFunction();
+  int openallspectro = OpenAllSpectrometers();
+  print('openallspectro??' + '$openallspectro');
+
+  // setNonlinearityCofficient = wgsFunction
+  //     .lookup<NativeFunction<Int8 Function(Int32)>>(
+  //         'SetNonlinearityCofficient')
+  //     .asFunction();
+  // getMPM2000Component = wgsFunction
+  //     .lookup<NativeFunction<Void Function()>>('GetMPM2000Component')
+  //     .asFunction();
+  // getMPM2000Component();
+  // print('getMPM2000Component??' + '$getMPM2000Component');
+  //////////app start
   Get.put(DialogStorageCtrl(), permanent: true);
   // await Get.put(iniControllerWithReactive()).writeIni();
   // Get.put(iniControllerWithReactive()).readIni();
@@ -114,10 +138,19 @@ Future main() async {
     win.title = "WR";
     win.show();
   });
-  ocrStart11 = wgsTest11
-      .lookup<NativeFunction<Int8 Function()>>("OCR_Start")
-      .asFunction();
-  int aa = ocrStart11();
+
+  // ocrStart11 =
+  //     wgsTest.lookup<NativeFunction<Int8 Function()>>('OCR_Start').asFunction();
+  // int aa = ocrStart11();
+  // print('ocrStart??' + '$aa');
+  // setmsg = wgsTest
+  //     .lookup<NativeFunction<Void Function(Int32)>>('setmsg')
+  //     .asFunction();
+  // setmsg(2);
+  // print('setmsg??' + '${setmsg.toString()}');
+  // test =
+  //     wgsTest.lookup<NativeFunction<Void Function(Int32)>>('test').asFunction();
+  // test(1);
   print(
       'measureStartAtProgStart 초기값==>${Get.find<iniControllerWithReactive>().measureStartAtProgStart}');
   if (Get.find<iniControllerWithReactive>().measureStartAtProgStart == '1') {

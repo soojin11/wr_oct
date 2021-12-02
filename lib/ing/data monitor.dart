@@ -18,20 +18,20 @@ class DataMonitorTest extends StatelessWidget {
   Widget build(BuildContext context) {
     return OutlinedButton(
       onPressed: () {
-        ocrStart = wgsTest
-            .lookup<NativeFunction<Int8 Function()>>('OCR_Start')
-            .asFunction();
-        int aa = ocrStart();
-        print('ocrStart??' + '$aa');
-        setmsg = wgsTest
-            .lookup<NativeFunction<Void Function(Int32)>>('setmsg')
-            .asFunction();
-        setmsg(2);
-        print('setmsg??' + '${setmsg.toString()}');
-        test = wgsTest
-            .lookup<NativeFunction<Void Function(Int32)>>('test')
-            .asFunction();
-        test(1);
+        // ocrStart = wgsTest
+        //     .lookup<NativeFunction<Int8 Function()>>('OCR_Start')
+        //     .asFunction();
+        // int aa = ocrStart();
+        // print('ocrStart??' + '$aa');
+        // setmsg = wgsTest
+        //     .lookup<NativeFunction<Void Function(Int32)>>('setmsg')
+        //     .asFunction();
+        // setmsg(2);
+        // print('setmsg??' + '${setmsg.toString()}');
+        // test = wgsTest
+        //     .lookup<NativeFunction<Void Function(Int32)>>('test')
+        //     .asFunction();
+        // test(1);
         // OpenAllSpectrometers = wgsTest
         //     .lookup<NativeFunction<Int8 Function()>>('OpenAllSpectrometers')
         //     .asFunction();

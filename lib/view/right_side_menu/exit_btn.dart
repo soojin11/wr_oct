@@ -1,9 +1,11 @@
+import 'dart:ffi';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 // ignore: unused_import
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:wr_ui/main.dart';
 import 'package:wr_ui/model/const/style/pallette.dart';
 import 'package:wr_ui/view/appbar/leading/run_error_status_mark.dart';
 import 'package:wr_ui/view/chart/oes_chart.dart';
@@ -90,6 +92,14 @@ class ExitBtn extends StatelessWidget {
                               actions: [
                                 ElevatedButton(
                                   onPressed: () {
+                                    closeAll = wgsFunction
+                                        .lookup<
+                                            NativeFunction<
+                                                Void Function()>>('CloseAll')
+                                        .asFunction();
+                                    var closeall = closeAll();
+                                    print('closeAll??' +
+                                        '${closeAll.toString()}');
                                     exit(0);
                                   },
                                   child: Text(

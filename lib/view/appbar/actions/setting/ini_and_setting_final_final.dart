@@ -162,7 +162,7 @@ Future<void> _showDialog(context) async {
         builder: (BuildContext context, StateSetter setState) {
           return GestureDetector(
             onVerticalDragUpdate: (DragUpdateDetails dd) {
-              print(dd);
+              // print(dd);
               setState(() {
                 top = dd.localPosition.dy - 50;
                 left = dd.localPosition.dx - 60;
