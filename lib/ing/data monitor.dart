@@ -21,13 +21,22 @@ class DataMonitorTest extends StatelessWidget {
         ocrStart = wgsTest
             .lookup<NativeFunction<Int8 Function()>>('OCR_Start')
             .asFunction();
-        ocrStart();
-
-        OpenAllSpectrometers = wgsTest
-            .lookup<NativeFunction<Int8 Function()>>('OpenAllSpectrometers')
+        int aa = ocrStart();
+        print('ocrStart??' + '$aa');
+        setmsg = wgsTest
+            .lookup<NativeFunction<Void Function(Int32)>>('setmsg')
             .asFunction();
-        OpenAllSpectrometers();
-        print('OpenAllSpectrometers' + '${OpenAllSpectrometers.toString()}');
+        setmsg(2);
+        print('setmsg??' + '${setmsg.toString()}');
+        test = wgsTest
+            .lookup<NativeFunction<Void Function(Int32)>>('test')
+            .asFunction();
+        test(1);
+        // OpenAllSpectrometers = wgsTest
+        //     .lookup<NativeFunction<Int8 Function()>>('OpenAllSpectrometers')
+        //     .asFunction();
+        // OpenAllSpectrometers();
+        // print('OpenAllSpectrometers' + '${OpenAllSpectrometers.toString()}');
         // getMPM2000Component = wgsTest
         // .lookup<NativeFunction<Void Function(Int32)>>('GetMPM2000Component')
         // .asFunction();

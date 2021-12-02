@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ffi';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -30,7 +31,21 @@ import 'package:wr_ui/view/right_side_menu/log_save.dart';
 import 'package:wr_ui/view/right_side_menu/log_screen.dart';
 import 'package:wr_ui/view/right_side_menu/start_stop.dart';
 
+final DynamicLibrary wgsTest11 = DynamicLibrary.open("WGSFunction.dll");
 Future main() async {
+  late int Function() ocrStart11;
+  //late int Function(int a) getBoxcarWidth;
+  //late void Function(int a) testtest;
+  //late void Function(int a) setmsg;
+  //late void Function(int a) test;
+  //late void Function(int a) getMPM2000Component;
+  //late int Function() OpenAllSpectrometers;
+
+  //OpenAllSpectrometers = wgsTest
+  //    .lookup<NativeFunction<Int8 Function()>>('OpenAllSpectrometers')
+  //    .asFunction();
+  //OpenAllSpectrometers();
+  //print('OpenAllSpectrometers' + '${OpenAllSpectrometers.toString()}');
   Get.put(DialogStorageCtrl(), permanent: true);
   // await Get.put(iniControllerWithReactive()).writeIni();
   // Get.put(iniControllerWithReactive()).readIni();
@@ -99,6 +114,10 @@ Future main() async {
     win.title = "WR";
     win.show();
   });
+  ocrStart11 = wgsTest11
+      .lookup<NativeFunction<Int8 Function()>>("OCR_Start")
+      .asFunction();
+  int aa = ocrStart11();
   print(
       'measureStartAtProgStart 초기값==>${Get.find<iniControllerWithReactive>().measureStartAtProgStart}');
   if (Get.find<iniControllerWithReactive>().measureStartAtProgStart == '1') {

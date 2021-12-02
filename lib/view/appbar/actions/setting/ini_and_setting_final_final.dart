@@ -66,6 +66,7 @@ class DialogStorageCtrl extends GetxController {
       return content;
     } catch (e) {
       print('파읽을 못읽어옴 : $e');
+      // writeFile(String content);
       return '';
     }
   }
