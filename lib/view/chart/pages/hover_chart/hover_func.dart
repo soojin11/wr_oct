@@ -2,7 +2,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wr_ui/view/chart/pages/hover_chart/oes_series.dart';
-import 'package:wr_ui/view/chart/pages/navigator_page/hover_page.dart';
+import 'package:wr_ui/view/right_side_menu/log_screen.dart';
+import '../../switch_chart.dart';
 
 class BtnHoverCtrl extends GetxController {
   RxBool isHover = false.obs;
@@ -37,13 +38,8 @@ class FirstHover extends GetView<BtnHoverCtrl> {
           () => GestureDetector(
             onTap: () {
               print('1번째 차트 선택');
-              Navigator.push(
-                    context,
-                    PageRouteBuilder(
-                      pageBuilder: (context, animation1, animation2) =>
-                          Hoverpage(),
-                      transitionDuration: Duration.zero,
-                    ));
+            Get.find<chooseChart>().chartNum.value = 1;
+            Get.find<LogListController>().clickedHover();
             },
             child: AnimatedContainer(
               margin: EdgeInsets.symmetric(
@@ -90,13 +86,8 @@ class SecondHover extends GetView<BtnHoverCtrl> {
           () => GestureDetector(
             onTap: () {
               print('2번째 차트 선택');
-              Navigator.push(
-                    context,
-                    PageRouteBuilder(
-                      pageBuilder: (context, animation1, animation2) =>
-                          SecondHover(),
-                      transitionDuration: Duration.zero,
-                    ));
+              Get.find<chooseChart>().chartNum.value = 2;
+              Get.find<LogListController>().clickedHover();
             },
             child: AnimatedContainer(
               margin: EdgeInsets.symmetric(
@@ -141,6 +132,8 @@ class ThirdHover extends GetView<BtnHoverCtrl> {
           () => GestureDetector(
             onTap: () {
               print('3번째 차트 선택');
+              Get.find<chooseChart>().chartNum.value = 3;
+              Get.find<LogListController>().clickedHover();
             },
             child: AnimatedContainer(
               margin: EdgeInsets.symmetric(
@@ -185,6 +178,8 @@ class FourthHover extends GetView<BtnHoverCtrl> {
           () => GestureDetector(
             onTap: () {
               print('4번째 차트 선택');
+              Get.find<chooseChart>().chartNum.value = 4;
+              Get.find<LogListController>().clickedHover();
             },
             child: AnimatedContainer(
               margin: EdgeInsets.symmetric(
@@ -229,6 +224,8 @@ class FifthHover extends GetView<BtnHoverCtrl> {
           () => GestureDetector(
             onTap: () {
               print('5번째 차트 선택');
+              Get.find<chooseChart>().chartNum.value = 5;
+              Get.find<LogListController>().clickedHover();
             },
             child: AnimatedContainer(
               margin: EdgeInsets.symmetric(
@@ -273,6 +270,8 @@ class SixthHover extends GetView<BtnHoverCtrl> {
           () => GestureDetector(
             onTap: () {
               print('6번째 차트 선택');
+              Get.find<chooseChart>().chartNum.value = 6;
+              Get.find<LogListController>().clickedHover();
             },
             child: AnimatedContainer(
               margin: EdgeInsets.symmetric(
@@ -317,6 +316,8 @@ class SeventhHover extends GetView<BtnHoverCtrl> {
           () => GestureDetector(
             onTap: () {
               print('7번째 차트 선택');
+              Get.find<chooseChart>().chartNum.value = 7;
+              Get.find<LogListController>().clickedHover();
             },
             child: AnimatedContainer(
               margin: EdgeInsets.symmetric(
@@ -361,6 +362,8 @@ class EightHover extends GetView<BtnHoverCtrl> {
           () => GestureDetector(
             onTap: () {
               print('8번째 차트 선택');
+              Get.find<chooseChart>().chartNum.value = 8;
+              Get.find<LogListController>().clickedHover();
             },
             child: AnimatedContainer(
               margin: EdgeInsets.symmetric(
