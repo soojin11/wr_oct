@@ -47,6 +47,7 @@ class DialogStorageCtrl extends GetxController {
   Rx<TextEditingController> _textField8 = new TextEditingController().obs;
   Rx<TextEditingController> _textField9 = new TextEditingController().obs;
   Rx<TextEditingController> _textField10 = new TextEditingController().obs;
+  Rx<Color> selectedColor1 = new Color(0xffd84315).obs;
 
   Future get _localPath async {
     final directory = await getApplicationDocumentsDirectory();
@@ -276,13 +277,16 @@ Future<void> _showDialog(context) async {
 
                                           print('series color 1 hexcode=>' +
                                               '${color}');
-                                          setState(() {
-                                            pickedColor1 = color;
-                                          });
+                                          // setState(() {
+                                          //   pickedColor1 = color;
+                                          // });
 
-                                          // Get.find<DialogStorageCtrl>()
-                                          //     .Series_Color_001
-                                          //     .value = color.toString();
+                                          Get.find<DialogStorageCtrl>()
+                                              .selectedColor1
+                                              .value = color;
+                                          Get.find<DialogStorageCtrl>()
+                                              .Series_Color_001
+                                              .value = color.toString();
                                         },
                                         selectedColor: Colors.red,
                                         colors: [

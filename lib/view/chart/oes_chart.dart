@@ -4,6 +4,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:wr_ui/view/appbar/actions/setting/ini_and_setting_final_final.dart';
 import 'package:wr_ui/view/appbar/actions/setting/setting_menu_final.dart';
 import 'package:wr_ui/view/right_side_menu/csv_creator.dart';
 import 'package:wr_ui/view/right_side_menu/log_screen.dart';
@@ -124,7 +125,7 @@ class OesChart extends GetView<OesController> {
                     onRendererCreated: (ChartSeriesController ctrl) {
                       controller.oneCtrl = ctrl;
                     },
-                    color: Colors.red,
+                    color: Get.find<DialogStorageCtrl>().selectedColor1.value,
                     //  Get.find<OesController>().oneColor.value,
                     dataSource: controller.oneData,
                     xValueMapper: (OESData spec, _) => spec.range,
