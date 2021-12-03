@@ -20,7 +20,7 @@ class OesController extends GetxController {
   RxList<OESData> eightData = RxList.empty();
   RxBool inactiveBtn = false.obs;
 /////////////////////
-  RxString oneColor = ''.obs;
+  Rx<Color> oneColor = Color(0xffd84315).obs;
   late ChartSeriesController oneCtrl,
       twoCtrl,
       threeCtrl,

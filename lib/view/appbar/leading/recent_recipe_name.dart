@@ -11,7 +11,7 @@ class RecentRecipeName extends StatelessWidget {
     return Container(
       padding: EdgeInsets.only(top: 5, bottom: 5),
       child: Text(
-        'ExampleRecipeName',
+        'First Chart',
         style: WrText.WrLeadingFont,
       ),
     );

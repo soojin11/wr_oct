@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:wr_ui/main.dart';
 import 'package:wr_ui/model/const/style/pallette.dart';
+import 'package:wr_ui/view/appbar/actions/setting/ini_and_setting_final_final.dart';
 import 'package:wr_ui/view/appbar/leading/run_error_status_mark.dart';
 import 'package:wr_ui/view/chart/oes_chart.dart';
 import 'package:wr_ui/view/right_side_menu/ini_creator.dart';
@@ -56,17 +57,11 @@ class ExitBtn extends StatelessWidget {
                   onPressed: () {
                     ////////측정 종료
                     Get.find<OesController>().inactiveBtn.value = false;
-                    // Get.find<VizController>().inactiveBtn.value = false;
-                    // Get.find<VizController>().timer.cancel();
                     Get.find<OesController>().timer.cancel();
                     Get.find<LogListController>().clickedStop();
                     Get.find<runErrorStatusController>().connect.value = false;
                     Get.find<runErrorStatusController>().textmsg.value = 'STOP';
-                    // Get.find<iniControllerWithReactive>().measureStartAtProgStart = '';
-                    /////////////////측정 종료
-                    ////////////프로그램 종료
-                    // exit(0);
-                    ////////////프로그램 종료
+
                     showDialog(
                         context: context,
                         builder: (ctx) => AlertDialog(
@@ -81,7 +76,14 @@ class ExitBtn extends StatelessWidget {
                               ),
                               content: Row(
                                 children: [
-                                  Icon(Icons.warning),
+                                  Icon(
+                                    Icons.warning,
+                                    color: Colors.red[400],
+                                    size: 16,
+                                  ),
+                                  SizedBox(
+                                    width: 6,
+                                  ),
                                   Text(
                                     '프로그램이 완전히 종료됩니다.',
                                     style: TextStyle(
@@ -97,7 +99,7 @@ class ExitBtn extends StatelessWidget {
                                             NativeFunction<
                                                 Void Function()>>('CloseAll')
                                         .asFunction();
-                                    var closeall = closeAll();
+                                    closeAll();
                                     print('closeAll??' +
                                         '${closeAll.toString()}');
                                     exit(0);
@@ -131,17 +133,6 @@ class ExitBtn extends StatelessWidget {
                               ],
                             ));
                   },
-
-                  //////////////////////
-                  // onPressed: () async {
-                  //   Get.find<iniControllerWithReactive>()
-                  //       .measureStartAtProgStart
-                  //       .value = 0;
-                  //   // exit(0);
-                  //   // Navigator.pop(context, true);
-                  //   // SystemNavigator.pop();
-                  // },
-                  ///////////////
                   child: Text(
                     '측정 종료',
                     style: TextStyle(color: Colors.white, fontSize: 12),
@@ -176,10 +167,9 @@ class ExitBtn extends StatelessWidget {
         },
         child: TextButton.icon(
           onPressed: () {
-            print(
-                '트라이캐치 ->${Get.find<iniControllerWithReactive>().measureStartAtProgStart}');
-            if (Get.find<iniControllerWithReactive>().measureStartAtProgStart ==
-                '') {
+            if (Get.find<OesController>().inactiveBtn == false &&
+                Get.find<runErrorStatusController>().connect.value == false &&
+                Get.find<runErrorStatusController>().textmsg.value == 'STOP') {
               print('바로닫기');
               showDialog(
                 context: context,
@@ -241,34 +231,16 @@ class ExitBtn extends StatelessWidget {
                   ],
                 ),
               );
-              // AlertDialog(
-              //   title: Text('바로닫기'),
-              //   content: Text('종료??????'),
-              //   actions: [
-              //     ElevatedButton(
-              //       onPressed: () {},
-              //       child: Text('예'),
-              //     ),
-              //     ElevatedButton(
-              //       onPressed: () {},
-              //       child: Text('아니요'),
-              //     )
-              //   ],
-              // );
             } else {
               try {
-                Get.find<iniControllerWithReactive>().measureStartAtProgStart ==
-                        '0' ||
-                    Get.find<iniControllerWithReactive>()
-                            .measureStartAtProgStart ==
+                Get.find<DialogStorageCtrl>().measureStartAtProgStart == '0' ||
+                    Get.find<DialogStorageCtrl>().measureStartAtProgStart ==
                         '1';
                 print('에러발생');
 
-                if (Get.find<iniControllerWithReactive>()
-                            .measureStartAtProgStart ==
+                if (Get.find<DialogStorageCtrl>().measureStartAtProgStart ==
                         '0' ||
-                    Get.find<iniControllerWithReactive>()
-                            .measureStartAtProgStart ==
+                    Get.find<DialogStorageCtrl>().measureStartAtProgStart ==
                         '1') {
                   throw new Exception("프로그램 실행중");
                 }

@@ -23,11 +23,10 @@ class RunErrorStatus extends GetView<runErrorStatusController> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(top: 5, bottom: 5),
+      height: 50,
       child: Obx(
         () => Container(
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
               color: Get.find<OesController>().inactiveBtn.value == false
                   ? Colors.red
                   : Colors.yellow[700]),

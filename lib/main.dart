@@ -1,12 +1,14 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:ffi';
+import 'dart:typed_data';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wr_ui/controller/drop_down_controller.dart';
 import 'package:wr_ui/controller/home_controller.dart';
 import 'package:wr_ui/ing/data%20monitor.dart';
+import 'package:wr_ui/model/const/style/pallette.dart';
 import 'package:wr_ui/service/dark_white_mode/mode.dart';
 import 'package:wr_ui/service/routes/app_pages.dart';
 import 'package:wr_ui/setting_content.dart';
@@ -45,6 +47,11 @@ late int Function() OpenAllSpectrometers;
 late int Function(int spectrometerIndex, int slot, double val)
     setNonlinearityCofficient;
 late void Function() closeAll;
+late void Function(Pointer<Uint64> a) mpmStart;
+late void Function() mpmClose;
+late int Function() mpmOpen;
+late double Function() GetFormatedSpectrum;
+
 //bool은 Int8
 Future main() async {
   ///////////app start
@@ -54,11 +61,30 @@ Future main() async {
   int ocrs = ocrStart();
   print('ocrStart??' + '${ocrs}');
 
-  OpenAllSpectrometers = wgsFunction
-      .lookup<NativeFunction<Int8 Function()>>('OpenAllSpectrometers')
-      .asFunction();
-  int openallspectro = OpenAllSpectrometers();
-  print('openallspectro??' + '$openallspectro');
+  // mpmStart = wgsFunction
+  //     .lookup<NativeFunction<Void Function(String)>>('MPMStart')
+  //     .asFunction();
+  // mpmStart('COM3');
+  // mpmClose = wgsFunction
+  //     .lookup<NativeFunction<Void Function()>>('MPMClose')
+  //     .asFunction();
+  // mpmOpen = wgsFunction
+  //     .lookup<NativeFunction<Int8 Function()>>('MPMOpen')
+  //     .asFunction();
+  // int mpmopen = mpmOpen();
+  // print('mpmopen is ??' + '$mpmopen');
+  // if (mpmopen == true) {
+  //   print('mpmopen is true val??' + '$mpmopen');
+  // } else {
+  //   print('mpmopen is false val??' + '$mpmopen');
+  // }
+  // print('mpmstart??' + '$mpmstart');
+
+  // OpenAllSpectrometers = wgsFunction
+  //     .lookup<NativeFunction<Int8 Function()>>('OpenAllSpectrometers')
+  //     .asFunction();
+  // int openallspectro = OpenAllSpectrometers();
+  // print('openallspectro??' + '$openallspectro');
 
   //////////app start
   Get.put(OesController(), permanent: true);
@@ -195,87 +221,111 @@ class WRappbar extends StatelessWidget implements PreferredSizeWidget {
   }) : super(key: key);
 
   @override
-  Size get preferredSize => Size.fromHeight(70);
+  Size get preferredSize => Size.fromHeight(90);
   final themeController = Get.put(HomeController());
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 16),
+      padding: const EdgeInsets.only(top: 20),
       child: Container(
         child: AppBar(automaticallyImplyLeading: false, actions: [
-          Container(
-            //width: 600,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                GestureDetector(
-                    onTap: () {
-                      () => Get.offAll(Home());
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: Image.asset(
-                        'assets/images/CI_nobg.png',
-                        fit: BoxFit.fitHeight,
-                      ),
-                    )),
-                SizedBox(width: 120),
-                VerticalDivider(
-                  color: Colors.black.withOpacity(0.5),
-                ),
-                Clock(),
-                VerticalDivider(
-                  color: Colors.black.withOpacity(0.5),
-                ),
-                SizedBox(width: 160),
-                VerticalDivider(
-                  color: Colors.black.withOpacity(0.5),
-                ),
-                RecentRecipeName(),
-                VerticalDivider(
-                  color: Colors.black.withOpacity(0.5),
-                ),
-                SizedBox(width: 160),
-                VerticalDivider(
-                  color: Colors.black.withOpacity(0.5),
-                ),
-                RunErrorStatus(),
-                VerticalDivider(
-                  color: Colors.black.withOpacity(0.5),
-                ),
-                SizedBox(width: 160),
-                VerticalDivider(
-                  color: Colors.black.withOpacity(0.5),
-                ),
-                SetBtn(),
-                // SettingMenu(),
-                VerticalDivider(
-                  color: Colors.black.withOpacity(0.5),
-                ),
-                SizedBox(width: 160),
-                VerticalDivider(
-                  color: Colors.black.withOpacity(0.5),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    ThemeService().switchTheme();
-                  },
-                  child: Icon(
-                    Get.isDarkMode
-                        ? Icons.toggle_on_outlined
-                        : Icons.toggle_off_outlined,
-                    size: 38,
-                    color: Get.isDarkMode ? Colors.white : Colors.black,
+          Padding(
+            padding: const EdgeInsets.only(top: 6.0),
+            child: Container(
+              //width: 600,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  GestureDetector(
+                      onTap: () {
+                        () => Get.offAll(Home());
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: Image.asset(
+                          'assets/images/CI_nobg.png',
+                          fit: BoxFit.fitHeight,
+                        ),
+                      )),
+                  SizedBox(width: 120),
+
+                  Container(
+                    width: 200,
+                    height: 90,
+                    decoration: BoxDecoration(
+                      border:
+                          Border.all(color: Colors.blueGrey.shade800, width: 5),
+                    ),
+                    child: Center(
+                      child: Clock(),
+                    ),
                   ),
-                ),
-                VerticalDivider(
-                  color: Colors.black.withOpacity(0.5),
-                ),
-              ],
+
+                  SizedBox(width: 160),
+
+                  Container(
+                    width: 200,
+                    height: 90,
+                    decoration: BoxDecoration(
+                      border:
+                          Border.all(color: Colors.blueGrey.shade800, width: 5),
+                    ),
+                    child: Center(
+                      child: RecentRecipeName(),
+                    ),
+                  ),
+
+                  SizedBox(width: 160),
+
+                  Container(
+                    width: 200,
+                    height: 90,
+                    decoration: BoxDecoration(
+                      border:
+                          Border.all(color: Colors.blueGrey.shade800, width: 5),
+                    ),
+                    child: Center(
+                      child: RunErrorStatus(),
+                    ),
+                  ),
+
+                  SizedBox(width: 160),
+
+                  Container(
+                    width: 200,
+                    height: 90,
+                    decoration: BoxDecoration(
+                      border:
+                          Border.all(color: Colors.blueGrey.shade800, width: 5),
+                    ),
+                    child: Center(
+                      child: SetBtn(),
+                    ),
+                  ),
+                  // SettingMenu(),
+
+                  SizedBox(width: 160),
+                ],
+              ),
             ),
           ),
           Spacer(),
+          GestureDetector(
+            onTap: () {
+              ThemeService().switchTheme();
+            },
+            child: Icon(
+              Get.isDarkMode
+                  ? Icons.toggle_on_outlined
+                  : Icons.toggle_off_outlined,
+              size: 38,
+              color: Get.isDarkMode ? Colors.white : Colors.black,
+            ),
+          ),
+          SizedBox(
+            width: 50,
+          ),
           WindowButtons(),
         ]),
       ),
