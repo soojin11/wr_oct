@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wr_ui/view/right_side_menu/csv_creator.dart';
 
-
 class OesController extends GetxController {
   RxList<FlSpot> oneData = RxList.empty();
   RxList<FlSpot> twoData = RxList.empty();
@@ -25,7 +24,6 @@ class OesController extends GetxController {
   RxBool checkVal6 = true.obs;
   RxBool checkVal7 = true.obs;
   RxBool checkVal8 = true.obs;
- 
 
   late Timer timer;
   @override
@@ -33,13 +31,12 @@ class OesController extends GetxController {
     super.onInit();
   }
 
-  double setRandom(){
-  double yValue = math.Random().nextInt(50).toDouble();
-  return yValue;
-}
+  double setRandom() {
+    double yValue = math.Random().nextInt(50).toDouble();
+    return yValue;
+  }
 
   void updateDataSource(Timer timer) async {
-    
     if (oneData.isNotEmpty) {
       oneData.clear();
       twoData.clear();
@@ -62,7 +59,20 @@ class OesController extends GetxController {
     }
     if (Get.find<CsvController>().fileSave.value)
       await Get.find<CsvController>().csvSave();
-      //await Get.find<CsvController>().SecondcsvSave();
+    if (Get.find<CsvController>().fileSave2.value)
+      await Get.find<CsvController>().SecondcsvSave();
+    if (Get.find<CsvController>().fileSave3.value)
+      await Get.find<CsvController>().ThirdcsvSave();
+    if (Get.find<CsvController>().fileSave4.value)
+      await Get.find<CsvController>().FourthcsvSave();
+    if (Get.find<CsvController>().fileSave5.value)
+      await Get.find<CsvController>().FifthcsvSave();
+    if (Get.find<CsvController>().fileSave6.value)
+      await Get.find<CsvController>().SixthcsvSave();
+    if (Get.find<CsvController>().fileSave7.value)
+      await Get.find<CsvController>().SeventhcsvSave();
+    if (Get.find<CsvController>().fileSave8.value)
+      await Get.find<CsvController>().EightcsvSave();
     update();
   }
 }
@@ -78,25 +88,27 @@ class OesChart extends GetView<OesController> {
         builder: (controller) => InteractiveViewer(
           child: Container(
             padding: EdgeInsets.only(left: 20, right: 20, top: 10),
-            child: LineChartForm(controller: controller, lineBarsData: [
-              if (controller.checkVal1.value)
-                lineChartBarData(controller.oneData, Colors.red[400]),
-              if (controller.checkVal2.value)
-                lineChartBarData(controller.twoData, Colors.orange),
-              if (controller.checkVal3.value)
-                lineChartBarData(controller.threeData, Colors.amber),
-              if (controller.checkVal4.value)
-                lineChartBarData(controller.fourData, Colors.green[300]),
-              if (controller.checkVal5.value)
-                lineChartBarData(controller.fiveData, Colors.blue[300]),
-              if (controller.checkVal6.value)
-                lineChartBarData(controller.sixData, Colors.blue[700]),
-              if (controller.checkVal7.value)
-                lineChartBarData(controller.sevenData, Colors.purple[300]),
-              if (controller.checkVal8.value)
-                lineChartBarData(controller.eightData, Colors.pink[100]),
-            ],
-            bottomTitles: SideTitles(
+            child: LineChartForm(
+              controller: controller,
+              lineBarsData: [
+                if (controller.checkVal1.value)
+                  lineChartBarData(controller.oneData, Colors.red[400]),
+                if (controller.checkVal2.value)
+                  lineChartBarData(controller.twoData, Colors.orange),
+                if (controller.checkVal3.value)
+                  lineChartBarData(controller.threeData, Colors.amber),
+                if (controller.checkVal4.value)
+                  lineChartBarData(controller.fourData, Colors.green[300]),
+                if (controller.checkVal5.value)
+                  lineChartBarData(controller.fiveData, Colors.blue[300]),
+                if (controller.checkVal6.value)
+                  lineChartBarData(controller.sixData, Colors.blue[700]),
+                if (controller.checkVal7.value)
+                  lineChartBarData(controller.sevenData, Colors.purple[300]),
+                if (controller.checkVal8.value)
+                  lineChartBarData(controller.eightData, Colors.pink[100]),
+              ],
+              bottomTitles: SideTitles(
                 showTitles: true,
                 reservedSize: 20, //글씨 밑에 margin 주기
                 getTextStyles: (BuildContext, double) => const TextStyle(
@@ -109,7 +121,7 @@ class OesChart extends GetView<OesController> {
                 },
                 margin: 8, //스캐일에 쓴 글씨와 그래프의 margin
               ),
-            leftTitles: SideTitles(
+              leftTitles: SideTitles(
                 showTitles: true,
                 getTextStyles: (BuildContext, double) => const TextStyle(
                   color: Color(0xff67727d),
@@ -129,7 +141,8 @@ class OesChart extends GetView<OesController> {
                 },
                 reservedSize: 35,
                 margin: 12,
-              ),),
+              ),
+            ),
           ),
         ),
       ),
@@ -139,7 +152,8 @@ class OesChart extends GetView<OesController> {
   LineChart LineChartForm(
       {required OesController controller,
       required List<LineChartBarData> lineBarsData,
-      SideTitles? leftTitles, SideTitles? bottomTitles}) {
+      SideTitles? leftTitles,
+      SideTitles? bottomTitles}) {
     return LineChart(
       LineChartData(
           minX: 190,
@@ -147,13 +161,10 @@ class OesChart extends GetView<OesController> {
           minY: 0,
           maxY: 50, //데이터를 몇개 넣을 것인지~~
           lineTouchData: LineTouchData(
-            touchTooltipData: LineTouchTooltipData(
-              fitInsideHorizontally: true,
-              fitInsideVertically: true,
-
-            )
-            
-          ),
+              touchTooltipData: LineTouchTooltipData(
+            fitInsideHorizontally: true,
+            fitInsideVertically: true,
+          )),
           clipData: FlClipData.all(),
           titlesData: FlTitlesData(
               show: true,
@@ -178,7 +189,6 @@ class OesChart extends GetView<OesController> {
           show: false,
         ),
         colors: [color],
-        barWidth: 1
-        );
+        barWidth: 1);
   }
 }
