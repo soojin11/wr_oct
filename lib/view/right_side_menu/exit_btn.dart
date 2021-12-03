@@ -92,12 +92,12 @@ class ExitBtn extends StatelessWidget {
                               actions: [
                                 ElevatedButton(
                                   onPressed: () {
-                                    closeAll = wgsFunction
-                                        .lookup<
-                                            NativeFunction<
-                                                Void Function()>>('CloseAll')
-                                        .asFunction();
-                                    var closeall = closeAll();
+                                    // closeAll = wgsFunction
+                                    //     .lookup<
+                                    //         NativeFunction<
+                                    //             Void Function()>>('CloseAll')
+                                    //     .asFunction();
+                                    // var closeall = closeAll();
                                     print('closeAll??' +
                                         '${closeAll.toString()}');
                                     exit(0);

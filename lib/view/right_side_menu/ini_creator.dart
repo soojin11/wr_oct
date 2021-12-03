@@ -12,13 +12,13 @@ class iniControllerWithReactive extends GetxController {
   /////////파일쓰기
   RxString path = ''.obs;
   File? file;
-  RxInt OES_Simulation = 0.obs;
-  RxInt OES_Count = 0.obs;
+  RxInt OES_Simulation = 1.obs;
+  RxInt OES_Count = 1.obs;
   RxBool bOESConnect = false.obs;
-  RxInt VI_Simulation = 0.obs;
-  RxInt VI_Count = 0.obs;
-  RxBool bVIConnect = false.obs;
-  RxString DataPath = ''.obs;
+  RxInt VI_Simulation = 1.obs;
+  RxInt VI_Count = 1.obs;
+  RxBool bVIConnect = true.obs;
+  RxString DataPath = './datafiles/'.obs;
   RxString SaveFromStartSignal = '1'.obs;
   RxString measureStartAtProgStart = '1'.obs;
   RxString ExposureTime = '100'.obs;
@@ -68,13 +68,24 @@ class iniControllerWithReactive extends GetxController {
     ever(Series_Color_005, (m) => writeIni());
   }
 
-  Future<File> get _iniPath async {
+  Future<File> get iniPath async {
     final String fileName = 'FreqAI';
-    await Directory('inifiles').create();
+    await Directory('inifiles').create(recursive: true);
     path.value = "./inifiles/$fileName.ini";
     // String startTime = streamDateTime;
     File file = File(path.value);
     print('wrFile의 경로는??$file');
+//     String aaa = '''OES_Simulation = 1
+// OES_Count = 1
+// bOESConnect = false
+// VI_Simulation = 1
+// VI_Count = 1
+// bVIConnect = true
+// DataPath = ./datafiles/
+// SaveFromStartSignal = 1
+// measureStartAtProgStart = 1''';
+//     return file.writeAsString(aaa);
+
     return file;
   }
 
@@ -88,7 +99,7 @@ class iniControllerWithReactive extends GetxController {
   }
 
   _readIni() async {
-    var file = await _iniPath;
+    var file = await iniPath;
 
     Config c = new Config.fromStrings(file.readAsLinesSync());
     print('new : ${c.toString()}');
@@ -102,7 +113,7 @@ class iniControllerWithReactive extends GetxController {
 
   Future writeIni() async {
     print('===============write ini start============');
-    final file = await _iniPath;
+    final file = await iniPath;
     Config c = new Config();
 
     c.addSection('Common');
@@ -145,6 +156,14 @@ class iniControllerWithReactive extends GetxController {
         Get.find<iniControllerWithReactive>().Series_Color_003.value);
     c.set('OES_Chart_Setting', 'Series_Color_004',
         Get.find<iniControllerWithReactive>().Series_Color_004.value);
+    c.set('OES_Chart_Setting', 'Series_Color_005',
+        Get.find<iniControllerWithReactive>().Series_Color_005.value);
+    c.set('OES_Chart_Setting', 'Series_Color_006',
+        Get.find<iniControllerWithReactive>().Series_Color_006.value);
+    c.set('OES_Chart_Setting', 'Series_Color_007',
+        Get.find<iniControllerWithReactive>().Series_Color_007.value);
+    c.set('OES_Chart_Setting', 'Series_Color_008',
+        Get.find<iniControllerWithReactive>().Series_Color_008.value);
     print('new : ${c.toString()}');
     print('===============write ini end============');
 

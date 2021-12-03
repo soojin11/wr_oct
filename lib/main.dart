@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:ffi';
+import 'dart:io';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -32,7 +33,7 @@ import 'package:wr_ui/view/right_side_menu/log_save.dart';
 import 'package:wr_ui/view/right_side_menu/log_screen.dart';
 import 'package:wr_ui/view/right_side_menu/start_stop.dart';
 
-final DynamicLibrary wgsFunction = DynamicLibrary.open("WGSFunction.dll");
+//final DynamicLibrary wgsFunction = DynamicLibrary.open("WGSFunction.dll");
 late int Function() ocrStart;
 late int Function(int a) getBoxcarWidth;
 late void Function(int a) testtest;
@@ -48,17 +49,17 @@ late void Function() closeAll;
 //bool은 Int8
 Future main() async {
   ///////////app start
-  ocrStart = wgsFunction
-      .lookup<NativeFunction<Int8 Function()>>('OCR_Start')
-      .asFunction();
-  int ocrs = ocrStart();
-  print('ocrStart??' + '${ocrs}');
+  // ocrStart = wgsFunction
+  //     .lookup<NativeFunction<Int8 Function()>>('OCR_Start')
+  //     .asFunction();
+  // int ocrs = ocrStart();
+  // print('ocrStart??' + '${ocrs}');
 
-  OpenAllSpectrometers = wgsFunction
-      .lookup<NativeFunction<Int8 Function()>>('OpenAllSpectrometers')
-      .asFunction();
-  int openallspectro = OpenAllSpectrometers();
-  print('openallspectro??' + '$openallspectro');
+  // OpenAllSpectrometers = wgsFunction
+  //     .lookup<NativeFunction<Int8 Function()>>('OpenAllSpectrometers')
+  //     .asFunction();
+  // int openallspectro = OpenAllSpectrometers();
+  // print('openallspectro??' + '$openallspectro');
 
   //////////app start
   Get.put(OesController(), permanent: true);
@@ -73,6 +74,8 @@ Future main() async {
   Get.put(SettingController());
   Get.put(SettingContnet());
   Get.put(BtnHoverCtrl());
+  Get.put(iniControllerWithReactive()).writeIni();
+  
   runApp(MyApp());
   //OES Check [begin]
   // if (Get.find<DialogStorageCtrl>().OES_Simulation.value == 1) {
