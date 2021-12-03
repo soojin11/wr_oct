@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 import 'package:get/get.dart';
 import 'package:ini/ini.dart';
@@ -6,9 +7,8 @@ import 'package:path_provider/path_provider.dart';
 import 'package:wr_ui/controller/setting_controller.dart';
 import 'dart:async';
 import 'dart:io';
-
 import 'package:wr_ui/model/const/style/pallette.dart';
-import 'package:wr_ui/view/chart/oes_chart.dart';
+import 'package:wr_ui/view/appbar/actions/setting/setting_menu_final.dart';
 import 'package:wr_ui/view/right_side_menu/ini_creator.dart';
 import 'package:wr_ui/view/right_side_menu/log_screen.dart';
 
@@ -23,8 +23,8 @@ class DialogStorageCtrl extends GetxController {
   RxString DataPath = './datafiles/'.obs;
   RxString SaveFromStartSignal = '1'.obs;
   RxString measureStartAtProgStart = '1'.obs;
-  RxString ExposureTime = '100'.obs;
-  RxString DelayTime = '200'.obs;
+  // RxString ExposureTime = '100'.obs;
+  // RxString DelayTime = '200'.obs;
   RxString a = '0'.obs;
   RxString b = '2'.obs;
   // RxString Series_Color_001 = 'red'.obs;
@@ -117,21 +117,21 @@ class DialogStorageCtrl extends GetxController {
     c.set('VI_Setting', 'b', '0');
     c.addSection('OES_CHART_SETTING');
     c.set('OES_CHART_SETTING', 'Series_Color_001',
-        Get.find<iniControllerWithReactive>().Series_Color_001.value);
+        Get.find<iniControllerWithReactive>().Series_Color_001.value.toString());
     c.set('OES_CHART_SETTING', 'Series_Color_002',
-        Get.find<iniControllerWithReactive>().Series_Color_002.value);
+        Get.find<iniControllerWithReactive>().Series_Color_002.value.toString());
     c.set('OES_CHART_SETTING', 'Series_Color_003',
-        Get.find<iniControllerWithReactive>().Series_Color_003.value);
+        Get.find<iniControllerWithReactive>().Series_Color_003.value.toString());
     c.set('OES_CHART_SETTING', 'Series_Color_004',
-        Get.find<iniControllerWithReactive>().Series_Color_004.value);
+        Get.find<iniControllerWithReactive>().Series_Color_004.value.toString());
     c.set('OES_CHART_SETTING', 'Series_Color_005',
-        Get.find<iniControllerWithReactive>().Series_Color_005.value);
+        Get.find<iniControllerWithReactive>().Series_Color_005.value.toString());
     c.set('OES_CHART_SETTING', 'Series_Color_006',
-        Get.find<iniControllerWithReactive>().Series_Color_006.value);
+        Get.find<iniControllerWithReactive>().Series_Color_006.value.toString());
     c.set('OES_CHART_SETTING', 'Series_Color_007',
-        Get.find<iniControllerWithReactive>().Series_Color_007.value);
+        Get.find<iniControllerWithReactive>().Series_Color_007.value.toString());
     c.set('OES_CHART_SETTING', 'Series_Color_008',
-        Get.find<iniControllerWithReactive>().Series_Color_008.value);
+        Get.find<iniControllerWithReactive>().Series_Color_008.value.toString());
     Config config = c;
     print('컨피그 => ${config.toString()}');
 
@@ -211,397 +211,405 @@ Future<void> _showDialog(context) async {
                             children: [
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    TextFormField(
-                                      initialValue: '100',
-                                      decoration: InputDecoration(
-                                        labelText: 'Exposure Time',
-                                        hintText: 'milliseconds',
+                                child: Form(
+                                  key: Get.find<SettingController>().key,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      TextFormField(
+                                        initialValue: '100',
+                                        decoration: InputDecoration(
+                                          labelText: 'Exposure Time',
+                                          hintText: 'milliseconds',
+                                        ),
+                                        onSaved: (v) {
+                                          Get.find<SettingController>()
+                                              .exposureTime
+                                              .value = v.toString();
+                                          print(
+                                              'Exposure time has been changed to $v');
+                                        },
                                       ),
-                                      onSaved: (v) {
-                                        Get.find<SettingController>()
-                                            .exposureTime
-                                            .value = v.toString();
-                                        print(
-                                            'Exposure time has been changed to $v');
-                                      },
-                                    ),
-                                    // Text(
-                                    //   'Exposure Time',
-                                    //   style: TextStyle(fontSize: 10),
-                                    // ),
-                                    // Divider(
-                                    //   indent: 400,
-                                    //   endIndent: 400,
-                                    // ),
-                                    // TextField(
-                                    //   controller: Get.find<DialogStorageCtrl>()
-                                    //       ._textField1
-                                    //       .value,
-                                    //   decoration:
-                                    //       InputDecoration(errorText: _errorText),
-                                    // ),
-                                    SizedBox(
-                                      height: 30,
-                                    ),
-                                    // Padding(
-                                    //   padding: const EdgeInsets.all(8.0),
-                                    //   child: Column(
-                                    //     children: [
-                                    //       Text(
-                                    //         'Delay Time',
-                                    //         style: TextStyle(fontSize: 10),
-                                    //       ),
-                                    //       Divider(
-                                    //         indent: 400,
-                                    //         endIndent: 400,
-                                    //       ),
-                                    //     ],
-                                    //   ),
-                                    // ),
-                                    // TextField(
-                                    //   controller: Get.find<DialogStorageCtrl>()
-                                    //       ._textField2
-                                    //       .value,
-                                    // ),
-                                    TextFormField(
-                                      initialValue: '100',
-                                      decoration: InputDecoration(
-                                        labelText: 'Delay Time',
-                                        hintText: 'milliseconds',
+                                      // Text(
+                                      //   'Exposure Time',
+                                      //   style: TextStyle(fontSize: 10),
+                                      // ),
+                                      // Divider(
+                                      //   indent: 400,
+                                      //   endIndent: 400,
+                                      // ),
+                                      // TextField(
+                                      //   controller: Get.find<DialogStorageCtrl>()
+                                      //       ._textField1
+                                      //       .value,
+                                      //   decoration:
+                                      //       InputDecoration(errorText: _errorText),
+                                      // ),
+                                      SizedBox(
+                                        height: 30,
                                       ),
-                                      onSaved: (v) {
-                                        Get.find<SettingController>()
-                                            .exposureTime
-                                            .value = v.toString();
-                                        print(
-                                            'Delay time has been changed to $v');
-                                      },
-                                    ),
-                        
-                                    SizedBox(
-                                      height: 50,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            'series color 1',
-                                            style: TextStyle(fontSize: 10),
-                                          ),
-                                          Divider(
-                                            indent: 400,
-                                            endIndent: 400,
-                                          ),
-                                        ],
+                                      // Padding(
+                                      //   padding: const EdgeInsets.all(8.0),
+                                      //   child: Column(
+                                      //     children: [
+                                      //       Text(
+                                      //         'Delay Time',
+                                      //         style: TextStyle(fontSize: 10),
+                                      //       ),
+                                      //       Divider(
+                                      //         indent: 400,
+                                      //         endIndent: 400,
+                                      //       ),
+                                      //     ],
+                                      //   ),
+                                      // ),
+                                      // TextField(
+                                      //   controller: Get.find<DialogStorageCtrl>()
+                                      //       ._textField2
+                                      //       .value,
+                                      // ),
+                                      TextFormField(
+                                        initialValue: '100',
+                                        decoration: InputDecoration(
+                                          labelText: 'Delay Time',
+                                          hintText: 'milliseconds',
+                                        ),
+                                        onSaved: (v) {
+                                          Get.find<SettingController>()
+                                              .exposureTime
+                                              .value = v.toString();
+                                          print(
+                                              'Delay time has been changed to $v');
+                                        },
                                       ),
-                                    ),
-                                    Container(
-                                      height: 65,
-                                      child: Center(
-                                        child: MaterialColorPicker(
-                                          circleSize: 100,
-                                          onColorChange: (Color color) {
-                                            // Handle color changes
-                        
-                                            print('series color 1 hexcode=>' +
-                                                '${color}');
-                                            setState(() {
-                                              pickedColor1 = color;
-                                            });
-                        
-                                            // Get.find<DialogStorageCtrl>()
-                                            //     .Series_Color_001
-                                            //     .value = color.toString();
-                                          },
-                                          selectedColor: Colors.red,
-                                          colors: [
-                                            Colors.red,
-                                            Colors.deepOrange,
-                                            Colors.yellow,
-                                            Colors.lightGreen
+                                                        
+                                      SizedBox(
+                                        height: 50,
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Column(
+                                          children: [
+                                            Text(
+                                              'series color 1',
+                                              style: TextStyle(fontSize: 10),
+                                            ),
+                                            Divider(
+                                              indent: 400,
+                                              endIndent: 400,
+                                            ),
                                           ],
                                         ),
                                       ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            'series color 2',
-                                            style: TextStyle(fontSize: 10),
+                                      Container(
+                                        height: 65,
+                                        child: Center(
+                                          child: MaterialColorPicker(
+                                            circleSize: 100,
+                                            onColorChange: (Color color) {
+                                              
+
+                                                        
+                                              print('series color 1 hexcode=>' +
+                                                  '${color}');
+                                                  Get.find<
+                                                      iniControllerWithReactive>()
+                                                  .Series_Color_001
+                                                  .value = color;
+                                              // setState(() {
+                                              //   pickedColor1 = color;
+                                              // });
+                                                        
+                                              // Get.find<DialogStorageCtrl>()
+                                              //     .Series_Color_001
+                                              //     .value = color.toString();
+                                            },
+                                            selectedColor: Colors.red,
+                                            colors: [
+                                              Colors.red,
+                                              Colors.deepOrange,
+                                              Colors.yellow,
+                                              Colors.lightGreen
+                                            ],
                                           ),
-                                          Divider(
-                                            indent: 400,
-                                            endIndent: 400,
-                                          ),
-                                        ],
+                                        ),
                                       ),
-                                    ),
-                                    Container(
-                                      height: 65,
-                                      child: Center(
-                                        child: MaterialColorPicker(
-                                          circleSize: 100,
-                                          // circleSize: 100,
-                                          onColorChange: (Color color) {
-                                            // Handle color changes
-                                            print('series color 2 hexcode=>' +
-                                                '$color');
-                                            Get.find<
-                                                    iniControllerWithReactive>()
-                                                .Series_Color_002
-                                                .value = color.toString();
-                                          },
-                                          selectedColor: Colors.red,
-                                          colors: [
-                                            Colors.red,
-                                            Colors.deepOrange,
-                                            Colors.yellow,
-                                            Colors.lightGreen
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Column(
+                                          children: [
+                                            Text(
+                                              'series color 2',
+                                              style: TextStyle(fontSize: 10),
+                                            ),
+                                            Divider(
+                                              indent: 400,
+                                              endIndent: 400,
+                                            ),
                                           ],
                                         ),
                                       ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            'series color 3',
-                                            style: TextStyle(fontSize: 10),
+                                      Container(
+                                        height: 65,
+                                        child: Center(
+                                          child: MaterialColorPicker(
+                                            circleSize: 100,
+                                            // circleSize: 100,
+                                            onColorChange: (Color color) {
+                                              // Handle color changes
+                                              print('series color 2 hexcode=>' +
+                                                  '$color');
+                                              Get.find<
+                                                      iniControllerWithReactive>()
+                                                  .Series_Color_002
+                                                  .value;
+                                            },
+                                            selectedColor: Colors.red,
+                                            colors: [
+                                              Colors.red,
+                                              Colors.deepOrange,
+                                              Colors.yellow,
+                                              Colors.lightGreen
+                                            ],
                                           ),
-                                          Divider(
-                                            indent: 400,
-                                            endIndent: 400,
-                                          ),
-                                        ],
+                                        ),
                                       ),
-                                    ),
-                                    Container(
-                                      height: 65,
-                                      child: Center(
-                                        child: MaterialColorPicker(
-                                          circleSize: 100,
-                                          onColorChange: (Color color) {
-                                            // Handle color changes
-                                            print('series color 3 hexcode=>' +
-                                                '$color');
-                                            Get.find<
-                                                    iniControllerWithReactive>()
-                                                .Series_Color_003
-                                                .value = color.toString();
-                                          },
-                                          selectedColor: Colors.red,
-                                          colors: [
-                                            Colors.red,
-                                            Colors.deepOrange,
-                                            Colors.yellow,
-                                            Colors.lightGreen
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Column(
+                                          children: [
+                                            Text(
+                                              'series color 3',
+                                              style: TextStyle(fontSize: 10),
+                                            ),
+                                            Divider(
+                                              indent: 400,
+                                              endIndent: 400,
+                                            ),
                                           ],
                                         ),
                                       ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            'series color 4',
-                                            style: TextStyle(fontSize: 10),
+                                      Container(
+                                        height: 65,
+                                        child: Center(
+                                          child: MaterialColorPicker(
+                                            circleSize: 100,
+                                            onColorChange: (Color color) {
+                                              // Handle color changes
+                                              print('series color 3 hexcode=>' +
+                                                  '$color');
+                                              Get.find<
+                                                      iniControllerWithReactive>()
+                                                  .Series_Color_003
+                                                  .value;
+                                            },
+                                            selectedColor: Colors.red,
+                                            colors: [
+                                              Colors.red,
+                                              Colors.deepOrange,
+                                              Colors.yellow,
+                                              Colors.lightGreen
+                                            ],
                                           ),
-                                          Divider(
-                                            indent: 400,
-                                            endIndent: 400,
-                                          ),
-                                        ],
+                                        ),
                                       ),
-                                    ),
-                                    Container(
-                                      height: 65,
-                                      child: Center(
-                                        child: MaterialColorPicker(
-                                          circleSize: 100,
-                                          onColorChange: (Color color) {
-                                            // Handle color changes
-                                            print('series color 4 hexcode=>' +
-                                                '$color');
-                                            Get.find<
-                                                    iniControllerWithReactive>()
-                                                .Series_Color_004
-                                                .value = color.toString();
-                                          },
-                                          selectedColor: Colors.red,
-                                          colors: [
-                                            Colors.red,
-                                            Colors.deepOrange,
-                                            Colors.yellow,
-                                            Colors.lightGreen
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Column(
+                                          children: [
+                                            Text(
+                                              'series color 4',
+                                              style: TextStyle(fontSize: 10),
+                                            ),
+                                            Divider(
+                                              indent: 400,
+                                              endIndent: 400,
+                                            ),
                                           ],
                                         ),
                                       ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            'series color 5',
-                                            style: TextStyle(fontSize: 10),
+                                      Container(
+                                        height: 65,
+                                        child: Center(
+                                          child: MaterialColorPicker(
+                                            circleSize: 100,
+                                            onColorChange: (Color color) {
+                                              // Handle color changes
+                                              print('series color 4 hexcode=>' +
+                                                  '$color');
+                                              Get.find<
+                                                      iniControllerWithReactive>()
+                                                  .Series_Color_004
+                                                  .value;
+                                            },
+                                            selectedColor: Colors.red,
+                                            colors: [
+                                              Colors.red,
+                                              Colors.deepOrange,
+                                              Colors.yellow,
+                                              Colors.lightGreen
+                                            ],
                                           ),
-                                          Divider(
-                                            indent: 400,
-                                            endIndent: 400,
-                                          ),
-                                        ],
+                                        ),
                                       ),
-                                    ),
-                                    Container(
-                                      height: 65,
-                                      child: Center(
-                                        child: MaterialColorPicker(
-                                          circleSize: 100,
-                                          onColorChange: (Color color) {
-                                            // Handle color changes
-                                            print('series color 5 hexcode=>' +
-                                                '$color');
-                                            Get.find<
-                                                    iniControllerWithReactive>()
-                                                .Series_Color_005
-                                                .value = color.toString();
-                                          },
-                                          selectedColor: Colors.red,
-                                          colors: [
-                                            Colors.red,
-                                            Colors.deepOrange,
-                                            Colors.yellow,
-                                            Colors.lightGreen
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Column(
+                                          children: [
+                                            Text(
+                                              'series color 5',
+                                              style: TextStyle(fontSize: 10),
+                                            ),
+                                            Divider(
+                                              indent: 400,
+                                              endIndent: 400,
+                                            ),
                                           ],
                                         ),
                                       ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            'series color 6',
-                                            style: TextStyle(fontSize: 10),
+                                      Container(
+                                        height: 65,
+                                        child: Center(
+                                          child: MaterialColorPicker(
+                                            circleSize: 100,
+                                            onColorChange: (Color color) {
+                                              // Handle color changes
+                                              print('series color 5 hexcode=>' +
+                                                  '$color');
+                                              Get.find<
+                                                      iniControllerWithReactive>()
+                                                  .Series_Color_005
+                                                  .value;
+                                            },
+                                            selectedColor: Colors.red,
+                                            colors: [
+                                              Colors.red,
+                                              Colors.deepOrange,
+                                              Colors.yellow,
+                                              Colors.lightGreen
+                                            ],
                                           ),
-                                          Divider(
-                                            indent: 400,
-                                            endIndent: 400,
-                                          ),
-                                        ],
+                                        ),
                                       ),
-                                    ),
-                                    Container(
-                                      height: 65,
-                                      child: Center(
-                                        child: MaterialColorPicker(
-                                          circleSize: 100,
-                                          onColorChange: (Color color) {
-                                            // Handle color changes
-                                            print('series color 6 hexcode=>' +
-                                                '$color');
-                                            Get.find<
-                                                    iniControllerWithReactive>()
-                                                .Series_Color_006
-                                                .value = color.toString();
-                                          },
-                                          selectedColor: Colors.red,
-                                          colors: [
-                                            Colors.red,
-                                            Colors.deepOrange,
-                                            Colors.yellow,
-                                            Colors.lightGreen
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Column(
+                                          children: [
+                                            Text(
+                                              'series color 6',
+                                              style: TextStyle(fontSize: 10),
+                                            ),
+                                            Divider(
+                                              indent: 400,
+                                              endIndent: 400,
+                                            ),
                                           ],
                                         ),
                                       ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            'series color 7',
-                                            style: TextStyle(fontSize: 10),
+                                      Container(
+                                        height: 65,
+                                        child: Center(
+                                          child: MaterialColorPicker(
+                                            circleSize: 100,
+                                            onColorChange: (Color color) {
+                                              // Handle color changes
+                                              print('series color 6 hexcode=>' +
+                                                  '$color');
+                                              Get.find<
+                                                      iniControllerWithReactive>()
+                                                  .Series_Color_006
+                                                  .value;
+                                            },
+                                            selectedColor: Colors.red,
+                                            colors: [
+                                              Colors.red,
+                                              Colors.deepOrange,
+                                              Colors.yellow,
+                                              Colors.lightGreen
+                                            ],
                                           ),
-                                          Divider(
-                                            indent: 400,
-                                            endIndent: 400,
-                                          ),
-                                        ],
+                                        ),
                                       ),
-                                    ),
-                                    Container(
-                                      height: 65,
-                                      child: Center(
-                                        child: MaterialColorPicker(
-                                          circleSize: 100,
-                                          onColorChange: (Color color) {
-                                            // Handle color changes
-                                            print('series color 7 hexcode=>' +
-                                                '$color');
-                                            Get.find<
-                                                    iniControllerWithReactive>()
-                                                .Series_Color_007
-                                                .value = color.toString();
-                                          },
-                                          selectedColor: Colors.red,
-                                          colors: [
-                                            Colors.red,
-                                            Colors.deepOrange,
-                                            Colors.yellow,
-                                            Colors.lightGreen
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Column(
+                                          children: [
+                                            Text(
+                                              'series color 7',
+                                              style: TextStyle(fontSize: 10),
+                                            ),
+                                            Divider(
+                                              indent: 400,
+                                              endIndent: 400,
+                                            ),
                                           ],
                                         ),
                                       ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            'series color 8',
-                                            style: TextStyle(fontSize: 10),
+                                      Container(
+                                        height: 65,
+                                        child: Center(
+                                          child: MaterialColorPicker(
+                                            circleSize: 100,
+                                            onColorChange: (Color color) {
+                                              // Handle color changes
+                                              print('series color 7 hexcode=>' +
+                                                  '$color');
+                                              Get.find<
+                                                      iniControllerWithReactive>()
+                                                  .Series_Color_007
+                                                  .value;
+                                            },
+                                            selectedColor: Colors.red,
+                                            colors: [
+                                              Colors.red,
+                                              Colors.deepOrange,
+                                              Colors.yellow,
+                                              Colors.lightGreen
+                                            ],
                                           ),
-                                          Divider(
-                                            indent: 400,
-                                            endIndent: 400,
-                                          ),
-                                        ],
+                                        ),
                                       ),
-                                    ),
-                                    Container(
-                                      height: 65,
-                                      child: Center(
-                                        child: MaterialColorPicker(
-                                          circleSize: 100,
-                                          onColorChange: (Color color) {
-                                            // Handle color changes
-                                            print('series color 8 hexcode=>' +
-                                                '$color');
-                                            Get.find<
-                                                    iniControllerWithReactive>()
-                                                .Series_Color_008
-                                                .value = color.toString();
-                                          },
-                                          selectedColor: Colors.red,
-                                          colors: [
-                                            Colors.red,
-                                            Colors.deepOrange,
-                                            Colors.yellow,
-                                            Colors.lightGreen
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Column(
+                                          children: [
+                                            Text(
+                                              'series color 8',
+                                              style: TextStyle(fontSize: 10),
+                                            ),
+                                            Divider(
+                                              indent: 400,
+                                              endIndent: 400,
+                                            ),
                                           ],
                                         ),
                                       ),
-                                    ),
-                                  ],
+                                      Container(
+                                        height: 65,
+                                        child: Center(
+                                          child: MaterialColorPicker(
+                                            circleSize: 100,
+                                            onColorChange: (Color color) {
+                                              // Handle color changes
+                                              print('series color 8 hexcode=>' +
+                                                  '$color');
+                                              Get.find<
+                                                      iniControllerWithReactive>()
+                                                  .Series_Color_008
+                                                  .value;
+                                            },
+                                            selectedColor: Colors.red,
+                                            colors: [
+                                              Colors.red,
+                                              Colors.deepOrange,
+                                              Colors.yellow,
+                                              Colors.lightGreen
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ],
@@ -615,6 +623,11 @@ Future<void> _showDialog(context) async {
                           ),
                           child: Text('save'),
                           onPressed: () {
+                            Get.find<SettingController>()
+                              .key
+                              .currentState!
+                              .save();
+                          Get.find<LogListController>().cConfigSave();
                             // if (Get.find<DialogStorageCtrl>()
                             //     ._textField1
                             //     .value
@@ -710,7 +723,7 @@ Future<void> _showDialog(context) async {
                             //       .text = '';
                             //   // _textField1.clear();
                             //   // _textField2.clear();
-
+                
                             // } else {
                             //   print('세팅창 채워요');
                             // }
@@ -720,6 +733,10 @@ Future<void> _showDialog(context) async {
                           child: Text("close"),
                           onPressed: () {
                             Navigator.pop(context);
+                            Get.find<SettingController>()
+                              .key
+                              .currentState!
+                              .save();
                           },
                           style: ElevatedButton.styleFrom(
                             primary: wrColors.wrPrimary,

@@ -4,6 +4,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wr_ui/view/right_side_menu/csv_creator.dart';
+import 'package:wr_ui/view/right_side_menu/ini_creator.dart';
 
 class OesController extends GetxController {
   RxList<FlSpot> oneData = RxList.empty();
@@ -92,21 +93,21 @@ class OesChart extends GetView<OesController> {
               controller: controller,
               lineBarsData: [
                 if (controller.checkVal1.value)
-                  lineChartBarData(controller.oneData, Colors.red[400]),
+                  lineChartBarData(controller.oneData, Get.find<iniControllerWithReactive>().Series_Color_001.value),
                 if (controller.checkVal2.value)
-                  lineChartBarData(controller.twoData, Colors.orange),
+                  lineChartBarData(controller.twoData, Get.find<iniControllerWithReactive>().Series_Color_002.value),
                 if (controller.checkVal3.value)
-                  lineChartBarData(controller.threeData, Colors.amber),
+                  lineChartBarData(controller.threeData, Get.find<iniControllerWithReactive>().Series_Color_003.value),
                 if (controller.checkVal4.value)
-                  lineChartBarData(controller.fourData, Colors.green[300]),
+                  lineChartBarData(controller.fourData, Get.find<iniControllerWithReactive>().Series_Color_004.value),
                 if (controller.checkVal5.value)
-                  lineChartBarData(controller.fiveData, Colors.blue[300]),
+                  lineChartBarData(controller.fiveData, Get.find<iniControllerWithReactive>().Series_Color_005.value),
                 if (controller.checkVal6.value)
-                  lineChartBarData(controller.sixData, Colors.blue[700]),
+                  lineChartBarData(controller.sixData, Get.find<iniControllerWithReactive>().Series_Color_006.value),
                 if (controller.checkVal7.value)
-                  lineChartBarData(controller.sevenData, Colors.purple[300]),
+                  lineChartBarData(controller.sevenData, Get.find<iniControllerWithReactive>().Series_Color_007.value),
                 if (controller.checkVal8.value)
-                  lineChartBarData(controller.eightData, Colors.pink[100]),
+                  lineChartBarData(controller.eightData, Get.find<iniControllerWithReactive>().Series_Color_008.value),
               ],
               bottomTitles: SideTitles(
                 showTitles: true,

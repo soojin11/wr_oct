@@ -1,235 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:wr_ui/model/const/style/pallette.dart';
-import 'package:wr_ui/view/appbar/actions/setting/setting_menu_final.dart';
-import 'package:wr_ui/view/right_side_menu/ini_creator.dart';
+// import 'package:flutter/material.dart';
+// import 'package:get/get.dart';
+// import 'package:wr_ui/model/const/style/pallette.dart';
+// import 'package:wr_ui/view/appbar/actions/setting/setting_menu_final.dart';
+// import 'package:wr_ui/view/right_side_menu/ini_creator.dart';
 
-class SetController extends GetxController {}
-
-Future settingsDialog(BuildContext context) async {
-  return await showDialog(
-    barrierColor: null,
-    barrierDismissible: false,
-    context: context,
-    builder: (BuildContext ctx) {
-      var top = 100.0;
-      var left = 1000.0;
-
-      return GetBuilder<SetController>(
-        init: SetController(),
-        builder: (controller) {
-          bool checked = true;
-          return GestureDetector(
-            onVerticalDragUpdate: (DragUpdateDetails dd) {
-              print(dd);
-
-              top = dd.localPosition.dy - 30;
-              left = dd.localPosition.dx - 70;
-            },
-            child: Stack(children: [
-              Positioned(
-                top: top,
-                left: left,
-                child: SimpleDialog(
-                  contentPadding: EdgeInsets.zero,
-                  titlePadding: const EdgeInsets.fromLTRB(24, 10, 24, 0),
-                  title: Text('Settings'),
-                  children: [
-                    Form(
-                      key: Get.find<SettingController>().key,
-                      child: Column(
-                        children: [
-                          Divider(
-                            thickness: 0.3,
-                            color: Colors.grey[700],
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 40),
-                            child: Row(
-                              children: [
-                                Text(
-                                  'OES Setting',
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    color: wrColors.wrPrimary,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-
-                          Padding(
-                            padding: const EdgeInsets.all(8),
-                            child: TextFormField(
-                              initialValue:
-                                  Get.find<iniControllerWithReactive>()
-                                      .ExposureTime
-                                      .value,
-                              decoration: InputDecoration(
-                                icon: Icon(Icons.label),
-                                labelText: 'Exposure Time',
-                                hintText: 'milliseconds',
-                              ),
-                              onSaved: (val) {
-                                Get.find<iniControllerWithReactive>()
-                                    .ExposureTime
-                                    .value = val.toString();
-                              },
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8),
-                            child: TextFormField(
-                              initialValue:
-                                  Get.find<iniControllerWithReactive>()
-                                      .DelayTime
-                                      .value,
-                              decoration: const InputDecoration(
-                                icon: Icon(Icons.label),
-                                labelText: 'Delay Time',
-                              ),
-                              onSaved: (val) {
-                                Get.find<iniControllerWithReactive>()
-                                    .DelayTime
-                                    .value = val.toString();
-                              },
-                            ),
-                          ),
-                          ///////////vi setting
-                          Divider(
-                            thickness: 0.3,
-                            color: Colors.grey[700],
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 40),
-                            child: Row(
-                              children: [
-                                Text(
-                                  'VI Setting',
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    color: wrColors.wrPrimary,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8),
-                            child: TextFormField(
-                              initialValue:
-                                  Get.find<iniControllerWithReactive>().a.value,
-                              decoration: const InputDecoration(
-                                icon: Icon(Icons.label),
-                                labelText: 'a',
-                              ),
-                              onSaved: (val) {
-                                Get.find<iniControllerWithReactive>().a.value =
-                                    val.toString();
-                              },
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8),
-                            child: TextFormField(
-                              initialValue:
-                                  Get.find<iniControllerWithReactive>().b.value,
-                              decoration: const InputDecoration(
-                                icon: Icon(Icons.label),
-                                labelText: 'b',
-                              ),
-                              onSaved: (val) {
-                                Get.find<iniControllerWithReactive>().b.value =
-                                    val.toString();
-                              },
-                            ),
-                          ),
-                          ///////////vi setting
-                          ///oes_chart_setting
-                          Divider(
-                            thickness: 0.3,
-                            color: Colors.grey[700],
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 40),
-                            child: Row(
-                              children: [
-                                Text(
-                                  'OES Chart Setting',
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    color: wrColors.wrPrimary,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8),
-                            child: TextFormField(
-                              initialValue:
-                                  Get.find<iniControllerWithReactive>()
-                                      .Series_Color_001
-                                      .value,
-                              decoration: const InputDecoration(
-                                icon: Icon(Icons.label),
-                                labelText: 'series color 1',
-                              ),
-                              onSaved: (val) {
-                                Get.find<iniControllerWithReactive>()
-                                    .Series_Color_001
-                                    .value = val.toString();
-                              },
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8),
-                            child: TextFormField(
-                              initialValue:
-                                  Get.find<iniControllerWithReactive>()
-                                      .Series_Color_002
-                                      .value,
-                              decoration: const InputDecoration(
-                                icon: Icon(Icons.label),
-                                labelText: 'series color 2',
-                              ),
-                              onSaved: (val) {
-                                Get.find<iniControllerWithReactive>()
-                                    .Series_Color_002
-                                    .value = val.toString();
-                              },
-                            ),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          )
-
-                          ///oes_chart_setting
-                        ],
-                      ),
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.of(context, rootNavigator: true).pop();
-
-                        Get.find<SettingController>().key.currentState!.save();
-                      },
-                      child: Text('Save'),
-                      style:
-                          ElevatedButton.styleFrom(primary: wrColors.wrPrimary),
-                    ),
-                  ],
-                ),
-              ),
-            ]),
-          );
-        },
-      );
-    },
-  );
-}
-
-/////////////////밑에거 원래거
 // Future<Map<String, dynamic>> settingsDialog(
 //     BuildContext context, Map<String, dynamic> settings) async {
 //   return await showDialog(
@@ -434,7 +208,7 @@ Future settingsDialog(BuildContext context) async {
 //                             padding: const EdgeInsets.all(8),
 //                             child: TextFormField(
 //                               initialValue:
-//                                   Get.find<iniControllerWithReactive>()
+//                                   Get.find<SettingController>()
 //                                       .exposureTime
 //                                       .value,
 //                               decoration: InputDecoration(
@@ -447,14 +221,14 @@ Future settingsDialog(BuildContext context) async {
 //                                 //     .exposureTime
 //                                 //     .value = savedValue.toString();
 //                                 //val(텍스트폼에 친거)->
-//                                 Get.find<iniControllerWithReactive>()
+//                                 Get.find<SettingController>()
 //                                     .exposureTime
 //                                     .value = val.toString();
 //                                 // setState(() {
 //                                 // exposureTime = val;
 //                                 // });
 //                                 print(
-//                                     ' Setting창에서 저장 된 exposureTime=>"${Get.find<iniControllerWithReactive>().exposureTime.value}"  "${Get.find<SettingController>().exposureTime.value}"');
+//                                     ' Setting창에서 저장 된 exposureTime=>"${Get.find<SettingController>().exposureTime.value}"  "${Get.find<SettingController>().exposureTime.value}"');
 //                               },
 //                               // onSaved: (savedValue) {
 //                               //   Get.find<SettingController>()

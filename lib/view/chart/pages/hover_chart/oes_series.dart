@@ -1,8 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:wr_ui/view/appbar/actions/setting/setting_menu_final.dart';
+import 'package:wr_ui/view/right_side_menu/ini_creator.dart';
 import '../../oes_chart.dart';
 
 
@@ -13,7 +12,7 @@ class oneHoverChart extends GetView<OesController> {
       padding: EdgeInsets.all(20),
       child: GetBuilder<OesController>(
             builder: (controller) =>OesChart().LineChartForm(controller: controller, lineBarsData: [
-        OesChart().lineChartBarData(controller.oneData, Colors.red[400]),
+        OesChart().lineChartBarData(controller.oneData, Get.find<iniControllerWithReactive>().Series_Color_001.value),
       ], leftTitles: SideTitles(showTitles: false), bottomTitles: SideTitles(showTitles: false))),
     );
   }
@@ -26,7 +25,7 @@ class twoHoverChart extends GetView<OesController> {
       padding: EdgeInsets.all(20),
       child: GetBuilder<OesController>(
             builder: (controller) =>OesChart().LineChartForm(controller: controller, lineBarsData: [
-        OesChart().lineChartBarData(controller.twoData, Colors.orange),
+        OesChart().lineChartBarData(controller.twoData, Get.find<iniControllerWithReactive>().Series_Color_002.value),
       ], leftTitles: SideTitles(showTitles: false), bottomTitles: SideTitles(showTitles: false))),
     );
   }
@@ -39,7 +38,7 @@ class threeHoverChart extends GetView<OesController> {
       padding: EdgeInsets.all(20),
       child: GetBuilder<OesController>(
             builder: (controller) =>OesChart().LineChartForm(controller: controller, lineBarsData:[
-        OesChart().lineChartBarData(controller.threeData, Colors.amber),
+        OesChart().lineChartBarData(controller.threeData, Get.find<iniControllerWithReactive>().Series_Color_003.value),
       ], leftTitles: SideTitles(showTitles: false), bottomTitles: SideTitles(showTitles: false))),
     );
   }
@@ -52,7 +51,7 @@ class fourHoverChart extends GetView<OesController> {
       padding: EdgeInsets.all(20),
       child: GetBuilder<OesController>(
             builder: (controller) =>OesChart().LineChartForm(controller:controller, lineBarsData: [
-        OesChart().lineChartBarData(controller.fourData, Colors.green[300]),
+        OesChart().lineChartBarData(controller.fourData, Get.find<iniControllerWithReactive>().Series_Color_004.value),
       ], leftTitles: SideTitles(showTitles: false), bottomTitles: SideTitles(showTitles: false))),
     );
   }
@@ -65,7 +64,7 @@ class fiveHoverChart extends GetView<OesController> {
       padding: EdgeInsets.all(20),
       child: GetBuilder<OesController>(
             builder: (controller) =>OesChart().LineChartForm(controller: controller, lineBarsData: [
-        OesChart().lineChartBarData(controller.fiveData, Colors.blue[300]),
+        OesChart().lineChartBarData(controller.fiveData, Get.find<iniControllerWithReactive>().Series_Color_005.value),
       ], leftTitles: SideTitles(showTitles: false), bottomTitles: SideTitles(showTitles: false))),
     );
   }
@@ -77,7 +76,7 @@ class sixHoverChart extends GetView<OesController> {
       padding: EdgeInsets.all(20),
       child: GetBuilder<OesController>(
             builder: (controller) =>OesChart().LineChartForm(controller: controller, lineBarsData : [
-        OesChart().lineChartBarData(controller.sixData, Colors.blue[700]),
+        OesChart().lineChartBarData(controller.sixData, Get.find<iniControllerWithReactive>().Series_Color_006.value),
       ], leftTitles: SideTitles(showTitles: false), bottomTitles: SideTitles(showTitles: false))),
     );
   }
@@ -89,7 +88,7 @@ class sevenHoverChart extends GetView<OesController> {
       padding: EdgeInsets.all(20),
       child: GetBuilder<OesController>(
             builder: (controller) =>OesChart().LineChartForm(controller: controller, lineBarsData: [
-        OesChart().lineChartBarData(controller.sevenData, Colors.purple[300]),
+        OesChart().lineChartBarData(controller.sevenData, Get.find<iniControllerWithReactive>().Series_Color_007.value),
       ], leftTitles: SideTitles(showTitles: false), bottomTitles: SideTitles(showTitles: false))),
     );
   }
@@ -101,7 +100,7 @@ class eightHoverChart extends GetView<OesController> {
       padding: EdgeInsets.all(20),
       child: GetBuilder<OesController>(
             builder: (controller) =>OesChart().LineChartForm(controller: controller, lineBarsData: [
-        OesChart().lineChartBarData(controller.eightData, Colors.pink[100]),
+        OesChart().lineChartBarData(controller.eightData, Get.find<iniControllerWithReactive>().Series_Color_008.value),
       ], leftTitles: SideTitles(showTitles: false), bottomTitles: SideTitles(showTitles: false))),
     );
   }

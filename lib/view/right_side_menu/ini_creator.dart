@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ini/ini.dart';
 import 'package:wr_ui/view/appbar/leading/run_error_status_mark.dart';
@@ -25,14 +26,14 @@ class iniControllerWithReactive extends GetxController {
   RxString DelayTime = '200'.obs;
   RxString a = '0'.obs;
   RxString b = '2'.obs;
-  RxString Series_Color_001 = 'red'.obs;
-  RxString Series_Color_002 = 'blue'.obs;
-  RxString Series_Color_003 = 'grey'.obs;
-  RxString Series_Color_004 = 'orange'.obs;
-  RxString Series_Color_005 = 'green'.obs;
-  RxString Series_Color_006 = 'bluegrey'.obs;
-  RxString Series_Color_007 = 'pink'.obs;
-  RxString Series_Color_008 = 'purple'.obs;
+  Rx<Color> Series_Color_001 = Color(0xFFEF5350).obs;
+  Rx<Color> Series_Color_002 = Color(0xFFFFA726).obs;
+  Rx<Color> Series_Color_003 = Color(0xFFFFD54F).obs;
+  Rx<Color> Series_Color_004 = Color(0xFF81C784).obs;
+  Rx<Color> Series_Color_005 = Color(0xFF81C784).obs;
+  Rx<Color> Series_Color_006 = Color(0xFF64B5F6).obs;
+  Rx<Color> Series_Color_007 = Color(0xFF0D47A1).obs;
+  Rx<Color> Series_Color_008 = Color(0xFFBA68C8).obs;
 
   //////////프로그램 구동 시 자동시작
   // RxString measureStartAtProgStart = '1'.obs;
@@ -149,21 +150,21 @@ class iniControllerWithReactive extends GetxController {
     //////////
     c.addSection('OES_Chart_Setting');
     c.set('OES_Chart_Setting', 'Series_Color_001',
-        Get.find<iniControllerWithReactive>().Series_Color_001.value);
+        Get.find<iniControllerWithReactive>().Series_Color_001.value.toString());
     c.set('OES_Chart_Setting', 'Series_Color_002',
-        Get.find<iniControllerWithReactive>().Series_Color_002.value);
+        Get.find<iniControllerWithReactive>().Series_Color_002.value.toString());
     c.set('OES_Chart_Setting', 'Series_Color_003',
-        Get.find<iniControllerWithReactive>().Series_Color_003.value);
+        Get.find<iniControllerWithReactive>().Series_Color_003.value.toString());
     c.set('OES_Chart_Setting', 'Series_Color_004',
-        Get.find<iniControllerWithReactive>().Series_Color_004.value);
+        Get.find<iniControllerWithReactive>().Series_Color_004.value.toString());
     c.set('OES_Chart_Setting', 'Series_Color_005',
-        Get.find<iniControllerWithReactive>().Series_Color_005.value);
+        Get.find<iniControllerWithReactive>().Series_Color_005.value.toString());
     c.set('OES_Chart_Setting', 'Series_Color_006',
-        Get.find<iniControllerWithReactive>().Series_Color_006.value);
+        Get.find<iniControllerWithReactive>().Series_Color_006.value.toString());
     c.set('OES_Chart_Setting', 'Series_Color_007',
-        Get.find<iniControllerWithReactive>().Series_Color_007.value);
+        Get.find<iniControllerWithReactive>().Series_Color_007.value.toString());
     c.set('OES_Chart_Setting', 'Series_Color_008',
-        Get.find<iniControllerWithReactive>().Series_Color_008.value);
+        Get.find<iniControllerWithReactive>().Series_Color_008.value.toString());
     print('new : ${c.toString()}');
     print('===============write ini end============');
 
