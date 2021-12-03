@@ -98,6 +98,7 @@ class StartStop extends GetView<StartStopController> {
                   textStyle: TextStyle(fontSize: 16)),
               onPressed: () {
                 Get.find<OesController>().inactiveBtn.value = false;
+                Get.find<CsvController>().inactiveBtn.value = false;
                 // Get.find<VizController>().inactiveBtn.value = false;
                 // Get.find<VizController>().timer.cancel();
                 Get.find<OesController>().timer.cancel();

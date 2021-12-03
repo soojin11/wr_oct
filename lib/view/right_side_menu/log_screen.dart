@@ -1,12 +1,19 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:wr_ui/view/right_side_menu/ini_creator.dart';
-
+import 'package:wr_ui/view/chart/switch_chart.dart';
 import 'log_save.dart';
 
 class LogListController extends GetxController {
   RxList logData = RxList.empty();
+  //RxBool rederror = false.obs;
+  String event = '[Event Trigger]';
+  String btnPress = 'button is pressed';
+  DateTime current = DateTime.now();
+  String logTime = logfileTime();
+  String screenLogTime = screenTime();
+
   @override
   void onInit() {
     //ever(logData, (_) => logData.add('클릭');
@@ -15,125 +22,130 @@ class LogListController extends GetxController {
 
   @override
   void onClose() {
+    LogListController;
     super.onClose();
   }
 
   void clickedStop() async {
-    // logData.add('Stop button is pressed');
-    DateTime current = DateTime.now();
-    String ms = DateTime.now().millisecondsSinceEpoch.toString();
-    int msLength = ms.length;
-    int third = int.parse(ms.substring(msLength - 3, msLength));
-    String msDate =
-        '${DateFormat('yyyy-MM-dd HH:mm:ss').format(current)}.$third';
-    String screenDate = '${DateFormat('HH:mm:ss').format(current)}.$third';
-
+    saveLog();
+    logData.add('${screenTime()} Stop $btnPress');
     Get.find<LogController>()
         .loglist
-        .add('${msDate} [Event Trigger] Stop button is pressed' + '\n');
-
-    Get.find<LogController>().logSave();
-    Get.find<LogController>().fileSave.value = true;
-    logData.add('${screenDate} Stop button is pressed');
+        .add('${logfileTime()} $event Stop $btnPress' + '\n');
   }
 
   void clickedStart() async {
-    //logData.add('Start buttton is pressed');
-    DateTime current = DateTime.now();
-    String ms = DateTime.now().millisecondsSinceEpoch.toString();
-    int msLength = ms.length;
-    int third = int.parse(ms.substring(msLength - 3, msLength));
-    String msDate =
-        '${DateFormat('yyyy-MM-dd HH:mm:ss').format(current)}.$third';
-    String screenDate = '${DateFormat('HH:mm:ss').format(current)}.$third';
-
-    logData.add('${screenDate} Start button is pressed');
+    saveLog();
+    logData.add('${screenTime()} Start $btnPress');
     Get.find<LogController>()
         .loglist
-        .add('${msDate} [Event Trigger] Start button is pressed' + '\n');
-    Get.find<LogController>().logSave();
-    Get.find<LogController>().fileSave.value = true;
+        .add('${logfileTime()} $event Start $btnPress' + '\n');
   }
 
   void startCsv() async {
-    //logData.add('Start Saving');
-    DateTime current = DateTime.now();
-    String ms = DateTime.now().millisecondsSinceEpoch.toString();
-    int msLength = ms.length;
-    int third = int.parse(ms.substring(msLength - 3, msLength));
-    String msDate =
-        '${DateFormat('yyyy-MM-dd HH:mm:ss').format(current)}.$third';
-    String screenDate = '${DateFormat('HH:mm:ss').format(current)}.$third';
-
-    logData.add('${screenDate} Start Saving Data');
+    saveLog();
+    logData.add('${screenTime()} Save start $btnPress');
     Get.find<LogController>()
         .loglist
-        .add('${msDate} [Event Trigger] Save start button is pressed' + '\n');
-    Get.find<LogController>().logSave();
-    Get.find<LogController>().fileSave.value = true;
+        .add('${logfileTime()} [Event Trigger] Save start $btnPress' + '\n');
   }
 
   void stopCsv() async {
-    //logData.add('Stop Saving');
-    DateTime current = DateTime.now();
-    String ms = DateTime.now().millisecondsSinceEpoch.toString();
-    int msLength = ms.length;
-    int third = int.parse(ms.substring(msLength - 3, msLength));
-    String msDate =
-        '${DateFormat('yyyy-MM-dd HH:mm:ss').format(current)}.$third';
-    String screenDate = '${DateFormat('HH:mm:ss').format(current)}.$third';
-    logData.add('${screenDate} Stop Saving Data');
+    saveLog();
+    Get.find<LogController>().logSave();
+
+    logData.add('${screenTime()} Save stop $btnPress');
     Get.find<LogController>()
         .loglist
-        .add('${msDate} [Event Trigger] Save Stop button is pressed' + '\n');
-    Get.find<LogController>().logSave();
-    Get.find<LogController>().fileSave.value = true;
+        .add('${logfileTime()} [Event Trigger] Save stop $btnPress' + '\n');
   }
 
-  void clickedIni() async {
-    //logData.add('Save config');
+  void cConfigSave() async {
+    saveLog();
+    logData.add('${screenTime()} Save Config');
+    Get.find<LogController>()
+        .loglist
+        .add('${logfileTime()} [Event Trigger] Save setting $btnPress' + '\n');
+    //여기 값이 어떻게 바뀌었는지도 넣는게 좋은가?
   }
 
-  void clickedReset() async {
-    //logData.add('Reset button is pressed');
+  void cModeChage() async {
+    saveLog();
+  }
+
+  void cExit() async {
+    saveLog();
+  }
+
+  void clickedHover() async {
+    saveLog();
+    String logTime = logfileTime();
+    String screenLogTime = screenTime();
+    String select =
+        'Num${Get.find<chooseChart>().chartNum.value} chart is selected';
+    logData.add('${screenLogTime} $select');
+    Get.find<LogController>()
+        .loglist
+        .add('${logTime} [Event Trigger] $select' + '\n');
   }
 }
 
+saveLog() {
+  Get.find<LogController>().fileSave.value = true;
+  Get.find<LogController>().logSave();
+}
+
+
+String screenTime() {
+  DateTime current = DateTime.now();
+  String ms = DateTime.now().millisecondsSinceEpoch.toString();
+  int msLength = ms.length;
+  int third = int.parse(ms.substring(msLength - 3, msLength));
+  String screenDate = '${DateFormat('HH:mm:ss').format(current)}.$third';
+  return screenDate;
+}
+
+String logfileTime() {
+  DateTime current = DateTime.now();
+  String ms = DateTime.now().millisecondsSinceEpoch.toString();
+  int msLength = ms.length;
+  int third = int.parse(ms.substring(msLength - 3, msLength));
+  String msDate = '${DateFormat('yyyy-MM-dd HH:mm:ss').format(current)}.$third';
+  return msDate;
+}
+
 class LogList extends GetView<LogListController> {
+  final ScrollController scrollCtrl = ScrollController();
   LogList({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
-        //decoration: BoxDecoration(border: Border.all(width: 1)),
         width: 350,
         height: 395,
-        //////////merge 할 때, 이 부분을 받을것,, 그래야지 시작정렬됨
         child: Obx(() {
-          if (controller.logData.isEmpty) {
-            return Center(
-                child: Column(
-              children: [
-                Text('log does not exist.'),
-              ],
-            ));
+          if (controller.logData.length < 0) {
+            return Center(child: Text('log does not exist.'));
           } else {
-            return ListView.separated(
-              padding: const EdgeInsets.all(8),
-              itemCount: controller.logData.length,
-              itemBuilder: (BuildContext context, int index) {
-                return Container(
-                  height: 20,
-                  child: Column(
-                    children: [
-                      Text(
-                        '${controller.logData[index]}',
-                      ),
-                    ],
+            return SafeArea(
+              child: Scrollbar(
+                //isAlwaysShown: true,
+                child: SingleChildScrollView(
+                  child: ListView.builder(
+                    controller: scrollCtrl,
+                    addAutomaticKeepAlives: false,
+                    addRepaintBoundaries: false,
+                    padding: const EdgeInsets.all(8),
+                    shrinkWrap: true,
+                    itemCount: controller.logData.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return ListTile(
+                        title: Text('${controller.logData[index]}'),
+                      );
+                    },
                   ),
-                );
-              },
-              separatorBuilder: (BuildContext context, int index) =>
-                  const Divider(),
+                ),
+              ),
+              //),
             );
           }
         }));

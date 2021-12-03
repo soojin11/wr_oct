@@ -20,13 +20,9 @@ class Clock extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                DateFormat('yyyy/MM/dd \n hh:mm:ss').format(DateTime.now()),
+                DateFormat('yyyy/MM/dd \n HH:mm:ss').format(DateTime.now()),
                 style: WrText.WrLeadingFont,
               ),
-              // Text(
-              //   DateFormat('hh:mm:ss').format(DateTime.now()),
-              //   style: WrText.WrLeadingFont,
-              // ),
             ],
           ),
         );

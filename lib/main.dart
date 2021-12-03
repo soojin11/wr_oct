@@ -18,14 +18,11 @@ import 'package:wr_ui/view/appbar/actions/setting/setting_menu_final.dart';
 import 'package:wr_ui/view/appbar/leading/clock.dart';
 import 'package:wr_ui/view/appbar/leading/recent_recipe_name.dart';
 import 'package:wr_ui/view/appbar/leading/run_error_status_mark.dart';
+import 'package:wr_ui/view/chart/chart_tabbar.dart';
 import 'package:wr_ui/view/chart/oes_chart.dart';
 import 'package:wr_ui/view/chart/pages/hover_chart/hover_func.dart';
 import 'package:wr_ui/view/chart/pages/hover_chart/hover_row.dart';
-import 'package:wr_ui/view/chart/pages/navigator_page/ADDpage.dart';
-import 'package:wr_ui/view/chart/pages/navigator_page/ALLpage.dart';
-import 'package:wr_ui/view/chart/pages/navigator_page/CUSTOMpage.dart';
-import 'package:wr_ui/view/chart/pages/navigator_page/OESpage.dart';
-import 'package:wr_ui/view/chart/pages/navigator_page/VIpage.dart';
+import 'package:wr_ui/view/chart/switch_chart.dart';
 import 'package:wr_ui/view/right_side_menu/csv_creator.dart';
 import 'package:wr_ui/view/right_side_menu/exit_btn.dart';
 import 'package:wr_ui/view/right_side_menu/ini_creator.dart';
@@ -76,6 +73,7 @@ Future main() async {
   Get.put(BtnHoverCtrl());
   Get.put(iniControllerWithReactive()).writeIni();
   
+  Get.put(chooseChart());
   runApp(MyApp());
   //OES Check [begin]
   // if (Get.find<DialogStorageCtrl>().OES_Simulation.value == 1) {
@@ -315,25 +313,33 @@ class _WRbodyState extends State<WRbody> {
                   child: Container(
                     decoration:
                         BoxDecoration(borderRadius: BorderRadius.circular(10)),
-                    //////////////차트 컨테이너 내에 페이지 이동
-                    child: MaterialApp(
-                      debugShowCheckedModeBanner: false,
-                      theme: Themes.light,
-                      darkTheme: Themes.dark,
-                      initialRoute: '/all',
-                      routes: {
-                        '/all': (context) => ALLpage(),
-                        '/oes': (context) => OESpage(),
-                        '/vi': (context) => VIpage(),
-                        '/custom': (context) => CUSTOMpage(),
-                        '/add': (context) => ADDpage(),
-                      },
-                    ),
-                    //////////////차트 컨테이너 내에 페이지 이동
-                  ),
-                ),
+                    
+                    child: 
+                    // MaterialApp(
+                    //   debugShowCheckedModeBanner: false,
+                    //   theme: Themes.light,
+                    //   darkTheme: Themes.dark,
+                    //   initialRoute: '/all',
+                    //   routes: {
+                    //     '/all': (context) => ALLpage(),
+                    //     '/oes': (context) => OESpage(),
+                    //     '/vi': (context) => VIpage(),
+                    //     '/custom': (context) => CUSTOMpage(),
+                    //     '/add': (context) => ADDpage(),
+                    //   },
+                    // ),
+                    Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              chartTabBar(),
+                              Expanded(
+                                  flex: 1,
+                                  child: OesChart())
+                            ],
+                  )),
+                
               ),
-            ),
+            )),
             Expanded(
                 flex: 1,
                 child: Padding(

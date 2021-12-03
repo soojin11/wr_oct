@@ -16,7 +16,7 @@ class SettingController extends GetxController {
   RxString chartColor = 'green'.obs;
   RxDouble scaleValue = 0.0.obs;
   // RxString delayTime = ''.obs;
-  RxString exposureTime = '0'.obs;
+  RxString exposureTime = '100'.obs;
   RxInt delayTime = 0.obs;
   RxString deviceSimul = ''.obs;
   RxInt savedValue = 0.obs;
