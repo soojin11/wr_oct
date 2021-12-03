@@ -14,8 +14,9 @@ class oneHoverChart extends GetView<OesController> {
         });
   }
 }
-class twoHoverChart extends GetView<OesController>{
-@override
+
+class twoHoverChart extends GetView<OesController> {
+  @override
   Widget build(BuildContext context) {
     return OesChartHover(
         name: 'OES_2',
@@ -26,8 +27,8 @@ class twoHoverChart extends GetView<OesController>{
   }
 }
 
-class threeHoverChart extends GetView<OesController>{
-@override
+class threeHoverChart extends GetView<OesController> {
+  @override
   Widget build(BuildContext context) {
     return OesChartHover(
         name: 'OES_3',
@@ -38,8 +39,8 @@ class threeHoverChart extends GetView<OesController>{
   }
 }
 
-class fourHoverChart extends GetView<OesController>{
-@override
+class fourHoverChart extends GetView<OesController> {
+  @override
   Widget build(BuildContext context) {
     return OesChartHover(
         name: 'OES_4',
@@ -49,8 +50,9 @@ class fourHoverChart extends GetView<OesController>{
         });
   }
 }
-class fiveHoverChart extends GetView<OesController>{
-@override
+
+class fiveHoverChart extends GetView<OesController> {
+  @override
   Widget build(BuildContext context) {
     return OesChartHover(
         name: 'OES_5',
@@ -60,8 +62,9 @@ class fiveHoverChart extends GetView<OesController>{
         });
   }
 }
-class sixHoverChart extends GetView<OesController>{
-@override
+
+class sixHoverChart extends GetView<OesController> {
+  @override
   Widget build(BuildContext context) {
     return OesChartHover(
         name: 'OES_6',
@@ -71,8 +74,9 @@ class sixHoverChart extends GetView<OesController>{
         });
   }
 }
-class sevenHoverChart extends GetView<OesController>{
-@override
+
+class sevenHoverChart extends GetView<OesController> {
+  @override
   Widget build(BuildContext context) {
     return OesChartHover(
         name: 'OES_7',
@@ -82,8 +86,9 @@ class sevenHoverChart extends GetView<OesController>{
         });
   }
 }
-class eightHoverChart extends GetView<OesController>{
-@override
+
+class eightHoverChart extends GetView<OesController> {
+  @override
   Widget build(BuildContext context) {
     return OesChartHover(
         name: 'OES_8',

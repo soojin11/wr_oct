@@ -165,7 +165,7 @@ class ExitBtn extends StatelessWidget {
           final shouldPop = await showWarning(context);
           return shouldPop ?? false;
         },
-        child: TextButton.icon(
+        child: ElevatedButton(
           onPressed: () {
             if (Get.find<OesController>().inactiveBtn == false &&
                 Get.find<runErrorStatusController>().connect.value == false &&
@@ -251,15 +251,28 @@ class ExitBtn extends StatelessWidget {
               }
             }
           },
-          icon: Icon(
-            Icons.exit_to_app,
-            color: Colors.blueGrey,
+          child: Container(
+            width: 200,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Text(
+                  'Exit',
+                  style: TextStyle(
+                    color: wrColors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
+                ),
+                Icon(
+                  Icons.exit_to_app_rounded,
+                  color: wrColors.white,
+                  size: 20,
+                )
+              ],
+            ),
           ),
-          label: Text(
-            'Exit',
-            style:
-                TextStyle(color: Colors.blueGrey, fontWeight: FontWeight.bold),
-          ),
+          style: ElevatedButton.styleFrom(primary: wrColors.wrPrimary),
         ));
   }
 }

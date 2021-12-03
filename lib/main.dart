@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:ffi';
 import 'dart:typed_data';
+import 'package:ffi/ffi.dart';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -41,16 +42,18 @@ late void Function(int a) testtest;
 late void Function(int a) setmsg;
 late void Function(int a) test;
 late void Function() getMPM2000Component;
-late void Function() SetIntegrationTime;
-String portName = 'RS-232';
-late int Function() OpenAllSpectrometers;
+late int Function() openAllSpectrometers;
 late int Function(int spectrometerIndex, int slot, double val)
     setNonlinearityCofficient;
 late void Function() closeAll;
-late void Function(Pointer<Uint64> a) mpmStart;
+late void Function(int portName) mpmStart;
+late int Function(int tf) mpmOpen;
 late void Function() mpmClose;
-late int Function() mpmOpen;
 late double Function() GetFormatedSpectrum;
+late int Function(int spectrometerIndex, int integrationTime)
+    setIntegrationTime;
+
+//  double[] GetWavelength(int spectrometerIndex);
 
 //bool은 Int8
 Future main() async {
@@ -59,32 +62,34 @@ Future main() async {
       .lookup<NativeFunction<Int8 Function()>>('OCR_Start')
       .asFunction();
   int ocrs = ocrStart();
-  print('ocrStart??' + '${ocrs}');
+  print('ocrStart??' + ' ${ocrs}');
 
-  // mpmStart = wgsFunction
-  //     .lookup<NativeFunction<Void Function(String)>>('MPMStart')
-  //     .asFunction();
-  // mpmStart('COM3');
-  // mpmClose = wgsFunction
-  //     .lookup<NativeFunction<Void Function()>>('MPMClose')
-  //     .asFunction();
-  // mpmOpen = wgsFunction
-  //     .lookup<NativeFunction<Int8 Function()>>('MPMOpen')
-  //     .asFunction();
-  // int mpmopen = mpmOpen();
-  // print('mpmopen is ??' + '$mpmopen');
-  // if (mpmopen == true) {
-  //   print('mpmopen is true val??' + '$mpmopen');
-  // } else {
-  //   print('mpmopen is false val??' + '$mpmopen');
-  // }
-  // print('mpmstart??' + '$mpmstart');
+  mpmStart = wgsFunction
+      .lookup<NativeFunction<Void Function(Int32)>>('MPMStart')
+      .asFunction();
+  mpmStart(1);
+  print('mpmStart' + '$mpmStart');
+  mpmOpen = wgsFunction
+      .lookup<NativeFunction<Int8 Function(Int32)>>('MPMOpen')
+      .asFunction();
+  // int dd = mpmOpen(1);
+  // int dd = mpmOpen(1);
+  // print('$dd');
+  // mpmOpen(1);
+  mpmClose = wgsFunction
+      .lookup<NativeFunction<Void Function()>>('MPMClose')
+      .asFunction();
+  openAllSpectrometers = wgsFunction
+      .lookup<NativeFunction<Int32 Function()>>('OpenAllSpectrometers')
+      .asFunction();
+  int bb = openAllSpectrometers();
+  openAllSpectrometers();
+  print('openAllSpec??' + ' ${bb}');
 
-  // OpenAllSpectrometers = wgsFunction
-  //     .lookup<NativeFunction<Int8 Function()>>('OpenAllSpectrometers')
+  // setIntegrationTime = wgsFunction
+  //     .lookup<NativeFunction<Int8 Function(Int32, Int32)>>('SetIntegrationTime')
   //     .asFunction();
-  // int openallspectro = OpenAllSpectrometers();
-  // print('openallspectro??' + '$openallspectro');
+  // setIntegrationTime(6, 200);
 
   //////////app start
   Get.put(OesController(), permanent: true);
@@ -99,7 +104,10 @@ Future main() async {
   Get.put(SettingController());
   Get.put(SettingContnet());
   Get.put(BtnHoverCtrl());
+  Pointer<Double> getWavelength = calloc<Double>(8);
   runApp(MyApp());
+  print('getWavelength??' + '${getWavelength}');
+  calloc.free(getWavelength);
   //OES Check [begin]
   // if (Get.find<DialogStorageCtrl>().OES_Simulation.value == 1) {
   //   Get.find<DialogStorageCtrl>().bOESConnect.value = true;
@@ -551,7 +559,8 @@ class _WRbodyState extends State<WRbody> {
                                   indent: 10,
                                   endIndent: 10,
                                 ),
-                                ExitBtn()
+                                ExitBtn(),
+                                SizedBox(height: 20)
                               ],
                             ),
                           ),

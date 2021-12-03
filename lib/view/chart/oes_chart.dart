@@ -1,6 +1,7 @@
 import 'dart:async';
+import 'dart:ffi';
 import 'dart:math' as math;
-
+import 'package:ffi/ffi.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -80,6 +81,7 @@ class OesController extends GetxController {
     }
     if (Get.find<CsvController>().fileSave.value)
       await Get.find<CsvController>().csvSave();
+
     update();
   }
 }
