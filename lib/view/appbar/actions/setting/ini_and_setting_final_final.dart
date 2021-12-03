@@ -7,6 +7,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:wr_ui/model/const/style/pallette.dart';
+import 'package:wr_ui/view/chart/oes_chart.dart';
 import 'package:wr_ui/view/right_side_menu/csv_creator.dart';
 
 class DialogStorageCtrl extends GetxController {
@@ -46,6 +47,7 @@ class DialogStorageCtrl extends GetxController {
   Rx<TextEditingController> _textField8 = new TextEditingController().obs;
   Rx<TextEditingController> _textField9 = new TextEditingController().obs;
   Rx<TextEditingController> _textField10 = new TextEditingController().obs;
+
   Future get _localPath async {
     final directory = await getApplicationDocumentsDirectory();
     print('파일이있는 경로=>${directory.path}');
@@ -114,13 +116,20 @@ class DialogStorageCtrl extends GetxController {
     c.addSection('OES_CHART_SETTING');
     c.set('OES_CHART_SETTING', 'Series_Color_001',
         Get.find<DialogStorageCtrl>().Series_Color_001.value);
-    c.set('OES_CHART_SETTING', 'Series_Color_002', Series_Color_002);
-    c.set('OES_CHART_SETTING', 'Series_Color_003', Series_Color_003);
-    c.set('OES_CHART_SETTING', 'Series_Color_004', Series_Color_004);
-    c.set('OES_CHART_SETTING', 'Series_Color_005', Series_Color_005);
-    c.set('OES_CHART_SETTING', 'Series_Color_006', Series_Color_006);
-    c.set('OES_CHART_SETTING', 'Series_Color_007', Series_Color_007);
-    c.set('OES_CHART_SETTING', 'Series_Color_008', Series_Color_008);
+    c.set('OES_CHART_SETTING', 'Series_Color_002',
+        Get.find<DialogStorageCtrl>().Series_Color_002.value);
+    c.set('OES_CHART_SETTING', 'Series_Color_003',
+        Get.find<DialogStorageCtrl>().Series_Color_003.value);
+    c.set('OES_CHART_SETTING', 'Series_Color_004',
+        Get.find<DialogStorageCtrl>().Series_Color_004.value);
+    c.set('OES_CHART_SETTING', 'Series_Color_005',
+        Get.find<DialogStorageCtrl>().Series_Color_005.value);
+    c.set('OES_CHART_SETTING', 'Series_Color_006',
+        Get.find<DialogStorageCtrl>().Series_Color_006.value);
+    c.set('OES_CHART_SETTING', 'Series_Color_007',
+        Get.find<DialogStorageCtrl>().Series_Color_007.value);
+    c.set('OES_CHART_SETTING', 'Series_Color_008',
+        Get.find<DialogStorageCtrl>().Series_Color_008.value);
     Config config = c;
     print('컨피그 => ${config.toString()}');
 
@@ -130,7 +139,16 @@ class DialogStorageCtrl extends GetxController {
   }
 }
 
-class SetBtn extends StatelessWidget {
+//////
+Color? pickedColor1;
+
+//////
+class SetBtn extends StatefulWidget {
+  @override
+  State<SetBtn> createState() => _SetBtnState();
+}
+
+class _SetBtnState extends State<SetBtn> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -186,12 +204,11 @@ Future<void> _showDialog(context) async {
                         padding: EdgeInsets.all(20.0),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
                                     'Exposure Time',
@@ -201,272 +218,200 @@ Future<void> _showDialog(context) async {
                                     indent: 400,
                                     endIndent: 400,
                                   ),
-                                ],
-                              ),
-                            ),
-                            TextField(
-                              controller: Get.find<DialogStorageCtrl>()
-                                  ._textField1
-                                  .value,
-                              decoration:
-                                  InputDecoration(errorText: _errorText),
-                            ),
-                            SizedBox(
-                              height: 50,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                children: [
-                                  Text(
-                                    'Delay Time',
-                                    style: TextStyle(fontSize: 10),
+                                  TextField(
+                                    controller: Get.find<DialogStorageCtrl>()
+                                        ._textField1
+                                        .value,
+                                    decoration:
+                                        InputDecoration(errorText: _errorText),
                                   ),
-                                  Divider(
-                                    indent: 400,
-                                    endIndent: 400,
+                                  SizedBox(
+                                    height: 50,
                                   ),
-                                ],
-                              ),
-                            ),
-                            TextField(
-                              controller: Get.find<DialogStorageCtrl>()
-                                  ._textField2
-                                  .value,
-                            ),
-                            SizedBox(
-                              height: 50,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                children: [
-                                  Text(
-                                    'series color 1',
-                                    style: TextStyle(fontSize: 10),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          'Delay Time',
+                                          style: TextStyle(fontSize: 10),
+                                        ),
+                                        Divider(
+                                          indent: 400,
+                                          endIndent: 400,
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                  Divider(
-                                    indent: 400,
-                                    endIndent: 400,
+                                  TextField(
+                                    controller: Get.find<DialogStorageCtrl>()
+                                        ._textField2
+                                        .value,
                                   ),
-                                ],
-                              ),
-                            ),
-                            Container(
-                              height: 65,
-                              child: Center(
-                                child: MaterialColorPicker(
-                                  circleSize: 100,
-                                  onColorChange: (Color color) {
-                                    // Handle color changes
-                                    print('series color 1 hexcode' + '$color');
-                                  },
-                                  selectedColor: Colors.red,
-                                  colors: [
-                                    Colors.red,
-                                    Colors.deepOrange,
-                                    Colors.yellow,
-                                    Colors.lightGreen
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                children: [
-                                  Text(
-                                    'series color 2',
-                                    style: TextStyle(fontSize: 10),
+                                  SizedBox(
+                                    height: 50,
                                   ),
-                                  Divider(
-                                    indent: 400,
-                                    endIndent: 400,
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          'series color 1',
+                                          style: TextStyle(fontSize: 10),
+                                        ),
+                                        Divider(
+                                          indent: 400,
+                                          endIndent: 400,
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ],
-                              ),
-                            ),
-                            Container(
-                              height: 65,
-                              child: Center(
-                                child: MaterialColorPicker(
-                                  circleSize: 100,
-                                  // circleSize: 100,
-                                  onColorChange: (Color color) {
-                                    // Handle color changes
-                                    print('series color 2 hexcode' + '$color');
-                                  },
-                                  selectedColor: Colors.red,
-                                  colors: [
-                                    Colors.red,
-                                    Colors.deepOrange,
-                                    Colors.yellow,
-                                    Colors.lightGreen
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                children: [
-                                  Text(
-                                    'series color 3',
-                                    style: TextStyle(fontSize: 10),
-                                  ),
-                                  Divider(
-                                    indent: 400,
-                                    endIndent: 400,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Container(
-                              height: 65,
-                              child: Center(
-                                child: MaterialColorPicker(
-                                  circleSize: 100,
-                                  onColorChange: (Color color) {
-                                    // Handle color changes
-                                    print('series color 3 hexcode' + '$color');
-                                  },
-                                  selectedColor: Colors.red,
-                                  colors: [
-                                    Colors.red,
-                                    Colors.deepOrange,
-                                    Colors.yellow,
-                                    Colors.lightGreen
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                children: [
-                                  Text(
-                                    'series color 4',
-                                    style: TextStyle(fontSize: 10),
-                                  ),
-                                  Divider(
-                                    indent: 400,
-                                    endIndent: 400,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Container(
-                              height: 65,
-                              child: Center(
-                                child: MaterialColorPicker(
-                                  circleSize: 100,
-                                  onColorChange: (Color color) {
-                                    // Handle color changes
-                                    print('series color 4 hexcode' + '$color');
-                                  },
-                                  selectedColor: Colors.red,
-                                  colors: [
-                                    Colors.red,
-                                    Colors.deepOrange,
-                                    Colors.yellow,
-                                    Colors.lightGreen
-                                  ],
-                                ),
-                              ),
-                            )
+                                  Container(
+                                    height: 65,
+                                    child: Center(
+                                      child: MaterialColorPicker(
+                                        circleSize: 100,
+                                        onColorChange: (Color color) {
+                                          // Handle color changes
 
-                            // TextField(
-                            //   decoration: InputDecoration(
-                            //     focusedBorder: OutlineInputBorder(
-                            //       borderRadius:
-                            //           BorderRadius.all(Radius.circular(10.0)),
-                            //       borderSide: BorderSide(
-                            //           width: 1, color: Colors.redAccent),
-                            //     ),
-                            //     enabledBorder: OutlineInputBorder(
-                            //       borderRadius:
-                            //           BorderRadius.all(Radius.circular(10.0)),
-                            //       borderSide: BorderSide(
-                            //           width: 1, color: Colors.redAccent),
-                            //     ),
-                            //     border: OutlineInputBorder(
-                            //       borderRadius:
-                            //           BorderRadius.all(Radius.circular(10.0)),
-                            //     ),
-                            //   ),
-                            //   controller: Get.find<DialogStorageCtrl>()
-                            //       ._textField6
-                            //       .value,
-                            // ),
+                                          print('series color 1 hexcode=>' +
+                                              '${color}');
+                                          setState(() {
+                                            pickedColor1 = color;
+                                          });
 
-                            // Padding(
-                            //   padding: const EdgeInsets.all(8.0),
-                            //   child: Column(
-                            //     children: [
-                            //       Text('series color 5'),
-                            //       Divider(
-                            //         indent: 400,
-                            //         endIndent: 400,
-                            //       ),
-                            //     ],
-                            //   ),
-                            // ),
-                            // TextField(
-                            //   controller: Get.find<DialogStorageCtrl>()
-                            //       ._textField7
-                            //       .value,
-                            // ),
-                            // Padding(
-                            //   padding: const EdgeInsets.all(8.0),
-                            //   child: Column(
-                            //     children: [
-                            //       Text('series color 6'),
-                            //       Divider(
-                            //         indent: 400,
-                            //         endIndent: 400,
-                            //       ),
-                            //     ],
-                            //   ),
-                            // ),
-                            // TextField(
-                            //   controller: Get.find<DialogStorageCtrl>()
-                            //       ._textField8
-                            //       .value,
-                            // ),
-                            // Padding(
-                            //   padding: const EdgeInsets.all(8.0),
-                            //   child: Column(
-                            //     children: [
-                            //       Text('series color 7'),
-                            //       Divider(
-                            //         indent: 400,
-                            //         endIndent: 400,
-                            //       ),
-                            //     ],
-                            //   ),
-                            // ),
-                            // TextField(
-                            //   controller: Get.find<DialogStorageCtrl>()
-                            //       ._textField9
-                            //       .value,
-                            // ),
-                            // Padding(
-                            //   padding: const EdgeInsets.all(8.0),
-                            //   child: Column(
-                            //     children: [
-                            //       Text('series color 8'),
-                            //       Divider(
-                            //         indent: 400,
-                            //         endIndent: 400,
-                            //       ),
-                            //     ],
-                            //   ),
-                            // ),
-                            // TextField(
-                            //   controller: Get.find<DialogStorageCtrl>()
-                            //       ._textField10
-                            //       .value,
-                            // ),
+                                          // Get.find<DialogStorageCtrl>()
+                                          //     .Series_Color_001
+                                          //     .value = color.toString();
+                                        },
+                                        selectedColor: Colors.red,
+                                        colors: [
+                                          Colors.red,
+                                          Colors.deepOrange,
+                                          Colors.yellow,
+                                          Colors.lightGreen
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          'series color 2',
+                                          style: TextStyle(fontSize: 10),
+                                        ),
+                                        Divider(
+                                          indent: 400,
+                                          endIndent: 400,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Container(
+                                    height: 65,
+                                    child: Center(
+                                      child: MaterialColorPicker(
+                                        circleSize: 100,
+                                        // circleSize: 100,
+                                        onColorChange: (Color color) {
+                                          // Handle color changes
+                                          print('series color 2 hexcode=>' +
+                                              '$color');
+                                          Get.find<DialogStorageCtrl>()
+                                              .Series_Color_002
+                                              .value = color.toString();
+                                        },
+                                        selectedColor: Colors.red,
+                                        colors: [
+                                          Colors.red,
+                                          Colors.deepOrange,
+                                          Colors.yellow,
+                                          Colors.lightGreen
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          'series color 3',
+                                          style: TextStyle(fontSize: 10),
+                                        ),
+                                        Divider(
+                                          indent: 400,
+                                          endIndent: 400,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Container(
+                                    height: 65,
+                                    child: Center(
+                                      child: MaterialColorPicker(
+                                        circleSize: 100,
+                                        onColorChange: (Color color) {
+                                          // Handle color changes
+                                          print('series color 3 hexcode=>' +
+                                              '$color');
+                                          Get.find<DialogStorageCtrl>()
+                                              .Series_Color_003
+                                              .value = color.toString();
+                                        },
+                                        selectedColor: Colors.red,
+                                        colors: [
+                                          Colors.red,
+                                          Colors.deepOrange,
+                                          Colors.yellow,
+                                          Colors.lightGreen
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          'series color 4',
+                                          style: TextStyle(fontSize: 10),
+                                        ),
+                                        Divider(
+                                          indent: 400,
+                                          endIndent: 400,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Container(
+                                    height: 65,
+                                    child: Center(
+                                      child: MaterialColorPicker(
+                                        circleSize: 100,
+                                        onColorChange: (Color color) {
+                                          // Handle color changes
+                                          print('series color 4 hexcode=>' +
+                                              '$color');
+                                          Get.find<DialogStorageCtrl>()
+                                              .Series_Color_004
+                                              .value = color.toString();
+                                        },
+                                        selectedColor: Colors.red,
+                                        colors: [
+                                          Colors.red,
+                                          Colors.deepOrange,
+                                          Colors.yellow,
+                                          Colors.lightGreen
+                                        ],
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -525,6 +470,12 @@ Future<void> _showDialog(context) async {
                                         ._textField10
                                         .value
                                         .text);
+                            //차트데이터 넣기
+                            Get.find<OesController>().oneColor.value =
+                                Get.find<DialogStorageCtrl>()
+                                    .Series_Color_001
+                                    .value;
+                            //차트데이터 넣기
                             Get.find<DialogStorageCtrl>()
                                 ._textField1
                                 .value
@@ -567,6 +518,7 @@ Future<void> _showDialog(context) async {
                                 .text = '';
                             // _textField1.clear();
                             // _textField2.clear();
+
                           } else {
                             print('세팅창 채워요');
                           }
@@ -608,37 +560,3 @@ String? get _errorText {
 }
 
 /////////위에가 원래있던거
-String? get seriesColorPick {
-  final seriesColor1 = Get.find<DialogStorageCtrl>()._textField3.value.text;
-  if (seriesColor1 == 1) {
-    return 'red';
-    // Color(Colors.red);
-  } else if (seriesColor1 == 2) {
-    // Color(Colors.p)
-    return 'blue';
-  } else if (seriesColor1 == 3) {
-    return 'amber';
-    // Color(Colors.red);
-  } else if (seriesColor1 == 4) {
-    return 'pink';
-    // Color(Colors.red);
-  } else if (seriesColor1 == 5) {
-    return 'yellow';
-    // Color(Colors.red);
-  } else if (seriesColor1 == 6) {
-    return 'purple';
-    // Color(Colors.red);
-  } else if (seriesColor1 == 7) {
-    return 'lightBlue';
-    // Color(Colors.red);
-  } else if (seriesColor1 == 8) {
-    return 'green';
-    // Color(Colors.red);
-  } else if (seriesColor1 == 9) {
-    return 'lightGreen';
-    // Color(Colors.red);
-  } else if (seriesColor1 == 10) {
-    return 'redAccent';
-    // Color(Colors.red);
-  }
-}

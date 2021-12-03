@@ -65,14 +65,9 @@ class StartStop extends GetView<StartStopController> {
                 Get.find<runErrorStatusController>().connect.value = true;
                 Get.find<runErrorStatusController>().textmsg.value =
                     'SIMULATION';
-                Get.find<iniControllerWithReactive>()
-                    .measureStartAtProgStart
-                    .value = '0';
-                // Get.find<iniControllerWithReactive>().writeIni();
-
-                // Get.find<VizController>().timer = Timer.periodic(
-                //     Duration(milliseconds: 100),
-                //Get.find<VizController>().updateDataSource);
+                // Get.find<iniControllerWithReactive>()
+                //     .measureStartAtProgStart
+                //     .value = '0';
                 Get.find<LogListController>().clickedStart();
               },
             ),
@@ -110,9 +105,9 @@ class StartStop extends GetView<StartStopController> {
                 Get.find<CsvController>().fileSave.value = false;
                 Get.find<runErrorStatusController>().connect.value = false;
                 Get.find<runErrorStatusController>().textmsg.value = 'STOP';
-                Get.find<iniControllerWithReactive>()
-                    .measureStartAtProgStart
-                    .value = '';
+                // Get.find<iniControllerWithReactive>()
+                //     .measureStartAtProgStart
+                //     .value = '';
                 // Get.find<iniControllerWithReactive>().writeIni();
               },
             ),

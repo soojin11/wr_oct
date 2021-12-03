@@ -60,26 +60,14 @@ Future main() async {
   int openallspectro = OpenAllSpectrometers();
   print('openallspectro??' + '$openallspectro');
 
-  // setNonlinearityCofficient = wgsFunction
-  //     .lookup<NativeFunction<Int8 Function(Int32)>>(
-  //         'SetNonlinearityCofficient')
-  //     .asFunction();
-  // getMPM2000Component = wgsFunction
-  //     .lookup<NativeFunction<Void Function()>>('GetMPM2000Component')
-  //     .asFunction();
-  // getMPM2000Component();
-  // print('getMPM2000Component??' + '$getMPM2000Component');
   //////////app start
+  Get.put(OesController(), permanent: true);
   Get.put(DialogStorageCtrl(), permanent: true);
-  // await Get.put(iniControllerWithReactive()).writeIni();
-  // Get.put(iniControllerWithReactive()).readIni();
-  // Get.put(CsvController());
-  Get.put(iniControllerWithReactive());
+  Get.put(DialogStorageCtrl());
   Get.put(runErrorStatusController());
   Get.put(StartStopController());
   Get.put(CsvController());
-  //Get.put(VizController());
-  Get.put(OesController(), permanent: true);
+
   Get.put(LogListController());
   Get.put(LogController());
   Get.put(SettingController());
@@ -87,11 +75,11 @@ Future main() async {
   Get.put(BtnHoverCtrl());
   runApp(MyApp());
   //OES Check [begin]
-  // if (Get.find<iniControllerWithReactive>().OES_Simulation.value == 1) {
-  //   Get.find<iniControllerWithReactive>().bOESConnect.value = true;
+  // if (Get.find<DialogStorageCtrl>().OES_Simulation.value == 1) {
+  //   Get.find<DialogStorageCtrl>().bOESConnect.value = true;
   //   print('bOESConnect = true');
-  // } else if (Get.find<iniControllerWithReactive>().OES_Count.value <= 0) {
-  //   Get.find<iniControllerWithReactive>().bOESConnect.value = true;
+  // } else if (Get.find<DialogStorageCtrl>().OES_Count.value <= 0) {
+  //   Get.find<DialogStorageCtrl>().bOESConnect.value = true;
   //   print('bOESConnect = true');
   // } else // oes simulation 상태가 아니고, 디바이스 카운트가 0보다 크다.
   // {
@@ -111,7 +99,7 @@ Future main() async {
   }
 //VI Check [end]
 // if (
-//   Get.find<iniControllerWithReactive>().OES_Simulation.value==1 && Get.find<iniControllerWithReactive>().VI_Simulation.value==1
+//   Get.find<DialogStorageCtrl>().OES_Simulation.value==1 && Get.find<DialogStorageCtrl>().VI_Simulation.value==1
 
 //   )
 // {
@@ -151,9 +139,7 @@ Future main() async {
   // test =
   //     wgsTest.lookup<NativeFunction<Void Function(Int32)>>('test').asFunction();
   // test(1);
-  print(
-      'measureStartAtProgStart 초기값==>${Get.find<iniControllerWithReactive>().measureStartAtProgStart}');
-  if (Get.find<iniControllerWithReactive>().measureStartAtProgStart == '1') {
+  if (Get.find<DialogStorageCtrl>().measureStartAtProgStart == '1') {
     Get.find<OesController>().inactiveBtn.value = true;
     Get.find<OesController>().timer = Timer.periodic(
         Duration(milliseconds: 100),
