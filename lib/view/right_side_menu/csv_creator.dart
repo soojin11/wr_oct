@@ -4,15 +4,12 @@ import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:wr_ui/model/const/style/pallette.dart';
 import 'package:wr_ui/view/chart/oes_chart.dart';
 
 import 'log_screen.dart';
 
 class CSVButton extends GetView<CsvController> {
-  Future<void> updaeteCSV() async {
-    Get.find<CsvController>().csvSave();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -23,7 +20,9 @@ class CSVButton extends GetView<CsvController> {
             child: ElevatedButton(
               onPressed: () async {
                 await controller.csvSaveInit();
+               // await controller.SecondcsvSaveInit();
                 controller.fileSave.value = true;
+                //controller.fileSave2.value = true;
                 Get.find<LogListController>().startCsv();
                 controller.inactiveBtn.value = true;
               },
@@ -93,28 +92,40 @@ class CsvController extends GetxController with SingleGetTickerProviderMixin {
   late Animation<double> animation =
       CurvedAnimation(parent: animationCtrl, curve: Curves.ease);
   RxString path = ''.obs;
+  //RxString path2 = ''.obs;
   RxBool fileSave = false.obs;
+  //RxBool fileSave2 = false.obs;
   RxBool inactiveBtn = false.obs;
-  RxInt fileNum = 1.obs;
+  //RxInt fileNum = 1.obs;
+  List<dynamic> initData = [
+    "FileFormat:1",
+    "HWType:SPdbUSBm",
+    "Start Time : startTime",
+    "Intergration Time:",
+    "Interval:"
+  ];
 
-  Future<File> csvSave() async {
+  String TimeVal() {
     DateTime current = DateTime.now();
     String ms = DateTime.now().millisecondsSinceEpoch.toString();
     int msLength = ms.length;
     int third = int.parse(ms.substring(msLength - 3, msLength));
-    String fileName = '${DateFormat('HH:mm:ss').format(current)}.$third';
+    String addTime = '${DateFormat('HH:mm:ss').format(current)}.$third';
+    return addTime;
+  }
+
+  Future<File> csvSave() async {
     File file = File(path.value);
 
     List<dynamic> firstData = [];
     List<List<dynamic>> addFirstData = [];
-    firstData.add(fileName);
-    if (Get.find<CsvController>().fileSave.value &&
-        Get.find<OesController>().oneData.length > 284 &&
-        Get.find<OesController>().oneData.length <= 285) {
+    firstData.add(TimeVal());
+    if (Get.find<CsvController>().fileSave.value) {
       Get.find<OesController>().oneData.forEach((v) {
-        firstData.add(v.num);
+        firstData.add(v.y);
       });
-    }
+    } else
+      (print('데이터 이상함'));
 
     addFirstData.add(firstData);
     String csv = const ListToCsvConverter().convert(addFirstData) + '\n';
@@ -125,24 +136,15 @@ class CsvController extends GetxController with SingleGetTickerProviderMixin {
     DateTime current = DateTime.now();
     //print("csv save");
     final String fileName = DateFormat('yyyyMMdd-HHmmss').format(current);
-    final String streamDateTime =
-        DateFormat('yyyy/MM/dd HH:mm:ss').format(current);
+    // final String streamDateTime =
+    //     DateFormat('yyyy/MM/dd HH:mm:ss').format(current);
     await Directory('datafiles').create();
-    path.value = "./datafiles/$fileName\_$fileNum.csv";
-    String startTime = streamDateTime;
+    path.value = "./datafiles/$fileName\_1.csv";
+    // String startTime = streamDateTime;
     File file = File(path.value);
-
-    List<dynamic> initData = [
-      "FileFormat:1",
-      "HWType:SPdbUSBm",
-      "Start Time : $startTime",
-      "Intergration Time:",
-      "Interval:"
-    ];
-
-    List<int> rangeData = [];
+    List<double> rangeData = [];
     Get.find<OesController>().oneData.forEach((v) {
-      rangeData.add(v.range);
+      rangeData.add(v.x);
     });
 
     String intergrationColumn = initData.join('\n') +
@@ -156,4 +158,5 @@ class CsvController extends GetxController with SingleGetTickerProviderMixin {
 
     return file.writeAsString(intergrationColumn);
   }
+
 }

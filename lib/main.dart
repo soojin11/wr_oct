@@ -247,7 +247,7 @@ class _WRbodyState extends State<WRbody> {
               child: Padding(
                 padding: const EdgeInsets.all(10),
                 child: Container(
-                  child: Obx(()=>Container(
+                  child: Container(
                     decoration:
                         BoxDecoration(borderRadius: BorderRadius.circular(10)),
                     
@@ -271,10 +271,10 @@ class _WRbodyState extends State<WRbody> {
                               chartTabBar(),
                               Expanded(
                                   flex: 1,
-                                  child: Get.find<chooseChart>().choose())
+                                  child: OesChart())
                             ],
                   )),
-                ),
+                
               ),
             )),
             Expanded(

@@ -28,54 +28,44 @@ class LogListController extends GetxController {
 
   void clickedStop() async {
     saveLog();
-    String logTime = logfileTime();
-    String screenLogTime = screenTime();
-    logData.add('${screenLogTime} Stop $btnPress');
+    logData.add('${screenTime()} Stop $btnPress');
     Get.find<LogController>()
         .loglist
-        .add('${logTime} $event Stop $btnPress' + '\n');
+        .add('${logfileTime()} $event Stop $btnPress' + '\n');
   }
 
   void clickedStart() async {
     saveLog();
-    String logTime = logfileTime();
-    String screenLogTime = screenTime();
-    logData.add('${screenLogTime} Start $btnPress');
+    logData.add('${screenTime()} Start $btnPress');
     Get.find<LogController>()
         .loglist
-        .add('${logTime} $event Start $btnPress' + '\n');
+        .add('${logfileTime()} $event Start $btnPress' + '\n');
   }
 
   void startCsv() async {
     saveLog();
-    String logTime = logfileTime();
-    String screenLogTime = screenTime();
-    logData.add('${screenLogTime} Save start $btnPress');
+    logData.add('${screenTime()} Save start $btnPress');
     Get.find<LogController>()
         .loglist
-        .add('${logTime} [Event Trigger] Save start $btnPress' + '\n');
+        .add('${logfileTime()} [Event Trigger] Save start $btnPress' + '\n');
   }
 
   void stopCsv() async {
     saveLog();
-    String logTime = logfileTime();
-    String screenLogTime = screenTime();
     Get.find<LogController>().logSave();
 
-    logData.add('${screenLogTime} Save stop $btnPress');
+    logData.add('${screenTime()} Save stop $btnPress');
     Get.find<LogController>()
         .loglist
-        .add('${logTime} [Event Trigger] Save stop $btnPress' + '\n');
+        .add('${logfileTime()} [Event Trigger] Save stop $btnPress' + '\n');
   }
 
   void cConfigSave() async {
     saveLog();
-    String logTime = logfileTime();
-    String screenLogTime = screenTime();
-    logData.add('${screenLogTime} Save Config');
+    logData.add('${screenTime()} Save Config');
     Get.find<LogController>()
         .loglist
-        .add('${logTime} [Event Trigger] Save setting $btnPress' + '\n');
+        .add('${logfileTime()} [Event Trigger] Save setting $btnPress' + '\n');
     //여기 값이 어떻게 바뀌었는지도 넣는게 좋은가?
   }
 
@@ -91,12 +81,12 @@ class LogListController extends GetxController {
     saveLog();
     String logTime = logfileTime();
     String screenLogTime = screenTime();
-    String aaa =
+    String select =
         'Num${Get.find<chooseChart>().chartNum.value} chart is selected';
-    logData.add('${screenLogTime} $aaa');
+    logData.add('${screenLogTime} $select');
     Get.find<LogController>()
         .loglist
-        .add('${logTime} [Event Trigger] $aaa' + '\n');
+        .add('${logTime} [Event Trigger] $select' + '\n');
   }
 }
 
@@ -105,7 +95,8 @@ saveLog() {
   Get.find<LogController>().logSave();
 }
 
-screenTime() {
+
+String screenTime() {
   DateTime current = DateTime.now();
   String ms = DateTime.now().millisecondsSinceEpoch.toString();
   int msLength = ms.length;
@@ -114,7 +105,7 @@ screenTime() {
   return screenDate;
 }
 
-logfileTime() {
+String logfileTime() {
   DateTime current = DateTime.now();
   String ms = DateTime.now().millisecondsSinceEpoch.toString();
   int msLength = ms.length;
@@ -129,7 +120,6 @@ class LogList extends GetView<LogListController> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        //decoration: BoxDecoration(border: Border.all(width: 1)),
         width: 350,
         height: 395,
         child: Obx(() {
@@ -137,21 +127,22 @@ class LogList extends GetView<LogListController> {
             return Center(child: Text('log does not exist.'));
           } else {
             return SafeArea(
-              // child: Scrollbar(
-              //   isAlwaysShown: true,
-              //     controller: scrollCtrl,
-              child: SingleChildScrollView(
-                child: ListView.builder(
-                  addAutomaticKeepAlives: false,
-                  addRepaintBoundaries: false,
-                  padding: const EdgeInsets.all(8),
-                  shrinkWrap: true,
-                  itemCount: controller.logData.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return ListTile(
-                      title: Text('${controller.logData[index]}'),
-                    );
-                  },
+              child: Scrollbar(
+                //isAlwaysShown: true,
+                child: SingleChildScrollView(
+                  child: ListView.builder(
+                    controller: scrollCtrl,
+                    addAutomaticKeepAlives: false,
+                    addRepaintBoundaries: false,
+                    padding: const EdgeInsets.all(8),
+                    shrinkWrap: true,
+                    itemCount: controller.logData.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return ListTile(
+                        title: Text('${controller.logData[index]}'),
+                      );
+                    },
+                  ),
                 ),
               ),
               //),
