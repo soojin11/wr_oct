@@ -1,7 +1,10 @@
 import 'dart:async';
-
+import 'dart:ffi';
+import 'package:ffi/ffi.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:wr_ui/ing/data%20monitor.dart';
+import 'package:wr_ui/main.dart';
 import 'package:wr_ui/service/database/recipe/config_model.dart';
 import 'package:wr_ui/view/appbar/actions/setting/setting_menu_final.dart';
 import 'package:wr_ui/view/appbar/leading/run_error_status_mark.dart';
@@ -51,6 +54,7 @@ class StartStop extends GetView<StartStopController> {
                 // Get.find<OesController>().timer = Timer.periodic(
                 //     Duration(milliseconds: 100),
                 //     Get.find<OesController>().updateDataSource);
+
                 try {
                   Get.find<OesController>().timer = Timer.periodic(
                       Duration(
@@ -58,6 +62,14 @@ class StartStop extends GetView<StartStopController> {
                               .exposureTime
                               .value)),
                       Get.find<OesController>().updateDataSource);
+
+                  // simulation아닐때는 timer를 1ms로
+                  // Get.find<OesController>().timer = Timer.periodic(
+                  //     Duration(
+                  //         milliseconds: int.parse(Get.find<SettingController>()
+                  //             .exposureTime
+                  //             .value)),
+                  //     Get.find<OesController>().updateDataSource);
                 } on FormatException {
                   print('format error');
                 }

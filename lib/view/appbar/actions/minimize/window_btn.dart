@@ -197,13 +197,13 @@ class WindowButtons extends StatelessWidget {
                             actions: [
                               ElevatedButton(
                                 onPressed: () {
-                                  closeAll = wgsFunction
-                                      .lookup<NativeFunction<Void Function()>>(
-                                          'CloseAll')
-                                      .asFunction();
-                                  closeAll();
-                                  print(
-                                      'closeAll??' + '${closeAll.toString()}');
+                                  // closeAll = wgsFunction
+                                  //     .lookup<NativeFunction<Void Function()>>(
+                                  //         'CloseAll')
+                                  //     .asFunction();
+                                  // closeAll();
+                                  // print(
+                                  //     'closeAll??' + '${closeAll.toString()}');
                                   exit(0);
                                 },
                                 child: Text(

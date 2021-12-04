@@ -20,6 +20,7 @@ class OesController extends GetxController {
   RxList<OESData> sevenData = RxList.empty();
   RxList<OESData> eightData = RxList.empty();
   RxBool inactiveBtn = false.obs;
+  RxBool bRunning = false.obs;
 /////////////////////
   Rx<Color> oneColor = Color(0xffd84315).obs;
   late ChartSeriesController oneCtrl,
@@ -69,6 +70,10 @@ class OesController extends GetxController {
       sevenData.clear();
       eightData.clear();
     }
+    Pointer<Double> getWavelength = calloc<Double>(0);
+    Pointer<Double> getFormatedSpectrum = calloc<Double>(0);
+    print('getWavelength?? ' + ' $getWavelength');
+    print('getFormatedSpectrum?? ' + ' $getFormatedSpectrum');
     for (int i = 190; i < 760; i++) {
       oneData.add(OESData(range: i));
       twoData.add(OESData(range: i));
@@ -83,6 +88,9 @@ class OesController extends GetxController {
       await Get.find<CsvController>().csvSave();
 
     update();
+    //
+    calloc.free(getWavelength);
+    calloc.free(getFormatedSpectrum);
   }
 }
 

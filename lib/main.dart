@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:ffi';
 import 'dart:typed_data';
 import 'package:ffi/ffi.dart';
@@ -8,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wr_ui/controller/drop_down_controller.dart';
 import 'package:wr_ui/controller/home_controller.dart';
+import 'package:wr_ui/dll/datamonitoring.dart';
 import 'package:wr_ui/ing/data%20monitor.dart';
 import 'package:wr_ui/model/const/style/pallette.dart';
 import 'package:wr_ui/service/dark_white_mode/mode.dart';
@@ -35,6 +35,9 @@ import 'package:wr_ui/view/right_side_menu/log_save.dart';
 import 'package:wr_ui/view/right_side_menu/log_screen.dart';
 import 'package:wr_ui/view/right_side_menu/start_stop.dart';
 
+//  double[] GetWavelength(int spectrometerIndex);
+
+//bool은 Int8
 final DynamicLibrary wgsFunction = DynamicLibrary.open("WGSFunction.dll");
 late int Function() ocrStart;
 late int Function(int a) getBoxcarWidth;
@@ -47,17 +50,19 @@ late int Function(int spectrometerIndex, int slot, double val)
     setNonlinearityCofficient;
 late void Function() closeAll;
 late void Function(int portName) mpmStart;
-late int Function(int tf) mpmOpen;
+late int Function() mpmOpen;
 late void Function() mpmClose;
-late double Function() GetFormatedSpectrum;
 late int Function(int spectrometerIndex, int integrationTime)
     setIntegrationTime;
-
-//  double[] GetWavelength(int spectrometerIndex);
-
-//bool은 Int8
+late int Function(int spectrometerIndex, int val) setScansToAverage;
+late int Function(int spectrometerIndex, int val) setBoxcarWidth;
+late int Function(int spectrometerIndex, int val) setElectricDarkEnable;
+late int Function(int spectrometerIndex, int val)
+    setNonlinearityCorrectionEnabled;
+late int Function(int spectrometerIndex, int val) setTriggerMode;
+late int Function(int channelIndex) mpmSetChannel;
+late Pointer<Double> Function(int a) getformatSpec;
 Future main() async {
-  ///////////app start
   ocrStart = wgsFunction
       .lookup<NativeFunction<Int8 Function()>>('OCR_Start')
       .asFunction();
@@ -67,33 +72,73 @@ Future main() async {
   mpmStart = wgsFunction
       .lookup<NativeFunction<Void Function(Int32)>>('MPMStart')
       .asFunction();
-  mpmStart(1);
-  print('mpmStart' + '$mpmStart');
-  mpmOpen = wgsFunction
-      .lookup<NativeFunction<Int8 Function(Int32)>>('MPMOpen')
-      .asFunction();
-  // int dd = mpmOpen(1);
-  // int dd = mpmOpen(1);
-  // print('$dd');
-  // mpmOpen(1);
+  mpmStart(3);
   mpmClose = wgsFunction
       .lookup<NativeFunction<Void Function()>>('MPMClose')
       .asFunction();
+  mpmClose();
+  mpmOpen = wgsFunction
+      .lookup<NativeFunction<Int8 Function()>>('MPMOpen')
+      .asFunction();
+  mpmOpen();
+
+  closeAll = wgsFunction
+      .lookup<NativeFunction<Void Function()>>('CloseAll')
+      .asFunction();
+  closeAll();
   openAllSpectrometers = wgsFunction
       .lookup<NativeFunction<Int32 Function()>>('OpenAllSpectrometers')
       .asFunction();
   int bb = openAllSpectrometers();
-  openAllSpectrometers();
-  print('openAllSpec??' + ' ${bb}');
+  print('openAllSpectrometers?? ' + ' $bb');
+  setIntegrationTime = wgsFunction
+      .lookup<NativeFunction<Int32 Function(Int32, Int32)>>(
+          'SetIntegrationTime')
+      .asFunction();
 
-  // setIntegrationTime = wgsFunction
-  //     .lookup<NativeFunction<Int8 Function(Int32, Int32)>>('SetIntegrationTime')
-  //     .asFunction();
-  // setIntegrationTime(6, 200);
+  int cc = setIntegrationTime(0, 100000);
+  print('setIntegrationTime?? ' + ' $cc');
+  setScansToAverage = wgsFunction
+      .lookup<NativeFunction<Int32 Function(Int32, Int32)>>('SetScansToAverage')
+      .asFunction();
+  int dd = setScansToAverage(0, 1);
+  print('setScansToAverage?? ' + ' $dd');
+  setBoxcarWidth = wgsFunction
+      .lookup<NativeFunction<Int32 Function(Int32, Int32)>>('SetBoxcarWidth')
+      .asFunction();
+  int ss = setBoxcarWidth(0, 0);
+  print('setBoxCarWidth?? ' + '$ss');
+  setElectricDarkEnable = wgsFunction
+      .lookup<NativeFunction<Int32 Function(Int32, Int32)>>(
+          'SetElectricDarkEnable')
+      .asFunction();
+  int rr = setElectricDarkEnable(0, 0);
+  print('setElectricDarkEnable?? ' + '$rr');
+  setNonlinearityCorrectionEnabled = wgsFunction
+      .lookup<NativeFunction<Int32 Function(Int32, Int32)>>(
+          'SetNonlinearityCorrectionEnabled')
+      .asFunction();
+  int ee = setNonlinearityCorrectionEnabled(0, 0);
+  print('setNonlinearityCorrectionEnabled?? ' + ' $ee');
+  setTriggerMode = wgsFunction
+      .lookup<NativeFunction<Int32 Function(Int32, Int32)>>('SetTriggerMode')
+      .asFunction();
+  int gg = setTriggerMode(0, 0);
+  print('setTriggerMode?? ' + ' $gg');
+  // Pointer<Double> getWavelength = calloc<Double>(0);
+  // print('getWavelength?? ' + ' $getWavelength');
 
-  //////////app start
-  Get.put(OesController(), permanent: true);
-  Get.put(DialogStorageCtrl(), permanent: true);
+  mpmSetChannel = wgsFunction
+      .lookup<NativeFunction<Int32 Function(Int32)>>('MPMSetChannel')
+      .asFunction();
+  getformatSpec = wgsFunction
+      .lookup<NativeFunction<Pointer<Double> Function(Int32)>>(
+          'GetFormatedSpectrum')
+      .asFunction();
+  Pointer<Double> aa = getformatSpec(0);
+  double ddd = aa[2047];
+  print('ddd  $ddd');
+  Get.put(OesController());
   Get.put(DialogStorageCtrl());
   Get.put(runErrorStatusController());
   Get.put(StartStopController());
@@ -104,10 +149,15 @@ Future main() async {
   Get.put(SettingController());
   Get.put(SettingContnet());
   Get.put(BtnHoverCtrl());
-  Pointer<Double> getWavelength = calloc<Double>(8);
+  while (Get.find<OesController>().bRunning == true) {
+    ///////스타트 누르면 bRunninng에 true들어가서 while문돌고 스탑누르면 false들어가서 while나감
+  }
+  // Pointer<Double> getWavelength = calloc<Double>(8);
   runApp(MyApp());
-  print('getWavelength??' + '${getWavelength}');
-  calloc.free(getWavelength);
+  print('app close');
+  // calloc.free(getWavelength);
+  // print('getWavelength??' + '${getWavelength}');
+  // calloc.free(getWavelength);
   //OES Check [begin]
   // if (Get.find<DialogStorageCtrl>().OES_Simulation.value == 1) {
   //   Get.find<DialogStorageCtrl>().bOESConnect.value = true;
@@ -160,28 +210,6 @@ Future main() async {
     win.title = "WR";
     win.show();
   });
-
-  // ocrStart11 =
-  //     wgsTest.lookup<NativeFunction<Int8 Function()>>('OCR_Start').asFunction();
-  // int aa = ocrStart11();
-  // print('ocrStart??' + '$aa');
-  // setmsg = wgsTest
-  //     .lookup<NativeFunction<Void Function(Int32)>>('setmsg')
-  //     .asFunction();
-  // setmsg(2);
-  // print('setmsg??' + '${setmsg.toString()}');
-  // test =
-  //     wgsTest.lookup<NativeFunction<Void Function(Int32)>>('test').asFunction();
-  // test(1);
-  if (Get.find<DialogStorageCtrl>().measureStartAtProgStart == '1') {
-    Get.find<OesController>().inactiveBtn.value = true;
-    Get.find<OesController>().timer = Timer.periodic(
-        Duration(milliseconds: 100),
-        Get.find<OesController>().updateDataSource);
-    Get.find<OesController>().oneData;
-  } else {
-    print('ini가 1이 아님');
-  }
 }
 
 class MyApp extends StatelessWidget {
@@ -362,6 +390,10 @@ class _WRbodyState extends State<WRbody> {
         flex: 4,
         child: Column(
           children: [
+            Expanded(
+              flex: 1,
+              child: ElevatedButton(onPressed: () {}, child: Text('데이터 테스트')),
+            ),
             Expanded(
               flex: 3,
               child: Padding(
