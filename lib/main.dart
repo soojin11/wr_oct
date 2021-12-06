@@ -3,6 +3,7 @@ import 'dart:ffi';
 import 'dart:typed_data';
 import 'package:ffi/ffi.dart';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wr_ui/controller/drop_down_controller.dart';
@@ -14,7 +15,7 @@ import 'package:wr_ui/service/dark_white_mode/mode.dart';
 import 'package:wr_ui/service/routes/app_pages.dart';
 import 'package:wr_ui/setting_content.dart';
 import 'package:wr_ui/view/appbar/actions/minimize/window_btn.dart';
-import 'package:wr_ui/view/appbar/actions/setting/ini_and_setting_final_final.dart';
+import 'package:wr_ui/view/appbar/actions/setting/ini_and_setting.dart';
 import 'package:wr_ui/view/appbar/actions/setting/recipe_menu_final.dart';
 import 'package:wr_ui/view/appbar/actions/setting/setting_menu_final.dart';
 import 'package:wr_ui/view/appbar/leading/clock.dart';
@@ -59,6 +60,7 @@ late int Function(int spectrometerIndex, int val)
 late int Function(int spectrometerIndex, int val) setTriggerMode;
 late int Function(int channelIndex) mpmSetChannel;
 late Pointer<Double> Function(int a) getformatSpec;
+late Pointer<Double> Function(int a) getWavelength;
 Future main() async {
   ocrStart = wgsFunction
       .lookup<NativeFunction<Int8 Function()>>('OCR_Start')
@@ -122,18 +124,24 @@ Future main() async {
       .asFunction();
   int gg = setTriggerMode(0, 0);
   print('setTriggerMode?? ' + ' $gg');
-  // Pointer<Double> getWavelength = calloc<Double>(0);
-  // print('getWavelength?? ' + ' $getWavelength');
+
+  getWavelength = wgsFunction
+      .lookup<NativeFunction<Pointer<Double> Function(Int32)>>('GetWavelength')
+      .asFunction();
+
+  print('getWavelength?? ' + ' $getWavelength');
 
   mpmSetChannel = wgsFunction
       .lookup<NativeFunction<Int32 Function(Int32)>>('MPMSetChannel')
       .asFunction();
+  int rrr = mpmSetChannel(6);
+  print('mpmsetChannel?? ' + ' $rrr');
   getformatSpec = wgsFunction
       .lookup<NativeFunction<Pointer<Double> Function(Int32)>>(
           'GetFormatedSpectrum')
       .asFunction();
   Pointer<Double> aa = getformatSpec(0);
-  double ddd = aa[2047];
+  double ddd = aa[2];
   print('ddd  $ddd');
   Get.put(iniControllerWithReactive());
   Get.put(OesController());
@@ -148,13 +156,12 @@ Future main() async {
   Get.put(SettingContnet());
   Get.put(BtnHoverCtrl());
   Get.put(chooseChart());
-  // while (Get.find<OesController>().bRunning == true) {
-  //   ///////스타트 누르면 bRunninng에 true들어가서 while문돌고 스탑누르면 false들어가서 while나감
-  // }
+  Get.put(DataMonitorCtrl());
+  Get.put(StartStopController());
   // Pointer<Double> getWavelength = calloc<Double>(8);
   runApp(MyApp());
-  print('app close');
-  // calloc.free(getWavelength);
+
+  // calloc.free(aa);
   // print('getWavelength??' + '${getWavelength}');
   // calloc.free(getWavelength);
   //OES Check [begin]
@@ -324,6 +331,20 @@ class WRappbar extends StatelessWidget implements PreferredSizeWidget {
                       child: RunErrorStatus(),
                     ),
                   ),
+                  // Container(
+                  //   width: 200,
+                  //   height: 90,
+                  //   decoration: BoxDecoration(
+                  //     border:
+                  //         Border.all(color: Colors.blueGrey.shade800, width: 5),
+                  //   ),
+                  //   child: Center(
+                  //     child: ElevatedButton(
+                  //       onPressed: () {},
+                  //       child: Text('test'),
+                  //     ),
+                  //   ),
+                  // ),
 
                   SizedBox(width: 160),
 

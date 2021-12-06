@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:wr_ui/main.dart';
 import 'package:wr_ui/view/right_side_menu/csv_creator.dart';
 import 'package:wr_ui/view/right_side_menu/ini_creator.dart';
 
@@ -27,6 +28,7 @@ class OesController extends GetxController {
   RxBool checkVal8 = true.obs;
 
   late Timer timer;
+  RxBool bRunning = false.obs;
   @override
   void onInit() {
     super.onInit();
@@ -34,6 +36,7 @@ class OesController extends GetxController {
 
   double setRandom() {
     double yValue = math.Random().nextInt(50).toDouble();
+    //여기
     return yValue;
   }
 
@@ -163,16 +166,16 @@ class OesChart extends GetView<OesController> {
                 ),
                 getTitles: (value) {
                   switch (value.toInt()) {
-                    case 10:
+                    case 0:
                       return '10k';
-                    case 30:
+                    case 250:
                       return '30k';
-                    case 50:
+                    case 500:
                       return '50k';
                   }
                   return '';
                 },
-                reservedSize: 35,
+                reservedSize: 10,
                 margin: 12,
               ),
             ),
@@ -192,7 +195,7 @@ class OesChart extends GetView<OesController> {
           minX: 190,
           maxX: 760,
           minY: 0,
-          maxY: 50, //데이터를 몇개 넣을 것인지~~
+          maxY: 3000, //데이터를 몇개 넣을 것인지~~
           lineTouchData: LineTouchData(
               touchTooltipData: LineTouchTooltipData(
             fitInsideHorizontally: true,

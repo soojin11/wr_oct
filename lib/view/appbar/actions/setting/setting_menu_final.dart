@@ -15,8 +15,9 @@ class SettingController extends GetxController {
   // RxString delayTime = ''.obs;
   RxString exposureTime = '100'.obs;
   RxString delayTime = '100'.obs;
+  RxString integrationTime = '200'.obs;
   RxString deviceSimul = ''.obs;
-  RxInt savedValue = 0.obs;
+  RxString mosChannel = '0'.obs;
   ////////////////////차트세팅
 }
 

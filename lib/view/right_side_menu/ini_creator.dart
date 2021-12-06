@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ini/ini.dart';
+import 'package:wr_ui/setting_content.dart';
+import 'package:wr_ui/view/appbar/actions/setting/setting_menu_final.dart';
 import 'package:wr_ui/view/appbar/leading/run_error_status_mark.dart';
 import 'dart:io';
 
@@ -14,7 +16,7 @@ class iniControllerWithReactive extends GetxController {
   RxString path = ''.obs;
   File? file;
   RxInt OES_Simulation = 1.obs;
-  RxInt OES_Count = 1.obs;
+  RxInt OES_Count = 8.obs;
   RxBool bOESConnect = false.obs;
   RxInt VI_Simulation = 1.obs;
   RxInt VI_Count = 1.obs;
@@ -24,6 +26,9 @@ class iniControllerWithReactive extends GetxController {
   RxString measureStartAtProgStart = '1'.obs;
   RxString ExposureTime = '100'.obs;
   RxString DelayTime = '200'.obs;
+  RxString IntegrationTime = '200'.obs;
+  RxString MOSChannel = '0'.obs;
+  RxString channelFlow = '[1,3,5,7,8,6,4,2]'.obs;
   RxString a = '0'.obs;
   RxString b = '2'.obs;
   Rx<Color> Series_Color_001 = Color(0xFFEF5350).obs;
@@ -60,6 +65,9 @@ class iniControllerWithReactive extends GetxController {
     ever(measureStartAtProgStart, (m) => writeIni());
     ever(ExposureTime, (m) => writeIni());
     ever(DelayTime, (m) => writeIni());
+    ever(IntegrationTime, (m) => writeIni());
+    ever(MOSChannel, (m) => writeIni());
+    ever(channelFlow, (m) => writeIni());
     ever(a, (m) => writeIni());
     ever(b, (m) => writeIni());
     ever(Series_Color_001, (m) => writeIni());
@@ -93,6 +101,8 @@ class iniControllerWithReactive extends GetxController {
   /////////파일쓰기
 
   ////////read
+  ///
+  ///
   Future readIni() async {
     print('===============ini read start================');
 
@@ -141,14 +151,20 @@ class iniControllerWithReactive extends GetxController {
     ///////////////////////
     c.addSection('OES_Setting');
     c.set('OES_Setting', 'ExposureTime',
-        Get.find<iniControllerWithReactive>().ExposureTime.value);
+        Get.find<SettingController>().exposureTime.value);
     c.set('OES_Setting', 'DelayTime',
         Get.find<iniControllerWithReactive>().DelayTime.value);
+    c.set('OES_Setting', 'IntegrationTime',
+        Get.find<iniControllerWithReactive>().IntegrationTime.value);
+    c.set('OES_Setting', 'MOSChannel',
+        Get.find<iniControllerWithReactive>().MOSChannel.value);
     ///////////////
     c.addSection('VI_Setting');
     c.set('VI_Setting', 'a', Get.find<iniControllerWithReactive>().a.value);
     c.set('VI_Setting', 'b', Get.find<iniControllerWithReactive>().b.value);
     //////////
+    c.set('OES_Chart_Setting', 'Channel Flow',
+        Get.find<iniControllerWithReactive>().channelFlow.value.toString());
     c.addSection('OES_Chart_Setting');
     c.set(
         'OES_Chart_Setting',
@@ -206,6 +222,7 @@ class iniControllerWithReactive extends GetxController {
             .Series_Color_008
             .value
             .toString());
+
     print('new : ${c.toString()}');
     print('===============write ini end============');
 

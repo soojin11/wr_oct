@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:ini/ini.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:wr_ui/controller/setting_controller.dart';
+import 'package:wr_ui/main.dart';
 import 'dart:async';
 import 'dart:io';
 import 'package:wr_ui/model/const/style/pallette.dart';
@@ -100,7 +101,7 @@ class DialogStorageCtrl extends GetxController {
     Config c = Config();
     /////////////////
     c.defaults()['OES_Simulation'] = '1';
-    c.defaults()['OES_Count'] = '1';
+    c.defaults()['OES_Count'] = '8';
     c.defaults()['bOESConnect'] = 'false';
     c.defaults()['VI_Simulation'] = '1';
     c.defaults()['VI_Count'] = '1';
@@ -116,22 +117,62 @@ class DialogStorageCtrl extends GetxController {
     c.set('VI_Setting', 'a', '0');
     c.set('VI_Setting', 'b', '0');
     c.addSection('OES_CHART_SETTING');
-    c.set('OES_CHART_SETTING', 'Series_Color_001',
-        Get.find<iniControllerWithReactive>().Series_Color_001.value.toString());
-    c.set('OES_CHART_SETTING', 'Series_Color_002',
-        Get.find<iniControllerWithReactive>().Series_Color_002.value.toString());
-    c.set('OES_CHART_SETTING', 'Series_Color_003',
-        Get.find<iniControllerWithReactive>().Series_Color_003.value.toString());
-    c.set('OES_CHART_SETTING', 'Series_Color_004',
-        Get.find<iniControllerWithReactive>().Series_Color_004.value.toString());
-    c.set('OES_CHART_SETTING', 'Series_Color_005',
-        Get.find<iniControllerWithReactive>().Series_Color_005.value.toString());
-    c.set('OES_CHART_SETTING', 'Series_Color_006',
-        Get.find<iniControllerWithReactive>().Series_Color_006.value.toString());
-    c.set('OES_CHART_SETTING', 'Series_Color_007',
-        Get.find<iniControllerWithReactive>().Series_Color_007.value.toString());
-    c.set('OES_CHART_SETTING', 'Series_Color_008',
-        Get.find<iniControllerWithReactive>().Series_Color_008.value.toString());
+    c.set(
+        'OES_CHART_SETTING',
+        'Series_Color_001',
+        Get.find<iniControllerWithReactive>()
+            .Series_Color_001
+            .value
+            .toString());
+    c.set(
+        'OES_CHART_SETTING',
+        'Series_Color_002',
+        Get.find<iniControllerWithReactive>()
+            .Series_Color_002
+            .value
+            .toString());
+    c.set(
+        'OES_CHART_SETTING',
+        'Series_Color_003',
+        Get.find<iniControllerWithReactive>()
+            .Series_Color_003
+            .value
+            .toString());
+    c.set(
+        'OES_CHART_SETTING',
+        'Series_Color_004',
+        Get.find<iniControllerWithReactive>()
+            .Series_Color_004
+            .value
+            .toString());
+    c.set(
+        'OES_CHART_SETTING',
+        'Series_Color_005',
+        Get.find<iniControllerWithReactive>()
+            .Series_Color_005
+            .value
+            .toString());
+    c.set(
+        'OES_CHART_SETTING',
+        'Series_Color_006',
+        Get.find<iniControllerWithReactive>()
+            .Series_Color_006
+            .value
+            .toString());
+    c.set(
+        'OES_CHART_SETTING',
+        'Series_Color_007',
+        Get.find<iniControllerWithReactive>()
+            .Series_Color_007
+            .value
+            .toString());
+    c.set(
+        'OES_CHART_SETTING',
+        'Series_Color_008',
+        Get.find<iniControllerWithReactive>()
+            .Series_Color_008
+            .value
+            .toString());
     Config config = c;
     print('컨피그 => ${config.toString()}');
 
@@ -214,7 +255,8 @@ Future<void> _showDialog(context) async {
                                 child: Form(
                                   key: Get.find<SettingController>().key,
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       TextFormField(
                                         initialValue: '100',
@@ -230,44 +272,9 @@ Future<void> _showDialog(context) async {
                                               'Exposure time has been changed to $v');
                                         },
                                       ),
-                                      // Text(
-                                      //   'Exposure Time',
-                                      //   style: TextStyle(fontSize: 10),
-                                      // ),
-                                      // Divider(
-                                      //   indent: 400,
-                                      //   endIndent: 400,
-                                      // ),
-                                      // TextField(
-                                      //   controller: Get.find<DialogStorageCtrl>()
-                                      //       ._textField1
-                                      //       .value,
-                                      //   decoration:
-                                      //       InputDecoration(errorText: _errorText),
-                                      // ),
                                       SizedBox(
                                         height: 30,
                                       ),
-                                      // Padding(
-                                      //   padding: const EdgeInsets.all(8.0),
-                                      //   child: Column(
-                                      //     children: [
-                                      //       Text(
-                                      //         'Delay Time',
-                                      //         style: TextStyle(fontSize: 10),
-                                      //       ),
-                                      //       Divider(
-                                      //         indent: 400,
-                                      //         endIndent: 400,
-                                      //       ),
-                                      //     ],
-                                      //   ),
-                                      // ),
-                                      // TextField(
-                                      //   controller: Get.find<DialogStorageCtrl>()
-                                      //       ._textField2
-                                      //       .value,
-                                      // ),
                                       TextFormField(
                                         initialValue: '100',
                                         decoration: InputDecoration(
@@ -282,7 +289,71 @@ Future<void> _showDialog(context) async {
                                               'Delay time has been changed to $v');
                                         },
                                       ),
-                                                        
+                                      SizedBox(
+                                        height: 30,
+                                      ),
+                                      TextFormField(
+                                        initialValue: '100',
+                                        decoration: InputDecoration(
+                                          labelText: 'Integration Time',
+                                          hintText: 'milliseconds',
+                                        ),
+                                        onSaved: (v) {
+                                          Get.find<iniControllerWithReactive>()
+                                              .IntegrationTime
+                                              .value = v.toString();
+                                          Get.find<SettingController>()
+                                              .integrationTime
+                                              .value = Get.find<
+                                                  iniControllerWithReactive>()
+                                              .IntegrationTime
+                                              .value;
+                                          var integrationTimetoInt = int.parse(
+                                              Get.find<SettingController>()
+                                                  .integrationTime
+                                                  .value);
+                                          assert(integrationTimetoInt is int);
+                                          setIntegrationTime(
+                                              0, integrationTimetoInt - 1);
+                                          //////////////
+
+                                          print(
+                                              'Integration time has been changed to $v');
+                                        },
+                                      ),
+                                      SizedBox(
+                                        height: 30,
+                                      ),
+                                      TextFormField(
+                                        initialValue:
+                                            Get.find<SettingController>()
+                                                .mosChannel
+                                                .value
+                                                .toString(),
+                                        decoration: InputDecoration(
+                                          labelText: 'MOS Channel',
+                                          hintText: '0~7',
+                                        ),
+                                        onSaved: (v) {
+                                          Get.find<iniControllerWithReactive>()
+                                              .MOSChannel
+                                              .value = v.toString();
+                                          Get.find<SettingController>()
+                                              .mosChannel
+                                              .value = Get.find<
+                                                  iniControllerWithReactive>()
+                                              .MOSChannel
+                                              .value;
+                                          var mosChanneltoInt = int.parse(
+                                              Get.find<SettingController>()
+                                                  .mosChannel
+                                                  .value);
+                                          assert(mosChanneltoInt is int);
+                                          mpmSetChannel(mosChanneltoInt);
+                                          print(
+                                              'mosChannel has been changed to $v');
+                                        },
+                                      ),
                                       SizedBox(
                                         height: 50,
                                       ),
@@ -307,19 +378,16 @@ Future<void> _showDialog(context) async {
                                           child: MaterialColorPicker(
                                             circleSize: 100,
                                             onColorChange: (Color color) {
-                                              
-
-                                                        
                                               print('series color 1 hexcode=>' +
                                                   '${color}');
-                                                  Get.find<
+                                              Get.find<
                                                       iniControllerWithReactive>()
                                                   .Series_Color_001
                                                   .value = color;
                                               // setState(() {
                                               //   pickedColor1 = color;
                                               // });
-                                                        
+
                                               // Get.find<DialogStorageCtrl>()
                                               //     .Series_Color_001
                                               //     .value = color.toString();
@@ -362,7 +430,7 @@ Future<void> _showDialog(context) async {
                                               Get.find<
                                                       iniControllerWithReactive>()
                                                   .Series_Color_002
-                                                  .value= color;
+                                                  .value = color;
                                             },
                                             selectedColor: Colors.red,
                                             colors: [
@@ -401,7 +469,7 @@ Future<void> _showDialog(context) async {
                                               Get.find<
                                                       iniControllerWithReactive>()
                                                   .Series_Color_003
-                                                  .value= color;
+                                                  .value = color;
                                             },
                                             selectedColor: Colors.red,
                                             colors: [
@@ -440,7 +508,7 @@ Future<void> _showDialog(context) async {
                                               Get.find<
                                                       iniControllerWithReactive>()
                                                   .Series_Color_004
-                                                  .value= color;
+                                                  .value = color;
                                             },
                                             selectedColor: Colors.red,
                                             colors: [
@@ -479,7 +547,7 @@ Future<void> _showDialog(context) async {
                                               Get.find<
                                                       iniControllerWithReactive>()
                                                   .Series_Color_005
-                                                  .value= color;
+                                                  .value = color;
                                             },
                                             selectedColor: Colors.red,
                                             colors: [
@@ -518,7 +586,7 @@ Future<void> _showDialog(context) async {
                                               Get.find<
                                                       iniControllerWithReactive>()
                                                   .Series_Color_006
-                                                  .value= color;
+                                                  .value = color;
                                             },
                                             selectedColor: Colors.red,
                                             colors: [
@@ -557,7 +625,7 @@ Future<void> _showDialog(context) async {
                                               Get.find<
                                                       iniControllerWithReactive>()
                                                   .Series_Color_007
-                                                  .value= color;
+                                                  .value = color;
                                             },
                                             selectedColor: Colors.red,
                                             colors: [
@@ -596,7 +664,7 @@ Future<void> _showDialog(context) async {
                                               Get.find<
                                                       iniControllerWithReactive>()
                                                   .Series_Color_008
-                                                  .value= color;
+                                                  .value = color;
                                             },
                                             selectedColor: Colors.red,
                                             colors: [
@@ -624,10 +692,10 @@ Future<void> _showDialog(context) async {
                           child: Text('save'),
                           onPressed: () {
                             Get.find<SettingController>()
-                              .key
-                              .currentState!
-                              .save();
-                          Get.find<LogListController>().cConfigSave();
+                                .key
+                                .currentState!
+                                .save();
+                            Get.find<LogListController>().cConfigSave();
                             // if (Get.find<DialogStorageCtrl>()
                             //     ._textField1
                             //     .value
@@ -723,7 +791,7 @@ Future<void> _showDialog(context) async {
                             //       .text = '';
                             //   // _textField1.clear();
                             //   // _textField2.clear();
-                
+
                             // } else {
                             //   print('세팅창 채워요');
                             // }

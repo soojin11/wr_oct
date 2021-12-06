@@ -17,7 +17,9 @@ class Clock extends StatelessWidget {
             children: [
               Text(
                 DateFormat('yyyy/MM/dd \n hh:mm:ss').format(DateTime.now()),
-                style: WrText.WrLeadingFont,
+                style: TextStyle(
+                  fontSize: 14,
+                ),
               ),
             ],
           ),
