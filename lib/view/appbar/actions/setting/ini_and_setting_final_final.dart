@@ -276,7 +276,7 @@ Future<void> _showDialog(context) async {
                                         ),
                                         onSaved: (v) {
                                           Get.find<SettingController>()
-                                              .exposureTime
+                                              .delayTime
                                               .value = v.toString();
                                           print(
                                               'Delay time has been changed to $v');
@@ -362,7 +362,7 @@ Future<void> _showDialog(context) async {
                                               Get.find<
                                                       iniControllerWithReactive>()
                                                   .Series_Color_002
-                                                  .value;
+                                                  .value= color;
                                             },
                                             selectedColor: Colors.red,
                                             colors: [
@@ -401,7 +401,7 @@ Future<void> _showDialog(context) async {
                                               Get.find<
                                                       iniControllerWithReactive>()
                                                   .Series_Color_003
-                                                  .value;
+                                                  .value= color;
                                             },
                                             selectedColor: Colors.red,
                                             colors: [
@@ -440,7 +440,7 @@ Future<void> _showDialog(context) async {
                                               Get.find<
                                                       iniControllerWithReactive>()
                                                   .Series_Color_004
-                                                  .value;
+                                                  .value= color;
                                             },
                                             selectedColor: Colors.red,
                                             colors: [
@@ -479,7 +479,7 @@ Future<void> _showDialog(context) async {
                                               Get.find<
                                                       iniControllerWithReactive>()
                                                   .Series_Color_005
-                                                  .value;
+                                                  .value= color;
                                             },
                                             selectedColor: Colors.red,
                                             colors: [
@@ -518,7 +518,7 @@ Future<void> _showDialog(context) async {
                                               Get.find<
                                                       iniControllerWithReactive>()
                                                   .Series_Color_006
-                                                  .value;
+                                                  .value= color;
                                             },
                                             selectedColor: Colors.red,
                                             colors: [
@@ -557,7 +557,7 @@ Future<void> _showDialog(context) async {
                                               Get.find<
                                                       iniControllerWithReactive>()
                                                   .Series_Color_007
-                                                  .value;
+                                                  .value= color;
                                             },
                                             selectedColor: Colors.red,
                                             colors: [
@@ -596,7 +596,7 @@ Future<void> _showDialog(context) async {
                                               Get.find<
                                                       iniControllerWithReactive>()
                                                   .Series_Color_008
-                                                  .value;
+                                                  .value= color;
                                             },
                                             selectedColor: Colors.red,
                                             colors: [
@@ -733,10 +733,6 @@ Future<void> _showDialog(context) async {
                           child: Text("close"),
                           onPressed: () {
                             Navigator.pop(context);
-                            Get.find<SettingController>()
-                              .key
-                              .currentState!
-                              .save();
                           },
                           style: ElevatedButton.styleFrom(
                             primary: wrColors.wrPrimary,

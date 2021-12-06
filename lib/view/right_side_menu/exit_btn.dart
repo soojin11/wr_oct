@@ -98,6 +98,7 @@ class ExitBtn extends StatelessWidget {
                                     //             Void Function()>>('CloseAll')
                                     //     .asFunction();
                                     // var closeall = closeAll();
+                                    Get.find<LogListController>().cExit();
                                     print('closeAll??' +
                                         '${closeAll.toString()}');
                                     exit(0);
@@ -210,6 +211,7 @@ class ExitBtn extends StatelessWidget {
                   actions: [
                     ElevatedButton(
                       onPressed: () {
+                        Get.find<LogListController>().cExit();
                         exit(0);
                       },
                       child: Text(

@@ -261,6 +261,7 @@ class WRappbar extends StatelessWidget implements PreferredSizeWidget {
                 GestureDetector(
                   onTap: () {
                     ThemeService().switchTheme();
+                    Get.find<LogListController>().cModeChage();
                   },
                   child: Icon(
                     Get.isDarkMode

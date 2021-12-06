@@ -71,16 +71,21 @@ class LogListController extends GetxController {
 
   void cModeChage() async {
     saveLog();
+    logData.add('${screenTime()} Changed Mode');
+    Get.find<LogController>()
+        .loglist
+        .add('${logfileTime()} Mode $btnPress' + '\n');
   }
 
   void cExit() async {
     saveLog();
+    Get.find<LogController>()
+        .loglist
+        .add('${logfileTime()} Exit $btnPress' + '\n');
   }
 
   void clickedHover() async {
     saveLog();
-    String logTime = logfileTime();
-    String screenLogTime = screenTime();
     String select =
         'Num${Get.find<chooseChart>().chartNum.value} chart is selected';
     logData.add('${screenLogTime} $select');
