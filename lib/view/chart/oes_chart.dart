@@ -93,21 +93,53 @@ class OesChart extends GetView<OesController> {
               controller: controller,
               lineBarsData: [
                 if (controller.checkVal1.value)
-                  lineChartBarData(controller.oneData, Get.find<iniControllerWithReactive>().Series_Color_001.value),
+                  lineChartBarData(
+                      controller.oneData,
+                      Get.find<iniControllerWithReactive>()
+                          .Series_Color_001
+                          .value),
                 if (controller.checkVal2.value)
-                  lineChartBarData(controller.twoData, Get.find<iniControllerWithReactive>().Series_Color_002.value),
+                  lineChartBarData(
+                      controller.twoData,
+                      Get.find<iniControllerWithReactive>()
+                          .Series_Color_002
+                          .value),
                 if (controller.checkVal3.value)
-                  lineChartBarData(controller.threeData, Get.find<iniControllerWithReactive>().Series_Color_003.value),
+                  lineChartBarData(
+                      controller.threeData,
+                      Get.find<iniControllerWithReactive>()
+                          .Series_Color_003
+                          .value),
                 if (controller.checkVal4.value)
-                  lineChartBarData(controller.fourData, Get.find<iniControllerWithReactive>().Series_Color_004.value),
+                  lineChartBarData(
+                      controller.fourData,
+                      Get.find<iniControllerWithReactive>()
+                          .Series_Color_004
+                          .value),
                 if (controller.checkVal5.value)
-                  lineChartBarData(controller.fiveData, Get.find<iniControllerWithReactive>().Series_Color_005.value),
+                  lineChartBarData(
+                      controller.fiveData,
+                      Get.find<iniControllerWithReactive>()
+                          .Series_Color_005
+                          .value),
                 if (controller.checkVal6.value)
-                  lineChartBarData(controller.sixData, Get.find<iniControllerWithReactive>().Series_Color_006.value),
+                  lineChartBarData(
+                      controller.sixData,
+                      Get.find<iniControllerWithReactive>()
+                          .Series_Color_006
+                          .value),
                 if (controller.checkVal7.value)
-                  lineChartBarData(controller.sevenData, Get.find<iniControllerWithReactive>().Series_Color_007.value),
+                  lineChartBarData(
+                      controller.sevenData,
+                      Get.find<iniControllerWithReactive>()
+                          .Series_Color_007
+                          .value),
                 if (controller.checkVal8.value)
-                  lineChartBarData(controller.eightData, Get.find<iniControllerWithReactive>().Series_Color_008.value),
+                  lineChartBarData(
+                      controller.eightData,
+                      Get.find<iniControllerWithReactive>()
+                          .Series_Color_008
+                          .value),
               ],
               bottomTitles: SideTitles(
                 showTitles: true,

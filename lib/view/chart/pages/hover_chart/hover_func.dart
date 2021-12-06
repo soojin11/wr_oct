@@ -18,7 +18,7 @@ class BtnHoverCtrl extends GetxController {
   RxBool isHover8 = false.obs;
 
   @override
-  void onClose(){
+  void onClose() {
     BtnHoverCtrl;
     super.onClose();
   }
@@ -40,34 +40,50 @@ class FirstHover extends GetView<BtnHoverCtrl> {
           () => GestureDetector(
             onTap: () {
               print('1번째 차트 선택');
-            Get.find<chooseChart>().chartNum.value = 1;
-            Get.find<LogListController>().clickedHover();
-            Get.find<OesController>().checkVal1.value = true;
-            Get.find<OesController>().checkVal2.value = false;
-            Get.find<OesController>().checkVal3.value = false;
-            Get.find<OesController>().checkVal4.value = false;
-            Get.find<OesController>().checkVal5.value = false;
-            Get.find<OesController>().checkVal6.value = false;
-            Get.find<OesController>().checkVal7.value = false;
-            Get.find<OesController>().checkVal8.value = false;
+              Get.find<chooseChart>().chartNum.value = 1;
+              Get.find<LogListController>().clickedHover();
+              Get.find<OesController>().checkVal1.value = true;
+              Get.find<OesController>().checkVal2.value = false;
+              Get.find<OesController>().checkVal3.value = false;
+              Get.find<OesController>().checkVal4.value = false;
+              Get.find<OesController>().checkVal5.value = false;
+              Get.find<OesController>().checkVal6.value = false;
+              Get.find<OesController>().checkVal7.value = false;
+              Get.find<OesController>().checkVal8.value = false;
             },
             child: AnimatedContainer(
               margin: EdgeInsets.symmetric(
                   vertical: controller.isHover.value ? 3 : 0),
               decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                        blurRadius: 7,
-                        spreadRadius: 5,
-                        color: controller.isHover.value
-                            ? Colors.cyan.withOpacity(0.2)
-                            : Colors.grey)
-                  ],
-                  color: Colors.white,
-                  //Theme.of(context).appBarTheme.foregroundColor,
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(10),
-                  )),
+                color: Theme.of(context).appBarTheme.foregroundColor,
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: [
+                  BoxShadow(
+                    color: controller.isHover.value
+                        ? Colors.cyan.withOpacity(0.2)
+                        : Colors.grey, //그림자 색
+                    spreadRadius: 5,
+                    blurRadius: 7,
+                    offset: Offset(0, 2), // 그림자위치 바꾸는거
+                  ),
+                ],
+              )
+
+              // BoxDecoration(
+              //     boxShadow: [
+              //       BoxShadow(
+              //           blurRadius: 7,
+              //           spreadRadius: 5,
+              //           color: controller.isHover.value
+              //               ? Colors.cyan.withOpacity(0.2)
+              //               : Colors.grey)
+              //     ],
+              //     color: Colors.white,
+              //     //Theme.of(context).appBarTheme.foregroundColor,
+              //     borderRadius: BorderRadius.all(
+              //       Radius.circular(10),
+              //     ))
+              ,
               duration: Duration(milliseconds: 200),
               width: controller.isHover.value ? 200 : 170,
               height: controller.isHover.value ? 200 : 150,
@@ -99,30 +115,31 @@ class SecondHover extends GetView<BtnHoverCtrl> {
               Get.find<chooseChart>().chartNum.value = 2;
               Get.find<LogListController>().clickedHover();
               Get.find<OesController>().checkVal1.value = false;
-            Get.find<OesController>().checkVal2.value = true;
-            Get.find<OesController>().checkVal3.value = false;
-            Get.find<OesController>().checkVal4.value = false;
-            Get.find<OesController>().checkVal5.value = false;
-            Get.find<OesController>().checkVal6.value = false;
-            Get.find<OesController>().checkVal7.value = false;
-            Get.find<OesController>().checkVal8.value = false;
+              Get.find<OesController>().checkVal2.value = true;
+              Get.find<OesController>().checkVal3.value = false;
+              Get.find<OesController>().checkVal4.value = false;
+              Get.find<OesController>().checkVal5.value = false;
+              Get.find<OesController>().checkVal6.value = false;
+              Get.find<OesController>().checkVal7.value = false;
+              Get.find<OesController>().checkVal8.value = false;
             },
             child: AnimatedContainer(
               margin: EdgeInsets.symmetric(
                   vertical: controller.isHover2.value ? 3 : 0),
               decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                        blurRadius: 7,
-                        spreadRadius: 5,
-                        color: controller.isHover2.value
-                            ? Colors.cyan.withOpacity(0.2)
-                            : Colors.grey)
-                  ],
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(10),
-                  )),
+                color: Theme.of(context).appBarTheme.foregroundColor,
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: [
+                  BoxShadow(
+                    color: controller.isHover.value
+                        ? Colors.cyan.withOpacity(0.2)
+                        : Colors.grey, //그림자 색
+                    spreadRadius: 5,
+                    blurRadius: 7,
+                    offset: Offset(0, 2), // 그림자위치 바꾸는거
+                  ),
+                ],
+              ),
               duration: Duration(milliseconds: 200),
               width: controller.isHover2.value ? 200 : 170,
               height: controller.isHover2.value ? 200 : 150,
@@ -134,6 +151,7 @@ class SecondHover extends GetView<BtnHoverCtrl> {
     );
   }
 }
+
 class ThirdHover extends GetView<BtnHoverCtrl> {
   @override
   Widget build(BuildContext context) {
@@ -153,30 +171,31 @@ class ThirdHover extends GetView<BtnHoverCtrl> {
               Get.find<chooseChart>().chartNum.value = 3;
               Get.find<LogListController>().clickedHover();
               Get.find<OesController>().checkVal1.value = false;
-            Get.find<OesController>().checkVal2.value = false;
-            Get.find<OesController>().checkVal3.value = true;
-            Get.find<OesController>().checkVal4.value = false;
-            Get.find<OesController>().checkVal5.value = false;
-            Get.find<OesController>().checkVal6.value = false;
-            Get.find<OesController>().checkVal7.value = false;
-            Get.find<OesController>().checkVal8.value = false;
+              Get.find<OesController>().checkVal2.value = false;
+              Get.find<OesController>().checkVal3.value = true;
+              Get.find<OesController>().checkVal4.value = false;
+              Get.find<OesController>().checkVal5.value = false;
+              Get.find<OesController>().checkVal6.value = false;
+              Get.find<OesController>().checkVal7.value = false;
+              Get.find<OesController>().checkVal8.value = false;
             },
             child: AnimatedContainer(
               margin: EdgeInsets.symmetric(
                   vertical: controller.isHover3.value ? 3 : 0),
               decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                        blurRadius: 7,
-                        spreadRadius: 5,
-                        color: controller.isHover3.value
-                            ? Colors.cyan.withOpacity(0.2)
-                            : Colors.grey)
-                  ],
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(10),
-                  )),
+                color: Theme.of(context).appBarTheme.foregroundColor,
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: [
+                  BoxShadow(
+                    color: controller.isHover.value
+                        ? Colors.cyan.withOpacity(0.2)
+                        : Colors.grey, //그림자 색
+                    spreadRadius: 5,
+                    blurRadius: 7,
+                    offset: Offset(0, 2), // 그림자위치 바꾸는거
+                  ),
+                ],
+              ),
               duration: Duration(milliseconds: 200),
               width: controller.isHover3.value ? 200 : 170,
               height: controller.isHover3.value ? 200 : 150,
@@ -188,6 +207,7 @@ class ThirdHover extends GetView<BtnHoverCtrl> {
     );
   }
 }
+
 class FourthHover extends GetView<BtnHoverCtrl> {
   @override
   Widget build(BuildContext context) {
@@ -207,30 +227,31 @@ class FourthHover extends GetView<BtnHoverCtrl> {
               Get.find<chooseChart>().chartNum.value = 4;
               Get.find<LogListController>().clickedHover();
               Get.find<OesController>().checkVal1.value = false;
-            Get.find<OesController>().checkVal2.value = false;
-            Get.find<OesController>().checkVal3.value = false;
-            Get.find<OesController>().checkVal4.value = true;
-            Get.find<OesController>().checkVal5.value = false;
-            Get.find<OesController>().checkVal6.value = false;
-            Get.find<OesController>().checkVal7.value = false;
-            Get.find<OesController>().checkVal8.value = false;
+              Get.find<OesController>().checkVal2.value = false;
+              Get.find<OesController>().checkVal3.value = false;
+              Get.find<OesController>().checkVal4.value = true;
+              Get.find<OesController>().checkVal5.value = false;
+              Get.find<OesController>().checkVal6.value = false;
+              Get.find<OesController>().checkVal7.value = false;
+              Get.find<OesController>().checkVal8.value = false;
             },
             child: AnimatedContainer(
               margin: EdgeInsets.symmetric(
                   vertical: controller.isHover4.value ? 3 : 0),
               decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                        blurRadius: 7,
-                        spreadRadius: 5,
-                        color: controller.isHover4.value
-                            ? Colors.cyan.withOpacity(0.2)
-                            : Colors.grey)
-                  ],
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(10),
-                  )),
+                color: Theme.of(context).appBarTheme.foregroundColor,
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: [
+                  BoxShadow(
+                    color: controller.isHover.value
+                        ? Colors.cyan.withOpacity(0.2)
+                        : Colors.grey, //그림자 색
+                    spreadRadius: 5,
+                    blurRadius: 7,
+                    offset: Offset(0, 2), // 그림자위치 바꾸는거
+                  ),
+                ],
+              ),
               duration: Duration(milliseconds: 200),
               width: controller.isHover4.value ? 200 : 170,
               height: controller.isHover4.value ? 200 : 150,
@@ -242,6 +263,7 @@ class FourthHover extends GetView<BtnHoverCtrl> {
     );
   }
 }
+
 class FifthHover extends GetView<BtnHoverCtrl> {
   @override
   Widget build(BuildContext context) {
@@ -261,30 +283,31 @@ class FifthHover extends GetView<BtnHoverCtrl> {
               Get.find<chooseChart>().chartNum.value = 5;
               Get.find<LogListController>().clickedHover();
               Get.find<OesController>().checkVal1.value = false;
-            Get.find<OesController>().checkVal2.value = false;
-            Get.find<OesController>().checkVal3.value = false;
-            Get.find<OesController>().checkVal4.value = false;
-            Get.find<OesController>().checkVal5.value = true;
-            Get.find<OesController>().checkVal6.value = false;
-            Get.find<OesController>().checkVal7.value = false;
-            Get.find<OesController>().checkVal8.value = false;
+              Get.find<OesController>().checkVal2.value = false;
+              Get.find<OesController>().checkVal3.value = false;
+              Get.find<OesController>().checkVal4.value = false;
+              Get.find<OesController>().checkVal5.value = true;
+              Get.find<OesController>().checkVal6.value = false;
+              Get.find<OesController>().checkVal7.value = false;
+              Get.find<OesController>().checkVal8.value = false;
             },
             child: AnimatedContainer(
               margin: EdgeInsets.symmetric(
                   vertical: controller.isHover5.value ? 3 : 0),
               decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                        blurRadius: 7,
-                        spreadRadius: 5,
-                        color: controller.isHover5.value
-                            ? Colors.cyan.withOpacity(0.2)
-                            : Colors.grey)
-                  ],
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(10),
-                  )),
+                color: Theme.of(context).appBarTheme.foregroundColor,
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: [
+                  BoxShadow(
+                    color: controller.isHover.value
+                        ? Colors.cyan.withOpacity(0.2)
+                        : Colors.grey, //그림자 색
+                    spreadRadius: 5,
+                    blurRadius: 7,
+                    offset: Offset(0, 2), // 그림자위치 바꾸는거
+                  ),
+                ],
+              ),
               duration: Duration(milliseconds: 200),
               width: controller.isHover5.value ? 200 : 170,
               height: controller.isHover5.value ? 200 : 150,
@@ -296,6 +319,7 @@ class FifthHover extends GetView<BtnHoverCtrl> {
     );
   }
 }
+
 class SixthHover extends GetView<BtnHoverCtrl> {
   @override
   Widget build(BuildContext context) {
@@ -315,30 +339,31 @@ class SixthHover extends GetView<BtnHoverCtrl> {
               Get.find<chooseChart>().chartNum.value = 6;
               Get.find<LogListController>().clickedHover();
               Get.find<OesController>().checkVal1.value = false;
-            Get.find<OesController>().checkVal2.value = false;
-            Get.find<OesController>().checkVal3.value = false;
-            Get.find<OesController>().checkVal4.value = false;
-            Get.find<OesController>().checkVal5.value = false;
-            Get.find<OesController>().checkVal6.value = true;
-            Get.find<OesController>().checkVal7.value = false;
-            Get.find<OesController>().checkVal8.value = false;
+              Get.find<OesController>().checkVal2.value = false;
+              Get.find<OesController>().checkVal3.value = false;
+              Get.find<OesController>().checkVal4.value = false;
+              Get.find<OesController>().checkVal5.value = false;
+              Get.find<OesController>().checkVal6.value = true;
+              Get.find<OesController>().checkVal7.value = false;
+              Get.find<OesController>().checkVal8.value = false;
             },
             child: AnimatedContainer(
               margin: EdgeInsets.symmetric(
                   vertical: controller.isHover6.value ? 3 : 0),
               decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                        blurRadius: 7,
-                        spreadRadius: 5,
-                        color: controller.isHover6.value
-                            ? Colors.cyan.withOpacity(0.2)
-                            : Colors.grey)
-                  ],
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(10),
-                  )),
+                color: Theme.of(context).appBarTheme.foregroundColor,
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: [
+                  BoxShadow(
+                    color: controller.isHover.value
+                        ? Colors.cyan.withOpacity(0.2)
+                        : Colors.grey, //그림자 색
+                    spreadRadius: 5,
+                    blurRadius: 7,
+                    offset: Offset(0, 2), // 그림자위치 바꾸는거
+                  ),
+                ],
+              ),
               duration: Duration(milliseconds: 200),
               width: controller.isHover6.value ? 200 : 170,
               height: controller.isHover6.value ? 200 : 150,
@@ -350,6 +375,7 @@ class SixthHover extends GetView<BtnHoverCtrl> {
     );
   }
 }
+
 class SeventhHover extends GetView<BtnHoverCtrl> {
   @override
   Widget build(BuildContext context) {
@@ -369,30 +395,31 @@ class SeventhHover extends GetView<BtnHoverCtrl> {
               Get.find<chooseChart>().chartNum.value = 7;
               Get.find<LogListController>().clickedHover();
               Get.find<OesController>().checkVal1.value = false;
-            Get.find<OesController>().checkVal2.value = false;
-            Get.find<OesController>().checkVal3.value = false;
-            Get.find<OesController>().checkVal4.value = false;
-            Get.find<OesController>().checkVal5.value = false;
-            Get.find<OesController>().checkVal6.value = false;
-            Get.find<OesController>().checkVal7.value = true;
-            Get.find<OesController>().checkVal8.value = false;
+              Get.find<OesController>().checkVal2.value = false;
+              Get.find<OesController>().checkVal3.value = false;
+              Get.find<OesController>().checkVal4.value = false;
+              Get.find<OesController>().checkVal5.value = false;
+              Get.find<OesController>().checkVal6.value = false;
+              Get.find<OesController>().checkVal7.value = true;
+              Get.find<OesController>().checkVal8.value = false;
             },
             child: AnimatedContainer(
               margin: EdgeInsets.symmetric(
                   vertical: controller.isHover7.value ? 3 : 0),
               decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                        blurRadius: 7,
-                        spreadRadius: 5,
-                        color: controller.isHover7.value
-                            ? Colors.cyan.withOpacity(0.2)
-                            : Colors.grey)
-                  ],
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(10),
-                  )),
+                color: Theme.of(context).appBarTheme.foregroundColor,
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: [
+                  BoxShadow(
+                    color: controller.isHover.value
+                        ? Colors.cyan.withOpacity(0.2)
+                        : Colors.grey, //그림자 색
+                    spreadRadius: 5,
+                    blurRadius: 7,
+                    offset: Offset(0, 2), // 그림자위치 바꾸는거
+                  ),
+                ],
+              ),
               duration: Duration(milliseconds: 200),
               width: controller.isHover7.value ? 200 : 170,
               height: controller.isHover7.value ? 200 : 150,
@@ -404,6 +431,7 @@ class SeventhHover extends GetView<BtnHoverCtrl> {
     );
   }
 }
+
 class EightHover extends GetView<BtnHoverCtrl> {
   @override
   Widget build(BuildContext context) {
@@ -423,30 +451,31 @@ class EightHover extends GetView<BtnHoverCtrl> {
               Get.find<chooseChart>().chartNum.value = 8;
               Get.find<LogListController>().clickedHover();
               Get.find<OesController>().checkVal1.value = false;
-            Get.find<OesController>().checkVal2.value = false;
-            Get.find<OesController>().checkVal3.value = false;
-            Get.find<OesController>().checkVal4.value = false;
-            Get.find<OesController>().checkVal5.value = false;
-            Get.find<OesController>().checkVal6.value = false;
-            Get.find<OesController>().checkVal7.value = false;
-            Get.find<OesController>().checkVal8.value = true;
+              Get.find<OesController>().checkVal2.value = false;
+              Get.find<OesController>().checkVal3.value = false;
+              Get.find<OesController>().checkVal4.value = false;
+              Get.find<OesController>().checkVal5.value = false;
+              Get.find<OesController>().checkVal6.value = false;
+              Get.find<OesController>().checkVal7.value = false;
+              Get.find<OesController>().checkVal8.value = true;
             },
             child: AnimatedContainer(
               margin: EdgeInsets.symmetric(
                   vertical: controller.isHover8.value ? 3 : 0),
               decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                        blurRadius: 7,
-                        spreadRadius: 5,
-                        color: controller.isHover8.value
-                            ? Colors.cyan.withOpacity(0.2)
-                            : Colors.grey)
-                  ],
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(10),
-                  )),
+                color: Theme.of(context).appBarTheme.foregroundColor,
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: [
+                  BoxShadow(
+                    color: controller.isHover.value
+                        ? Colors.cyan.withOpacity(0.2)
+                        : Colors.grey, //그림자 색
+                    spreadRadius: 5,
+                    blurRadius: 7,
+                    offset: Offset(0, 2), // 그림자위치 바꾸는거
+                  ),
+                ],
+              ),
               duration: Duration(milliseconds: 200),
               width: controller.isHover8.value ? 200 : 170,
               height: controller.isHover8.value ? 200 : 150,

@@ -1,13 +1,15 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:ffi';
-import 'dart:io';
+import 'dart:typed_data';
+import 'package:ffi/ffi.dart';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wr_ui/controller/drop_down_controller.dart';
 import 'package:wr_ui/controller/home_controller.dart';
+// import 'package:wr_ui/dll/datamonitoring.dart';
 import 'package:wr_ui/ing/data%20monitor.dart';
+import 'package:wr_ui/model/const/style/pallette.dart';
 import 'package:wr_ui/service/dark_white_mode/mode.dart';
 import 'package:wr_ui/service/routes/app_pages.dart';
 import 'package:wr_ui/setting_content.dart';
@@ -30,37 +32,111 @@ import 'package:wr_ui/view/right_side_menu/log_save.dart';
 import 'package:wr_ui/view/right_side_menu/log_screen.dart';
 import 'package:wr_ui/view/right_side_menu/start_stop.dart';
 
-//final DynamicLibrary wgsFunction = DynamicLibrary.open("WGSFunction.dll");
+//  double[] GetWavelength(int spectrometerIndex);
+
+//bool은 Int8
+final DynamicLibrary wgsFunction = DynamicLibrary.open("WGSFunction.dll");
 late int Function() ocrStart;
 late int Function(int a) getBoxcarWidth;
 late void Function(int a) testtest;
 late void Function(int a) setmsg;
 late void Function(int a) test;
 late void Function() getMPM2000Component;
-late void Function() SetIntegrationTime;
-String portName = 'RS-232';
-late int Function() OpenAllSpectrometers;
+late int Function() openAllSpectrometers;
 late int Function(int spectrometerIndex, int slot, double val)
     setNonlinearityCofficient;
 late void Function() closeAll;
-//bool은 Int8
+late void Function(int portName) mpmStart;
+late int Function() mpmOpen;
+late void Function() mpmClose;
+late int Function(int spectrometerIndex, int integrationTime)
+    setIntegrationTime;
+late int Function(int spectrometerIndex, int val) setScansToAverage;
+late int Function(int spectrometerIndex, int val) setBoxcarWidth;
+late int Function(int spectrometerIndex, int val) setElectricDarkEnable;
+late int Function(int spectrometerIndex, int val)
+    setNonlinearityCorrectionEnabled;
+late int Function(int spectrometerIndex, int val) setTriggerMode;
+late int Function(int channelIndex) mpmSetChannel;
+late Pointer<Double> Function(int a) getformatSpec;
 Future main() async {
-  ///////////app start
-  // ocrStart = wgsFunction
-  //     .lookup<NativeFunction<Int8 Function()>>('OCR_Start')
-  //     .asFunction();
-  // int ocrs = ocrStart();
-  // print('ocrStart??' + '${ocrs}');
+  ocrStart = wgsFunction
+      .lookup<NativeFunction<Int8 Function()>>('OCR_Start')
+      .asFunction();
+  int ocrs = ocrStart();
+  print('ocrStart??' + ' ${ocrs}');
 
-  // OpenAllSpectrometers = wgsFunction
-  //     .lookup<NativeFunction<Int8 Function()>>('OpenAllSpectrometers')
-  //     .asFunction();
-  // int openallspectro = OpenAllSpectrometers();
-  // print('openallspectro??' + '$openallspectro');
+  mpmStart = wgsFunction
+      .lookup<NativeFunction<Void Function(Int32)>>('MPMStart')
+      .asFunction();
+  mpmStart(3);
+  mpmClose = wgsFunction
+      .lookup<NativeFunction<Void Function()>>('MPMClose')
+      .asFunction();
+  mpmClose();
+  mpmOpen = wgsFunction
+      .lookup<NativeFunction<Int8 Function()>>('MPMOpen')
+      .asFunction();
+  mpmOpen();
 
-  //////////app start
-  Get.put(OesController(), permanent: true);
-  Get.put(DialogStorageCtrl(), permanent: true);
+  closeAll = wgsFunction
+      .lookup<NativeFunction<Void Function()>>('CloseAll')
+      .asFunction();
+  closeAll();
+  openAllSpectrometers = wgsFunction
+      .lookup<NativeFunction<Int32 Function()>>('OpenAllSpectrometers')
+      .asFunction();
+  int bb = openAllSpectrometers();
+  print('openAllSpectrometers?? ' + ' $bb');
+  setIntegrationTime = wgsFunction
+      .lookup<NativeFunction<Int32 Function(Int32, Int32)>>(
+          'SetIntegrationTime')
+      .asFunction();
+
+  int cc = setIntegrationTime(0, 100000);
+  print('setIntegrationTime?? ' + ' $cc');
+  setScansToAverage = wgsFunction
+      .lookup<NativeFunction<Int32 Function(Int32, Int32)>>('SetScansToAverage')
+      .asFunction();
+  int dd = setScansToAverage(0, 1);
+  print('setScansToAverage?? ' + ' $dd');
+  setBoxcarWidth = wgsFunction
+      .lookup<NativeFunction<Int32 Function(Int32, Int32)>>('SetBoxcarWidth')
+      .asFunction();
+  int ss = setBoxcarWidth(0, 0);
+  print('setBoxCarWidth?? ' + '$ss');
+  setElectricDarkEnable = wgsFunction
+      .lookup<NativeFunction<Int32 Function(Int32, Int32)>>(
+          'SetElectricDarkEnable')
+      .asFunction();
+  int rr = setElectricDarkEnable(0, 0);
+  print('setElectricDarkEnable?? ' + '$rr');
+  setNonlinearityCorrectionEnabled = wgsFunction
+      .lookup<NativeFunction<Int32 Function(Int32, Int32)>>(
+          'SetNonlinearityCorrectionEnabled')
+      .asFunction();
+  int ee = setNonlinearityCorrectionEnabled(0, 0);
+  print('setNonlinearityCorrectionEnabled?? ' + ' $ee');
+  setTriggerMode = wgsFunction
+      .lookup<NativeFunction<Int32 Function(Int32, Int32)>>('SetTriggerMode')
+      .asFunction();
+  int gg = setTriggerMode(0, 0);
+  print('setTriggerMode?? ' + ' $gg');
+  // Pointer<Double> getWavelength = calloc<Double>(0);
+  // print('getWavelength?? ' + ' $getWavelength');
+
+  mpmSetChannel = wgsFunction
+      .lookup<NativeFunction<Int32 Function(Int32)>>('MPMSetChannel')
+      .asFunction();
+  getformatSpec = wgsFunction
+      .lookup<NativeFunction<Pointer<Double> Function(Int32)>>(
+          'GetFormatedSpectrum')
+      .asFunction();
+  Pointer<Double> aa = getformatSpec(0);
+  double ddd = aa[2047];
+  print('ddd  $ddd');
+  Get.put(iniControllerWithReactive());
+  Get.put(OesController());
   Get.put(DialogStorageCtrl());
   Get.put(runErrorStatusController());
   Get.put(StartStopController());
@@ -71,10 +147,16 @@ Future main() async {
   Get.put(SettingController());
   Get.put(SettingContnet());
   Get.put(BtnHoverCtrl());
-  Get.put(iniControllerWithReactive()).writeIni();
-  
   Get.put(chooseChart());
+  // while (Get.find<OesController>().bRunning == true) {
+  //   ///////스타트 누르면 bRunninng에 true들어가서 while문돌고 스탑누르면 false들어가서 while나감
+  // }
+  // Pointer<Double> getWavelength = calloc<Double>(8);
   runApp(MyApp());
+  print('app close');
+  // calloc.free(getWavelength);
+  // print('getWavelength??' + '${getWavelength}');
+  // calloc.free(getWavelength);
   //OES Check [begin]
   // if (Get.find<DialogStorageCtrl>().OES_Simulation.value == 1) {
   //   Get.find<DialogStorageCtrl>().bOESConnect.value = true;
@@ -127,28 +209,6 @@ Future main() async {
     win.title = "WR";
     win.show();
   });
-
-  // ocrStart11 =
-  //     wgsTest.lookup<NativeFunction<Int8 Function()>>('OCR_Start').asFunction();
-  // int aa = ocrStart11();
-  // print('ocrStart??' + '$aa');
-  // setmsg = wgsTest
-  //     .lookup<NativeFunction<Void Function(Int32)>>('setmsg')
-  //     .asFunction();
-  // setmsg(2);
-  // print('setmsg??' + '${setmsg.toString()}');
-  // test =
-  //     wgsTest.lookup<NativeFunction<Void Function(Int32)>>('test').asFunction();
-  // test(1);
-  if (Get.find<DialogStorageCtrl>().measureStartAtProgStart == '1') {
-    Get.find<OesController>().inactiveBtn.value = true;
-    Get.find<OesController>().timer = Timer.periodic(
-        Duration(milliseconds: 100),
-        Get.find<OesController>().updateDataSource);
-    Get.find<OesController>().oneData;
-  } else {
-    print('ini가 1이 아님');
-  }
 }
 
 class MyApp extends StatelessWidget {
@@ -196,88 +256,111 @@ class WRappbar extends StatelessWidget implements PreferredSizeWidget {
   }) : super(key: key);
 
   @override
-  Size get preferredSize => Size.fromHeight(70);
+  Size get preferredSize => Size.fromHeight(90);
   final themeController = Get.put(HomeController());
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 16),
+      padding: const EdgeInsets.only(top: 20),
       child: Container(
         child: AppBar(automaticallyImplyLeading: false, actions: [
-          Container(
-            //width: 600,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                GestureDetector(
-                    onTap: () {
-                      () => Get.offAll(Home());
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: Image.asset(
-                        'assets/images/CI_nobg.png',
-                        fit: BoxFit.fitHeight,
-                      ),
-                    )),
-                SizedBox(width: 120),
-                VerticalDivider(
-                  color: Colors.black.withOpacity(0.5),
-                ),
-                Clock(),
-                VerticalDivider(
-                  color: Colors.black.withOpacity(0.5),
-                ),
-                SizedBox(width: 160),
-                VerticalDivider(
-                  color: Colors.black.withOpacity(0.5),
-                ),
-                RecentRecipeName(),
-                VerticalDivider(
-                  color: Colors.black.withOpacity(0.5),
-                ),
-                SizedBox(width: 160),
-                VerticalDivider(
-                  color: Colors.black.withOpacity(0.5),
-                ),
-                RunErrorStatus(),
-                VerticalDivider(
-                  color: Colors.black.withOpacity(0.5),
-                ),
-                SizedBox(width: 160),
-                VerticalDivider(
-                  color: Colors.black.withOpacity(0.5),
-                ),
-                SetBtn(),
-                // SettingMenu(),
-                VerticalDivider(
-                  color: Colors.black.withOpacity(0.5),
-                ),
-                SizedBox(width: 160),
-                VerticalDivider(
-                  color: Colors.black.withOpacity(0.5),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    ThemeService().switchTheme();
-                    Get.find<LogListController>().cModeChage();
-                  },
-                  child: Icon(
-                    Get.isDarkMode
-                        ? Icons.toggle_on_outlined
-                        : Icons.toggle_off_outlined,
-                    size: 38,
-                    color: Get.isDarkMode ? Colors.white : Colors.black,
+          Padding(
+            padding: const EdgeInsets.only(top: 6.0),
+            child: Container(
+              //width: 600,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  GestureDetector(
+                      onTap: () {
+                        () => Get.offAll(Home());
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: Image.asset(
+                          'assets/images/CI_nobg.png',
+                          fit: BoxFit.fitHeight,
+                        ),
+                      )),
+                  SizedBox(width: 120),
+
+                  Container(
+                    width: 200,
+                    height: 90,
+                    decoration: BoxDecoration(
+                      border:
+                          Border.all(color: Colors.blueGrey.shade800, width: 5),
+                    ),
+                    child: Center(
+                      child: Clock(),
+                    ),
                   ),
-                ),
-                VerticalDivider(
-                  color: Colors.black.withOpacity(0.5),
-                ),
-              ],
+
+                  SizedBox(width: 160),
+
+                  Container(
+                    width: 200,
+                    height: 90,
+                    decoration: BoxDecoration(
+                      border:
+                          Border.all(color: Colors.blueGrey.shade800, width: 5),
+                    ),
+                    child: Center(
+                      child: RecentRecipeName(),
+                    ),
+                  ),
+
+                  SizedBox(width: 160),
+
+                  Container(
+                    width: 200,
+                    height: 90,
+                    decoration: BoxDecoration(
+                      border:
+                          Border.all(color: Colors.blueGrey.shade800, width: 5),
+                    ),
+                    child: Center(
+                      child: RunErrorStatus(),
+                    ),
+                  ),
+
+                  SizedBox(width: 160),
+
+                  Container(
+                    width: 200,
+                    height: 90,
+                    decoration: BoxDecoration(
+                      border:
+                          Border.all(color: Colors.blueGrey.shade800, width: 5),
+                    ),
+                    child: Center(
+                      child: SetBtn(),
+                    ),
+                  ),
+                  // SettingMenu(),
+
+                  SizedBox(width: 160),
+                ],
+              ),
             ),
           ),
           Spacer(),
+          GestureDetector(
+            onTap: () {
+              ThemeService().switchTheme();
+            },
+            child: Icon(
+              Get.isDarkMode
+                  ? Icons.toggle_on_outlined
+                  : Icons.toggle_off_outlined,
+              size: 38,
+              color: Get.isDarkMode ? Colors.white : Colors.black,
+            ),
+          ),
+          SizedBox(
+            width: 50,
+          ),
           WindowButtons(),
         ]),
       ),
@@ -307,40 +390,40 @@ class _WRbodyState extends State<WRbody> {
         child: Column(
           children: [
             Expanded(
-              flex: 3,
-              child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: Container(
+                flex: 3,
+                child: Padding(
+                  padding: const EdgeInsets.all(10),
                   child: Container(
-                    decoration:
-                        BoxDecoration(borderRadius: BorderRadius.circular(10)),
-                    
-                    child: 
-                    // MaterialApp(
-                    //   debugShowCheckedModeBanner: false,
-                    //   theme: Themes.light,
-                    //   darkTheme: Themes.dark,
-                    //   initialRoute: '/all',
-                    //   routes: {
-                    //     '/all': (context) => ALLpage(),
-                    //     '/oes': (context) => OESpage(),
-                    //     '/vi': (context) => VIpage(),
-                    //     '/custom': (context) => CUSTOMpage(),
-                    //     '/add': (context) => ADDpage(),
-                    //   },
-                    // ),
-                    Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                    child: Obx(
+                      () => Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10)),
+                          child:
+                              // MaterialApp(
+                              //   debugShowCheckedModeBanner: false,
+                              //   theme: Themes.light,
+                              //   darkTheme: Themes.dark,
+                              //   initialRoute: '/all',
+                              //   routes: {
+                              //     '/all': (context) => ALLpage(),
+                              //     '/oes': (context) => OESpage(),
+                              //     '/vi': (context) => VIpage(),
+                              //     '/custom': (context) => CUSTOMpage(),
+                              //     '/add': (context) => ADDpage(),
+                              //   },
+                              // ),
+                              Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               chartTabBar(),
                               Expanded(
                                   flex: 1,
-                                  child: OesChart())
+                                  child: Get.find<chooseChart>().choose())
                             ],
-                  )),
-                
-              ),
-            )),
+                          )),
+                    ),
+                  ),
+                )),
             Expanded(
                 flex: 1,
                 child: Padding(
@@ -457,7 +540,7 @@ class _WRbodyState extends State<WRbody> {
                         ),
                         /////////////파일매니저
                         //dll test
-                        DataMonitorTest(),
+                        // DataMonitorTest(),
                         //dll test
                         /////////////레시피버튼
 
@@ -511,7 +594,8 @@ class _WRbodyState extends State<WRbody> {
                                   indent: 10,
                                   endIndent: 10,
                                 ),
-                                ExitBtn()
+                                ExitBtn(),
+                                SizedBox(height: 20)
                               ],
                             ),
                           ),
