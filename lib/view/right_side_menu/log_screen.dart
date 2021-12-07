@@ -100,7 +100,6 @@ saveLog() {
   Get.find<LogController>().logSave();
 }
 
-
 String screenTime() {
   DateTime current = DateTime.now();
   String ms = DateTime.now().millisecondsSinceEpoch.toString();
@@ -144,7 +143,7 @@ class LogList extends GetView<LogListController> {
                     itemCount: controller.logData.length,
                     itemBuilder: (BuildContext context, int index) {
                       return ListTile(
-                        title: Text('${controller.logData[index]}'),
+                        title: Text('${controller.logData[index]}\n'),
                       );
                     },
                   ),

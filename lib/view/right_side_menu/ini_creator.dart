@@ -28,7 +28,7 @@ class iniControllerWithReactive extends GetxController {
   RxString DelayTime = '200'.obs;
   RxString IntegrationTime = '200'.obs;
   RxString MOSChannel = '0'.obs;
-  RxString channelFlow = '[1,3,5,7,8,6,4,2]'.obs;
+  RxList<String> channelFlow = ['1', '3', '5', '7', '8', '6', '4', '2'].obs;
   RxString a = '0'.obs;
   RxString b = '2'.obs;
   Rx<Color> Series_Color_001 = Color(0xFFEF5350).obs;
@@ -158,13 +158,14 @@ class iniControllerWithReactive extends GetxController {
         Get.find<iniControllerWithReactive>().IntegrationTime.value);
     c.set('OES_Setting', 'MOSChannel',
         Get.find<iniControllerWithReactive>().MOSChannel.value);
+    c.set('OES_Setting', 'channelFlow',
+        Get.find<iniControllerWithReactive>().channelFlow.string);
     ///////////////
     c.addSection('VI_Setting');
     c.set('VI_Setting', 'a', Get.find<iniControllerWithReactive>().a.value);
     c.set('VI_Setting', 'b', Get.find<iniControllerWithReactive>().b.value);
     //////////
-    c.set('OES_Chart_Setting', 'Channel Flow',
-        Get.find<iniControllerWithReactive>().channelFlow.value.toString());
+
     c.addSection('OES_Chart_Setting');
     c.set(
         'OES_Chart_Setting',

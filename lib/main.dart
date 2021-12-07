@@ -61,6 +61,7 @@ late int Function(int spectrometerIndex, int val) setTriggerMode;
 late int Function(int channelIndex) mpmSetChannel;
 late Pointer<Double> Function(int a) getformatSpec;
 late Pointer<Double> Function(int a) getWavelength;
+List listWavelength = [];
 Future main() async {
   ocrStart = wgsFunction
       .lookup<NativeFunction<Int8 Function()>>('OCR_Start')
@@ -128,21 +129,25 @@ Future main() async {
   getWavelength = wgsFunction
       .lookup<NativeFunction<Pointer<Double> Function(Int32)>>('GetWavelength')
       .asFunction();
+  Pointer<Double> pdwaveLength = getWavelength(0);
+  for (var i = 0; i < 2048; i++) {
+    listWavelength.add(pdwaveLength[i]);
+  }
 
   print('getWavelength?? ' + ' $getWavelength');
 
   mpmSetChannel = wgsFunction
       .lookup<NativeFunction<Int32 Function(Int32)>>('MPMSetChannel')
       .asFunction();
-  int rrr = mpmSetChannel(6);
+  int rrr = mpmSetChannel(0);
   print('mpmsetChannel?? ' + ' $rrr');
   getformatSpec = wgsFunction
       .lookup<NativeFunction<Pointer<Double> Function(Int32)>>(
           'GetFormatedSpectrum')
       .asFunction();
-  Pointer<Double> aa = getformatSpec(0);
-  double ddd = aa[2];
-  print('ddd  $ddd');
+  // Pointer<Double> aa = getformatSpec(0);
+  // double ddd = aa[2];
+  // print('ddd  $ddd');
   Get.put(iniControllerWithReactive());
   Get.put(OesController());
   Get.put(DialogStorageCtrl());
@@ -361,7 +366,7 @@ class WRappbar extends StatelessWidget implements PreferredSizeWidget {
                   ),
                   // SettingMenu(),
 
-                  SizedBox(width: 160),
+                  // SizedBox(width: 160),
                 ],
               ),
             ),

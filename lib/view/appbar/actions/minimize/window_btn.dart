@@ -8,6 +8,9 @@ class WindowButtons extends StatelessWidget {
     return Row(
       children: [
         MinimizeWindowButton(colors: windowBtnColors),
+        MaximizeWindowButton(
+          colors: windowBtnColors,
+        ),
         CloseWindowButton(colors: closeBtnColors),
       ],
     );
