@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:wr_ui/ing/dialog_test.dart';
 import 'package:wr_ui/model/const/style/text.dart';
 
 class dialogBtn extends StatelessWidget {

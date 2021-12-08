@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:ffi/ffi.dart';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wr_ui/controller/drop_down_controller.dart';
@@ -22,6 +23,7 @@ import 'package:wr_ui/view/appbar/leading/clock.dart';
 import 'package:wr_ui/view/appbar/leading/recent_recipe_name.dart';
 import 'package:wr_ui/view/appbar/leading/run_error_status_mark.dart';
 import 'package:wr_ui/view/chart/chart_tabbar.dart';
+import 'package:wr_ui/view/chart/device_oes_chart.dart';
 import 'package:wr_ui/view/chart/oes_chart.dart';
 import 'package:wr_ui/view/chart/pages/hover_chart/hover_func.dart';
 import 'package:wr_ui/view/chart/pages/hover_chart/hover_row.dart';
@@ -62,6 +64,25 @@ late int Function(int channelIndex) mpmSetChannel;
 late Pointer<Double> Function(int a) getformatSpec;
 late Pointer<Double> Function(int a) getWavelength;
 List listWavelength = [];
+
+Future<List<double>> readData(int a) async {
+  return compute(dllReadData, a);
+}
+
+List<double> dllReadData(int a) {
+  Pointer<Double> fmtSpec = nullptr;
+  getformatSpec = wgsFunction
+      .lookup<NativeFunction<Pointer<Double> Function(Int32)>>(
+          'GetFormatedSpectrum')
+      .asFunction();
+  fmtSpec = getformatSpec(a);
+  List<double> rt = [];
+  for (var i = 0; i < 2048; i++) {
+    rt.add(fmtSpec[i].toDouble());
+  }
+  return rt;
+}
+
 Future main() async {
   ocrStart = wgsFunction
       .lookup<NativeFunction<Int8 Function()>>('OCR_Start')
@@ -141,13 +162,11 @@ Future main() async {
       .asFunction();
   int rrr = mpmSetChannel(0);
   print('mpmsetChannel?? ' + ' $rrr');
-  getformatSpec = wgsFunction
-      .lookup<NativeFunction<Pointer<Double> Function(Int32)>>(
-          'GetFormatedSpectrum')
-      .asFunction();
+
   // Pointer<Double> aa = getformatSpec(0);
   // double ddd = aa[2];
   // print('ddd  $ddd');
+  Get.put(deviceController());
   Get.put(iniControllerWithReactive());
   Get.put(OesController());
   Get.put(DialogStorageCtrl());
