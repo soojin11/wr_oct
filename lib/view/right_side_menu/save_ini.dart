@@ -37,6 +37,7 @@ Future<String> writeToConf(contents) async {
 
 readConfig() async {
   var result;
+  
   try {
     var file = await _localFile;
     Config config = Config.fromStrings(file.readAsLinesSync());
@@ -44,8 +45,20 @@ readConfig() async {
     if (int.parse(config.get("Common", "OES_Simulation").toString()) == 0 &&
         int.parse(config.get("Common", "measureStartAtProgStart").toString()) ==
             1) {
-      SimStartButton(); // 시뮬레이션이고 바로 시작이면 실행
+      SimStartButton(); // 시뮬레이션 바로 실행
     }
+
+    //데이터 들어오면 쓸 부분//////////////////////////////////////////
+    // if(int.parse(config.get("Common", "OES_Simulation").toString()) == 0){
+    //   이면 시뮬레이터 SimStartButton();
+    // }
+    // if(int.parse(config.get("Common", "OES_Simulation").toString()) == 1){
+    //   이면 찐 데이터 들어오는거
+    // }
+    //////////////////////////////////////////////////////////
+
+
+
     if (int.parse(config.get("Common", "SaveFromStartSignal").toString()) ==
             1 &&
         int.parse(config.get("Common", "measureStartAtProgStart").toString()) ==

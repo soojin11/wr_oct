@@ -3,10 +3,14 @@
 import 'dart:async';
 import 'dart:math' as math;
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wr_ui/view/right_side_menu/csv_creator.dart';
 import 'package:wr_ui/view/right_side_menu/save_ini.dart';
+
+
+
 
 class OesController extends GetxController {
   RxList<FlSpot> oneData = RxList.empty();
@@ -41,7 +45,7 @@ class OesController extends GetxController {
     return yValue;
   }
 
-  void updateDataSource(Timer timer) async {
+  Future<void> updateDataSource(Timer timer) async {
     if (oneData.isNotEmpty) {
       oneData.clear();
       twoData.clear();
@@ -80,7 +84,32 @@ class OesController extends GetxController {
       await Get.find<CsvController>().EightcsvSave();
     update();
   }
+
+  List<FlSpot> doubleFunction(int value){
+  for(var i =190; i< value; i++){
+  oneData.add(FlSpot(i.toDouble() ,setRandom()));
+  twoData.add(FlSpot(i.toDouble(), setRandom()));
+  threeData.add(FlSpot(i.toDouble(), setRandom()));
+  fourData.add(FlSpot(i.toDouble(), setRandom()));
+  fiveData.add(FlSpot(i.toDouble(), setRandom()));
+  sixData.add(FlSpot(i.toDouble(), setRandom()));
+  sevenData.add(FlSpot(i.toDouble(), setRandom()));
+  eightData.add(FlSpot(i.toDouble(), setRandom()));
+  }
+  return doubleFunction(760);
 }
+
+Future<List<FlSpot>> createDoubleFunction() async{
+  int value = 760;
+  List<FlSpot> val = await compute(doubleFunction, value);
+  return val;
+}
+}
+
+
+
+
+
 
 class OesChart extends GetView<OesController> {
   OesChart({Key? key}) : super(key: key);

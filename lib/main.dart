@@ -1,6 +1,9 @@
 import 'dart:async';
 import 'dart:ffi';
+import 'dart:io';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
+import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wr_ui/controller/drop_down_controller.dart';
@@ -25,6 +28,7 @@ import 'package:wr_ui/view/right_side_menu/log_save.dart';
 import 'package:wr_ui/view/right_side_menu/log_screen.dart';
 import 'package:wr_ui/view/right_side_menu/save_ini.dart';
 import 'package:wr_ui/view/right_side_menu/start_stop.dart';
+import 'dart:math' as math;
 
 //  double[] GetWavelength(int spectrometerIndex);
 
@@ -474,6 +478,7 @@ class _WRbodyState extends State<WRbody> {
                                     StartStop(),
                                   ],
                                 ),
+                                ElevatedButton(onPressed: (){createDoubleFunction(); printText;}, child: Text('compute연습'))
                                 //////////////스타트스탑리셋
                               ],
                             ),
@@ -599,3 +604,43 @@ appContainer({required double width, required Widget child}) {
           borderRadius: BorderRadius.circular(10), color: Colors.blueGrey[600]),
       width: width);
 }
+
+
+// double parseval(double setRandom){
+//   double setRandom = math.Random().nextInt(50).toDouble();
+//   return setRandom;
+// }
+
+// Future<double> fetchVal(double val) async{
+//   final random = await val;
+//   return compute(parseval, random);
+// }
+// void runsth(){
+//   return print('연습용 ${fetchVal}');
+// }
+
+// Future<void> createComputeFunction()async{
+//   await compute(computeFunction, "aaaaa");
+// }
+
+// static String computeFunction(String url){
+//   return
+// }
+
+Future<List<FlSpot>> createDoubleFunction() async{
+  int value = 760;
+  List<FlSpot> val = await compute(doubleFunction, value);
+  return val;
+}
+
+List<FlSpot> doubleFunction(int value){
+  List<FlSpot> oneData = [];
+  for(var i =0; i< value; i++){
+  oneData.add(FlSpot(i.toDouble() ,math.Random().nextInt(50).toDouble()));}
+  return oneData;
+}
+
+void printText(){
+  return print('제바라아아라아랑랄 ${createDoubleFunction}');
+}
+
