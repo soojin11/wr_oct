@@ -11,11 +11,10 @@ import 'package:wr_ui/view/appbar/leading/run_error_status_mark.dart';
 import 'package:wr_ui/view/chart/oes_chart.dart';
 import 'package:wr_ui/view/right_side_menu/ini_creator.dart';
 import 'package:wr_ui/view/right_side_menu/log_screen.dart';
-
+import 'package:wr_ui/view/right_side_menu/save_ini.dart';
 // ignore: must_be_immutable
 class ExitBtn extends StatelessWidget {
   ExitBtn({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     Future<bool?> showWarning(BuildContext context) async => showDialog<bool>(
@@ -92,13 +91,12 @@ class ExitBtn extends StatelessWidget {
                               actions: [
                                 ElevatedButton(
                                   onPressed: () {
-                                    // closeAll = wgsFunction
-                                    //     .lookup<
-                                    //         NativeFunction<
-                                    //             Void Function()>>('CloseAll')
-                                    //     .asFunction();
-                                    // var closeall = closeAll();
-                                    Get.find<LogListController>().cExit();
+                                    closeAll = wgsFunction
+                                        .lookup<
+                                            NativeFunction<
+                                                Void Function()>>('CloseAll')
+                                        .asFunction();
+                                    var closeall = closeAll();
                                     print('closeAll??' +
                                         '${closeAll.toString()}');
                                     exit(0);
@@ -132,7 +130,6 @@ class ExitBtn extends StatelessWidget {
                               ],
                             ));
                   },
-
                   //////////////////////
                   // onPressed: () async {
                   //   Get.find<iniControllerWithReactive>()
@@ -178,8 +175,8 @@ class ExitBtn extends StatelessWidget {
         child: TextButton.icon(
           onPressed: () {
             print(
-                '트라이캐치 ->${Get.find<iniControllerWithReactive>().measureStartAtProgStart}');
-            if (Get.find<iniControllerWithReactive>().measureStartAtProgStart ==
+                '트라이캐치 ->${Get.find<iniController>().measureStartAtProgStart}');
+            if (Get.find<iniController>().measureStartAtProgStart ==
                 '') {
               print('바로닫기');
               showDialog(
@@ -211,7 +208,6 @@ class ExitBtn extends StatelessWidget {
                   actions: [
                     ElevatedButton(
                       onPressed: () {
-                        Get.find<LogListController>().cExit();
                         exit(0);
                       },
                       child: Text(
@@ -259,17 +255,16 @@ class ExitBtn extends StatelessWidget {
               // );
             } else {
               try {
-                Get.find<iniControllerWithReactive>().measureStartAtProgStart ==
+                Get.find<iniController>().measureStartAtProgStart ==
                         '0' ||
-                    Get.find<iniControllerWithReactive>()
+                    Get.find<iniController>()
                             .measureStartAtProgStart ==
                         '1';
                 print('에러발생');
-
-                if (Get.find<iniControllerWithReactive>()
+                if (Get.find<iniController>()
                             .measureStartAtProgStart ==
                         '0' ||
-                    Get.find<iniControllerWithReactive>()
+                    Get.find<iniController>()
                             .measureStartAtProgStart ==
                         '1') {
                   throw new Exception("프로그램 실행중");

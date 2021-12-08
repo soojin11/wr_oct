@@ -9,9 +9,6 @@ class runErrorStatusController extends GetxController {
   RxString textmsg = Get.find<OesController>().inactiveBtn.value == false
       ? 'STOP'.obs
       : 'SIMULATION'.obs;
-  // Get.find<iniControllerWithReactive>().measureStartAtProgStart.value == ''
-  //     ? 'STOP'.obs
-  //     : 'SIMULATION'.obs;
   RxBool connect = false.obs;
 }
 
@@ -23,20 +20,18 @@ class RunErrorStatus extends GetView<runErrorStatusController> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(top: 5, bottom: 5),
       child: Obx(
         () => Container(
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
               color: Get.find<OesController>().inactiveBtn.value == false
                   ? Colors.red
                   : Colors.yellow[700]),
-          height: 30,
-          width: 200,
+          
+          width: 300,
           child: Center(
             child: Text(
               controller.textmsg.value,
-              style: WrText.WrLeadingFont,
+              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold, color: Colors.white)
             ),
           ),
         ),

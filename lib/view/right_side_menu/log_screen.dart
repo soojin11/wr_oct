@@ -87,7 +87,7 @@ class LogListController extends GetxController {
   void clickedHover() async {
     saveLog();
     String select =
-        'Num${Get.find<chooseChart>().chartNum.value} chart is selected';
+        'OES_${Get.find<chooseChart>().chartNum.value} chart is selected';
     logData.add('${screenLogTime} $select');
     Get.find<LogController>()
         .loglist

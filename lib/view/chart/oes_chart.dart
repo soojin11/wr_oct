@@ -1,10 +1,12 @@
+
+
 import 'dart:async';
 import 'dart:math' as math;
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wr_ui/view/right_side_menu/csv_creator.dart';
-import 'package:wr_ui/view/right_side_menu/ini_creator.dart';
+import 'package:wr_ui/view/right_side_menu/save_ini.dart';
 
 class OesController extends GetxController {
   RxList<FlSpot> oneData = RxList.empty();
@@ -27,6 +29,7 @@ class OesController extends GetxController {
   RxBool checkVal8 = true.obs;
 
   late Timer timer;
+  RxBool bRunning = false.obs;
   @override
   void onInit() {
     super.onInit();
@@ -34,6 +37,7 @@ class OesController extends GetxController {
 
   double setRandom() {
     double yValue = math.Random().nextInt(50).toDouble();
+    //여기
     return yValue;
   }
 
@@ -93,21 +97,53 @@ class OesChart extends GetView<OesController> {
               controller: controller,
               lineBarsData: [
                 if (controller.checkVal1.value)
-                  lineChartBarData(controller.oneData, Get.find<iniControllerWithReactive>().Series_Color_001.value),
+                  lineChartBarData(
+                      controller.oneData,
+                      Get.find<iniController>()
+                          .Series_Color_001
+                          .value),
                 if (controller.checkVal2.value)
-                  lineChartBarData(controller.twoData, Get.find<iniControllerWithReactive>().Series_Color_002.value),
+                  lineChartBarData(
+                      controller.twoData,
+                      Get.find<iniController>()
+                          .Series_Color_002
+                          .value),
                 if (controller.checkVal3.value)
-                  lineChartBarData(controller.threeData, Get.find<iniControllerWithReactive>().Series_Color_003.value),
+                  lineChartBarData(
+                      controller.threeData,
+                      Get.find<iniController>()
+                          .Series_Color_003
+                          .value),
                 if (controller.checkVal4.value)
-                  lineChartBarData(controller.fourData, Get.find<iniControllerWithReactive>().Series_Color_004.value),
+                  lineChartBarData(
+                      controller.fourData,
+                      Get.find<iniController>()
+                          .Series_Color_004
+                          .value),
                 if (controller.checkVal5.value)
-                  lineChartBarData(controller.fiveData, Get.find<iniControllerWithReactive>().Series_Color_005.value),
+                  lineChartBarData(
+                      controller.fiveData,
+                      Get.find<iniController>()
+                          .Series_Color_005
+                          .value),
                 if (controller.checkVal6.value)
-                  lineChartBarData(controller.sixData, Get.find<iniControllerWithReactive>().Series_Color_006.value),
+                  lineChartBarData(
+                      controller.sixData,
+                      Get.find<iniController>()
+                          .Series_Color_006
+                          .value),
                 if (controller.checkVal7.value)
-                  lineChartBarData(controller.sevenData, Get.find<iniControllerWithReactive>().Series_Color_007.value),
+                  lineChartBarData(
+                      controller.sevenData,
+                      Get.find<iniController>()
+                          .Series_Color_007
+                          .value),
                 if (controller.checkVal8.value)
-                  lineChartBarData(controller.eightData, Get.find<iniControllerWithReactive>().Series_Color_008.value),
+                  lineChartBarData(
+                      controller.eightData,
+                      Get.find<iniController>()
+                          .Series_Color_008
+                          .value),
               ],
               bottomTitles: SideTitles(
                 showTitles: true,
@@ -131,7 +167,7 @@ class OesChart extends GetView<OesController> {
                 ),
                 getTitles: (value) {
                   switch (value.toInt()) {
-                    case 10:
+                    case 0:
                       return '10k';
                     case 30:
                       return '30k';
@@ -140,7 +176,7 @@ class OesChart extends GetView<OesController> {
                   }
                   return '';
                 },
-                reservedSize: 35,
+                reservedSize: 30,
                 margin: 12,
               ),
             ),

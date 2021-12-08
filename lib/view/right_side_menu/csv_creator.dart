@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:wr_ui/view/chart/oes_chart.dart';
+import 'package:wr_ui/view/right_side_menu/start_stop.dart';
 
 import 'log_screen.dart';
 
@@ -18,24 +19,25 @@ class CSVButton extends GetView<CsvController> {
             ignoring: controller.inactiveBtn.value,
             child: ElevatedButton(
               onPressed: () async {
-                await controller.csvSaveInit();
-                await controller.SecondcsvSaveInit();
-                await controller.ThirdcsvSaveInit();
-                await controller.FourthcsvSaveInit();
-                await controller.FifthcsvSaveInit();
-                await controller.SixthcsvSaveInit();
-                await controller.SeventhcsvSaveInit();
-                await controller.EightcsvSaveInit();
-                controller.fileSave.value = true;
-                controller.fileSave2.value = true;
-                controller.fileSave3.value = true;
-                controller.fileSave4.value = true;
-                controller.fileSave5.value = true;
-                controller.fileSave6.value = true;
-                controller.fileSave7.value = true;
-                controller.fileSave8.value = true;
-                Get.find<LogListController>().startCsv();
-                controller.inactiveBtn.value = true;
+                // await controller.csvSaveInit();
+                // await controller.SecondcsvSaveInit();
+                // await controller.ThirdcsvSaveInit();
+                // await controller.FourthcsvSaveInit();
+                // await controller.FifthcsvSaveInit();
+                // await controller.SixthcsvSaveInit();
+                // await controller.SeventhcsvSaveInit();
+                // await controller.EightcsvSaveInit();
+                // controller.fileSave.value = true;
+                // controller.fileSave2.value = true;
+                // controller.fileSave3.value = true;
+                // controller.fileSave4.value = true;
+                // controller.fileSave5.value = true;
+                // controller.fileSave6.value = true;
+                // controller.fileSave7.value = true;
+                // controller.fileSave8.value = true;
+                // Get.find<LogListController>().startCsv();
+                // controller.inactiveBtn.value = true;
+                startSaveBtn();
               },
               child: Container(
                 width: 200,
@@ -452,4 +454,24 @@ class CsvController extends GetxController with SingleGetTickerProviderMixin {
     return file8.writeAsString(intergrationColumn);
   }
   
+}
+void startSaveBtn() async {
+  await Get.find<CsvController>().csvSaveInit();
+  await Get.find<CsvController>().SecondcsvSaveInit();
+  await Get.find<CsvController>().ThirdcsvSaveInit();
+  await Get.find<CsvController>().FourthcsvSaveInit();
+  await Get.find<CsvController>().FifthcsvSaveInit();
+  await Get.find<CsvController>().SixthcsvSaveInit();
+  await Get.find<CsvController>().SeventhcsvSaveInit();
+  await Get.find<CsvController>().EightcsvSaveInit();
+  Get.find<CsvController>().fileSave.value = true;
+  Get.find<CsvController>().fileSave2.value = true;
+  Get.find<CsvController>().fileSave3.value = true;
+  Get.find<CsvController>().fileSave4.value = true;
+  Get.find<CsvController>().fileSave5.value = true;
+  Get.find<CsvController>().fileSave6.value = true;
+  Get.find<CsvController>().fileSave7.value = true;
+  Get.find<CsvController>().fileSave8.value = true;
+  Get.find<LogListController>().startCsv();
+  Get.find<CsvController>().inactiveBtn.value = true;
 }

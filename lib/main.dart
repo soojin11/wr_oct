@@ -1,20 +1,16 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:ffi';
-import 'dart:io';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wr_ui/controller/drop_down_controller.dart';
 import 'package:wr_ui/controller/home_controller.dart';
-import 'package:wr_ui/ing/data%20monitor.dart';
 import 'package:wr_ui/service/dark_white_mode/mode.dart';
 import 'package:wr_ui/service/routes/app_pages.dart';
 import 'package:wr_ui/setting_content.dart';
 import 'package:wr_ui/view/appbar/actions/minimize/window_btn.dart';
-import 'package:wr_ui/view/appbar/actions/setting/ini_and_setting_final_final.dart';
+import 'package:wr_ui/view/appbar/actions/setting/ini_and_setting.dart';
 import 'package:wr_ui/view/appbar/actions/setting/recipe_menu_final.dart';
-import 'package:wr_ui/view/appbar/actions/setting/setting_menu_final.dart';
 import 'package:wr_ui/view/appbar/leading/clock.dart';
 import 'package:wr_ui/view/appbar/leading/recent_recipe_name.dart';
 import 'package:wr_ui/view/appbar/leading/run_error_status_mark.dart';
@@ -25,56 +21,150 @@ import 'package:wr_ui/view/chart/pages/hover_chart/hover_row.dart';
 import 'package:wr_ui/view/chart/switch_chart.dart';
 import 'package:wr_ui/view/right_side_menu/csv_creator.dart';
 import 'package:wr_ui/view/right_side_menu/exit_btn.dart';
-import 'package:wr_ui/view/right_side_menu/ini_creator.dart';
 import 'package:wr_ui/view/right_side_menu/log_save.dart';
 import 'package:wr_ui/view/right_side_menu/log_screen.dart';
+import 'package:wr_ui/view/right_side_menu/save_ini.dart';
 import 'package:wr_ui/view/right_side_menu/start_stop.dart';
 
-//final DynamicLibrary wgsFunction = DynamicLibrary.open("WGSFunction.dll");
+//  double[] GetWavelength(int spectrometerIndex);
+
+//bool은 Int8
+final DynamicLibrary wgsFunction = DynamicLibrary.open("WGSFunction.dll");
 late int Function() ocrStart;
 late int Function(int a) getBoxcarWidth;
 late void Function(int a) testtest;
 late void Function(int a) setmsg;
 late void Function(int a) test;
 late void Function() getMPM2000Component;
-late void Function() SetIntegrationTime;
-String portName = 'RS-232';
-late int Function() OpenAllSpectrometers;
+late int Function() openAllSpectrometers;
 late int Function(int spectrometerIndex, int slot, double val)
     setNonlinearityCofficient;
 late void Function() closeAll;
+late void Function(int portName) mpmStart;
+late int Function() mpmOpen;
+late void Function() mpmClose;
+late int Function(int spectrometerIndex, int integrationTime)
+    setIntegrationTime;
+late int Function(int spectrometerIndex, int val) setScansToAverage;
+late int Function(int spectrometerIndex, int val) setBoxcarWidth;
+late int Function(int spectrometerIndex, int val) setElectricDarkEnable;
+late int Function(int spectrometerIndex, int val)
+    setNonlinearityCorrectionEnabled;
+late int Function(int spectrometerIndex, int val) setTriggerMode;
+late int Function(int channelIndex) mpmSetChannel;
+late Pointer<Double> Function(int a) getformatSpec;
+late Pointer<Double> Function(int a) getWavelength;
+List listWavelength = [];
 //bool은 Int8
 Future main() async {
-  ///////////app start
   // ocrStart = wgsFunction
   //     .lookup<NativeFunction<Int8 Function()>>('OCR_Start')
   //     .asFunction();
   // int ocrs = ocrStart();
-  // print('ocrStart??' + '${ocrs}');
+  // print('ocrStart??' + ' ${ocrs}');
 
-  // OpenAllSpectrometers = wgsFunction
-  //     .lookup<NativeFunction<Int8 Function()>>('OpenAllSpectrometers')
+  // mpmStart = wgsFunction
+  //     .lookup<NativeFunction<Void Function(Int32)>>('MPMStart')
   //     .asFunction();
-  // int openallspectro = OpenAllSpectrometers();
-  // print('openallspectro??' + '$openallspectro');
+  // mpmStart(3);
+  // mpmClose = wgsFunction
+  //     .lookup<NativeFunction<Void Function()>>('MPMClose')
+  //     .asFunction();
+  // mpmClose();
+  // mpmOpen = wgsFunction
+  //     .lookup<NativeFunction<Int8 Function()>>('MPMOpen')
+  //     .asFunction();
+  // mpmOpen();
 
-  //////////app start
-  Get.put(OesController(), permanent: true);
-  Get.put(DialogStorageCtrl(), permanent: true);
+  // closeAll = wgsFunction
+  //     .lookup<NativeFunction<Void Function()>>('CloseAll')
+  //     .asFunction();
+  // closeAll();
+  // openAllSpectrometers = wgsFunction
+  //     .lookup<NativeFunction<Int32 Function()>>('OpenAllSpectrometers')
+  //     .asFunction();
+  // int bb = openAllSpectrometers();
+  // print('openAllSpectrometers?? ' + ' $bb');
+  // setIntegrationTime = wgsFunction
+  //     .lookup<NativeFunction<Int32 Function(Int32, Int32)>>(
+  //         'SetIntegrationTime')
+  //     .asFunction();
+
+  // int cc = setIntegrationTime(0, 100000);
+  // print('setIntegrationTime?? ' + ' $cc');
+  // setScansToAverage = wgsFunction
+  //     .lookup<NativeFunction<Int32 Function(Int32, Int32)>>('SetScansToAverage')
+  //     .asFunction();
+  // int dd = setScansToAverage(0, 1);
+  // print('setScansToAverage?? ' + ' $dd');
+  // setBoxcarWidth = wgsFunction
+  //     .lookup<NativeFunction<Int32 Function(Int32, Int32)>>('SetBoxcarWidth')
+  //     .asFunction();
+  // int ss = setBoxcarWidth(0, 0);
+  // print('setBoxCarWidth?? ' + '$ss');
+  // setElectricDarkEnable = wgsFunction
+  //     .lookup<NativeFunction<Int32 Function(Int32, Int32)>>(
+  //         'SetElectricDarkEnable')
+  //     .asFunction();
+  // int rr = setElectricDarkEnable(0, 0);
+  // print('setElectricDarkEnable?? ' + '$rr');
+  // setNonlinearityCorrectionEnabled = wgsFunction
+  //     .lookup<NativeFunction<Int32 Function(Int32, Int32)>>(
+  //         'SetNonlinearityCorrectionEnabled')
+  //     .asFunction();
+  // int ee = setNonlinearityCorrectionEnabled(0, 0);
+  // print('setNonlinearityCorrectionEnabled?? ' + ' $ee');
+  // setTriggerMode = wgsFunction
+  //     .lookup<NativeFunction<Int32 Function(Int32, Int32)>>('SetTriggerMode')
+  //     .asFunction();
+  // int gg = setTriggerMode(0, 0);
+  // print('setTriggerMode?? ' + ' $gg');
+
+  // getWavelength = wgsFunction
+  //     .lookup<NativeFunction<Pointer<Double> Function(Int32)>>('GetWavelength')
+  //     .asFunction();
+  // Pointer<Double> pdwaveLength = getWavelength(0);
+  // for (var i = 0; i < 2048; i++) {
+  //   listWavelength.add(pdwaveLength[i]);
+  // }
+
+  // print('getWavelength?? ' + ' $getWavelength');
+
+  // mpmSetChannel = wgsFunction
+  //     .lookup<NativeFunction<Int32 Function(Int32)>>('MPMSetChannel')
+  //     .asFunction();
+  // int rrr = mpmSetChannel(0);
+  // print('mpmsetChannel?? ' + ' $rrr');
+  // getformatSpec = wgsFunction
+  //     .lookup<NativeFunction<Pointer<Double> Function(Int32)>>(
+  //         'GetFormatedSpectrum')
+  //     .asFunction();
+  // Pointer<Double> aa = getformatSpec(0);
+  // double ddd = aa[2];
+  // print('ddd  $ddd');
+  Get.put(OesController());
   Get.put(DialogStorageCtrl());
   Get.put(runErrorStatusController());
   Get.put(StartStopController());
   Get.put(CsvController());
+  Get.put(iniController());
 
   Get.put(LogListController());
   Get.put(LogController());
-  Get.put(SettingController());
+  //Get.put(SettingController());
   Get.put(SettingContnet());
   Get.put(BtnHoverCtrl());
-  Get.put(iniControllerWithReactive()).writeIni();
+  Get.put(StartStopController());
+  // Pointer<Double> getWavelength = calloc<Double>(8);
+  //Get.put(iniControllerWithReactive()).writeIni();
   
   Get.put(chooseChart());
+  Get.put(ChartName());
   runApp(MyApp());
+
+  // calloc.free(aa);
+  // print('getWavelength??' + '${getWavelength}');
+  // calloc.free(getWavelength);
   //OES Check [begin]
   // if (Get.find<DialogStorageCtrl>().OES_Simulation.value == 1) {
   //   Get.find<DialogStorageCtrl>().bOESConnect.value = true;
@@ -88,16 +178,20 @@ Future main() async {
   // }
 //OES Check [end]
 //VI Check [begin]
-  if (Get.find<DialogStorageCtrl>().VI_Simulation.value == 1) {
-    Get.find<DialogStorageCtrl>().bVIConnect.value = true;
-    print('bVIConnect = true');
-  } else if (Get.find<DialogStorageCtrl>().VI_Count.value <= 0) {
-    Get.find<DialogStorageCtrl>().bVIConnect.value = true;
-    print('bVIConnect = true');
-  } else // vi simulation 상태가 아니고, 디바이스 카운트가 0보다 크다.
-  {
-    print(' bVIConnect = VI_Connect(); // c++ 접속 요청');
-  }
+
+//지움21.12.07
+  // if (Get.find<DialogStorageCtrl>().VI_Simulation.value == 1) {
+  //   Get.find<DialogStorageCtrl>().bVIConnect.value = true;
+  //   print('bVIConnect = true');
+  // } else if (Get.find<DialogStorageCtrl>().VI_Count.value <= 0) {
+  //   Get.find<DialogStorageCtrl>().bVIConnect.value = true;
+  //   print('bVIConnect = true');
+
+
+  // } else // vi simulation 상태가 아니고, 디바이스 카운트가 0보다 크다.
+  // {
+  //   print(' bVIConnect = VI_Connect(); // c++ 접속 요청');
+  // }
 //VI Check [end]
 // if (
 //   Get.find<DialogStorageCtrl>().OES_Simulation.value==1 && Get.find<DialogStorageCtrl>().VI_Simulation.value==1
@@ -127,28 +221,6 @@ Future main() async {
     win.title = "WR";
     win.show();
   });
-
-  // ocrStart11 =
-  //     wgsTest.lookup<NativeFunction<Int8 Function()>>('OCR_Start').asFunction();
-  // int aa = ocrStart11();
-  // print('ocrStart??' + '$aa');
-  // setmsg = wgsTest
-  //     .lookup<NativeFunction<Void Function(Int32)>>('setmsg')
-  //     .asFunction();
-  // setmsg(2);
-  // print('setmsg??' + '${setmsg.toString()}');
-  // test =
-  //     wgsTest.lookup<NativeFunction<Void Function(Int32)>>('test').asFunction();
-  // test(1);
-  if (Get.find<DialogStorageCtrl>().measureStartAtProgStart == '1') {
-    Get.find<OesController>().inactiveBtn.value = true;
-    Get.find<OesController>().timer = Timer.periodic(
-        Duration(milliseconds: 100),
-        Get.find<OesController>().updateDataSource);
-    Get.find<OesController>().oneData;
-  } else {
-    print('ini가 1이 아님');
-  }
 }
 
 class MyApp extends StatelessWidget {
@@ -196,13 +268,13 @@ class WRappbar extends StatelessWidget implements PreferredSizeWidget {
   }) : super(key: key);
 
   @override
-  Size get preferredSize => Size.fromHeight(70);
+  Size get preferredSize => Size.fromHeight(75);
   final themeController = Get.put(HomeController());
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 16),
+      padding: const EdgeInsets.only(top: 20),
       child: Container(
         child: AppBar(automaticallyImplyLeading: false, actions: [
           Container(
@@ -210,6 +282,7 @@ class WRappbar extends StatelessWidget implements PreferredSizeWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
+                SizedBox(width:10),
                 GestureDetector(
                     onTap: () {
                       () => Get.offAll(Home());
@@ -221,43 +294,15 @@ class WRappbar extends StatelessWidget implements PreferredSizeWidget {
                         fit: BoxFit.fitHeight,
                       ),
                     )),
-                SizedBox(width: 120),
-                VerticalDivider(
-                  color: Colors.black.withOpacity(0.5),
-                ),
-                Clock(),
-                VerticalDivider(
-                  color: Colors.black.withOpacity(0.5),
-                ),
+                 SizedBox(width: 120),
+                appContainer(width: 180, child: Clock()),
+                SizedBox(width: 140),
+                appContainer(width: 300, child: RecentRecipeName()),
                 SizedBox(width: 160),
-                VerticalDivider(
-                  color: Colors.black.withOpacity(0.5),
-                ),
-                RecentRecipeName(),
-                VerticalDivider(
-                  color: Colors.black.withOpacity(0.5),
-                ),
-                SizedBox(width: 160),
-                VerticalDivider(
-                  color: Colors.black.withOpacity(0.5),
-                ),
                 RunErrorStatus(),
-                VerticalDivider(
-                  color: Colors.black.withOpacity(0.5),
-                ),
                 SizedBox(width: 160),
-                VerticalDivider(
-                  color: Colors.black.withOpacity(0.5),
-                ),
                 SetBtn(),
-                // SettingMenu(),
-                VerticalDivider(
-                  color: Colors.black.withOpacity(0.5),
-                ),
-                SizedBox(width: 160),
-                VerticalDivider(
-                  color: Colors.black.withOpacity(0.5),
-                ),
+                SizedBox(width: 70),
                 GestureDetector(
                   onTap: () {
                     ThemeService().switchTheme();
@@ -271,13 +316,13 @@ class WRappbar extends StatelessWidget implements PreferredSizeWidget {
                     color: Get.isDarkMode ? Colors.white : Colors.black,
                   ),
                 ),
-                VerticalDivider(
-                  color: Colors.black.withOpacity(0.5),
-                ),
               ],
             ),
           ),
           Spacer(),
+          SizedBox(
+            width: 50,
+          ),
           WindowButtons(),
         ]),
       ),
@@ -299,6 +344,12 @@ class WRbody extends StatefulWidget {
 
 class _WRbodyState extends State<WRbody> {
   @override
+  void initState() {
+    readConfig();
+    writeConfig();
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
     return Row(children: [
       //////////////////////////차트공간
@@ -307,40 +358,40 @@ class _WRbodyState extends State<WRbody> {
         child: Column(
           children: [
             Expanded(
-              flex: 3,
-              child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: Container(
+                flex: 3,
+                child: Padding(
+                  padding: const EdgeInsets.all(10),
                   child: Container(
-                    decoration:
-                        BoxDecoration(borderRadius: BorderRadius.circular(10)),
-                    
-                    child: 
-                    // MaterialApp(
-                    //   debugShowCheckedModeBanner: false,
-                    //   theme: Themes.light,
-                    //   darkTheme: Themes.dark,
-                    //   initialRoute: '/all',
-                    //   routes: {
-                    //     '/all': (context) => ALLpage(),
-                    //     '/oes': (context) => OESpage(),
-                    //     '/vi': (context) => VIpage(),
-                    //     '/custom': (context) => CUSTOMpage(),
-                    //     '/add': (context) => ADDpage(),
-                    //   },
-                    // ),
-                    Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                    child: Obx(
+                      () => Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10)),
+                          child:
+                              // MaterialApp(
+                              //   debugShowCheckedModeBanner: false,
+                              //   theme: Themes.light,
+                              //   darkTheme: Themes.dark,
+                              //   initialRoute: '/all',
+                              //   routes: {
+                              //     '/all': (context) => ALLpage(),
+                              //     '/oes': (context) => OESpage(),
+                              //     '/vi': (context) => VIpage(),
+                              //     '/custom': (context) => CUSTOMpage(),
+                              //     '/add': (context) => ADDpage(),
+                              //   },
+                              // ),
+                              Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               chartTabBar(),
                               Expanded(
                                   flex: 1,
-                                  child: OesChart())
+                                  child: Get.find<chooseChart>().choose())
                             ],
-                  )),
-                
-              ),
-            )),
+                          )),
+                    ),
+                  ),
+                )),
             Expanded(
                 flex: 1,
                 child: Padding(
@@ -457,7 +508,7 @@ class _WRbodyState extends State<WRbody> {
                         ),
                         /////////////파일매니저
                         //dll test
-                        DataMonitorTest(),
+                        // DataMonitorTest(),
                         //dll test
                         /////////////레시피버튼
 
@@ -511,7 +562,8 @@ class _WRbodyState extends State<WRbody> {
                                   indent: 10,
                                   endIndent: 10,
                                 ),
-                                ExitBtn()
+                                ExitBtn(),
+                                SizedBox(height: 20)
                               ],
                             ),
                           ),
@@ -538,4 +590,12 @@ class _WRbodyState extends State<WRbody> {
           ))
     ]);
   }
+}
+
+appContainer({required double width, required Widget child}) {
+  return Container(
+      child: Center(child: child),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10), color: Colors.blueGrey[600]),
+      width: width);
 }

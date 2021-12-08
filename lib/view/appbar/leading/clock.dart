@@ -14,7 +14,6 @@ class Clock extends StatelessWidget {
         return Container(
           padding: EdgeInsets.only(
             top: 5,
-            bottom: 5,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

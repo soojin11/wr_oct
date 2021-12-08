@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wr_ui/model/const/style/pallette.dart';
+import 'package:wr_ui/view/appbar/leading/recent_recipe_name.dart';
 import 'package:wr_ui/view/chart/switch_chart.dart';
 
 import 'oes_chart.dart';
@@ -30,6 +31,7 @@ class chartTabBar extends StatelessWidget {
                 Get.find<OesController>().checkVal6.value = true;
                 Get.find<OesController>().checkVal7.value = true;
                 Get.find<OesController>().checkVal8.value = true;
+                Get.find<ChartName>().chartName.value = 'ALL';
               },
               child: Container(
                 decoration: BoxDecoration(
