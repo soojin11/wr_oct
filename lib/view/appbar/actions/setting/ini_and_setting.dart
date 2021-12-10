@@ -9,181 +9,184 @@ import 'package:wr_ui/main.dart';
 import 'dart:async';
 import 'dart:io';
 import 'package:wr_ui/model/const/style/pallette.dart';
+import 'package:wr_ui/model/const/style/text.dart';
 import 'package:wr_ui/view/appbar/actions/setting/setting_menu_final.dart';
+import 'package:wr_ui/view/appbar/leading/run_error_status_mark.dart';
 import 'package:wr_ui/view/right_side_menu/ini_creator.dart';
 import 'package:wr_ui/view/right_side_menu/log_screen.dart';
+import 'package:wr_ui/view/right_side_menu/save_ini.dart';
 
-class DialogStorageCtrl extends GetxController {
-  static DialogStorageCtrl get to => Get.find();
-  RxString OES_Simulation = '1'.obs;
-  RxString OES_Count = '0'.obs;
-  RxBool bOESConnect = false.obs;
-  RxInt VI_Simulation = 0.obs;
-  RxInt VI_Count = 0.obs;
-  RxBool bVIConnect = false.obs;
-  RxString DataPath = './datafiles/'.obs;
-  RxString SaveFromStartSignal = '1'.obs;
-  RxString measureStartAtProgStart = '1'.obs;
-  // RxString ExposureTime = '100'.obs;
-  // RxString DelayTime = '200'.obs;
-  RxString a = '0'.obs;
-  RxString b = '2'.obs;
-  // RxString Series_Color_001 = 'red'.obs;
-  // RxString Series_Color_002 = 'blue'.obs;
-  // RxString Series_Color_003 = 'grey'.obs;
-  // RxString Series_Color_004 = 'orange'.obs;
-  // RxString Series_Color_005 = 'green'.obs;
-  // RxString Series_Color_006 = 'bluegrey'.obs;
-  // RxString Series_Color_007 = 'pink'.obs;
-  // RxString Series_Color_008 = 'purple'.obs;
-  ////////////
-  RxInt seriesColor = 0.obs;
-  ////////////
-  // Rx<TextEditingController> _textField1 = new TextEditingController().obs;
-  // Rx<TextEditingController> _textField2 = new TextEditingController().obs;
-  // ///////////////밑에는 oes chart setting
-  // Rx<TextEditingController> _textField3 = new TextEditingController().obs;
-  // Rx<TextEditingController> _textField4 = new TextEditingController().obs;
-  // Rx<TextEditingController> _textField5 = new TextEditingController().obs;
-  // Rx<TextEditingController> _textField6 = new TextEditingController().obs;
-  // Rx<TextEditingController> _textField7 = new TextEditingController().obs;
-  // Rx<TextEditingController> _textField8 = new TextEditingController().obs;
-  // Rx<TextEditingController> _textField9 = new TextEditingController().obs;
-  // Rx<TextEditingController> _textField10 = new TextEditingController().obs;
+// class DialogStorageCtrl extends GetxController {
+//   static DialogStorageCtrl get to => Get.find();
+//   RxString OES_Simulation = '1'.obs;
+//   RxString OES_Count = '0'.obs;
+//   RxBool bOESConnect = false.obs;
+//   RxInt VI_Simulation = 0.obs;
+//   RxInt VI_Count = 0.obs;
+//   RxBool bVIConnect = false.obs;
+//   RxString DataPath = './datafiles/'.obs;
+//   RxString SaveFromStartSignal = '1'.obs;
+//   RxString measureStartAtProgStart = '1'.obs;
+//   // RxString ExposureTime = '100'.obs;
+//   // RxString DelayTime = '200'.obs;
+//   RxString a = '0'.obs;
+//   RxString b = '2'.obs;
+//   // RxString Series_Color_001 = 'red'.obs;
+//   // RxString Series_Color_002 = 'blue'.obs;
+//   // RxString Series_Color_003 = 'grey'.obs;
+//   // RxString Series_Color_004 = 'orange'.obs;
+//   // RxString Series_Color_005 = 'green'.obs;
+//   // RxString Series_Color_006 = 'bluegrey'.obs;
+//   // RxString Series_Color_007 = 'pink'.obs;
+//   // RxString Series_Color_008 = 'purple'.obs;
+//   ////////////
+//   RxInt seriesColor = 0.obs;
+////////////
+// Rx<TextEditingController> _textField1 = new TextEditingController().obs;
+// Rx<TextEditingController> _textField2 = new TextEditingController().obs;
+// ///////////////밑에는 oes chart setting
+// Rx<TextEditingController> _textField3 = new TextEditingController().obs;
+// Rx<TextEditingController> _textField4 = new TextEditingController().obs;
+// Rx<TextEditingController> _textField5 = new TextEditingController().obs;
+// Rx<TextEditingController> _textField6 = new TextEditingController().obs;
+// Rx<TextEditingController> _textField7 = new TextEditingController().obs;
+// Rx<TextEditingController> _textField8 = new TextEditingController().obs;
+// Rx<TextEditingController> _textField9 = new TextEditingController().obs;
+// Rx<TextEditingController> _textField10 = new TextEditingController().obs;
 
-  Future get _localPath async {
-    final directory = await getApplicationDocumentsDirectory();
-    print('파일이있는 경로=>${directory.path}');
-    return directory.path;
-  }
+//   Future get _localPath async {
+//     final directory = await getApplicationDocumentsDirectory();
+//     print('파일이있는 경로=>${directory.path}');
+//     return directory.path;
+//   }
 
-  Future get _localFile async {
-    final path = await _localPath;
-    return File('$path/FreqAI.ini');
-  }
+//   Future get _localFile async {
+//     final path = await _localPath;
+//     return File('$path/FreqAI.ini');
+//   }
 
-  Future readFile() async {
-    try {
-      final file = await _localFile;
+//   Future readFile() async {
+//     try {
+//       final file = await _localFile;
 
-      String content = await file.readAsString();
-      print('파일을 읽음$content');
-      return content;
-    } catch (e) {
-      print('파읽을 못읽어옴 : $e');
-      // writeFile(String content);
-      return '';
-    }
-  }
+//       String content = await file.readAsString();
+//       print('파일을 읽음$content');
+//       return content;
+//     } catch (e) {
+//       print('파읽을 못읽어옴 : $e');
+//       // writeFile(String content);
+//       return '';
+//     }
+//   }
 
-  Future writeFile(String content) async {
-    final file = await _localFile;
+//   Future writeFile(String content) async {
+//     final file = await _localFile;
 
-    return file.writeAsString('$content');
-  }
+//     return file.writeAsString('$content');
+//   }
 
-  Future cleanFile() async {
-    final file = await _localFile;
-    return file.writeAsString('');
-  }
+//   Future cleanFile() async {
+//     final file = await _localFile;
+//     return file.writeAsString('');
+//   }
 
-  Future _writeStringToTextFile(
-      String ExposureTime,
-      String DelayTime,
-      String Series_Color_001,
-      String Series_Color_002,
-      String Series_Color_003,
-      String Series_Color_004,
-      String Series_Color_005,
-      String Series_Color_006,
-      String Series_Color_007,
-      String Series_Color_008) async {
-    Config c = Config();
-    /////////////////
-    c.defaults()['OES_Simulation'] = '1';
-    c.defaults()['OES_Count'] = '8';
-    c.defaults()['bOESConnect'] = 'false';
-    c.defaults()['VI_Simulation'] = '1';
-    c.defaults()['VI_Count'] = '1';
-    c.defaults()['bVIConnect'] = 'true';
-    c.defaults()['DataPath'] = './datafiles/';
-    c.defaults()['SaveFromStartSignal'] = '1';
-    c.defaults()['measureStartAtProgStart'] = '1';
-    /////////////
-    c.addSection('OES_Setting');
-    c.set('OES_Setting', 'ExposureTime', ExposureTime);
-    c.set('OES_Setting', 'DelayTime', DelayTime);
-    c.addSection('VI_Setting');
-    c.set('VI_Setting', 'a', '0');
-    c.set('VI_Setting', 'b', '0');
-    c.addSection('OES_CHART_SETTING');
-    c.set(
-        'OES_CHART_SETTING',
-        'Series_Color_001',
-        Get.find<iniControllerWithReactive>()
-            .Series_Color_001
-            .value
-            .toString());
-    c.set(
-        'OES_CHART_SETTING',
-        'Series_Color_002',
-        Get.find<iniControllerWithReactive>()
-            .Series_Color_002
-            .value
-            .toString());
-    c.set(
-        'OES_CHART_SETTING',
-        'Series_Color_003',
-        Get.find<iniControllerWithReactive>()
-            .Series_Color_003
-            .value
-            .toString());
-    c.set(
-        'OES_CHART_SETTING',
-        'Series_Color_004',
-        Get.find<iniControllerWithReactive>()
-            .Series_Color_004
-            .value
-            .toString());
-    c.set(
-        'OES_CHART_SETTING',
-        'Series_Color_005',
-        Get.find<iniControllerWithReactive>()
-            .Series_Color_005
-            .value
-            .toString());
-    c.set(
-        'OES_CHART_SETTING',
-        'Series_Color_006',
-        Get.find<iniControllerWithReactive>()
-            .Series_Color_006
-            .value
-            .toString());
-    c.set(
-        'OES_CHART_SETTING',
-        'Series_Color_007',
-        Get.find<iniControllerWithReactive>()
-            .Series_Color_007
-            .value
-            .toString());
-    c.set(
-        'OES_CHART_SETTING',
-        'Series_Color_008',
-        Get.find<iniControllerWithReactive>()
-            .Series_Color_008
-            .value
-            .toString());
-    Config config = c;
-    print('컨피그 => ${config.toString()}');
+//   Future _writeStringToTextFile(
+//       String ExposureTime,
+//       String DelayTime,
+//       String Series_Color_001,
+//       String Series_Color_002,
+//       String Series_Color_003,
+//       String Series_Color_004,
+//       String Series_Color_005,
+//       String Series_Color_006,
+//       String Series_Color_007,
+//       String Series_Color_008) async {
+//     Config c = Config();
+//     /////////////////
+//     c.defaults()['OES_Simulation'] = '1';
+//     c.defaults()['OES_Count'] = '8';
+//     c.defaults()['bOESConnect'] = 'false';
+//     c.defaults()['VI_Simulation'] = '1';
+//     c.defaults()['VI_Count'] = '1';
+//     c.defaults()['bVIConnect'] = 'true';
+//     c.defaults()['DataPath'] = './datafiles/';
+//     c.defaults()['SaveFromStartSignal'] = '1';
+//     c.defaults()['measureStartAtProgStart'] = '1';
+//     /////////////
+//     c.addSection('OES_Setting');
+//     c.set('OES_Setting', 'ExposureTime', ExposureTime);
+//     c.set('OES_Setting', 'DelayTime', DelayTime);
+//     c.addSection('VI_Setting');
+//     c.set('VI_Setting', 'a', '0');
+//     c.set('VI_Setting', 'b', '0');
+//     c.addSection('OES_CHART_SETTING');
+//     c.set(
+//         'OES_CHART_SETTING',
+//         'Series_Color_001',
+//         Get.find<iniControllerWithReactive>()
+//             .Series_Color_001
+//             .value
+//             .toString());
+//     c.set(
+//         'OES_CHART_SETTING',
+//         'Series_Color_002',
+//         Get.find<iniControllerWithReactive>()
+//             .Series_Color_002
+//             .value
+//             .toString());
+//     c.set(
+//         'OES_CHART_SETTING',
+//         'Series_Color_003',
+//         Get.find<iniControllerWithReactive>()
+//             .Series_Color_003
+//             .value
+//             .toString());
+//     c.set(
+//         'OES_CHART_SETTING',
+//         'Series_Color_004',
+//         Get.find<iniControllerWithReactive>()
+//             .Series_Color_004
+//             .value
+//             .toString());
+//     c.set(
+//         'OES_CHART_SETTING',
+//         'Series_Color_005',
+//         Get.find<iniControllerWithReactive>()
+//             .Series_Color_005
+//             .value
+//             .toString());
+//     c.set(
+//         'OES_CHART_SETTING',
+//         'Series_Color_006',
+//         Get.find<iniControllerWithReactive>()
+//             .Series_Color_006
+//             .value
+//             .toString());
+//     c.set(
+//         'OES_CHART_SETTING',
+//         'Series_Color_007',
+//         Get.find<iniControllerWithReactive>()
+//             .Series_Color_007
+//             .value
+//             .toString());
+//     c.set(
+//         'OES_CHART_SETTING',
+//         'Series_Color_008',
+//         Get.find<iniControllerWithReactive>()
+//             .Series_Color_008
+//             .value
+//             .toString());
+//     Config config = c;
+//     print('컨피그 => ${config.toString()}');
 
-    return Get.find<DialogStorageCtrl>().writeFile(
-      config.toString(),
-    );
-  }
-}
+//     return Get.find<DialogStorageCtrl>().writeFile(
+//       config.toString(),
+//     );
+//   }
+// }
 
 //////
-Color? pickedColor1;
+// Color? pickedColor1;
 
 //////
 class SetBtn extends StatefulWidget {
@@ -195,20 +198,19 @@ class _SetBtnState extends State<SetBtn> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: TextButton.icon(
-        onPressed: () {
-          _showDialog(context);
-        },
-        icon: Icon(
-          Icons.settings,
-          color: wrColors.white,
-        ),
-        label: Text(
-          'settings',
-          style: TextStyle(color: wrColors.white),
-        ),
-      ),
-    );
+        child: Obx(() => IgnorePointer(
+              ignoring: Get.find<runErrorStatusController>().setInactive.value,
+              child: TextButton.icon(
+                onPressed: () {
+                  _showDialog(context);
+                },
+                icon: Icon(
+                  Icons.settings,
+                  color: wrColors.white,
+                ),
+                label: Text('settings', style: WrText.WrLeadingFont),
+              ),
+            )));
   }
 }
 
@@ -253,7 +255,7 @@ Future<void> _showDialog(context) async {
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Form(
-                                  key: Get.find<SettingController>().key,
+                                  key: Get.find<iniController>().key,
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -265,95 +267,98 @@ Future<void> _showDialog(context) async {
                                           hintText: 'milliseconds',
                                         ),
                                         onSaved: (v) {
-                                          Get.find<SettingController>()
+                                          Get.find<iniController>()
                                               .exposureTime
                                               .value = v.toString();
                                           print(
                                               'Exposure time has been changed to $v');
                                         },
                                       ),
-                                      SizedBox(
-                                        height: 30,
-                                      ),
-                                      TextFormField(
-                                        initialValue: '100',
-                                        decoration: InputDecoration(
-                                          labelText: 'Delay Time',
-                                          hintText: 'milliseconds',
-                                        ),
-                                        onSaved: (v) {
-                                          Get.find<SettingController>()
-                                              .delayTime
-                                              .value = v.toString();
-                                          print(
-                                              'Delay time has been changed to $v');
-                                        },
-                                      ),
-                                      SizedBox(
-                                        height: 30,
-                                      ),
-                                      TextFormField(
-                                        initialValue: '100',
-                                        decoration: InputDecoration(
-                                          labelText: 'Integration Time',
-                                          hintText: 'milliseconds',
-                                        ),
-                                        onSaved: (v) {
-                                          Get.find<iniControllerWithReactive>()
-                                              .IntegrationTime
-                                              .value = v.toString();
-                                          Get.find<SettingController>()
-                                              .integrationTime
-                                              .value = Get.find<
-                                                  iniControllerWithReactive>()
-                                              .IntegrationTime
-                                              .value;
-                                          var integrationTimetoInt = int.parse(
-                                              Get.find<SettingController>()
-                                                  .integrationTime
-                                                  .value);
-                                          assert(integrationTimetoInt is int);
-                                          setIntegrationTime(
-                                              0, integrationTimetoInt - 1);
-                                          //////////////
 
-                                          print(
-                                              'Integration time has been changed to $v');
-                                        },
-                                      ),
+                                      /////delay time 필요 없어져서 지움
+                                      // SizedBox(
+                                      //   height: 30,
+                                      // ),
+                                      // TextFormField(
+                                      //   initialValue: '100',
+                                      //   decoration: InputDecoration(
+                                      //     labelText: 'Delay Time',
+                                      //     hintText: 'milliseconds',
+                                      //   ),
+                                      //   onSaved: (v) {
+                                      //     Get.find<SettingController>()
+                                      //         .delayTime
+                                      //         .value = v.toString();
+                                      //     print(
+                                      //         'Delay time has been changed to $v');
+                                      //   },
+                                      // ),
+
                                       SizedBox(
                                         height: 30,
                                       ),
-                                      TextFormField(
-                                        initialValue:
-                                            Get.find<SettingController>()
-                                                .mosChannel
-                                                .value
-                                                .toString(),
-                                        decoration: InputDecoration(
-                                          labelText: 'MOS Channel',
-                                          hintText: '0~7',
-                                        ),
-                                        onSaved: (v) {
-                                          Get.find<iniControllerWithReactive>()
-                                              .MOSChannel
-                                              .value = v.toString();
-                                          Get.find<SettingController>()
-                                              .mosChannel
-                                              .value = Get.find<
-                                                  iniControllerWithReactive>()
-                                              .MOSChannel
-                                              .value;
-                                          var mosChanneltoInt = int.parse(
-                                              Get.find<SettingController>()
-                                                  .mosChannel
-                                                  .value);
-                                          assert(mosChanneltoInt is int);
-                                          mpmSetChannel(mosChanneltoInt);
-                                          print(
-                                              'mosChannel has been changed to $v');
-                                        },
-                                      ),
+                                      // TextFormField(
+                                      //   initialValue: '100',
+                                      //   decoration: InputDecoration(
+                                      //     labelText: 'Integration Time',
+                                      //     hintText: 'milliseconds',
+                                      //   ),
+                                      //   onSaved: (v) {
+                                      //     Get.find<iniControllerWithReactive>()
+                                      //         .IntegrationTime
+                                      //         .value = v.toString();
+                                      //     Get.find<SettingController>()
+                                      //         .integrationTime
+                                      //         .value = Get.find<
+                                      //             iniControllerWithReactive>()
+                                      //         .IntegrationTime
+                                      //         .value;
+                                      //     var integrationTimetoInt = int.parse(
+                                      //         Get.find<SettingController>()
+                                      //             .integrationTime
+                                      //             .value);
+                                      //     assert(integrationTimetoInt is int);
+                                      //     setIntegrationTime(
+                                      //         0, integrationTimetoInt - 1);
+                                      //     //////////////
+
+                                      //     print(
+                                      //         'Integration time has been changed to $v');
+                                      //   },
+                                      // ),
+                                      // SizedBox(
+                                      //   height: 30,
+                                      // ),
+                                      // TextFormField(
+                                      //   initialValue:
+                                      //       Get.find<SettingController>()
+                                      //           .mosChannel
+                                      //           .value
+                                      //           .toString(),
+                                      //   decoration: InputDecoration(
+                                      //     labelText: 'MOS Channel',
+                                      //     hintText: '0~7',
+                                      //   ),
+                                      //   onSaved: (v) {
+                                      //     Get.find<iniControllerWithReactive>()
+                                      //         .MOSChannel
+                                      //         .value = v.toString();
+                                      //     Get.find<SettingController>()
+                                      //         .mosChannel
+                                      //         .value = Get.find<
+                                      //             iniControllerWithReactive>()
+                                      //         .MOSChannel
+                                      //         .value;
+                                      //     var mosChanneltoInt = int.parse(
+                                      //         Get.find<SettingController>()
+                                      //             .mosChannel
+                                      //             .value);
+                                      //     assert(mosChanneltoInt is int);
+                                      //     mpmSetChannel(mosChanneltoInt);
+                                      //     print(
+                                      //         'mosChannel has been changed to $v');
+                                      //   },
+                                      // ),
                                       SizedBox(
                                         height: 50,
                                       ),
@@ -380,8 +385,7 @@ Future<void> _showDialog(context) async {
                                             onColorChange: (Color color) {
                                               print('series color 1 hexcode=>' +
                                                   '${color}');
-                                              Get.find<
-                                                      iniControllerWithReactive>()
+                                              Get.find<iniController>()
                                                   .Series_Color_001
                                                   .value = color;
                                               // setState(() {
@@ -427,8 +431,7 @@ Future<void> _showDialog(context) async {
                                               // Handle color changes
                                               print('series color 2 hexcode=>' +
                                                   '$color');
-                                              Get.find<
-                                                      iniControllerWithReactive>()
+                                              Get.find<iniController>()
                                                   .Series_Color_002
                                                   .value = color;
                                             },
@@ -466,8 +469,7 @@ Future<void> _showDialog(context) async {
                                               // Handle color changes
                                               print('series color 3 hexcode=>' +
                                                   '$color');
-                                              Get.find<
-                                                      iniControllerWithReactive>()
+                                              Get.find<iniController>()
                                                   .Series_Color_003
                                                   .value = color;
                                             },
@@ -505,8 +507,7 @@ Future<void> _showDialog(context) async {
                                               // Handle color changes
                                               print('series color 4 hexcode=>' +
                                                   '$color');
-                                              Get.find<
-                                                      iniControllerWithReactive>()
+                                              Get.find<iniController>()
                                                   .Series_Color_004
                                                   .value = color;
                                             },
@@ -544,8 +545,7 @@ Future<void> _showDialog(context) async {
                                               // Handle color changes
                                               print('series color 5 hexcode=>' +
                                                   '$color');
-                                              Get.find<
-                                                      iniControllerWithReactive>()
+                                              Get.find<iniController>()
                                                   .Series_Color_005
                                                   .value = color;
                                             },
@@ -583,8 +583,7 @@ Future<void> _showDialog(context) async {
                                               // Handle color changes
                                               print('series color 6 hexcode=>' +
                                                   '$color');
-                                              Get.find<
-                                                      iniControllerWithReactive>()
+                                              Get.find<iniController>()
                                                   .Series_Color_006
                                                   .value = color;
                                             },
@@ -622,8 +621,7 @@ Future<void> _showDialog(context) async {
                                               // Handle color changes
                                               print('series color 7 hexcode=>' +
                                                   '$color');
-                                              Get.find<
-                                                      iniControllerWithReactive>()
+                                              Get.find<iniController>()
                                                   .Series_Color_007
                                                   .value = color;
                                             },
@@ -661,8 +659,7 @@ Future<void> _showDialog(context) async {
                                               // Handle color changes
                                               print('series color 8 hexcode=>' +
                                                   '$color');
-                                              Get.find<
-                                                      iniControllerWithReactive>()
+                                              Get.find<iniController>()
                                                   .Series_Color_008
                                                   .value = color;
                                             },
@@ -691,10 +688,7 @@ Future<void> _showDialog(context) async {
                           ),
                           child: Text('save'),
                           onPressed: () {
-                            Get.find<SettingController>()
-                                .key
-                                .currentState!
-                                .save();
+                            Get.find<iniController>().key.currentState!.save();
                             Get.find<LogListController>().cConfigSave();
                             // if (Get.find<DialogStorageCtrl>()
                             //     ._textField1

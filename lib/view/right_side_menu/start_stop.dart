@@ -11,9 +11,10 @@ import 'package:wr_ui/ing/data%20monitor.dart';
 import 'package:wr_ui/main.dart';
 import 'package:wr_ui/view/appbar/actions/setting/setting_menu_final.dart';
 import 'package:wr_ui/view/appbar/leading/run_error_status_mark.dart';
-import 'package:wr_ui/view/chart/device_oes_chart.dart';
 import 'package:wr_ui/view/chart/oes_chart.dart';
+import 'package:wr_ui/view/chart/sim_oes_chart.dart';
 import 'package:wr_ui/view/right_side_menu/ini_creator.dart';
+import 'package:wr_ui/view/right_side_menu/save_ini.dart';
 
 import 'csv_creator.dart';
 import 'log_screen.dart';
@@ -112,50 +113,7 @@ class StartStop extends GetView<StartStopController> {
                 textStyle: TextStyle(fontSize: 16),
               ),
               onPressed: () async {
-                // Get.find<oes>()
-                //Get.find<VizController>().inactiveBtn.value = true;
-                Get.find<OesController>().bRunning.value = true;
-                print('start bRunning?? ' +
-                    ' ${Get.find<OesController>().bRunning.value}');
-                // Get.find<DataMonitorCtrl>().bRunningFunc();
-                Get.find<OesController>().inactiveBtn.value = true;
-
-                // Get.find<OesController>().timer = Timer.periodic(
-                //     Duration(milliseconds: 10000), (timer) async {
-                //   await compute(getOesData, timer);
-                // });
-                // Get.find<OesController>().timer = Timer.periodic(
-                //     Duration(milliseconds: 1000),
-                //     (timer) async => await compute( timerFunc,));
-//주현님이 알려준 compute-->클래스밖에 있어야 적용됨
-//                 Get.find<OesController>().timer = Timer.periodic(
-//                     Duration(milliseconds: 10000),
-//                     (timer) async => await compute(func, timer));
-
-//주현님이 알려준 compute-->클래스밖에 있어야 적용됨
-                // Get.find<OesController>().timer = Timer.periodic(
-                //     Duration(milliseconds: 10000), (timer) async {
-                //   print("in timer");
-                //   await compute(
-                //       Get.find<OesController>().updateDataSource, timer);
-                // });
-                // Get.find<StartStopController>().update111();
-                try {
-                  Get.find<OesController>().timer = Timer.periodic(
-                      Duration(milliseconds: 5000),
-                      //2200정도....?
-                      Get.find<OesController>().updateDataSource);
-                } on FormatException {
-                  print('format error');
-                }
-                Get.find<OesController>().oneData;
-                Get.find<runErrorStatusController>().connect.value = true;
-                Get.find<runErrorStatusController>().textmsg.value =
-                    'SIMULATION';
-                // Get.find<iniControllerWithReactive>()
-                //     .measureStartAtProgStart
-                //     .value = '0';
-                Get.find<LogListController>().clickedStart();
+                DataStartBtn();
               },
             ),
           ),
@@ -198,6 +156,8 @@ class StartStop extends GetView<StartStopController> {
                   Get.find<CsvController>().fileSave.value = false;
                   Get.find<runErrorStatusController>().connect.value = false;
                   Get.find<runErrorStatusController>().textmsg.value = 'STOP';
+                  Get.find<runErrorStatusController>().setInactive.value =
+                      false;
                   // Get.find<iniControllerWithReactive>()
                   //     .measureStartAtProgStart
                   //     .value = '';
@@ -211,3 +171,40 @@ class StartStop extends GetView<StartStopController> {
     );
   }
 }
+
+DataStartBtn() {
+  Get.find<OesController>().bRunning.value = true;
+  print('bRunning호출');
+  print('start bRunning?? ' + ' ${Get.find<OesController>().bRunning.value}');
+  Get.find<OesController>().inactiveBtn.value = true;
+  try {
+    Get.find<OesController>().timer = Timer.periodic(
+        Duration(milliseconds: 5000),
+        Get.find<OesController>().updateDataSource);
+  } on FormatException {
+    print('format error');
+  }
+  Get.find<OesController>().oneData;
+  Get.find<runErrorStatusController>().connect.value = true;
+  Get.find<runErrorStatusController>().textmsg.value = 'SIMULATION';
+  Get.find<LogListController>().clickedStart();
+  Get.find<runErrorStatusController>().setInactive.value = true;
+}
+
+
+// SimStartBtn() {
+//   Get.find<OesController>().inactiveBtn.value = true;
+//   try {
+//     Get.find<OesController>().timer = Timer.periodic(
+//         Duration(
+//             milliseconds:
+//                 int.parse(Get.find<iniController>().exposureTime.value)),
+//         Get.find<OesController>().updateDataSource);
+//   } on FormatException {
+//     print('format error');
+//   }
+//   Get.find<OesController>().oneData;
+//   Get.find<runErrorStatusController>().connect.value = true;
+//   Get.find<runErrorStatusController>().textmsg.value = 'SIMULATION';
+//   Get.find<LogListController>().clickedStart();
+// }

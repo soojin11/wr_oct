@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:ffi/ffi.dart';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -23,7 +24,7 @@ import 'package:wr_ui/view/appbar/leading/clock.dart';
 import 'package:wr_ui/view/appbar/leading/recent_recipe_name.dart';
 import 'package:wr_ui/view/appbar/leading/run_error_status_mark.dart';
 import 'package:wr_ui/view/chart/chart_tabbar.dart';
-import 'package:wr_ui/view/chart/device_oes_chart.dart';
+import 'package:wr_ui/view/chart/sim_oes_chart.dart';
 import 'package:wr_ui/view/chart/oes_chart.dart';
 import 'package:wr_ui/view/chart/pages/hover_chart/hover_func.dart';
 import 'package:wr_ui/view/chart/pages/hover_chart/hover_row.dart';
@@ -33,11 +34,9 @@ import 'package:wr_ui/view/right_side_menu/exit_btn.dart';
 import 'package:wr_ui/view/right_side_menu/ini_creator.dart';
 import 'package:wr_ui/view/right_side_menu/log_save.dart';
 import 'package:wr_ui/view/right_side_menu/log_screen.dart';
+import 'package:wr_ui/view/right_side_menu/save_ini.dart';
 import 'package:wr_ui/view/right_side_menu/start_stop.dart';
 
-//  double[] GetWavelength(int spectrometerIndex);
-
-//bool은 Int8
 final DynamicLibrary wgsFunction = DynamicLibrary.open("WGSFunction.dll");
 late int Function() ocrStart;
 late int Function(int a) getBoxcarWidth;
@@ -64,125 +63,76 @@ late int Function(int channelIndex) mpmSetChannel;
 late Pointer<Double> Function(int a) getformatSpec;
 late Pointer<Double> Function(int a) getWavelength;
 List listWavelength = [];
+bool runningSignal = false;
+//  double[] GetWavelength(int spectrometerIndex);
 
-Future<List<double>> readData(int a) async {
-  return compute(dllReadData, a);
-}
+//bool은 Int8
+// final DynamicLibrary wgsFunction = DynamicLibrary.open("WGSFunction.dll");
+// late int Function() ocrStart;
+// late int Function(int a) getBoxcarWidth;
+// late void Function(int a) testtest;
+// late void Function(int a) setmsg;
+// late void Function(int a) test;
+// late void Function() getMPM2000Component;
+// late int Function() openAllSpectrometers;
+// late int Function(int spectrometerIndex, int slot, double val)
+//     setNonlinearityCofficient;
+// late void Function() closeAll;
+// late void Function(int portName) mpmStart;
+// late int Function() mpmOpen;
+// late void Function() mpmClose;
+// late int Function(int spectrometerIndex, int integrationTime)
+//     setIntegrationTime;
+// late int Function(int spectrometerIndex, int val) setScansToAverage;
+// late int Function(int spectrometerIndex, int val) setBoxcarWidth;
+// late int Function(int spectrometerIndex, int val) setElectricDarkEnable;
+// late int Function(int spectrometerIndex, int val)
+//     setNonlinearityCorrectionEnabled;
+// late int Function(int spectrometerIndex, int val) setTriggerMode;
+// late int Function(int channelIndex) mpmSetChannel;
+// late Pointer<Double> Function(int a) getformatSpec;
+// late Pointer<Double> Function(int a) getWavelength;
+// List listWavelength = [];
 
-List<double> dllReadData(int a) {
-  Pointer<Double> fmtSpec = nullptr;
-  getformatSpec = wgsFunction
-      .lookup<NativeFunction<Pointer<Double> Function(Int32)>>(
-          'GetFormatedSpectrum')
-      .asFunction();
-  fmtSpec = getformatSpec(a);
-  List<double> rt = [];
-  for (var i = 0; i < 2048; i++) {
-    rt.add(fmtSpec[i].toDouble());
-  }
-  return rt;
-}
+// Future<List<double>> readData(int a) async {
+//   return compute(dllReadData, a);
+// }
+
+// List<double> dllReadData(int a) {
+//   Pointer<Double> fmtSpec = nullptr;
+//   getformatSpec = wgsFunction
+//       .lookup<NativeFunction<Pointer<Double> Function(Int32)>>(
+//           'GetFormatedSpectrum')
+//       .asFunction();
+//   fmtSpec = getformatSpec(a);
+//   List<double> rt = [];
+//   for (var i = 0; i < 2048; i++) {
+//     rt.add(fmtSpec[i].toDouble());
+//   }
+//   return rt;
+// }
 
 Future main() async {
-  ocrStart = wgsFunction
-      .lookup<NativeFunction<Int8 Function()>>('OCR_Start')
-      .asFunction();
-  int ocrs = ocrStart();
-  print('ocrStart??' + ' ${ocrs}');
+  oesInit();
 
-  mpmStart = wgsFunction
-      .lookup<NativeFunction<Void Function(Int32)>>('MPMStart')
-      .asFunction();
-  mpmStart(3);
-  mpmClose = wgsFunction
-      .lookup<NativeFunction<Void Function()>>('MPMClose')
-      .asFunction();
-  mpmClose();
-  mpmOpen = wgsFunction
-      .lookup<NativeFunction<Int8 Function()>>('MPMOpen')
-      .asFunction();
-  mpmOpen();
-
-  closeAll = wgsFunction
-      .lookup<NativeFunction<Void Function()>>('CloseAll')
-      .asFunction();
-  closeAll();
-  openAllSpectrometers = wgsFunction
-      .lookup<NativeFunction<Int32 Function()>>('OpenAllSpectrometers')
-      .asFunction();
-  int bb = openAllSpectrometers();
-  print('openAllSpectrometers?? ' + ' $bb');
-  setIntegrationTime = wgsFunction
-      .lookup<NativeFunction<Int32 Function(Int32, Int32)>>(
-          'SetIntegrationTime')
-      .asFunction();
-
-  int cc = setIntegrationTime(0, 100000);
-  print('setIntegrationTime?? ' + ' $cc');
-  setScansToAverage = wgsFunction
-      .lookup<NativeFunction<Int32 Function(Int32, Int32)>>('SetScansToAverage')
-      .asFunction();
-  int dd = setScansToAverage(0, 1);
-  print('setScansToAverage?? ' + ' $dd');
-  setBoxcarWidth = wgsFunction
-      .lookup<NativeFunction<Int32 Function(Int32, Int32)>>('SetBoxcarWidth')
-      .asFunction();
-  int ss = setBoxcarWidth(0, 0);
-  print('setBoxCarWidth?? ' + '$ss');
-  setElectricDarkEnable = wgsFunction
-      .lookup<NativeFunction<Int32 Function(Int32, Int32)>>(
-          'SetElectricDarkEnable')
-      .asFunction();
-  int rr = setElectricDarkEnable(0, 0);
-  print('setElectricDarkEnable?? ' + '$rr');
-  setNonlinearityCorrectionEnabled = wgsFunction
-      .lookup<NativeFunction<Int32 Function(Int32, Int32)>>(
-          'SetNonlinearityCorrectionEnabled')
-      .asFunction();
-  int ee = setNonlinearityCorrectionEnabled(0, 0);
-  print('setNonlinearityCorrectionEnabled?? ' + ' $ee');
-  setTriggerMode = wgsFunction
-      .lookup<NativeFunction<Int32 Function(Int32, Int32)>>('SetTriggerMode')
-      .asFunction();
-  int gg = setTriggerMode(0, 0);
-  print('setTriggerMode?? ' + ' $gg');
-
-  getWavelength = wgsFunction
-      .lookup<NativeFunction<Pointer<Double> Function(Int32)>>('GetWavelength')
-      .asFunction();
-  Pointer<Double> pdwaveLength = getWavelength(0);
-  for (var i = 0; i < 2048; i++) {
-    listWavelength.add(pdwaveLength[i]);
-  }
-
-  print('getWavelength?? ' + ' $getWavelength');
-
-  mpmSetChannel = wgsFunction
-      .lookup<NativeFunction<Int32 Function(Int32)>>('MPMSetChannel')
-      .asFunction();
-  int rrr = mpmSetChannel(0);
-  print('mpmsetChannel?? ' + ' $rrr');
-
-  // Pointer<Double> aa = getformatSpec(0);
-  // double ddd = aa[2];
-  // print('ddd  $ddd');
-  Get.put(deviceController());
+  Get.put(SimulationController());
   Get.put(iniControllerWithReactive());
-  Get.put(OesController());
-  Get.put(DialogStorageCtrl());
+  Get.put(OesController()); //Get.put(DialogStorageCtrl());
   Get.put(runErrorStatusController());
+  Get.put(ChartName());
   Get.put(StartStopController());
   Get.put(CsvController());
-
+  Get.put(iniController());
   Get.put(LogListController());
   Get.put(LogController());
-  Get.put(SettingController());
+  //Get.put(SettingController());
   Get.put(SettingContnet());
   Get.put(BtnHoverCtrl());
   Get.put(chooseChart());
-  Get.put(DataMonitorCtrl());
+  // Get.put(DataMonitorCtrl());
   Get.put(StartStopController());
   // Pointer<Double> getWavelength = calloc<Double>(8);
+
   runApp(MyApp());
 
   // calloc.free(aa);
@@ -201,16 +151,18 @@ Future main() async {
   // }
 //OES Check [end]
 //VI Check [begin]
-  if (Get.find<DialogStorageCtrl>().VI_Simulation.value == 1) {
-    Get.find<DialogStorageCtrl>().bVIConnect.value = true;
-    print('bVIConnect = true');
-  } else if (Get.find<DialogStorageCtrl>().VI_Count.value <= 0) {
-    Get.find<DialogStorageCtrl>().bVIConnect.value = true;
-    print('bVIConnect = true');
-  } else // vi simulation 상태가 아니고, 디바이스 카운트가 0보다 크다.
-  {
-    print(' bVIConnect = VI_Connect(); // c++ 접속 요청');
-  }
+
+  // if (Get.find<DialogStorageCtrl>().VI_Simulation.value == 1) {
+  //   Get.find<DialogStorageCtrl>().bVIConnect.value = true;
+  //   print('bVIConnect = true');
+  // } else if (Get.find<DialogStorageCtrl>().VI_Count.value <= 0) {
+  //   Get.find<DialogStorageCtrl>().bVIConnect.value = true;
+  //   print('bVIConnect = true');
+  // } else // vi simulation 상태가 아니고, 디바이스 카운트가 0보다 크다.
+  // {
+  //   print(' bVIConnect = VI_Connect(); // c++ 접속 요청');
+  // }
+
 //VI Check [end]
 // if (
 //   Get.find<DialogStorageCtrl>().OES_Simulation.value==1 && Get.find<DialogStorageCtrl>().VI_Simulation.value==1
@@ -240,6 +192,10 @@ Future main() async {
     win.title = "WR";
     win.show();
   });
+}
+
+simInit() {
+  print('시뮬레이션 실행');
 }
 
 class MyApp extends StatelessWidget {
@@ -287,13 +243,13 @@ class WRappbar extends StatelessWidget implements PreferredSizeWidget {
   }) : super(key: key);
 
   @override
-  Size get preferredSize => Size.fromHeight(90);
+  Size get preferredSize => Size.fromHeight(70);
   final themeController = Get.put(HomeController());
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 20),
+      padding: const EdgeInsets.only(top: 15),
       child: Container(
         child: AppBar(automaticallyImplyLeading: false, actions: [
           Padding(
@@ -316,45 +272,16 @@ class WRappbar extends StatelessWidget implements PreferredSizeWidget {
                       )),
                   SizedBox(width: 120),
 
-                  Container(
-                    width: 200,
-                    height: 90,
-                    decoration: BoxDecoration(
-                      border:
-                          Border.all(color: Colors.blueGrey.shade800, width: 5),
-                    ),
-                    child: Center(
-                      child: Clock(),
-                    ),
-                  ),
+                  appContainer(child: Clock(), width: 180, height: 85),
 
                   SizedBox(width: 160),
 
-                  Container(
-                    width: 200,
-                    height: 90,
-                    decoration: BoxDecoration(
-                      border:
-                          Border.all(color: Colors.blueGrey.shade800, width: 5),
-                    ),
-                    child: Center(
-                      child: RecentRecipeName(),
-                    ),
-                  ),
+                  appContainer(
+                      child: RecentRecipeName(), width: 300, height: 85),
 
                   SizedBox(width: 160),
 
-                  Container(
-                    width: 200,
-                    height: 90,
-                    decoration: BoxDecoration(
-                      border:
-                          Border.all(color: Colors.blueGrey.shade800, width: 5),
-                    ),
-                    child: Center(
-                      child: RunErrorStatus(),
-                    ),
-                  ),
+                  appContainer(child: RunErrorStatus(), width: 300, height: 85),
                   // Container(
                   //   width: 200,
                   //   height: 90,
@@ -372,16 +299,10 @@ class WRappbar extends StatelessWidget implements PreferredSizeWidget {
 
                   SizedBox(width: 160),
 
-                  Container(
-                    width: 200,
-                    height: 90,
-                    decoration: BoxDecoration(
-                      border:
-                          Border.all(color: Colors.blueGrey.shade800, width: 5),
-                    ),
-                    child: Center(
-                      child: SetBtn(),
-                    ),
+                  appContainer(
+                    child: SetBtn(),
+                    width: 180,
+                    height: 85,
                   ),
                   // SettingMenu(),
 
@@ -413,7 +334,7 @@ class WRappbar extends StatelessWidget implements PreferredSizeWidget {
   }
 }
 
-class WRbody extends StatefulWidget {
+class WRbody extends StatefulWidget with WidgetsBindingObserver {
   const WRbody({
     Key? key,
     required this.widget,
@@ -425,7 +346,14 @@ class WRbody extends StatefulWidget {
   State<WRbody> createState() => _WRbodyState();
 }
 
+////ini read / write////
 class _WRbodyState extends State<WRbody> {
+  void initState() {
+    readConfig();
+    writeConfig();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(children: [
@@ -639,6 +567,7 @@ class _WRbodyState extends State<WRbody> {
                                   indent: 10,
                                   endIndent: 10,
                                 ),
+                                SizedBox(height: 20),
                                 ExitBtn(),
                                 SizedBox(height: 20)
                               ],
@@ -667,4 +596,103 @@ class _WRbodyState extends State<WRbody> {
           ))
     ]);
   }
+}
+
+appContainer(
+    {required double width, required double height, required Widget child}) {
+  return Container(
+    child: Center(child: child),
+    decoration: BoxDecoration(
+      color: Colors.blueGrey[600],
+    ),
+    width: width,
+    height: height,
+  );
+}
+
+Future<bool> oesInit() async {
+  ocrStart = wgsFunction
+      .lookup<NativeFunction<Int8 Function()>>('OCR_Start')
+      .asFunction();
+  int ocrs = ocrStart();
+  print('ocrStart??' + ' ${ocrs}');
+
+  mpmStart = wgsFunction
+      .lookup<NativeFunction<Void Function(Int32)>>('MPMStart')
+      .asFunction();
+  mpmStart(3);
+  mpmClose = wgsFunction
+      .lookup<NativeFunction<Void Function()>>('MPMClose')
+      .asFunction();
+  mpmClose();
+  mpmOpen = wgsFunction
+      .lookup<NativeFunction<Int8 Function()>>('MPMOpen')
+      .asFunction();
+  mpmOpen();
+
+  closeAll = wgsFunction
+      .lookup<NativeFunction<Void Function()>>('CloseAll')
+      .asFunction();
+  // closeAll();
+  openAllSpectrometers = wgsFunction
+      .lookup<NativeFunction<Int32 Function()>>('OpenAllSpectrometers')
+      .asFunction();
+  int bb = openAllSpectrometers();
+  // if (bb == 1) {
+  //   Get.find<runErrorStatusController>().textmsg.value = 'RUN';
+  // }
+  print('openAllSpectrometers?? ' + ' $bb');
+  setIntegrationTime = wgsFunction
+      .lookup<NativeFunction<Int32 Function(Int32, Int32)>>(
+          'SetIntegrationTime')
+      .asFunction();
+
+  int cc = setIntegrationTime(0, 100000);
+
+  print('setIntegrationTime?? ' + ' $cc');
+  setScansToAverage = wgsFunction
+      .lookup<NativeFunction<Int32 Function(Int32, Int32)>>('SetScansToAverage')
+      .asFunction();
+  int dd = setScansToAverage(0, 1);
+  print('setScansToAverage?? ' + ' $dd');
+  setBoxcarWidth = wgsFunction
+      .lookup<NativeFunction<Int32 Function(Int32, Int32)>>('SetBoxcarWidth')
+      .asFunction();
+  int ss = setBoxcarWidth(0, 0);
+  print('setBoxCarWidth?? ' + '$ss');
+  setElectricDarkEnable = wgsFunction
+      .lookup<NativeFunction<Int32 Function(Int32, Int32)>>(
+          'SetElectricDarkEnable')
+      .asFunction();
+  int rr = setElectricDarkEnable(0, 0);
+  print('setElectricDarkEnable?? ' + '$rr');
+  setNonlinearityCorrectionEnabled = wgsFunction
+      .lookup<NativeFunction<Int32 Function(Int32, Int32)>>(
+          'SetNonlinearityCorrectionEnabled')
+      .asFunction();
+  int ee = setNonlinearityCorrectionEnabled(0, 0);
+  print('setNonlinearityCorrectionEnabled?? ' + ' $ee');
+  setTriggerMode = wgsFunction
+      .lookup<NativeFunction<Int32 Function(Int32, Int32)>>('SetTriggerMode')
+      .asFunction();
+  int gg = setTriggerMode(0, 0);
+  print('setTriggerMode?? ' + ' $gg');
+
+  getWavelength = wgsFunction
+      .lookup<NativeFunction<Pointer<Double> Function(Int32)>>('GetWavelength')
+      .asFunction();
+  Pointer<Double> pdwaveLength = getWavelength(0);
+  for (var i = 0; i < 2048; i++) {
+    listWavelength.add(pdwaveLength[i]);
+  }
+
+  print('getWavelength?? ' + ' $getWavelength');
+
+  mpmSetChannel = wgsFunction
+      .lookup<NativeFunction<Int32 Function(Int32)>>('MPMSetChannel')
+      .asFunction();
+  int rrr = mpmSetChannel(0);
+  print('mpmsetChannel?? ' + ' $rrr');
+
+  return true;
 }

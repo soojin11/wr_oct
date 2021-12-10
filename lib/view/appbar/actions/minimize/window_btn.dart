@@ -1,6 +1,9 @@
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:wr_ui/model/const/style/pallette.dart';
+import 'package:wr_ui/view/appbar/leading/run_error_status_mark.dart';
+import 'package:wr_ui/view/right_side_menu/exit_btn.dart';
 
 class WindowButtons extends StatelessWidget {
   @override
@@ -8,10 +11,21 @@ class WindowButtons extends StatelessWidget {
     return Row(
       children: [
         MinimizeWindowButton(colors: windowBtnColors),
-        MaximizeWindowButton(
-          colors: windowBtnColors,
+        // MaximizeWindowButton(
+        //   colors: windowBtnColors,
+        // ),
+        CloseWindowButton(
+          colors: closeBtnColors,
+          onPressed: () {
+            Get.find<runErrorStatusController>().connect.value
+                ?
+                /////////////////true 일 때////////////////////////
+                runningExit(context)
+                :
+                //////////////false일 때//////////////////
+                completelyExit(context);
+          },
         ),
-        CloseWindowButton(colors: closeBtnColors),
       ],
     );
   }

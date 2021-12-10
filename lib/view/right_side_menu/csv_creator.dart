@@ -18,24 +18,24 @@ class CSVButton extends GetView<CsvController> {
             ignoring: controller.inactiveBtn.value,
             child: ElevatedButton(
               onPressed: () async {
-                await controller.csvSaveInit();
-                await controller.SecondcsvSaveInit();
-                await controller.ThirdcsvSaveInit();
-                await controller.FourthcsvSaveInit();
-                await controller.FifthcsvSaveInit();
-                await controller.SixthcsvSaveInit();
-                await controller.SeventhcsvSaveInit();
-                await controller.EightcsvSaveInit();
-                controller.fileSave.value = true;
-                controller.fileSave2.value = true;
-                controller.fileSave3.value = true;
-                controller.fileSave4.value = true;
-                controller.fileSave5.value = true;
-                controller.fileSave6.value = true;
-                controller.fileSave7.value = true;
-                controller.fileSave8.value = true;
-                Get.find<LogListController>().startCsv();
-                controller.inactiveBtn.value = true;
+                // await controller.csvSaveInit();
+                // await controller.SecondcsvSaveInit();
+                // await controller.ThirdcsvSaveInit();
+                // await controller.FourthcsvSaveInit();
+                // await controller.FifthcsvSaveInit();
+                // await controller.SixthcsvSaveInit();
+                // await controller.SeventhcsvSaveInit();
+                // await controller.EightcsvSaveInit();
+                // controller.fileSave.value = true;
+                // controller.fileSave2.value = true;
+                // controller.fileSave3.value = true;
+                // controller.fileSave4.value = true;
+                // controller.fileSave5.value = true;
+                // controller.fileSave6.value = true;
+                // controller.fileSave7.value = true;
+                // controller.fileSave8.value = true;
+                // Get.find<LogListController>().startCsv();
+                // controller.inactiveBtn.value = true;
               },
               child: Container(
                 width: 200,
@@ -96,6 +96,28 @@ class CSVButton extends GetView<CsvController> {
   }
 }
 
+/////////21.12.09 수진///////////////////
+startSaveBtn() async {
+  await Get.find<CsvController>().csvSaveInit();
+  await Get.find<CsvController>().SecondcsvSaveInit();
+  await Get.find<CsvController>().ThirdcsvSaveInit();
+  await Get.find<CsvController>().FourthcsvSaveInit();
+  await Get.find<CsvController>().FifthcsvSaveInit();
+  await Get.find<CsvController>().SixthcsvSaveInit();
+  await Get.find<CsvController>().SeventhcsvSaveInit();
+  await Get.find<CsvController>().EightcsvSaveInit();
+  Get.find<CsvController>().fileSave.value = true;
+  Get.find<CsvController>().fileSave2.value = true;
+  Get.find<CsvController>().fileSave3.value = true;
+  Get.find<CsvController>().fileSave4.value = true;
+  Get.find<CsvController>().fileSave5.value = true;
+  Get.find<CsvController>().fileSave6.value = true;
+  Get.find<CsvController>().fileSave7.value = true;
+  Get.find<CsvController>().fileSave8.value = true;
+  Get.find<LogListController>().startCsv();
+  Get.find<CsvController>().inactiveBtn.value = true;
+}
+
 class CsvController extends GetxController with SingleGetTickerProviderMixin {
   late AnimationController animationCtrl =
       AnimationController(vsync: this, duration: Duration(seconds: 1))
@@ -121,7 +143,7 @@ class CsvController extends GetxController with SingleGetTickerProviderMixin {
   RxBool fileSave8 = false.obs;
 
   RxBool inactiveBtn = false.obs;
-  
+
   //RxInt fileNum = 1.obs;
   List<dynamic> initData = [
     "FileFormat:1",
@@ -150,7 +172,7 @@ class CsvController extends GetxController with SingleGetTickerProviderMixin {
       Get.find<OesController>().oneData.forEach((v) {
         firstData.add(v.y);
       });
-    }else
+    } else
       (print('OES 2번 데이터 이상함'));
 
     addFirstData.add(firstData);
@@ -166,22 +188,20 @@ class CsvController extends GetxController with SingleGetTickerProviderMixin {
     File file = File(path.value);
     List<double> rangeData1 = [];
 
-    
-      Get.find<OesController>().oneData.forEach((v) {
-        rangeData1.add(v.x);
-      });
+    Get.find<OesController>().oneData.forEach((v) {
+      rangeData1.add(v.x);
+    });
 
-      String intergrationColumn = initData.join('\n') +
-          '\n' +
-          "Time" +
-          ',' +
-          // "VIZ_1" +
-          // ',' +
-          rangeData1.join(',') +
-          '\n';
+    String intergrationColumn = initData.join('\n') +
+        '\n' +
+        "Time" +
+        ',' +
+        // "VIZ_1" +
+        // ',' +
+        rangeData1.join(',') +
+        '\n';
 
-      return file.writeAsString(intergrationColumn);
-    
+    return file.writeAsString(intergrationColumn);
   }
 
   Future<File> SecondcsvSave() async {
@@ -213,12 +233,8 @@ class CsvController extends GetxController with SingleGetTickerProviderMixin {
       rangeData.add(v.x);
     });
 
-    String intergrationColumn = initData.join('\n') +
-        '\n' +
-        "Time" +
-        ',' +
-        rangeData.join(',') +
-        '\n';
+    String intergrationColumn =
+        initData.join('\n') + '\n' + "Time" + ',' + rangeData.join(',') + '\n';
 
     return file2.writeAsString(intergrationColumn);
   }
@@ -252,15 +268,12 @@ class CsvController extends GetxController with SingleGetTickerProviderMixin {
       rangeData.add(v.x);
     });
 
-    String intergrationColumn = initData.join('\n') +
-        '\n' +
-        "Time" +
-        ',' +
-        rangeData.join(',') +
-        '\n';
+    String intergrationColumn =
+        initData.join('\n') + '\n' + "Time" + ',' + rangeData.join(',') + '\n';
 
     return file3.writeAsString(intergrationColumn);
   }
+
   Future<File> FourthcsvSave() async {
     File file4 = File(path4.value);
     List<dynamic> firstData = [];
@@ -290,15 +303,12 @@ class CsvController extends GetxController with SingleGetTickerProviderMixin {
       rangeData.add(v.x);
     });
 
-    String intergrationColumn = initData.join('\n') +
-        '\n' +
-        "Time" +
-        ',' +
-        rangeData.join(',') +
-        '\n';
+    String intergrationColumn =
+        initData.join('\n') + '\n' + "Time" + ',' + rangeData.join(',') + '\n';
 
     return file4.writeAsString(intergrationColumn);
   }
+
   Future<File> FifthcsvSave() async {
     File file5 = File(path5.value);
     List<dynamic> firstData = [];
@@ -328,15 +338,12 @@ class CsvController extends GetxController with SingleGetTickerProviderMixin {
       rangeData.add(v.x);
     });
 
-    String intergrationColumn = initData.join('\n') +
-        '\n' +
-        "Time" +
-        ',' +
-        rangeData.join(',') +
-        '\n';
+    String intergrationColumn =
+        initData.join('\n') + '\n' + "Time" + ',' + rangeData.join(',') + '\n';
 
     return file5.writeAsString(intergrationColumn);
   }
+
   Future<File> SixthcsvSave() async {
     File file6 = File(path6.value);
     List<dynamic> firstData = [];
@@ -366,15 +373,12 @@ class CsvController extends GetxController with SingleGetTickerProviderMixin {
       rangeData.add(v.x);
     });
 
-    String intergrationColumn = initData.join('\n') +
-        '\n' +
-        "Time" +
-        ',' +
-        rangeData.join(',') +
-        '\n';
+    String intergrationColumn =
+        initData.join('\n') + '\n' + "Time" + ',' + rangeData.join(',') + '\n';
 
     return file6.writeAsString(intergrationColumn);
   }
+
   Future<File> SeventhcsvSave() async {
     File file7 = File(path7.value);
     List<dynamic> firstData = [];
@@ -404,15 +408,12 @@ class CsvController extends GetxController with SingleGetTickerProviderMixin {
       rangeData.add(v.x);
     });
 
-    String intergrationColumn = initData.join('\n') +
-        '\n' +
-        "Time" +
-        ',' +
-        rangeData.join(',') +
-        '\n';
+    String intergrationColumn =
+        initData.join('\n') + '\n' + "Time" + ',' + rangeData.join(',') + '\n';
 
     return file7.writeAsString(intergrationColumn);
   }
+
   Future<File> EightcsvSave() async {
     File file8 = File(path8.value);
     List<dynamic> firstData = [];
@@ -442,14 +443,9 @@ class CsvController extends GetxController with SingleGetTickerProviderMixin {
       rangeData.add(v.x);
     });
 
-    String intergrationColumn = initData.join('\n') +
-        '\n' +
-        "Time" +
-        ',' +
-        rangeData.join(',') +
-        '\n';
+    String intergrationColumn =
+        initData.join('\n') + '\n' + "Time" + ',' + rangeData.join(',') + '\n';
 
     return file8.writeAsString(intergrationColumn);
   }
-  
 }

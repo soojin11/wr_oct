@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:wr_ui/view/appbar/leading/recent_recipe_name.dart';
 import 'package:wr_ui/view/chart/oes_chart.dart';
 import 'package:wr_ui/view/chart/pages/hover_chart/oes_series.dart';
 import 'package:wr_ui/view/right_side_menu/log_screen.dart';
@@ -50,6 +51,7 @@ class FirstHover extends GetView<BtnHoverCtrl> {
               Get.find<OesController>().checkVal6.value = false;
               Get.find<OesController>().checkVal7.value = false;
               Get.find<OesController>().checkVal8.value = false;
+              Get.find<ChartName>().chartName.value = 'OES_1';
             },
             child: AnimatedContainer(
               margin: EdgeInsets.symmetric(
@@ -122,6 +124,7 @@ class SecondHover extends GetView<BtnHoverCtrl> {
               Get.find<OesController>().checkVal6.value = false;
               Get.find<OesController>().checkVal7.value = false;
               Get.find<OesController>().checkVal8.value = false;
+              Get.find<ChartName>().chartName.value = 'OES_2';
             },
             child: AnimatedContainer(
               margin: EdgeInsets.symmetric(
@@ -178,6 +181,7 @@ class ThirdHover extends GetView<BtnHoverCtrl> {
               Get.find<OesController>().checkVal6.value = false;
               Get.find<OesController>().checkVal7.value = false;
               Get.find<OesController>().checkVal8.value = false;
+              Get.find<ChartName>().chartName.value = 'OES_3';
             },
             child: AnimatedContainer(
               margin: EdgeInsets.symmetric(
@@ -234,6 +238,7 @@ class FourthHover extends GetView<BtnHoverCtrl> {
               Get.find<OesController>().checkVal6.value = false;
               Get.find<OesController>().checkVal7.value = false;
               Get.find<OesController>().checkVal8.value = false;
+              Get.find<ChartName>().chartName.value = 'OES_4';
             },
             child: AnimatedContainer(
               margin: EdgeInsets.symmetric(
@@ -290,6 +295,7 @@ class FifthHover extends GetView<BtnHoverCtrl> {
               Get.find<OesController>().checkVal6.value = false;
               Get.find<OesController>().checkVal7.value = false;
               Get.find<OesController>().checkVal8.value = false;
+              Get.find<ChartName>().chartName.value = 'OES_5';
             },
             child: AnimatedContainer(
               margin: EdgeInsets.symmetric(
@@ -346,6 +352,7 @@ class SixthHover extends GetView<BtnHoverCtrl> {
               Get.find<OesController>().checkVal6.value = true;
               Get.find<OesController>().checkVal7.value = false;
               Get.find<OesController>().checkVal8.value = false;
+              Get.find<ChartName>().chartName.value = 'OES_6';
             },
             child: AnimatedContainer(
               margin: EdgeInsets.symmetric(
@@ -402,6 +409,7 @@ class SeventhHover extends GetView<BtnHoverCtrl> {
               Get.find<OesController>().checkVal6.value = false;
               Get.find<OesController>().checkVal7.value = true;
               Get.find<OesController>().checkVal8.value = false;
+              Get.find<ChartName>().chartName.value = 'OES_7';
             },
             child: AnimatedContainer(
               margin: EdgeInsets.symmetric(
@@ -458,6 +466,7 @@ class EightHover extends GetView<BtnHoverCtrl> {
               Get.find<OesController>().checkVal6.value = false;
               Get.find<OesController>().checkVal7.value = false;
               Get.find<OesController>().checkVal8.value = true;
+              Get.find<ChartName>().chartName.value = 'OES_8';
             },
             child: AnimatedContainer(
               margin: EdgeInsets.symmetric(

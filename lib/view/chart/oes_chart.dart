@@ -7,9 +7,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wr_ui/main.dart';
+import 'package:wr_ui/view/appbar/leading/run_error_status_mark.dart';
 import 'package:wr_ui/view/right_side_menu/csv_creator.dart';
 import 'package:wr_ui/view/right_side_menu/ini_creator.dart';
 import 'package:wr_ui/view/right_side_menu/log_screen.dart';
+import 'package:wr_ui/view/right_side_menu/save_ini.dart';
 
 /////////////밑에 랜덤데이터 있음
 class OesController extends GetxController {
@@ -39,31 +41,20 @@ class OesController extends GetxController {
     super.onInit();
   }
 
-  double setRandom() {
-    double yValue = math.Random().nextInt(50).toDouble();
-    //여기
-    return yValue;
-  }
-
   Future<void> updateDataSource(Timer timer) async {
     print("in compute");
-    //채널 위치이동 1->3->5->7->8->6->4->2->1->3...(ini에 고정)
-    // if (false == Get.find<OesController>().bRunning.value) {
-    //   //if문에서 비교할때는 const를 앞에
-    //   return updateDataSource(timer);
-    // }
+
+    // Get.find<runErrorStatusController>().textmsg.value = 'RUN';
     var channelNuminINI =
         Get.find<iniControllerWithReactive>().channelFlow.value;
-    // var aaa = int.parse(channelNuminINI[6]);
-    // var aaaaaaaaaa = int.parse(channelNuminINI[7]);
-    // print('channelNuminINI : $channelNuminINI');
-    // print('channelNuminINI 를 parse : $aaa   $aaaaaaaaaa  ');
-    // Pointer<Double> fmtSpec = nullptr;
     for (var nChCnt = 0; nChCnt < channelNuminINI.length; nChCnt++) {
-      //초기 채널 1
       print('nChCnt??  $nChCnt');
       print('${screenTime()}');
-      // await Future.delayed(Duration(milliseconds: 50));
+      //채널 넘어가는 텀
+      await Future.delayed(
+        Duration(milliseconds: 30),
+      );
+      //채널 넘어가는 텀
       //test용 ,,타이머를 몇으로 돌릴지 integration time
       //(움직이는시간+빛모으는시간)*8???
       //최대시간이 150millisecond안에는 무조건 움직인다.(두칸 300미리//인티그레이션 100->400*8=3.2초..?)
@@ -147,19 +138,6 @@ class OesController extends GetxController {
           }
           break;
       }
-
-      // for (var i = 0; i < int.parse(channelNuminINI[i]); i++) {
-      //   print('mpmSetChannel(ii) ${mpmSetChannel(ii)}');
-      //   oneData.add(FlSpot(getwveLength[i], fmtSpec[i]));
-      //   twoData.add(FlSpot(getwveLength[i], fmtSpec[i]));
-      //   threeData.add(FlSpot(getwveLength[i], fmtSpec[i]));
-      //   fourData.add(FlSpot(getwveLength[i], fmtSpec[i]));
-      //   fiveData.add(FlSpot(getwveLength[i], fmtSpec[i]));
-      //   sixData.add(FlSpot(getwveLength[i], fmtSpec[i]));
-      //   sevenData.add(FlSpot(getwveLength[i], fmtSpec[i]));
-      //   eightData.add(FlSpot(getwveLength[i], fmtSpec[i]));
-      // }
-
     }
 
     if (Get.find<CsvController>().fileSave.value)
@@ -230,53 +208,29 @@ class OesChart extends GetView<OesController> {
               controller: controller,
               lineBarsData: [
                 if (controller.checkVal1.value)
-                  lineChartBarData(
-                      controller.oneData,
-                      Get.find<iniControllerWithReactive>()
-                          .Series_Color_001
-                          .value),
+                  lineChartBarData(controller.oneData,
+                      Get.find<iniController>().Series_Color_001.value),
                 if (controller.checkVal2.value)
-                  lineChartBarData(
-                      controller.twoData,
-                      Get.find<iniControllerWithReactive>()
-                          .Series_Color_002
-                          .value),
+                  lineChartBarData(controller.twoData,
+                      Get.find<iniController>().Series_Color_002.value),
                 if (controller.checkVal3.value)
-                  lineChartBarData(
-                      controller.threeData,
-                      Get.find<iniControllerWithReactive>()
-                          .Series_Color_003
-                          .value),
+                  lineChartBarData(controller.threeData,
+                      Get.find<iniController>().Series_Color_003.value),
                 if (controller.checkVal4.value)
-                  lineChartBarData(
-                      controller.fourData,
-                      Get.find<iniControllerWithReactive>()
-                          .Series_Color_004
-                          .value),
+                  lineChartBarData(controller.fourData,
+                      Get.find<iniController>().Series_Color_004.value),
                 if (controller.checkVal5.value)
-                  lineChartBarData(
-                      controller.fiveData,
-                      Get.find<iniControllerWithReactive>()
-                          .Series_Color_005
-                          .value),
+                  lineChartBarData(controller.fiveData,
+                      Get.find<iniController>().Series_Color_005.value),
                 if (controller.checkVal6.value)
-                  lineChartBarData(
-                      controller.sixData,
-                      Get.find<iniControllerWithReactive>()
-                          .Series_Color_006
-                          .value),
+                  lineChartBarData(controller.sixData,
+                      Get.find<iniController>().Series_Color_006.value),
                 if (controller.checkVal7.value)
-                  lineChartBarData(
-                      controller.sevenData,
-                      Get.find<iniControllerWithReactive>()
-                          .Series_Color_007
-                          .value),
+                  lineChartBarData(controller.sevenData,
+                      Get.find<iniController>().Series_Color_007.value),
                 if (controller.checkVal8.value)
-                  lineChartBarData(
-                      controller.eightData,
-                      Get.find<iniControllerWithReactive>()
-                          .Series_Color_008
-                          .value),
+                  lineChartBarData(controller.eightData,
+                      Get.find<iniController>().Series_Color_008.value),
               ],
               bottomTitles: SideTitles(
                 showTitles: true,
@@ -326,10 +280,10 @@ class OesChart extends GetView<OesController> {
       SideTitles? bottomTitles}) {
     return LineChart(
       LineChartData(
-          minX: 190,
-          maxX: 760,
-          minY: 0,
-          maxY: 3000, //데이터를 몇개 넣을 것인지~~
+          minX: listWavelength[0],
+          maxX: listWavelength[2047],
+          // minY: 1800,
+          // maxY: 3000, //데이터를 몇개 넣을 것인지~~
           lineTouchData: LineTouchData(
               touchTooltipData: LineTouchTooltipData(
             fitInsideHorizontally: true,

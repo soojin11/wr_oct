@@ -12,14 +12,12 @@ class Clock extends StatelessWidget {
       stream: Stream.periodic(Duration(seconds: 1)),
       builder: (context, snapshot) {
         return Container(
+          height: 80,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                DateFormat('yyyy/MM/dd \n hh:mm:ss').format(DateTime.now()),
-                style: TextStyle(
-                  fontSize: 14,
-                ),
+                DateFormat('yyyy/MM/dd \n HH:mm:ss').format(DateTime.now()),
+                style: WrClockText.WrLeadingFont,
               ),
             ],
           ),
