@@ -1,13 +1,10 @@
-import 'dart:ffi';
+
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wr_ui/main.dart';
-import 'package:wr_ui/model/const/style/pallette.dart';
 import 'package:wr_ui/view/appbar/leading/run_error_status_mark.dart';
-import 'package:wr_ui/view/chart/oes_chart.dart';
 import 'package:wr_ui/view/right_side_menu/log_screen.dart';
-import 'package:wr_ui/view/right_side_menu/save_ini.dart';
 
 class ExitBtn extends StatelessWidget {
   const ExitBtn({Key? key}) : super(key: key);
@@ -32,28 +29,34 @@ class ExitBtn extends StatelessWidget {
       onPressed: () {
         Get.find<runErrorStatusController>().connect.value ? 
         /////////////////true 일 때////////////////////////
-        showDialog<String>(
-        context: context,
-        builder: (BuildContext context) => AlertDialog(
-          title: const Text('측정 중 입니다.'),
-          content: const Text('측정을 중지 하시겠습니까?'),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('취소'),
-              onPressed: () => Navigator.pop(context, '취소'),
-            ),
-            TextButton(
-              child: const Text('예'),
-              onPressed: () { 
-                completelyExit(context);},
-              
-            ),
-          ],
-        ),) :
+        runningExit(context) :
         //////////////false일 때//////////////////
         completelyExit(context);
     },
     );
+  }
+}
+
+
+  Future<String?> runningExit(BuildContext context) {
+    return showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: const Text('측정 중 입니다.'),
+        content: const Text('측정을 중지 하시겠습니까?'),
+        actions: <Widget>[
+          TextButton(
+            child: const Text('취소'),
+            onPressed: () => Navigator.pop(context, '취소'),
+          ),
+          TextButton(
+            child: const Text('예'),
+            onPressed: () { 
+              completelyExit(context);},
+            
+          ),
+        ],
+      ),);
   }
 
   Future<String?> completelyExit(BuildContext context) {
@@ -65,16 +68,28 @@ class ExitBtn extends StatelessWidget {
         actions: <Widget>[
           TextButton(
             child: const Text('취소'),
-            onPressed: () => Navigator.pop(context, '취소'),
+            onPressed: () => Get.offAll(Home(), transition: Transition.noTransition,)
           ),
           TextButton(
             child: const Text('예'),
-            onPressed: () {}
+            onPressed: () async{
+              Get.find<LogListController>().cExit();
+
+               showDialog(
+                      context: context,
+                      builder: (context) {
+                        Future.delayed(Duration(seconds: 1), () {
+                          exit(0);
+                        });
+                        return AlertDialog(
+                          title: Text('종료됩니다.'),
+                        );
+                      });
+            }
           ),
         ],
       ),);
   }
-}
 
 // import 'dart:ffi';
 // import 'dart:io';

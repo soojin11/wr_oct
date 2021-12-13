@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:wr_ui/view/chart/switch_chart.dart';
+import 'package:wr_ui/view/right_side_menu/save_ini.dart';
 import 'log_save.dart';
 
 class LogListController extends GetxController {
-  RxList logData = RxList.empty();
+  RxList logData = ['${screenTime()} Start program'].obs;
   //RxBool rederror = false.obs;
   String event = '[Event Trigger]';
   String btnPress = 'button is pressed';
@@ -16,7 +17,6 @@ class LogListController extends GetxController {
 
   @override
   void onInit() {
-    //ever(logData, (_) => logData.add('클릭');
     super.onInit();
   }
 
@@ -24,6 +24,13 @@ class LogListController extends GetxController {
   void onClose() {
     LogListController;
     super.onClose();
+  }
+
+  void programStart() async {
+    saveLog();
+    Get.find<LogController>()
+        .loglist
+        .add('${logfileTime()} Start program' + '\n');
   }
 
   void clickedStop() async {
@@ -52,21 +59,30 @@ class LogListController extends GetxController {
 
   void stopCsv() async {
     saveLog();
-    Get.find<LogController>().logSave();
-
     logData.add('${screenTime()} Save stop $btnPress');
     Get.find<LogController>()
         .loglist
         .add('${logfileTime()} [Event Trigger] Save stop $btnPress' + '\n');
   }
 
+
+  void settingBtn() async{
+    saveLog();
+    logData.add('${screenTime()} Setting $btnPress');
+    Get.find<LogController>().loglist.add('${logfileTime()} $event Setting $btnPress' + '\n');
+  }
+
   void cConfigSave() async {
     saveLog();
+    logData.add(
+        '${screenLogTime} Exposure time has been changed to ${Get.find<iniController>().exposureTime.value}');
+    Get.find<LogController>().loglist.add(
+        '${logfileTime} Exposure time has been changed to ${Get.find<iniController>().exposureTime.value}' +
+            '\n');
     logData.add('${screenTime()} Save Config');
     Get.find<LogController>()
         .loglist
         .add('${logfileTime()} [Event Trigger] Save setting $btnPress' + '\n');
-    //여기 값이 어떻게 바뀌었는지도 넣는게 좋은가?
   }
 
   void cModeChage() async {
@@ -79,9 +95,7 @@ class LogListController extends GetxController {
 
   void cExit() async {
     saveLog();
-    Get.find<LogController>()
-        .loglist
-        .add('${logfileTime()} Exit $btnPress' + '\n');
+    Get.find<LogController>().loglist.add('${logfileTime()} Exit' + '\n');
   }
 
   void clickedHover() async {
@@ -91,15 +105,17 @@ class LogListController extends GetxController {
     logData.add('${screenLogTime} $select');
     Get.find<LogController>()
         .loglist
-        .add('${logTime} [Event Trigger] $select' + '\n');
+        .add('${logfileTime} $event $select' + '\n');
   }
-}
+  // void saveTime() async {
+
+  // }
+} 
 
 saveLog() {
   Get.find<LogController>().fileSave.value = true;
   Get.find<LogController>().logSave();
 }
-
 
 String screenTime() {
   DateTime current = DateTime.now();
@@ -128,14 +144,18 @@ class LogList extends GetView<LogListController> {
         width: 350,
         height: 395,
         child: Obx(() {
-          if (controller.logData.length < 0) {
-            return Center(child: Text('log does not exist.'));
+          if (controller.logData.length < 1) {
+            return Center(child: Text('${screenTime} Program start'));
           } else {
             return SafeArea(
               child: Scrollbar(
+                
+                //showTrackOnHover: true,
                 //isAlwaysShown: true,
                 child: SingleChildScrollView(
+                 
                   child: ListView.builder(
+                    //scrollDirection: Axis.horizontal,
                     controller: scrollCtrl,
                     addAutomaticKeepAlives: false,
                     addRepaintBoundaries: false,
@@ -156,3 +176,4 @@ class LogList extends GetView<LogListController> {
         }));
   }
 }
+

@@ -10,6 +10,9 @@ import 'dart:async';
 import 'dart:io';
 import 'package:wr_ui/model/const/style/pallette.dart';
 import 'package:wr_ui/view/appbar/actions/setting/setting_menu_final.dart';
+import 'package:wr_ui/view/appbar/leading/run_error_status_mark.dart';
+import 'package:wr_ui/view/chart/oes_chart.dart';
+import 'package:wr_ui/view/right_side_menu/csv_creator.dart';
 import 'package:wr_ui/view/right_side_menu/ini_creator.dart';
 import 'package:wr_ui/view/right_side_menu/log_screen.dart';
 import 'package:wr_ui/view/right_side_menu/save_ini.dart';
@@ -158,7 +161,10 @@ class _SetBtnState extends State<SetBtn> {
     return Container(
       child: TextButton.icon(
         onPressed: () {
-          _showDialog(context);
+          Get.find<LogListController>().settingBtn();
+          Get.find<runErrorStatusController>().connect.value
+              ? runningSet(context)
+              : _showDialog(context);
         },
         icon: Icon(
           Icons.settings,
@@ -166,7 +172,8 @@ class _SetBtnState extends State<SetBtn> {
         ),
         label: Text(
           'settings',
-          style: TextStyle(color: wrColors.white, fontSize: 20, fontWeight: FontWeight.bold),
+          style: TextStyle(
+              color: wrColors.white, fontSize: 20, fontWeight: FontWeight.bold),
         ),
       ),
     );
@@ -236,129 +243,10 @@ Future<void> _showDialog(context) async {
                                       SizedBox(
                                         height: 30,
                                       ),
-                                      // TextFormField(
-                                      //   initialValue: '100',
-                                      //   decoration: InputDecoration(
-                                      //     labelText: 'Delay Time',
-                                      //     hintText: 'milliseconds',
-                                      //   ),
-                                      //   onSaved: (v) {
-                                      //     Get.find<SettingController>()
-                                      //         .delayTime
-                                      //         .value = v.toString();
-                                      //     print(
-                                      //         'Delay time has been changed to $v');
-                                      //   },
-                                      // ),
                                       SizedBox(
                                         height: 30,
                                       ),
 
-
-                                      ////////////겹친 부분/////////////////////////
-                                      /// 이 변수들 ini_save에 iniController에 써주세요///
-                                      // TextFormField(
-                                      //   initialValue: '100',
-                                      //   decoration: InputDecoration(
-                                      //     labelText: 'Integration Time',
-                                      //     hintText: 'milliseconds',
-                                      //   ),
-                                      //   onSaved: (v) {
-                                      //     Get.find<iniControllerWithReactive>()
-                                      //         .IntegrationTime
-                                      //         .value = v.toString();
-                                      //     Get.find<SettingController>()
-                                      //         .integrationTime
-                                      //         .value = Get.find<
-                                      //             iniControllerWithReactive>()
-                                      //         .IntegrationTime
-                                      //         .value;
-                                      //     var integrationTimetoInt = int.parse(
-                                      //         Get.find<SettingController>()
-                                      //             .integrationTime
-                                      //             .value);
-                                      //     assert(integrationTimetoInt is int);
-                                      //     setIntegrationTime(
-                                      //         0, integrationTimetoInt - 1);
-                                      //     //////////////
-
-                                      //     print(
-                                      //         'Integration time has been changed to $v');
-                                      //   },
-                                      // ),
-                                      // SizedBox(
-                                      //   height: 30,
-                                      // ),
-                                      // TextFormField(
-                                      //   initialValue:
-                                      //       Get.find<SettingController>()
-                                      //           .mosChannel
-                                      //           .value
-                                      //           .toString(),
-                                      //   decoration: InputDecoration(
-                                      //     labelText: 'MOS Channel',
-                                      //     hintText: '0~7',
-                                      //   ),
-                                      //   onSaved: (v) {
-                                      //     Get.find<iniControllerWithReactive>()
-                                      //         .MOSChannel
-                                      //         .value = v.toString();
-                                      //     Get.find<SettingController>()
-                                      //         .mosChannel
-                                      //         .value = Get.find<
-                                      //             iniControllerWithReactive>()
-                                      //         .MOSChannel
-                                      //         .value;
-                                      //     var mosChanneltoInt = int.parse(
-                                      //         Get.find<SettingController>()
-                                      //             .mosChannel
-                                      //             .value);
-                                      //     assert(mosChanneltoInt is int);
-                                      //     mpmSetChannel(mosChanneltoInt);
-                                      //     print(
-                                      //         'mosChannel has been changed to $v');
-                                      //   },
-                                      // ),
-
-
-                                      //////////////////////////////////
-                                      // Padding(
-                                      //   padding: const EdgeInsets.all(8.0),
-                                      //   child: Column(
-                                      //     children: [
-                                      //       Text(
-                                      //         'Delay Time',
-                                      //         style: TextStyle(fontSize: 10),
-                                      //       ),
-                                      //       Divider(
-                                      //         indent: 400,
-                                      //         endIndent: 400,
-                                      //       ),
-                                      //     ],
-                                      //   ),
-                                      // ),
-                                      // TextField(
-                                      //   controller: Get.find<DialogStorageCtrl>()
-                                      //       ._textField2
-                                      //       .value,
-                                      // ),
-
-                                      //21.12.08 delay time 필요 없어서 뺌
-                                      // TextFormField(
-                                      //   initialValue: '100',
-                                      //   decoration: InputDecoration(
-                                      //     labelText: 'Delay Time',
-                                      //     hintText: 'milliseconds',
-                                      //   ),
-                                      //   onSaved: (v) {
-                                      //     Get.find<iniController>()
-                                      //         .delayTime
-                                      //         .value = v.toString();
-                                      //     print(
-                                      //         'Delay time has been changed to $v');
-                                      //   },
-                                      // ),
-                                                        
                                       SizedBox(
                                         height: 50,
                                       ),
@@ -385,17 +273,9 @@ Future<void> _showDialog(context) async {
                                             onColorChange: (Color color) {
                                               print('series color 1 hexcode=>' +
                                                   '${color}');
-                                                  Get.find<
-                                                      iniController>()
+                                              Get.find<iniController>()
                                                   .Series_Color_001
                                                   .value = color;
-                                              // setState(() {
-                                              //   pickedColor1 = color;
-                                              // });
-
-                                              // Get.find<DialogStorageCtrl>()
-                                              //     .Series_Color_001
-                                              //     .value = color.toString();
                                             },
                                             selectedColor: Colors.red,
                                             colors: [
@@ -432,8 +312,7 @@ Future<void> _showDialog(context) async {
                                               // Handle color changes
                                               print('series color 2 hexcode=>' +
                                                   '$color');
-                                              Get.find<
-                                                      iniController>()
+                                              Get.find<iniController>()
                                                   .Series_Color_002
                                                   .value = color;
                                             },
@@ -471,8 +350,7 @@ Future<void> _showDialog(context) async {
                                               // Handle color changes
                                               print('series color 3 hexcode=>' +
                                                   '$color');
-                                              Get.find<
-                                                      iniController>()
+                                              Get.find<iniController>()
                                                   .Series_Color_003
                                                   .value = color;
                                             },
@@ -510,8 +388,7 @@ Future<void> _showDialog(context) async {
                                               // Handle color changes
                                               print('series color 4 hexcode=>' +
                                                   '$color');
-                                              Get.find<
-                                                      iniController>()
+                                              Get.find<iniController>()
                                                   .Series_Color_004
                                                   .value = color;
                                             },
@@ -549,8 +426,7 @@ Future<void> _showDialog(context) async {
                                               // Handle color changes
                                               print('series color 5 hexcode=>' +
                                                   '$color');
-                                              Get.find<
-                                                      iniController>()
+                                              Get.find<iniController>()
                                                   .Series_Color_005
                                                   .value = color;
                                             },
@@ -588,8 +464,7 @@ Future<void> _showDialog(context) async {
                                               // Handle color changes
                                               print('series color 6 hexcode=>' +
                                                   '$color');
-                                              Get.find<
-                                                      iniController>()
+                                              Get.find<iniController>()
                                                   .Series_Color_006
                                                   .value = color;
                                             },
@@ -627,8 +502,7 @@ Future<void> _showDialog(context) async {
                                               // Handle color changes
                                               print('series color 7 hexcode=>' +
                                                   '$color');
-                                              Get.find<
-                                                      iniController>()
+                                              Get.find<iniController>()
                                                   .Series_Color_007
                                                   .value = color;
                                             },
@@ -666,8 +540,7 @@ Future<void> _showDialog(context) async {
                                               // Handle color changes
                                               print('series color 8 hexcode=>' +
                                                   '$color');
-                                              Get.find<
-                                                      iniController>()
+                                              Get.find<iniController>()
                                                   .Series_Color_008
                                                   .value = color;
                                             },
@@ -696,110 +569,9 @@ Future<void> _showDialog(context) async {
                           ),
                           child: Text('save'),
                           onPressed: () {
-                            Get.find<iniController>()
-                              .key
-                              .currentState!
-                              .save();
-                          Get.find<LogListController>().cConfigSave();
-                            // if (Get.find<DialogStorageCtrl>()
-                            //     ._textField1
-                            //     .value
-                            //     .text
-                            //     .isNotEmpty) {
-                            //   Get.find<DialogStorageCtrl>()
-                            //       ._writeStringToTextFile(
-                            //           Get.find<DialogStorageCtrl>()
-                            //               ._textField1
-                            //               .value
-                            //               .text,
-                            //           Get.find<DialogStorageCtrl>()
-                            //               ._textField2
-                            //               .value
-                            //               .text,
-                            //           Get.find<DialogStorageCtrl>()
-                            //               ._textField3
-                            //               .value
-                            //               .text,
-                            //           Get.find<DialogStorageCtrl>()
-                            //               ._textField4
-                            //               .value
-                            //               .text,
-                            //           Get.find<DialogStorageCtrl>()
-                            //               ._textField5
-                            //               .value
-                            //               .text,
-                            //           Get.find<DialogStorageCtrl>()
-                            //               ._textField6
-                            //               .value
-                            //               .text,
-                            //           Get.find<DialogStorageCtrl>()
-                            //               ._textField7
-                            //               .value
-                            //               .text,
-                            //           Get.find<DialogStorageCtrl>()
-                            //               ._textField8
-                            //               .value
-                            //               .text,
-                            //           Get.find<DialogStorageCtrl>()
-                            //               ._textField9
-                            //               .value
-                            //               .text,
-                            //           Get.find<DialogStorageCtrl>()
-                            //               ._textField10
-                            //               .value
-                            //               .text);
-                            //   //차트데이터 넣기
-                            //   Get.find<OesController>().oneColor.value =
-                            //       Get.find<iniControllerWithReactive>()
-                            //           .Series_Color_001
-                            //           .value;
-                            //   //차트데이터 넣기
-                            //   Get.find<DialogStorageCtrl>()
-                            //       ._textField1
-                            //       .value
-                            //       .text = '';
-                            //   Get.find<DialogStorageCtrl>()
-                            //       ._textField2
-                            //       .value
-                            //       .text = '';
-                            //   Get.find<DialogStorageCtrl>()
-                            //       ._textField3
-                            //       .value
-                            //       .text = '';
-                            //   Get.find<DialogStorageCtrl>()
-                            //       ._textField4
-                            //       .value
-                            //       .text = '';
-                            //   Get.find<DialogStorageCtrl>()
-                            //       ._textField5
-                            //       .value
-                            //       .text = '';
-                            //   Get.find<DialogStorageCtrl>()
-                            //       ._textField6
-                            //       .value
-                            //       .text = '';
-                            //   Get.find<DialogStorageCtrl>()
-                            //       ._textField7
-                            //       .value
-                            //       .text = '';
-                            //   Get.find<DialogStorageCtrl>()
-                            //       ._textField8
-                            //       .value
-                            //       .text = '';
-                            //   Get.find<DialogStorageCtrl>()
-                            //       ._textField9
-                            //       .value
-                            //       .text = '';
-                            //   Get.find<DialogStorageCtrl>()
-                            //       ._textField10
-                            //       .value
-                            //       .text = '';
-                            //   // _textField1.clear();
-                            //   // _textField2.clear();
-
-                            // } else {
-                            //   print('세팅창 채워요');
-                            // }
+                            Get.find<iniController>().key.currentState!.save();
+                            Get.find<LogListController>().cConfigSave();
+                           
                           },
                         ),
                         ElevatedButton(
@@ -824,18 +596,35 @@ Future<void> _showDialog(context) async {
   );
 }
 
-// String? get _errorText {
-//   final text1 = Get.find<DialogStorageCtrl>()._textField1.value.text;
-//   final text2 = Get.find<DialogStorageCtrl>()._textField2.value.text;
-//   if (text1.isEmpty && text2.isEmpty) {
-//     return 'ExposureTime을 수정해주세요.';
-//   }
-//   if (text1.isNumericOnly) {
-//     return '숫자만 입력 가능';
-//   } else {
-//     return '유효한 값';
-//   }
-//   // return null if the text is valid
-// }
-
-/////////위에가 원래있던거
+Future<String?> runningSet(BuildContext context) {
+  return showDialog<String>(
+    context: context,
+    builder: (BuildContext context) => AlertDialog(
+      title: const Text('측정 중 입니다.'),
+      content: const Text('측정을 중지 하시겠습니까?'),
+      actions: <Widget>[
+        TextButton(
+          child: const Text('취소'),
+          onPressed: () => Navigator.pop(context, '취소'),
+        ),
+        TextButton(
+          child: const Text('예'),
+          onPressed: () {
+            Get.find<OesController>().inactiveBtn.value = false;
+            Get.find<CsvController>().inactiveBtn.value = false;
+            // Get.find<VizController>().inactiveBtn.value = false;
+            // Get.find<VizController>().timer.cancel();
+            Get.find<OesController>().timer.cancel();
+            Get.find<LogListController>().clickedStop();
+            Get.find<CsvController>().fileSave.value = false;
+            Get.find<runErrorStatusController>().connect.value = false;
+            Get.find<runErrorStatusController>().textmsg.value = 'STOP';
+            Get.find<runErrorStatusController>().runColor.value =
+                Color(0xFFD12F2D);
+            Get.offAll(Home(), transition: Transition.noTransition);
+          },
+        ),
+      ],
+    ),
+  );
+}

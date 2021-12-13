@@ -1,5 +1,3 @@
-
-
 import 'dart:async';
 import 'dart:math' as math;
 import 'package:fl_chart/fl_chart.dart';
@@ -9,10 +7,9 @@ import 'package:get/get.dart';
 import 'package:wr_ui/view/right_side_menu/csv_creator.dart';
 import 'package:wr_ui/view/right_side_menu/save_ini.dart';
 
-
-
-
 class OesController extends GetxController {
+  RxList<List<FlSpot>> chartData = RxList.empty();
+
   RxList<FlSpot> oneData = RxList.empty();
   RxList<FlSpot> twoData = RxList.empty();
   RxList<FlSpot> threeData = RxList.empty();
@@ -31,9 +28,9 @@ class OesController extends GetxController {
   RxBool checkVal6 = true.obs;
   RxBool checkVal7 = true.obs;
   RxBool checkVal8 = true.obs;
-
   late Timer timer;
   RxBool bRunning = false.obs;
+
   @override
   void onInit() {
     super.onInit();
@@ -46,70 +43,115 @@ class OesController extends GetxController {
   }
 
   Future<void> updateDataSource(Timer timer) async {
-    if (oneData.isNotEmpty) {
-      oneData.clear();
-      twoData.clear();
-      threeData.clear();
-      fourData.clear();
-      fiveData.clear();
-      sixData.clear();
-      sevenData.clear();
-      eightData.clear();
+    for (var i = 0; i < Get.find<iniController>().OES_Count.value; i++) {
+      if (chartData.isNotEmpty) chartData[i].clear();
     }
-    for (double i = 190; i < 760; i++) {
-      oneData.add(FlSpot(i, setRandom()));
-      twoData.add(FlSpot(i, setRandom()));
-      threeData.add(FlSpot(i, setRandom()));
-      fourData.add(FlSpot(i, setRandom()));
-      fiveData.add(FlSpot(i, setRandom()));
-      sixData.add(FlSpot(i, setRandom()));
-      sevenData.add(FlSpot(i, setRandom()));
-      eightData.add(FlSpot(i, setRandom()));
+
+    for (var i = 0; i < Get.find<iniController>().OES_Count.value; i++) {
+      for (double xVal = 190; xVal < 760; xVal++) {
+        chartData[i].add(FlSpot(xVal, setRandom()));
+      }
     }
+
+    // if (oneData.isNotEmpty) {
+    //   oneData.clear();
+    //   twoData.clear();
+    //   threeData.clear();
+    //   fourData.clear();
+    //   fiveData.clear();
+    //   sixData.clear();
+    //   sevenData.clear();
+    //   eightData.clear();
+    // }
+    // for (double i = 190; i < 760; i++) {
+    //   oneData.add(FlSpot(i, setRandom()));
+    //   twoData.add(FlSpot(i, setRandom()));
+    //   threeData.add(FlSpot(i, setRandom()));
+    //   fourData.add(FlSpot(i, setRandom()));
+    //   fiveData.add(FlSpot(i, setRandom()));
+    //   sixData.add(FlSpot(i, setRandom()));
+    //   sevenData.add(FlSpot(i, setRandom()));
+    //   eightData.add(FlSpot(i, setRandom()));
+    // }
     if (Get.find<CsvController>().fileSave.value)
-      await Get.find<CsvController>().csvSave();
-    if (Get.find<CsvController>().fileSave2.value)
-      await Get.find<CsvController>().SecondcsvSave();
-    if (Get.find<CsvController>().fileSave3.value)
-      await Get.find<CsvController>().ThirdcsvSave();
-    if (Get.find<CsvController>().fileSave4.value)
-      await Get.find<CsvController>().FourthcsvSave();
-    if (Get.find<CsvController>().fileSave5.value)
-      await Get.find<CsvController>().FifthcsvSave();
-    if (Get.find<CsvController>().fileSave6.value)
-      await Get.find<CsvController>().SixthcsvSave();
-    if (Get.find<CsvController>().fileSave7.value)
-      await Get.find<CsvController>().SeventhcsvSave();
-    if (Get.find<CsvController>().fileSave8.value)
-      await Get.find<CsvController>().EightcsvSave();
+      //await Get.find<CsvController>().csvSave();
+      await Get.find<CsvController>().writeCsv();
+    // if (Get.find<CsvController>().fileSave2.value)
+    //   await Get.find<CsvController>().SecondcsvSave();
+    // if (Get.find<CsvController>().fileSave3.value)
+    //   await Get.find<CsvController>().ThirdcsvSave();
+    // if (Get.find<CsvController>().fileSave4.value)
+    //   await Get.find<CsvController>().FourthcsvSave();
+    // if (Get.find<CsvController>().fileSave5.value)
+    //   await Get.find<CsvController>().FifthcsvSave();
+    // if (Get.find<CsvController>().fileSave6.value)
+    //   await Get.find<CsvController>().SixthcsvSave();
+    // if (Get.find<CsvController>().fileSave7.value)
+    //   await Get.find<CsvController>().SeventhcsvSave();
+    // if (Get.find<CsvController>().fileSave8.value)
+    //   await Get.find<CsvController>().EightcsvSave();
     update();
   }
+  // Future<void> SimupdateDataSource(Timer timer) async {
+  //   if (oneData.isNotEmpty) {
+  //     oneData.clear();
+  //     twoData.clear();
+  //     threeData.clear();
+  //     fourData.clear();
+  //     fiveData.clear();
+  //     sixData.clear();
+  //     sevenData.clear();
+  //     eightData.clear();
+  //   }
+  //   for (double i = 190; i < 760; i++) {
+  //     oneData.add(FlSpot(i, setRandom()));
+  //     twoData.add(FlSpot(i, setRandom()));
+  //     threeData.add(FlSpot(i, setRandom()));
+  //     fourData.add(FlSpot(i, setRandom()));
+  //     fiveData.add(FlSpot(i, setRandom()));
+  //     sixData.add(FlSpot(i, setRandom()));
+  //     sevenData.add(FlSpot(i, setRandom()));
+  //     eightData.add(FlSpot(i, setRandom()));
+  //   }
+  //   if (Get.find<CsvController>().fileSave.value)
+  //     await Get.find<CsvController>().csvSave();
+  //   if (Get.find<CsvController>().fileSave2.value)
+  //     await Get.find<CsvController>().SecondcsvSave();
+  //   if (Get.find<CsvController>().fileSave3.value)
+  //     await Get.find<CsvController>().ThirdcsvSave();
+  //   if (Get.find<CsvController>().fileSave4.value)
+  //     await Get.find<CsvController>().FourthcsvSave();
+  //   if (Get.find<CsvController>().fileSave5.value)
+  //     await Get.find<CsvController>().FifthcsvSave();
+  //   if (Get.find<CsvController>().fileSave6.value)
+  //     await Get.find<CsvController>().SixthcsvSave();
+  //   if (Get.find<CsvController>().fileSave7.value)
+  //     await Get.find<CsvController>().SeventhcsvSave();
+  //   if (Get.find<CsvController>().fileSave8.value)
+  //     await Get.find<CsvController>().EightcsvSave();
+  //   update();
+  // }
 
-  List<FlSpot> doubleFunction(int value){
-  for(var i =190; i< value; i++){
-  oneData.add(FlSpot(i.toDouble() ,setRandom()));
-  twoData.add(FlSpot(i.toDouble(), setRandom()));
-  threeData.add(FlSpot(i.toDouble(), setRandom()));
-  fourData.add(FlSpot(i.toDouble(), setRandom()));
-  fiveData.add(FlSpot(i.toDouble(), setRandom()));
-  sixData.add(FlSpot(i.toDouble(), setRandom()));
-  sevenData.add(FlSpot(i.toDouble(), setRandom()));
-  eightData.add(FlSpot(i.toDouble(), setRandom()));
-  }
-  return doubleFunction(760);
+  // List<FlSpot> doubleFunction(int value) {
+  //   for (var i = 190; i < value; i++) {
+  //     oneData.add(FlSpot(i.toDouble(), setRandom()));
+  //     twoData.add(FlSpot(i.toDouble(), setRandom()));
+  //     threeData.add(FlSpot(i.toDouble(), setRandom()));
+  //     fourData.add(FlSpot(i.toDouble(), setRandom()));
+  //     fiveData.add(FlSpot(i.toDouble(), setRandom()));
+  //     sixData.add(FlSpot(i.toDouble(), setRandom()));
+  //     sevenData.add(FlSpot(i.toDouble(), setRandom()));
+  //     eightData.add(FlSpot(i.toDouble(), setRandom()));
+  //   }
+  //   return doubleFunction(760);
+  // }
+
+  // Future<List<FlSpot>> createDoubleFunction() async {
+  //   int value = 760;
+  //   List<FlSpot> val = await compute(doubleFunction, value);
+  //   return val;
+  // }
 }
-
-Future<List<FlSpot>> createDoubleFunction() async{
-  int value = 760;
-  List<FlSpot> val = await compute(doubleFunction, value);
-  return val;
-}
-}
-
-
-
-
-
 
 class OesChart extends GetView<OesController> {
   OesChart({Key? key}) : super(key: key);
@@ -124,55 +166,74 @@ class OesChart extends GetView<OesController> {
             padding: EdgeInsets.only(left: 20, right: 20, top: 10),
             child: LineChartForm(
               controller: controller,
-              lineBarsData: [
-                if (controller.checkVal1.value)
-                  lineChartBarData(
-                      controller.oneData,
-                      Get.find<iniController>()
-                          .Series_Color_001
-                          .value),
-                if (controller.checkVal2.value)
-                  lineChartBarData(
-                      controller.twoData,
-                      Get.find<iniController>()
-                          .Series_Color_002
-                          .value),
-                if (controller.checkVal3.value)
-                  lineChartBarData(
-                      controller.threeData,
-                      Get.find<iniController>()
-                          .Series_Color_003
-                          .value),
-                if (controller.checkVal4.value)
-                  lineChartBarData(
-                      controller.fourData,
-                      Get.find<iniController>()
-                          .Series_Color_004
-                          .value),
-                if (controller.checkVal5.value)
-                  lineChartBarData(
-                      controller.fiveData,
-                      Get.find<iniController>()
-                          .Series_Color_005
-                          .value),
-                if (controller.checkVal6.value)
-                  lineChartBarData(
-                      controller.sixData,
-                      Get.find<iniController>()
-                          .Series_Color_006
-                          .value),
-                if (controller.checkVal7.value)
-                  lineChartBarData(
-                      controller.sevenData,
-                      Get.find<iniController>()
-                          .Series_Color_007
-                          .value),
-                if (controller.checkVal8.value)
-                  lineChartBarData(
-                      controller.eightData,
-                      Get.find<iniController>()
-                          .Series_Color_008
-                          .value),
+              lineBarsData:
+                  //0일때 시뮬레이션 1일 때 찐 데이터
+                  [
+                lineChartBarData(controller.chartData[0],
+                    Get.find<iniController>().Series_Color_001.value),
+                lineChartBarData(controller.chartData[1],
+                    Get.find<iniController>().Series_Color_002.value),
+                lineChartBarData(controller.chartData[2],
+                    Get.find<iniController>().Series_Color_003.value),
+                lineChartBarData(controller.chartData[3],
+                    Get.find<iniController>().Series_Color_004.value),
+                lineChartBarData(controller.chartData[4],
+                    Get.find<iniController>().Series_Color_005.value),
+                lineChartBarData(controller.chartData[5],
+                    Get.find<iniController>().Series_Color_006.value),
+                lineChartBarData(controller.chartData[6],
+                    Get.find<iniController>().Series_Color_007.value),
+                lineChartBarData(controller.chartData[7],
+                    Get.find<iniController>().Series_Color_008.value),
+
+                // if (controller.checkVal1.value)
+                //   lineChartBarData(
+                //       controller.oneData,
+                //       Get.find<iniController>()
+                //           .Series_Color_001
+                //           .value),
+                // if (controller.checkVal2.value)
+                //   lineChartBarData(
+                //       controller.twoData,
+                //       Get.find<iniController>()
+                //           .Series_Color_002
+                //           .value),
+                // if (controller.checkVal3.value)
+                //   lineChartBarData(
+                //       controller.threeData,
+                //       Get.find<iniController>()
+                //           .Series_Color_003
+                //           .value),
+                // if (controller.checkVal4.value)
+                //   lineChartBarData(
+                //       controller.fourData,
+                //       Get.find<iniController>()
+                //           .Series_Color_004
+                //           .value),
+                // if (controller.checkVal5.value)
+                //   lineChartBarData(
+                //       controller.fiveData,
+                //       Get.find<iniController>()
+                //           .Series_Color_005
+                //           .value),
+                // if (controller.checkVal6.value)
+                //   lineChartBarData(
+                //       controller.sixData,
+                //       Get.find<iniController>()
+                //           .Series_Color_006
+                //           .value),
+                // if (controller.checkVal7.value)
+                //   lineChartBarData(
+                //       controller.sevenData,
+                //       Get.find<iniController>()
+                //           .Series_Color_007
+                //           .value),
+                // if (controller.checkVal8.value)
+                //   lineChartBarData(
+                //       controller.eightData,
+                //       Get.find<iniController>()
+                //           .Series_Color_008
+                //           .value),
               ],
               bottomTitles: SideTitles(
                 showTitles: true,

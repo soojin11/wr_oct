@@ -607,6 +607,8 @@ Future<void> _showDialog(context) async {
                               .currentState!
                               .save();
                           Get.find<LogListController>().cConfigSave();
+                          //Get.find<LogListController>().saveTime();
+                          
                             // if (Get.find<DialogStorageCtrl>()
                             //     ._textField1
                             //     .value

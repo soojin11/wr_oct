@@ -30,6 +30,45 @@ import 'package:wr_ui/view/right_side_menu/save_ini.dart';
 import 'package:wr_ui/view/right_side_menu/start_stop.dart';
 import 'dart:math' as math;
 
+import 'model/const/style/text.dart';
+
+Future main() async {
+  Get.put(OesController());
+  Get.put(DialogStorageCtrl());
+  Get.put(runErrorStatusController());
+  Get.put(StartStopController());
+  Get.put(CsvController());
+  Get.put(iniController());
+
+  Get.put(LogListController());
+  Get.put(LogController());
+  //Get.put(SettingController());
+  Get.put(SettingContnet());
+  Get.put(BtnHoverCtrl());
+  Get.put(StartStopController());
+  // Pointer<Double> getWavelength = calloc<Double>(8);
+  //Get.put(iniControllerWithReactive()).writeIni();
+
+  Get.put(chooseChart());
+  Get.put(ChartName());
+
+  Get.find<LogListController>().programStart();
+
+   for (var i = 0; i < Get.find<iniController>().OES_Count.value; i++) {
+    Get.find<OesController>().chartData.add([]);
+  }
+  runApp(MyApp());
+  doWhenWindowReady(() {
+    final win = appWindow;
+    final initialSize = Size(1920, 1080);
+    win.minSize = initialSize;
+    win.maxSize = initialSize;
+    win.size = initialSize;
+    win.alignment = Alignment.center;
+    win.title = "WR";
+    win.show();
+  });
+}
 //  double[] GetWavelength(int spectrometerIndex);
 
 //bool은 Int8
@@ -60,172 +99,6 @@ late Pointer<Double> Function(int a) getformatSpec;
 late Pointer<Double> Function(int a) getWavelength;
 List listWavelength = [];
 //bool은 Int8
-Future main() async {
-  // ocrStart = wgsFunction
-  //     .lookup<NativeFunction<Int8 Function()>>('OCR_Start')
-  //     .asFunction();
-  // int ocrs = ocrStart();
-  // print('ocrStart??' + ' ${ocrs}');
-
-  // mpmStart = wgsFunction
-  //     .lookup<NativeFunction<Void Function(Int32)>>('MPMStart')
-  //     .asFunction();
-  // mpmStart(3);
-  // mpmClose = wgsFunction
-  //     .lookup<NativeFunction<Void Function()>>('MPMClose')
-  //     .asFunction();
-  // mpmClose();
-  // mpmOpen = wgsFunction
-  //     .lookup<NativeFunction<Int8 Function()>>('MPMOpen')
-  //     .asFunction();
-  // mpmOpen();
-
-  // closeAll = wgsFunction
-  //     .lookup<NativeFunction<Void Function()>>('CloseAll')
-  //     .asFunction();
-  // closeAll();
-  // openAllSpectrometers = wgsFunction
-  //     .lookup<NativeFunction<Int32 Function()>>('OpenAllSpectrometers')
-  //     .asFunction();
-  // int bb = openAllSpectrometers();
-  // print('openAllSpectrometers?? ' + ' $bb');
-  // setIntegrationTime = wgsFunction
-  //     .lookup<NativeFunction<Int32 Function(Int32, Int32)>>(
-  //         'SetIntegrationTime')
-  //     .asFunction();
-
-  // int cc = setIntegrationTime(0, 100000);
-  // print('setIntegrationTime?? ' + ' $cc');
-  // setScansToAverage = wgsFunction
-  //     .lookup<NativeFunction<Int32 Function(Int32, Int32)>>('SetScansToAverage')
-  //     .asFunction();
-  // int dd = setScansToAverage(0, 1);
-  // print('setScansToAverage?? ' + ' $dd');
-  // setBoxcarWidth = wgsFunction
-  //     .lookup<NativeFunction<Int32 Function(Int32, Int32)>>('SetBoxcarWidth')
-  //     .asFunction();
-  // int ss = setBoxcarWidth(0, 0);
-  // print('setBoxCarWidth?? ' + '$ss');
-  // setElectricDarkEnable = wgsFunction
-  //     .lookup<NativeFunction<Int32 Function(Int32, Int32)>>(
-  //         'SetElectricDarkEnable')
-  //     .asFunction();
-  // int rr = setElectricDarkEnable(0, 0);
-  // print('setElectricDarkEnable?? ' + '$rr');
-  // setNonlinearityCorrectionEnabled = wgsFunction
-  //     .lookup<NativeFunction<Int32 Function(Int32, Int32)>>(
-  //         'SetNonlinearityCorrectionEnabled')
-  //     .asFunction();
-  // int ee = setNonlinearityCorrectionEnabled(0, 0);
-  // print('setNonlinearityCorrectionEnabled?? ' + ' $ee');
-  // setTriggerMode = wgsFunction
-  //     .lookup<NativeFunction<Int32 Function(Int32, Int32)>>('SetTriggerMode')
-  //     .asFunction();
-  // int gg = setTriggerMode(0, 0);
-  // print('setTriggerMode?? ' + ' $gg');
-
-  // getWavelength = wgsFunction
-  //     .lookup<NativeFunction<Pointer<Double> Function(Int32)>>('GetWavelength')
-  //     .asFunction();
-  // Pointer<Double> pdwaveLength = getWavelength(0);
-  // for (var i = 0; i < 2048; i++) {
-  //   listWavelength.add(pdwaveLength[i]);
-  // }
-
-  // print('getWavelength?? ' + ' $getWavelength');
-
-  // mpmSetChannel = wgsFunction
-  //     .lookup<NativeFunction<Int32 Function(Int32)>>('MPMSetChannel')
-  //     .asFunction();
-  // int rrr = mpmSetChannel(0);
-  // print('mpmsetChannel?? ' + ' $rrr');
-  // getformatSpec = wgsFunction
-  //     .lookup<NativeFunction<Pointer<Double> Function(Int32)>>(
-  //         'GetFormatedSpectrum')
-  //     .asFunction();
-  // Pointer<Double> aa = getformatSpec(0);
-  // double ddd = aa[2];
-  // print('ddd  $ddd');
-  Get.put(OesController());
-  Get.put(DialogStorageCtrl());
-  Get.put(runErrorStatusController());
-  Get.put(StartStopController());
-  Get.put(CsvController());
-  Get.put(iniController());
-
-  Get.put(LogListController());
-  Get.put(LogController());
-  //Get.put(SettingController());
-  Get.put(SettingContnet());
-  Get.put(BtnHoverCtrl());
-  Get.put(StartStopController());
-  // Pointer<Double> getWavelength = calloc<Double>(8);
-  //Get.put(iniControllerWithReactive()).writeIni();
-  
-  Get.put(chooseChart());
-  Get.put(ChartName());
-  runApp(MyApp());
-
-  // calloc.free(aa);
-  // print('getWavelength??' + '${getWavelength}');
-  // calloc.free(getWavelength);
-  //OES Check [begin]
-  // if (Get.find<DialogStorageCtrl>().OES_Simulation.value == 1) {
-  //   Get.find<DialogStorageCtrl>().bOESConnect.value = true;
-  //   print('bOESConnect = true');
-  // } else if (Get.find<DialogStorageCtrl>().OES_Count.value <= 0) {
-  //   Get.find<DialogStorageCtrl>().bOESConnect.value = true;
-  //   print('bOESConnect = true');
-  // } else // oes simulation 상태가 아니고, 디바이스 카운트가 0보다 크다.
-  // {
-  //   print('bOESConnect = OES_Connect(); & c++ 접속 요청');
-  // }
-//OES Check [end]
-//VI Check [begin]
-
-//지움21.12.07
-  // if (Get.find<DialogStorageCtrl>().VI_Simulation.value == 1) {
-  //   Get.find<DialogStorageCtrl>().bVIConnect.value = true;
-  //   print('bVIConnect = true');
-  // } else if (Get.find<DialogStorageCtrl>().VI_Count.value <= 0) {
-  //   Get.find<DialogStorageCtrl>().bVIConnect.value = true;
-  //   print('bVIConnect = true');
-
-
-  // } else // vi simulation 상태가 아니고, 디바이스 카운트가 0보다 크다.
-  // {
-  //   print(' bVIConnect = VI_Connect(); // c++ 접속 요청');
-  // }
-//VI Check [end]
-// if (
-//   Get.find<DialogStorageCtrl>().OES_Simulation.value==1 && Get.find<DialogStorageCtrl>().VI_Simulation.value==1
-
-//   )
-// {
-//    print('Status = "SIM"');
-// }
-// else
-// {
-//    if (true == bOESConnect && true == bVIConnect)
-//    {
-//       Status = "RUN"
-//    }
-//    else
-//    {
-//       Status = "Error"
-//    }
-// }
-  doWhenWindowReady(() {
-    final win = appWindow;
-    final initialSize = Size(1920, 1080);
-    win.minSize = initialSize;
-    win.maxSize = initialSize;
-    win.size = initialSize;
-    win.alignment = Alignment.center;
-    win.title = "WR";
-    win.show();
-  });
-}
 
 class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
@@ -286,7 +159,7 @@ class WRappbar extends StatelessWidget implements PreferredSizeWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                SizedBox(width:10),
+                SizedBox(width: 10),
                 GestureDetector(
                     onTap: () {
                       () => Get.offAll(Home());
@@ -298,11 +171,16 @@ class WRappbar extends StatelessWidget implements PreferredSizeWidget {
                         fit: BoxFit.fitHeight,
                       ),
                     )),
-                 SizedBox(width: 120),
+                SizedBox(width: 120),
                 appContainer(width: 180, child: Clock()),
-                SizedBox(width: 140),
-                appContainer(width: 300, child: RecentRecipeName()),
-                SizedBox(width: 160),
+                SizedBox(width: 80),
+                appContainer(
+                  width: 170,
+                  child: Text('WR-FreqAI', style: WrText.WrLeadingFont),
+                ),
+                SizedBox(width: 80),
+                appContainer(width: 170, child: RecentRecipeName()),
+                SizedBox(width: 100),
                 RunErrorStatus(),
                 SizedBox(width: 160),
                 SetBtn(),
@@ -350,9 +228,11 @@ class _WRbodyState extends State<WRbody> {
   @override
   void initState() {
     readConfig();
-    writeConfig();
+    Get.find<LogController>().logSave();
+
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Row(children: [
@@ -417,31 +297,35 @@ class _WRbodyState extends State<WRbody> {
                 children: [
                   //////////로그
 
-                  Container(
-                    // color: Colors.amber,
-                    height: 450,
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              SizedBox(
-                                width: 20,
+                  Expanded(
+                    flex: 1,
+                    child: Container(
+                      // color: Colors.amber,
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                SizedBox(
+                                  width: 20,
+                                ),
+                                Text('Log View',
+                                    style:
+                                        Theme.of(context).textTheme.bodyText2),
+                              ],
+                            ),
+                            Divider(
+                              indent: 10,
+                              endIndent: 10,
+                            ),
+                            Expanded(
+                              child: Container(
+                                child: LogList(),
                               ),
-                              Text('Log View',
-                                  style: Theme.of(context).textTheme.bodyText2),
-                            ],
-                          ),
-                          Divider(
-                            indent: 10,
-                            endIndent: 10,
-                          ),
-                          Container(
-                            height: 395,
-                            child: LogList(),
-                          )
-                        ],
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -478,7 +362,12 @@ class _WRbodyState extends State<WRbody> {
                                     StartStop(),
                                   ],
                                 ),
-                                ElevatedButton(onPressed: (){createDoubleFunction(); printText;}, child: Text('compute연습'))
+                                ElevatedButton(
+                                    onPressed: () {
+                                      createDoubleFunction();
+                                      printText;
+                                    },
+                                    child: Text('compute연습'))
                                 //////////////스타트스탑리셋
                               ],
                             ),
@@ -605,7 +494,6 @@ appContainer({required double width, required Widget child}) {
       width: width);
 }
 
-
 // double parseval(double setRandom){
 //   double setRandom = math.Random().nextInt(50).toDouble();
 //   return setRandom;
@@ -627,20 +515,20 @@ appContainer({required double width, required Widget child}) {
 //   return
 // }
 
-Future<List<FlSpot>> createDoubleFunction() async{
+Future<List<FlSpot>> createDoubleFunction() async {
   int value = 760;
   List<FlSpot> val = await compute(doubleFunction, value);
   return val;
 }
 
-List<FlSpot> doubleFunction(int value){
+List<FlSpot> doubleFunction(int value) {
   List<FlSpot> oneData = [];
-  for(var i =0; i< value; i++){
-  oneData.add(FlSpot(i.toDouble() ,math.Random().nextInt(50).toDouble()));}
+  for (var i = 0; i < value; i++) {
+    oneData.add(FlSpot(i.toDouble(), math.Random().nextInt(50).toDouble()));
+  }
   return oneData;
 }
 
-void printText(){
+void printText() {
   return print('제바라아아라아랑랄 ${createDoubleFunction}');
 }
-

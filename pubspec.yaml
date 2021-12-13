@@ -27,32 +27,32 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
-  bitsdojo_window: ^0.1.1+1
-  carousel_slider: ^4.0.0
+  bitsdojo_window:
+  carousel_slider:
   csv: null
-  cupertino_icons: ^1.0.2
-  file_picker: ^4.2.0
-  fl_chart: ^0.40.2
+  cupertino_icons:
+  file_picker:
+  fl_chart: 
   flutter:
     sdk: flutter
   flutter_colorpicker: ^0.6.0
   get: null
-  get_storage: ^2.0.3
-  ini: ^2.1.0
+  get_storage: 
+  ini: 
   intl: null
-  open_file: ^3.2.1
-  path: ^1.8.0
-  path_provider: ^2.0.6
-  shimmer: ^2.0.0
-  sqflite: ^2.0.0+4
-  sqflite_common_ffi: ^2.1.0
+  open_file: 
+  path:
+  path_provider:
+  shimmer: 
+  sqflite: 
+  sqflite_common_ffi: 
   syncfusion_flutter_charts: null
-  syncfusion_flutter_core: ^19.3.47
-  syncfusion_flutter_datagrid: ^19.3.47
-  system_tray: ^0.0.7
-  toggle_switch: ^1.2.0
-  webview_flutter: ^2.1.2
-  flutter_material_color_picker: ^1.1.0+2
+  syncfusion_flutter_core: 
+  syncfusion_flutter_datagrid: 
+  system_tray: 
+  toggle_switch: 
+  webview_flutter: 
+  flutter_material_color_picker: 
 dev_dependencies:
   flutter_test:
     sdk: flutter

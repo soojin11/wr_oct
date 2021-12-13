@@ -6,11 +6,13 @@ import 'package:wr_ui/view/chart/oes_chart.dart';
 import 'package:wr_ui/view/right_side_menu/ini_creator.dart';
 
 class runErrorStatusController extends GetxController {
-  RxString textmsg = Get.find<OesController>().inactiveBtn.value == false
-      ? 'STOP'.obs
-      : 'SIMULATION'.obs;
+  RxString textmsg = 'Stop'.obs;
   RxBool connect = false.obs;
+  Rx<Color> runColor = Color(0xFFD12F2D).obs;
+
 }
+
+
 
 class RunErrorStatus extends GetView<runErrorStatusController> {
   const RunErrorStatus({
@@ -23,9 +25,7 @@ class RunErrorStatus extends GetView<runErrorStatusController> {
       child: Obx(
         () => Container(
           decoration: BoxDecoration(
-              color: Get.find<OesController>().inactiveBtn.value == false
-                  ? Colors.red
-                  : Colors.yellow[700]),
+              color: controller.runColor.value),
           
           width: 300,
           child: Center(

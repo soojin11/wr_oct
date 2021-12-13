@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:wr_ui/view/chart/oes_chart.dart';
 import 'package:wr_ui/view/chart/pages/hover_chart/oes_series.dart';
+import 'package:wr_ui/view/right_side_menu/save_ini.dart';
 
 class chooseChart extends GetxController {
   RxInt chartNum = 0.obs;

@@ -17,11 +17,12 @@ class iniController extends GetxController {
   Rx<Color> Series_Color_007 = Color(0xFFBA68C8).obs;
   Rx<Color> Series_Color_008 = Color(0xFFFDB1E0).obs;
   RxString exposureTime = '100'.obs;
+  RxInt sim = 0.obs;
 
   ///원희님꺼 추가한 부분/////////
   RxString measureStartAtProgStart = '1'.obs;
   RxString channelFlow = ''.obs;
-  RxInt OES_Count = 0.obs;
+  RxInt OES_Count = 8.obs;
   ///////////////////////////////
 }
 
@@ -45,17 +46,18 @@ readConfig() async {
     if (int.parse(config.get("Common", "OES_Simulation").toString()) == 0 &&
         int.parse(config.get("Common", "measureStartAtProgStart").toString()) ==
             1) {
-      SimStartButton(); // 시뮬레이션 바로 실행
+      StartButton(); // 시뮬레이션 바로 실행
+      Get.find<iniController>().sim.value = 0;
     }
 
-    //데이터 들어오면 쓸 부분//////////////////////////////////////////
-    // if(int.parse(config.get("Common", "OES_Simulation").toString()) == 0){
-    //   이면 시뮬레이터 SimStartButton();
-    // }
-    // if(int.parse(config.get("Common", "OES_Simulation").toString()) == 1){
-    //   이면 찐 데이터 들어오는거
-    // }
-    //////////////////////////////////////////////////////////
+
+    if(int.parse(config.get("Common", "OES_Simulation").toString()) == 0){
+      Get.find<iniController>().sim.value = 0;
+      
+    }
+    if(int.parse(config.get("Common", "OES_Simulation").toString()) == 1){
+     Get.find<iniController>().sim.value =1;
+    }
 
 
 

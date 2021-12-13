@@ -105,8 +105,7 @@ class StartStop extends GetView<StartStopController> {
                 textStyle: TextStyle(fontSize: 16),
               ),
               onPressed: () async {
-               
-                SimStartButton();
+                StartButton();
               },
             ),
           ),
@@ -135,22 +134,25 @@ class StartStop extends GetView<StartStopController> {
                       : Colors.grey,
                   textStyle: TextStyle(fontSize: 16)),
               onPressed: () {
-               
-                  Get.find<OesController>().inactiveBtn.value = false;
-                  Get.find<CsvController>().inactiveBtn.value = false;
-                  // Get.find<VizController>().inactiveBtn.value = false;
-                  // Get.find<VizController>().timer.cancel();
+                Get.find<OesController>().inactiveBtn.value = false;
+                Get.find<CsvController>().inactiveBtn.value = false;
+                // Get.find<VizController>().inactiveBtn.value = false;
+                // Get.find<VizController>().timer.cancel();
 
-                  Get.find<OesController>().timer.cancel();
-                  Get.find<LogListController>().clickedStop();
-                  Get.find<CsvController>().fileSave.value = false;
-                  Get.find<runErrorStatusController>().connect.value = false;
-                  Get.find<runErrorStatusController>().textmsg.value = 'STOP';
-                  // Get.find<iniControllerWithReactive>()
-                  //     .measureStartAtProgStart
-                  //     .value = '';
-                  // Get.find<iniControllerWithReactive>().writeIni();
-                
+                Get.find<OesController>().timer.cancel();
+                Get.find<OesController>().timer.cancel();
+                Get.find<LogListController>().clickedStop();
+                Get.find<CsvController>().fileSave.value = false;
+                Get.find<runErrorStatusController>().connect.value = false;
+                Get.find<runErrorStatusController>().textmsg.value = 'STOP';
+                Get.find<runErrorStatusController>().runColor.value =
+                    Color(0xFFD12F2D);
+
+                // Get.find<iniControllerWithReactive>()
+                //     .measureStartAtProgStart
+                //     .value = '';
+                // Get.find<iniControllerWithReactive>().writeIni();
+
                 // Get.find<OesController>().inactiveBtn.value = false;
                 // Get.find<CsvController>().inactiveBtn.value = false;
                 // // Get.find<VizController>().inactiveBtn.value = false;
@@ -173,13 +175,40 @@ class StartStop extends GetView<StartStopController> {
   }
 }
 
-void SimStartButton(){
-  Get.find<OesController>().inactiveBtn.value = true;
-                try{Get.find<OesController>().timer = Timer.periodic(
-                  Duration(milliseconds: int.parse(Get.find<iniController>().exposureTime.value)),
-                  Get.find<OesController>().updateDataSource);} on FormatException{print('format error');}
-                Get.find<OesController>().oneData;
-                Get.find<runErrorStatusController>().connect.value = true;
-                Get.find<runErrorStatusController>().textmsg.value = 'SIMULATION';
-                Get.find<LogListController>().clickedStart();
+void StartButton() {
+  if (Get.find<iniController>().sim.value == 1) {
+    Get.find<OesController>().inactiveBtn.value = true;
+    try {
+      Get.find<OesController>().timer = Timer.periodic(
+          Duration(
+              milliseconds:
+                  int.parse(Get.find<iniController>().exposureTime.value)),
+          Get.find<OesController>().updateDataSource);
+    } on FormatException {
+      print('format error');
+    }
+    // Get.find<OesController>().chartData;
+    //Get.find<OesController>().oneData;
+    Get.find<runErrorStatusController>().connect.value = true;
+    Get.find<runErrorStatusController>().textmsg.value = 'RUN';
+    Get.find<runErrorStatusController>().runColor.value = Color(0xFF2CA732);
+
+    Get.find<LogListController>().clickedStart();
+  }
+  if (Get.find<iniController>().sim.value == 0) {
+    //SimStart();
+  }
 }
+
+
+// SimStart(){
+// Get.find<OesController>().inactiveBtn.value = true;
+// try{Get.find<OesController>().timer = Timer.periodic(
+//                   Duration(milliseconds: int.parse(Get.find<iniController>().exposureTime.value)),
+//                   Get.find<OesController>().SimupdateDataSource);} on FormatException{print('format error');}
+//                 Get.find<OesController>().oneData;
+//                 Get.find<runErrorStatusController>().connect.value = true;
+//                 Get.find<runErrorStatusController>().textmsg.value = 'SIMULATION';
+//                 Get.find<runErrorStatusController>().runColor.value = Color(0xFFE9DF50);
+//                 Get.find<LogListController>().clickedStart();
+// }

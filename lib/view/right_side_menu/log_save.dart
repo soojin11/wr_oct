@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:wr_ui/view/right_side_menu/log_screen.dart';
 
 class LogController extends GetxController {
   static LogController get to => Get.find();
