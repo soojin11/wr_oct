@@ -67,7 +67,11 @@ Future<String?> runningExit(BuildContext context) {
             style: TextStyle(color: wrColors.wrPrimary),
           ),
           onPressed: () {
-            Get.find<OesController>().timer.cancel();
+            if (Get.find<iniController>().sim.value == 1) {
+              Get.find<OesController>().timer?.cancel();
+            } else if (Get.find<iniController>().sim.value == 0) {
+              Get.find<OesController>().simTimer?.cancel();
+            }
             Get.find<OesController>().inactiveBtn.value = false;
             Get.find<CsvController>().inactiveBtn.value = false;
             completelyExit(context);
@@ -91,10 +95,19 @@ Future<String?> completelyExit(BuildContext context) {
               style: TextStyle(color: wrColors.wrPrimary),
             ),
             onPressed: () {
-              // closeAll();
-              //dll종료
-              exit(0);
-              // 프로그램 종료
+              mpmSetChannel(0);
+              closeAll();
+              Get.find<LogListController>().cExit();
+              showDialog(
+                  context: context,
+                  builder: (context) {
+                    Future.delayed(Duration(seconds: 1), () {
+                      exit(0);
+                    });
+                    return AlertDialog(
+                      title: Text('종료됩니다.'),
+                    );
+                  });
             }),
         TextButton(
           child: const Text(

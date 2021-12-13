@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ini/ini.dart';
 import 'package:wr_ui/main.dart';
-import 'package:wr_ui/view/chart/sim_oes_chart.dart';
 import 'package:wr_ui/view/chart/oes_chart.dart';
 import 'package:wr_ui/view/right_side_menu/start_stop.dart';
 import 'csv_creator.dart';
@@ -31,26 +30,6 @@ List<double> dllReadData(int a) {
 // 100ms(이동시간)+100(in)*8
 // 230*8->
 
-////////////test
-Future<List<double>> readDataTest(int a) async {
-  return compute(dllReadDataTest, a);
-}
-
-List<double> dllReadDataTest(int a) {
-  Pointer<Double> fmtSpec = nullptr;
-  getformatSpec = wgsFunction
-      .lookup<NativeFunction<Pointer<Double> Function(Int32)>>(
-          'GetFormatedSpectrum')
-      .asFunction();
-  fmtSpec = getformatSpec(a);
-  List<double> rt = [];
-  for (var i = 0; i < 2048; i++) {
-    rt.add(fmtSpec[i].toDouble());
-  }
-  return rt;
-}
-
-/////////test
 class iniController extends GetxController {
   final GlobalKey<FormState> key = GlobalKey<FormState>();
   Rx<Color> Series_Color_001 = Color(0xFFEF5350).obs;
@@ -63,12 +42,12 @@ class iniController extends GetxController {
   Rx<Color> Series_Color_008 = Color(0xFFFDB1E0).obs;
   RxString exposureTime = '100'.obs;
   RxString delayTime = '100'.obs;
-  RxString integrationTime = '200'.obs;
+  RxInt channelMovingTime = 200.obs;
+  RxInt integrationTime = 100000.obs;
+  RxInt plusTime = 30000.obs;
   RxString deviceSimul = ''.obs;
   RxString mosChannel = '0'.obs;
   RxInt sim = 0.obs;
-
-  ///원희님꺼 추가한 부분/////////
   RxString measureStartAtProgStart = '1'.obs;
   RxString channelFlow = ''.obs;
   RxInt OES_Count = 0.obs;
@@ -88,22 +67,13 @@ Future<String> writeToConf(contents) async {
 }
 
 readConfig() async {
+  print('in readConfig');
   var result;
   try {
     var file = await _localFile;
     Config config = Config.fromStrings(file.readAsLinesSync());
     result = config;
-    // if (int.parse(config.get("Common", "OES_Simulation").toString()) == 1) {
-    //   print('oes init');
-    //   oesInit();
-    // }
 
-    // else if (int.parse(config.get("Common", "OES_Simulation").toString()) ==
-    //     0) {
-    //   simInit();
-    // } else {
-    //   print('ini OES_Simulation 에 0 이나 1만 입력');
-    // }
     if (int.parse(config.get("Common", "OES_Simulation").toString()) == 0 &&
         int.parse(config.get("Common", "measureStartAtProgStart").toString()) ==
             1) {
@@ -112,9 +82,26 @@ readConfig() async {
     if (int.parse(config.get("Common", "OES_Simulation").toString()) == 0) {
       //시뮬레이터 작동
       Get.find<iniController>().sim.value = 0;
-      print('${Get.find<iniController>().sim.value}');
+    } else if (int.parse(config.get("Common", "OES_Simulation").toString()) ==
+        1) {
+      Get.find<iniController>().sim.value = 1;
+      int integrationTime =
+          int.parse(config.get("Common", "IntegrationTime").toString());
+      print('parsing ?? $integrationTime');
+      Get.find<iniController>().integrationTime.value = integrationTime;
+      //////
+      int channelMovingTime =
+          int.parse(config.get("Common", "Channel_Moving_Time").toString());
+      print('channel move t in ini : $channelMovingTime');
+      Get.find<iniController>().channelMovingTime.value = channelMovingTime;
+      int plusTime = int.parse(config.get("Common", "PlusTime").toString());
+      Get.find<iniController>().plusTime.value = plusTime;
+      //////
     }
 
+    // int integrationTime =
+    //     int.parse(config.get("Common", "IntegrationTime").toString());
+    // Get.find<iniController>().integrationTime.value = integrationTime;
     // else if (int.parse(config.get("Common", "OES_Simulation").toString()) ==
     //     1) {
     //   Get.find<iniController>().sim.value = 1;
@@ -142,6 +129,7 @@ readConfig() async {
             1) {
       startSaveBtn();
     }
+
     // if (int.parse(config.get("Common", "OES_Simulation").toString()) == 1) {
     //   print('디바이스로 실행 준비');
     //   Get.find<deviceController>().setRealData();
@@ -169,7 +157,10 @@ writeConfig() async {
   if (!config.hasSection("Common")) {
     config.addSection("Common");
     config.set("Common", "Comport", "3");
-    config.set("Common", "OES_Simulation", '0');
+    config.set("Common", "IntegrationTime", "100000");
+    config.set("Common", "Channel_Moving_Time", "200000");
+    config.set("Common", "PlusTime", "30000");
+    config.set("Common", "OES_Simulation", '1');
     config.set("Common", "OES_Count", "8");
     config.set("Common", "bOESConnect", "false");
     config.set("Common", "VI_Simulation", "1");
@@ -179,11 +170,13 @@ writeConfig() async {
     config.set("Common", "SaveFromStartSignal", "0");
     config.set("Common", "measureStartAtProgStart", "0");
     config.set("Common", "Channel_Flow", "1, 3, 5, 7, 8, 6, 4, 2");
+
     writeToConf(config);
   }
   if (!config.hasSection("OES_Setting")) {
     config.addSection("OES_Setting");
     config.set("OES_Setting", "ExposureTime", "100");
+
     config.set("OES_Setting", 'DelayTime', "100");
     writeToConf(config);
   }

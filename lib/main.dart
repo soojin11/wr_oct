@@ -24,7 +24,6 @@ import 'package:wr_ui/view/appbar/leading/clock.dart';
 import 'package:wr_ui/view/appbar/leading/recent_recipe_name.dart';
 import 'package:wr_ui/view/appbar/leading/run_error_status_mark.dart';
 import 'package:wr_ui/view/chart/chart_tabbar.dart';
-import 'package:wr_ui/view/chart/sim_oes_chart.dart';
 import 'package:wr_ui/view/chart/oes_chart.dart';
 import 'package:wr_ui/view/chart/pages/hover_chart/hover_func.dart';
 import 'package:wr_ui/view/chart/pages/hover_chart/hover_row.dart';
@@ -36,6 +35,8 @@ import 'package:wr_ui/view/right_side_menu/log_save.dart';
 import 'package:wr_ui/view/right_side_menu/log_screen.dart';
 import 'package:wr_ui/view/right_side_menu/save_ini.dart';
 import 'package:wr_ui/view/right_side_menu/start_stop.dart';
+
+import 'model/const/style/text.dart';
 
 final DynamicLibrary wgsFunction = DynamicLibrary.open("WGSFunction.dll");
 late int Function() ocrStart;
@@ -62,60 +63,11 @@ late int Function(int spectrometerIndex, int val) setTriggerMode;
 late int Function(int channelIndex) mpmSetChannel;
 late Pointer<Double> Function(int a) getformatSpec;
 late Pointer<Double> Function(int a) getWavelength;
+late int Function() mpmIsSwitching;
 List listWavelength = [];
 bool runningSignal = false;
-//  double[] GetWavelength(int spectrometerIndex);
-
-//bool은 Int8
-// final DynamicLibrary wgsFunction = DynamicLibrary.open("WGSFunction.dll");
-// late int Function() ocrStart;
-// late int Function(int a) getBoxcarWidth;
-// late void Function(int a) testtest;
-// late void Function(int a) setmsg;
-// late void Function(int a) test;
-// late void Function() getMPM2000Component;
-// late int Function() openAllSpectrometers;
-// late int Function(int spectrometerIndex, int slot, double val)
-//     setNonlinearityCofficient;
-// late void Function() closeAll;
-// late void Function(int portName) mpmStart;
-// late int Function() mpmOpen;
-// late void Function() mpmClose;
-// late int Function(int spectrometerIndex, int integrationTime)
-//     setIntegrationTime;
-// late int Function(int spectrometerIndex, int val) setScansToAverage;
-// late int Function(int spectrometerIndex, int val) setBoxcarWidth;
-// late int Function(int spectrometerIndex, int val) setElectricDarkEnable;
-// late int Function(int spectrometerIndex, int val)
-//     setNonlinearityCorrectionEnabled;
-// late int Function(int spectrometerIndex, int val) setTriggerMode;
-// late int Function(int channelIndex) mpmSetChannel;
-// late Pointer<Double> Function(int a) getformatSpec;
-// late Pointer<Double> Function(int a) getWavelength;
-// List listWavelength = [];
-
-// Future<List<double>> readData(int a) async {
-//   return compute(dllReadData, a);
-// }
-
-// List<double> dllReadData(int a) {
-//   Pointer<Double> fmtSpec = nullptr;
-//   getformatSpec = wgsFunction
-//       .lookup<NativeFunction<Pointer<Double> Function(Int32)>>(
-//           'GetFormatedSpectrum')
-//       .asFunction();
-//   fmtSpec = getformatSpec(a);
-//   List<double> rt = [];
-//   for (var i = 0; i < 2048; i++) {
-//     rt.add(fmtSpec[i].toDouble());
-//   }
-//   return rt;
-// }
 
 Future main() async {
-  oesInit();
-
-  Get.put(SimulationController());
   Get.put(iniControllerWithReactive());
   Get.put(OesController()); //Get.put(DialogStorageCtrl());
   Get.put(runErrorStatusController());
@@ -132,56 +84,12 @@ Future main() async {
   // Get.put(DataMonitorCtrl());
   Get.put(StartStopController());
   // Pointer<Double> getWavelength = calloc<Double>(8);
+  Get.find<LogListController>().programStart();
 
+  // readConfig();
+  // oesInit();
   runApp(MyApp());
 
-  // calloc.free(aa);
-  // print('getWavelength??' + '${getWavelength}');
-  // calloc.free(getWavelength);
-  //OES Check [begin]
-  // if (Get.find<DialogStorageCtrl>().OES_Simulation.value == 1) {
-  //   Get.find<DialogStorageCtrl>().bOESConnect.value = true;
-  //   print('bOESConnect = true');
-  // } else if (Get.find<DialogStorageCtrl>().OES_Count.value <= 0) {
-  //   Get.find<DialogStorageCtrl>().bOESConnect.value = true;
-  //   print('bOESConnect = true');
-  // } else // oes simulation 상태가 아니고, 디바이스 카운트가 0보다 크다.
-  // {
-  //   print('bOESConnect = OES_Connect(); & c++ 접속 요청');
-  // }
-//OES Check [end]
-//VI Check [begin]
-
-  // if (Get.find<DialogStorageCtrl>().VI_Simulation.value == 1) {
-  //   Get.find<DialogStorageCtrl>().bVIConnect.value = true;
-  //   print('bVIConnect = true');
-  // } else if (Get.find<DialogStorageCtrl>().VI_Count.value <= 0) {
-  //   Get.find<DialogStorageCtrl>().bVIConnect.value = true;
-  //   print('bVIConnect = true');
-  // } else // vi simulation 상태가 아니고, 디바이스 카운트가 0보다 크다.
-  // {
-  //   print(' bVIConnect = VI_Connect(); // c++ 접속 요청');
-  // }
-
-//VI Check [end]
-// if (
-//   Get.find<DialogStorageCtrl>().OES_Simulation.value==1 && Get.find<DialogStorageCtrl>().VI_Simulation.value==1
-
-//   )
-// {
-//    print('Status = "SIM"');
-// }
-// else
-// {
-//    if (true == bOESConnect && true == bVIConnect)
-//    {
-//       Status = "RUN"
-//    }
-//    else
-//    {
-//       Status = "Error"
-//    }
-// }
   doWhenWindowReady(() {
     final win = appWindow;
     final initialSize = Size(1920, 1080);
@@ -192,10 +100,10 @@ Future main() async {
     win.title = "WR";
     win.show();
   });
-}
-
-simInit() {
-  print('시뮬레이션 실행');
+  await readConfig();
+  print(
+      'channel move t in parse : ${Get.find<iniController>().channelMovingTime.value}');
+  oesInit();
 }
 
 class MyApp extends StatelessWidget {
@@ -271,42 +179,21 @@ class WRappbar extends StatelessWidget implements PreferredSizeWidget {
                         ),
                       )),
                   SizedBox(width: 120),
-
-                  appContainer(child: Clock(), width: 180, height: 85),
-
-                  SizedBox(width: 160),
-
+                  appContainer(child: Clock(), width: 180),
+                  SizedBox(width: 80),
                   appContainer(
-                      child: RecentRecipeName(), width: 300, height: 85),
-
-                  SizedBox(width: 160),
-
-                  appContainer(child: RunErrorStatus(), width: 300, height: 85),
-                  // Container(
-                  //   width: 200,
-                  //   height: 90,
-                  //   decoration: BoxDecoration(
-                  //     border:
-                  //         Border.all(color: Colors.blueGrey.shade800, width: 5),
-                  //   ),
-                  //   child: Center(
-                  //     child: ElevatedButton(
-                  //       onPressed: () {},
-                  //       child: Text('test'),
-                  //     ),
-                  //   ),
-                  // ),
-
-                  SizedBox(width: 160),
-
+                    width: 170,
+                    child: Text('WR-FreqAI', style: WrText.WrLeadingFont),
+                  ),
+                  SizedBox(width: 80),
+                  appContainer(child: RecentRecipeName(), width: 300),
+                  SizedBox(width: 80),
+                  appContainer(child: RunErrorStatus(), width: 300),
+                  SizedBox(width: 80),
                   appContainer(
                     child: SetBtn(),
                     width: 180,
-                    height: 85,
                   ),
-                  // SettingMenu(),
-
-                  // SizedBox(width: 160),
                 ],
               ),
             ),
@@ -349,8 +236,17 @@ class WRbody extends StatefulWidget with WidgetsBindingObserver {
 ////ini read / write////
 class _WRbodyState extends State<WRbody> {
   void initState() {
-    readConfig();
-    writeConfig();
+    //oesInit();
+    //readConfig();
+    // setIntegrationTime = wgsFunction
+    //     .lookup<NativeFunction<Int32 Function(Int32, Int32)>>(
+    //         'SetIntegrationTime')
+    //     .asFunction();
+    // int integrationTime = 100000;
+    // int cc = setIntegrationTime(0, integrationTime);
+
+    // print('setIntegrationTime?? ' + ' $cc');
+    Get.find<LogController>().logSave();
     super.initState();
   }
 
@@ -419,7 +315,6 @@ class _WRbodyState extends State<WRbody> {
                   //////////로그
 
                   Container(
-                    // color: Colors.amber,
                     height: 450,
                     child: Padding(
                       padding: const EdgeInsets.all(10.0),
@@ -598,19 +493,18 @@ class _WRbodyState extends State<WRbody> {
   }
 }
 
-appContainer(
-    {required double width, required double height, required Widget child}) {
+appContainer({required double width, required Widget child}) {
   return Container(
-    child: Center(child: child),
-    decoration: BoxDecoration(
-      color: Colors.blueGrey[600],
-    ),
-    width: width,
-    height: height,
-  );
+      child: Center(child: child),
+      decoration: BoxDecoration(
+        color: Colors.blueGrey[600],
+      ),
+      width: width,
+      height: 85);
 }
 
 Future<bool> oesInit() async {
+  print('in oesIntit');
   ocrStart = wgsFunction
       .lookup<NativeFunction<Int8 Function()>>('OCR_Start')
       .asFunction();
@@ -646,10 +540,12 @@ Future<bool> oesInit() async {
       .lookup<NativeFunction<Int32 Function(Int32, Int32)>>(
           'SetIntegrationTime')
       .asFunction();
+  // int integrationTime = Get.find<iniController>().integrationTime.value;
 
-  int cc = setIntegrationTime(0, 100000);
-
-  print('setIntegrationTime?? ' + ' $cc');
+  int cc =
+      setIntegrationTime(0, Get.find<iniController>().integrationTime.value);
+  print('intgration???  ${Get.find<iniController>().integrationTime.value}');
+  print('plusTime???  ${Get.find<iniController>().plusTime.value}');
   setScansToAverage = wgsFunction
       .lookup<NativeFunction<Int32 Function(Int32, Int32)>>('SetScansToAverage')
       .asFunction();
@@ -693,6 +589,8 @@ Future<bool> oesInit() async {
       .asFunction();
   int rrr = mpmSetChannel(0);
   print('mpmsetChannel?? ' + ' $rrr');
-
+  mpmIsSwitching = wgsFunction
+      .lookup<NativeFunction<Int32 Function()>>('MPMIsSwitching')
+      .asFunction();
   return true;
 }

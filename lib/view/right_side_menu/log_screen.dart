@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:wr_ui/view/chart/switch_chart.dart';
+import 'package:wr_ui/view/right_side_menu/save_ini.dart';
 import 'log_save.dart';
 
 class LogListController extends GetxController {
-  RxList logData = RxList.empty();
+  RxList logData = ['${screenTime()} Start Program'].obs;
   //RxBool rederror = false.obs;
   String event = '[Event Trigger]';
   String btnPress = 'button is pressed';
@@ -24,6 +25,21 @@ class LogListController extends GetxController {
   void onClose() {
     LogListController;
     super.onClose();
+  }
+
+  void programStart() async {
+    saveLog();
+    Get.find<LogController>()
+        .loglist
+        .add('${logfileTime()} Start program' + '\n');
+  }
+
+  void settingBtn() async {
+    saveLog();
+    logData.add('${screenTime()} Setting $btnPress');
+    Get.find<LogController>()
+        .loglist
+        .add('${logfileTime()} [Event Trigger] Setting $btnPress' + '\n');
   }
 
   void clickedStop() async {
@@ -62,11 +78,15 @@ class LogListController extends GetxController {
 
   void cConfigSave() async {
     saveLog();
+    // logData.add(
+    //     '${screenLogTime} Exposure time has been changed to ${Get.find<iniController>().exposureTime.value}');
+    // Get.find<LogController>().loglist.add(
+    //     '${logfileTime} Exposure time has been changed to ${Get.find<iniController>().exposureTime.value}' +
+    //         '\n');
     logData.add('${screenTime()} Save Config');
     Get.find<LogController>()
         .loglist
         .add('${logfileTime()} [Event Trigger] Save setting $btnPress' + '\n');
-    //여기 값이 어떻게 바뀌었는지도 넣는게 좋은가?
   }
 
   void cModeChage() async {
@@ -79,9 +99,7 @@ class LogListController extends GetxController {
 
   void cExit() async {
     saveLog();
-    Get.find<LogController>()
-        .loglist
-        .add('${logfileTime()} Exit $btnPress' + '\n');
+    Get.find<LogController>().loglist.add('${logfileTime()} Exit' + '\n');
   }
 
   void clickedHover() async {

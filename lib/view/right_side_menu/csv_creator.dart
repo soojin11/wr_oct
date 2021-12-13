@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:wr_ui/view/chart/oes_chart.dart';
+import 'package:wr_ui/view/right_side_menu/save_ini.dart';
 
 import 'log_screen.dart';
 
@@ -18,24 +19,24 @@ class CSVButton extends GetView<CsvController> {
             ignoring: controller.inactiveBtn.value,
             child: ElevatedButton(
               onPressed: () async {
-                // await controller.csvSaveInit();
-                // await controller.SecondcsvSaveInit();
-                // await controller.ThirdcsvSaveInit();
-                // await controller.FourthcsvSaveInit();
-                // await controller.FifthcsvSaveInit();
-                // await controller.SixthcsvSaveInit();
-                // await controller.SeventhcsvSaveInit();
-                // await controller.EightcsvSaveInit();
-                // controller.fileSave.value = true;
-                // controller.fileSave2.value = true;
-                // controller.fileSave3.value = true;
-                // controller.fileSave4.value = true;
-                // controller.fileSave5.value = true;
-                // controller.fileSave6.value = true;
-                // controller.fileSave7.value = true;
-                // controller.fileSave8.value = true;
-                // Get.find<LogListController>().startCsv();
-                // controller.inactiveBtn.value = true;
+                await controller.csvSaveInit();
+                await controller.SecondcsvSaveInit();
+                await controller.ThirdcsvSaveInit();
+                await controller.FourthcsvSaveInit();
+                await controller.FifthcsvSaveInit();
+                await controller.SixthcsvSaveInit();
+                await controller.SeventhcsvSaveInit();
+                await controller.EightcsvSaveInit();
+                controller.fileSave.value = true;
+                controller.fileSave2.value = true;
+                controller.fileSave3.value = true;
+                controller.fileSave4.value = true;
+                controller.fileSave5.value = true;
+                controller.fileSave6.value = true;
+                controller.fileSave7.value = true;
+                controller.fileSave8.value = true;
+                Get.find<LogListController>().startCsv();
+                controller.inactiveBtn.value = true;
               },
               child: Container(
                 width: 200,
@@ -146,11 +147,12 @@ class CsvController extends GetxController with SingleGetTickerProviderMixin {
 
   //RxInt fileNum = 1.obs;
   List<dynamic> initData = [
+    Get.put(iniController()),
     "FileFormat:1",
     "HWType:SPdbUSBm",
-    "Start Time : startTime",
-    "Intergration Time:",
-    "Interval:"
+    "Start Time : ${screenTime()}",
+    "Intergration Time: ${Get.find<iniController>().exposureTime.value}",
+    "Interval: 0"
   ];
 
   String TimeVal() {

@@ -7,21 +7,9 @@ import 'package:wr_ui/view/chart/oes_chart.dart';
 import 'package:wr_ui/view/right_side_menu/ini_creator.dart';
 
 class runErrorStatusController extends GetxController {
-  // runError() {
-  //   if (openAllSpectrometers() == 1) {
-  //     RxString textmsg = 'RUN'.obs;
-  //   } else if (Get.find<OesController>().inactiveBtn.value == false) {
-  //     RxString textmsg = 'STOP'.obs;
-  //   } else if (true) {
-  //      RxString textmsg = 'SIMULATION'.obs;
-  //   }
-  // }
-
-  RxString textmsg = Get.find<OesController>().inactiveBtn.value == false
-      ? 'STOP'.obs
-      : 'SIMULATION'.obs;
+  RxString textmsg = 'S T O P'.obs;
   RxBool connect = false.obs;
-  RxBool setInactive = false.obs;
+  Rx<Color> statusColor = Color(0xFFD12F2D).obs;
 }
 
 class RunErrorStatus extends GetView<runErrorStatusController> {
@@ -34,21 +22,14 @@ class RunErrorStatus extends GetView<runErrorStatusController> {
     return Container(
       child: Obx(
         () => Container(
-          decoration: BoxDecoration(
-              color: Get.find<OesController>().inactiveBtn.value == false
-                  ? Colors.red
-                  : Colors.yellow[700]),
+          decoration: BoxDecoration(color: controller.statusColor.value),
           width: 300,
           height: 80,
-          child: Row(
-            children: [
-              Center(
-                child: Text(
-                  controller.textmsg.value,
-                  style: WrText.WrLeadingFont,
-                ),
-              ),
-            ],
+          child: Center(
+            child: Text(
+              controller.textmsg.value,
+              style: WrText.WrLeadingFont,
+            ),
           ),
         ),
       ),
