@@ -10,21 +10,24 @@ import 'package:wr_ui/view/chart/oes_chart.dart';
 import 'package:wr_ui/view/right_side_menu/start_stop.dart';
 import 'csv_creator.dart';
 
-Future<List<double>> readData(int a) async {
+Future<List<List<double>>> readData(int a) async {
   return compute(dllReadData, a);
 }
 
-List<double> dllReadData(int a) {
+List<List<double>> dllReadData(int a) {
   Pointer<Double> fmtSpec = nullptr;
   getformatSpec = wgsFunction
       .lookup<NativeFunction<Pointer<Double> Function(Int32)>>(
           'GetFormatedSpectrum')
       .asFunction();
   fmtSpec = getformatSpec(a);
-  List<double> rt = [];
-  for (var i = 0; i < 2048; i++) {
-    rt.add(fmtSpec[i].toDouble());
+  List<List<double>> rt = [];
+  for (var i = 0; i < Get.find<iniController>().OES_Count.value; i++) {
+     for (var x = 0; x < 2048; x++) {
+    rt[i].add(fmtSpec[x].toDouble());
   }
+  }
+ 
   return rt;
 }
 // 100ms(이동시간)+100(in)*8
