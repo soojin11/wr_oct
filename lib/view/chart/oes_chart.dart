@@ -140,75 +140,82 @@ class OesController extends GetxController {
       } else {
         print('stopwatch fail');
       }
-      List<double> fmtSpec = await readData(0);
-      double dTemp = 0.0;
-      switch (nChannel) {
-        case 0:
-          oesData[0].clear();
-          for (var i = 0; i < listWavelength.length; i++) {
-            dTemp = fmtSpec[i].toDouble();
-            oesData[0].add(FlSpot(listWavelength[i], fmtSpec[i]));
-          }
+      List<List<double>> fmtSpec = await readData(0);
+      // double dTemp = 0.0;
+      if(nChannel==true){
+      for (var i = 0; i < Get.find<iniController>().OES_Count.value; i++) {
+        for (var x = 0; x < listWavelength.length; x++) {
+          oesData[i].add(FlSpot(listWavelength[x], fmtSpec[i][x]));
+        }   
+      }}
+      // switch (nChannel) {
+      //   case 0:
+      //     oesData[0].clear();
+          
+      //     for (var i = 0; i < listWavelength.length; i++) {
+      //       dTemp = fmtSpec[i].toDouble();
+      //       oesData[0].add(FlSpot(listWavelength[i], fmtSpec[i]));
+      //     }
 
-          break;
-        case 1:
-          oesData[1].clear();
-          for (var i = 0; i < listWavelength.length; i++) {
-            dTemp = fmtSpec[i].toDouble();
-            oesData[1].add(FlSpot(listWavelength[i], fmtSpec[i]));
-          }
+      //     break;
+      //   case 1:
+      //     oesData[1].clear();
+      //     for (var i = 0; i < listWavelength.length; i++) {
+      //       dTemp = fmtSpec[i].toDouble();
+      //       oesData[1].add(FlSpot(listWavelength[i], fmtSpec[i]));
+      //     }
 
-          break;
-        case 2:
-          oesData[2].clear();
-          for (var i = 0; i < listWavelength.length; i++) {
-            dTemp = fmtSpec[i].toDouble();
-            oesData[2].add(FlSpot(listWavelength[i], fmtSpec[i]));
-          }
+      //     break;
+      //   case 2:
+      //     oesData[2].clear();
+      //     for (var i = 0; i < listWavelength.length; i++) {
+      //       dTemp = fmtSpec[i].toDouble();
+      //       oesData[2].add(FlSpot(listWavelength[i], fmtSpec[i]));
+      //     }
 
-          break;
-        case 3:
-          oesData[3].clear();
-          for (var i = 0; i < listWavelength.length; i++) {
-            dTemp = fmtSpec[i].toDouble();
-            oesData[3].add(FlSpot(listWavelength[i], fmtSpec[i]));
-          }
+      //     break;
+      //   case 3:
+      //     oesData[3].clear();
+      //     for (var i = 0; i < listWavelength.length; i++) {
+      //       dTemp = fmtSpec[i].toDouble();
+      //       oesData[3].add(FlSpot(listWavelength[i], fmtSpec[i]));
+      //     }
 
-          break;
-        case 4:
-          oesData[4].clear();
-          for (var i = 0; i < listWavelength.length; i++) {
-            dTemp = fmtSpec[i].toDouble();
-            oesData[4].add(FlSpot(listWavelength[i], fmtSpec[i]));
-          }
+      //     break;
+      //   case 4:
+      //     oesData[4].clear();
+      //     for (var i = 0; i < listWavelength.length; i++) {
+      //       dTemp = fmtSpec[i].toDouble();
+      //       oesData[4].add(FlSpot(listWavelength[i], fmtSpec[i]));
+      //     }
 
-          break;
-        case 5:
-          oesData[5].clear();
-          for (var i = 0; i < listWavelength.length; i++) {
-            dTemp = fmtSpec[i].toDouble();
-            oesData[5].add(FlSpot(listWavelength[i], fmtSpec[i]));
-          }
+      //     break;
+      //   case 5:
+      //     oesData[5].clear();
+      //     for (var i = 0; i < listWavelength.length; i++) {
+      //       dTemp = fmtSpec[i].toDouble();
+      //       oesData[5].add(FlSpot(listWavelength[i], fmtSpec[i]));
+      //     }
 
-          break;
+      //     break;
 
-        case 6:
-          oesData[6].clear();
-          for (var i = 0; i < listWavelength.length; i++) {
-            dTemp = fmtSpec[i].toDouble();
-            oesData[6].add(FlSpot(listWavelength[i], fmtSpec[i]));
-          }
+      //   case 6:
+      //     oesData[6].clear();
+      //     for (var i = 0; i < listWavelength.length; i++) {
+      //       dTemp = fmtSpec[i].toDouble();
+      //       oesData[6].add(FlSpot(listWavelength[i], fmtSpec[i]));
+      //     }
 
-          break;
-        case 7:
-          oesData[7].clear();
-          for (var i = 0; i < listWavelength.length; i++) {
-            dTemp = fmtSpec[i].toDouble();
-            oesData[7].add(FlSpot(listWavelength[i], fmtSpec[i]));
-          }
+      //     break;
+      //   case 7:
+      //     oesData[7].clear();
+      //     for (var i = 0; i < listWavelength.length; i++) {
+      //       dTemp = fmtSpec[i].toDouble();
+      //       oesData[7].add(FlSpot(listWavelength[i], fmtSpec[i]));
+      //     }
 
-          break;
-      }
+      //     break;
+      // }
     }
     update();
   }
@@ -230,11 +237,14 @@ class OesController extends GetxController {
     } else {
       print('Channel Switching fail');
     }
-    List<double> fmtSpec = await readData(0);
+    List<List<double>> fmtSpec = await readData(0);
     chartData.clear();
-    for (var i = 0; i < listWavelength.length; i++) {
-      chartData.add(FlSpot(listWavelength[i], fmtSpec[i]));
+    for (var i = 0; i < Get.find<iniController>().OES_Count.value; i++) {
+      for (var x = 0; x < listWavelength.length; i++) {
+      chartData.add(FlSpot(listWavelength[x], fmtSpec[i][x]));
     }
+    }
+    
     //csv 저장하는거 넣어야 함////////
     // switch (nCurrentChannel) {
     //   case 0:

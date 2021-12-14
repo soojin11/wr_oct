@@ -90,6 +90,9 @@ Future main() async {
 
   // readConfig();
   // oesInit();
+  for (var i = 0; i < Get.find<iniController>().OES_Count.value; i++) {
+    Get.find<OesController>().oesData.add([]);
+  }
   runApp(MyApp());
 
   doWhenWindowReady(() {
