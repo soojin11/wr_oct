@@ -363,12 +363,12 @@ class _WRbodyState extends State<WRbody> {
                                     StartStop(),
                                   ],
                                 ),
-                                ElevatedButton(
-                                    onPressed: () {
-                                      createDoubleFunction();
-                                      printText;
-                                    },
-                                    child: Text('compute연습'))
+                                // ElevatedButton(
+                                //     onPressed: () {
+                                //       createDoubleFunction();
+                                //       printText;
+                                //     },
+                                //     child: Text('compute연습'))
                                 //////////////스타트스탑리셋
                               ],
                             ),
