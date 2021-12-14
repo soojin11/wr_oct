@@ -6,8 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ini/ini.dart';
 import 'package:wr_ui/main.dart';
-import 'package:wr_ui/view/chart/oes_chart.dart';
-import 'package:wr_ui/view/right_side_menu/start_stop.dart';
 import 'csv_creator.dart';
 
 Future<List<double>> readData(int a) async {
@@ -22,9 +20,10 @@ List<double> dllReadData(int a) {
       .asFunction();
   fmtSpec = getformatSpec(a);
   List<double> rt = [];
-  for (var i = 0; i < 2048; i++) {
-    rt.add(fmtSpec[i].toDouble());
+  for (var x = 0; x < 2048; x++) {
+    rt.add(fmtSpec[x].toDouble());
   }
+
   return rt;
 }
 // 100ms(이동시간)+100(in)*8
@@ -50,7 +49,7 @@ class iniController extends GetxController {
   RxInt sim = 0.obs;
   RxString measureStartAtProgStart = '1'.obs;
   RxString channelFlow = ''.obs;
-  RxInt OES_Count = 0.obs;
+  RxInt OES_Count = 8.obs;
   RxInt comPort = 3.obs;
   //디바이스데이터 채널 변경때문에 임시추가-원희-21/12/08
   RxList<String> chflow = ['1', '3', '5', '7', '8', '6', '4', '2'].obs;

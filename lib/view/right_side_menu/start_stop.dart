@@ -15,7 +15,7 @@ import 'log_screen.dart';
 
 int nChannelIdx = 0;
 // int nChannelIdx = -1;//range error 나서 초기값 바꿈
-RxList<FlSpot> chartData = RxList.empty();
+List<FlSpot> chartData = RxList.empty();
 
 class StartStopController extends GetxController {}
 
@@ -128,12 +128,15 @@ DataStartBtn() {
     Get.find<runErrorStatusController>().statusColor.value = Color(0xFF2CA732);
     Get.find<OesController>().inactiveBtn.value = true;
     try {
+      //채널움직이는시간
       int time1 = Get.find<iniController>().channelMovingTime.value.toInt();
+      //integration 빛수집
       double doubletime2 =
           Get.find<iniController>().integrationTime.value / 1000;
       int inttime2 = doubletime2.toInt();
+      //30ms여유시간(빛 수집 후)
       double doubletime3 = Get.find<iniController>().plusTime.value / 1000;
-      ;
+
       int inttime3 = doubletime3.toInt();
 
       int allTime = time1 + inttime2 + inttime3;
