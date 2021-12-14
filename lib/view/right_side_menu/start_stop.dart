@@ -142,7 +142,7 @@ DataStartBtn() {
       print('time3?? $inttime3');
       print('allTime??? $allTime');
       nChannelIdx = 0;
-      chartData = Get.find<OesController>().oneData;
+      Get.find<OesController>().oesData[0] = chartData;
       Get.find<OesController>().timer = Timer.periodic(
           Duration(milliseconds: allTime),
           Get.find<OesController>().updateDataSource2);
@@ -159,7 +159,7 @@ DataStartBtn() {
     } on FormatException {
       print('format error');
     }
-    Get.find<OesController>().oneData;
+    Get.find<OesController>().oesData[0];
     Get.find<runErrorStatusController>().connect.value = true;
     Get.find<runErrorStatusController>().textmsg.value = 'R U N';
     Get.find<LogListController>().clickedStart();
@@ -171,13 +171,13 @@ DataStartBtn() {
 SimStartBtn() {
   Get.find<runErrorStatusController>().connect.value = true;
   Get.find<OesController>().inactiveBtn.value = true;
-  try {
-    Get.find<OesController>().simTimer = Timer.periodic(
-        Duration(milliseconds: 500),
-        Get.find<OesController>().updateSimulation);
-  } on FormatException {
-    print('format error');
-  }
+  // try {
+  //   Get.find<OesController>().simTimer = Timer.periodic(
+  //       Duration(milliseconds: 500),
+  //       Get.find<OesController>().updateSimulation);
+  // } on FormatException {
+  //   print('format error');
+  // }
   Get.find<runErrorStatusController>().textmsg.value = 'S I M U L A T I O N';
   Get.find<LogListController>().clickedStart();
   Get.find<runErrorStatusController>().statusColor.value = Color(0xFFE9DF50);
