@@ -14,7 +14,7 @@ class dialogBtn extends StatelessWidget {
         icon: Icon(Icons.settings),
         label: Text(
           'Setting',
-          style: WrText.WrLeadingFont,
+          style: WrText.WrFont,
         ),
       ),
     );

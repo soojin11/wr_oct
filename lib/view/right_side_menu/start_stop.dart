@@ -14,6 +14,7 @@ import 'csv_creator.dart';
 import 'log_screen.dart';
 
 int nChannelIdx = 0;
+// int nChannelIdx = -1;//range error 나서 초기값 바꿈
 RxList<FlSpot> chartData = RxList.empty();
 
 class StartStopController extends GetxController {}
@@ -52,6 +53,17 @@ class StartStop extends GetView<StartStopController> {
               ),
               onPressed: () async {
                 DataStartBtn();
+                // Get.defaultDialog<bool>(
+                //   title: 'ocrstart 2',
+                //   content: Text('test'),
+                //   // onConfirm: () => null,
+                //   // onCancel: () => null,
+                //   // onCustom: () => null,
+                //   // textConfirm: "확인",
+                //   // textCancel: "취소",
+                //   // confirm: Container(height: 20),
+                //   // cancel: Container(height: 20),
+                // );
               },
             ),
           ),
@@ -80,11 +92,17 @@ class StartStop extends GetView<StartStopController> {
                         : Colors.grey,
                     textStyle: TextStyle(fontSize: 16)),
                 onPressed: () {
-                  mpmSetChannel(0);
+                  Get.find<runErrorStatusController>().statusColor.value =
+                      Colors.red;
                   Get.find<OesController>().inactiveBtn.value = false;
                   Get.find<CsvController>().inactiveBtn.value = false;
+                  //스탑버튼 눌렀을 때, OES_Simulation==1(디바이스 데이터) 일 경우에 할 것들
                   if (Get.find<iniController>().sim.value == 1) {
+                    //채널 1번으로
+                    mpmSetChannel(0);
+                    //타이머 캔슬
                     Get.find<OesController>().timer?.cancel();
+                    //스탑버튼 눌렀을 때, OES_Simulation==0(디바이스 데이터) 일 경우에 할 것들
                   } else if (Get.find<iniController>().sim.value == 0) {
                     Get.find<OesController>().simTimer?.cancel();
                   }
@@ -108,7 +126,6 @@ class StartStop extends GetView<StartStopController> {
 DataStartBtn() {
   if (Get.find<iniController>().sim.value == 1) {
     Get.find<runErrorStatusController>().statusColor.value = Color(0xFF2CA732);
-    print('bRunning호출');
     Get.find<OesController>().inactiveBtn.value = true;
     try {
       int time1 = Get.find<iniController>().channelMovingTime.value.toInt();

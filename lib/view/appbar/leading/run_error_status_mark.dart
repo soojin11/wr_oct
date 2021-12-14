@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ini/ini.dart';
+import 'package:neuomorphic_container/neuomorphic_container.dart';
 import 'package:wr_ui/main.dart';
 import 'package:wr_ui/model/const/style/text.dart';
 import 'package:wr_ui/view/chart/oes_chart.dart';
@@ -19,17 +20,20 @@ class RunErrorStatus extends GetView<runErrorStatusController> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Obx(
-        () => Container(
-          decoration: BoxDecoration(color: controller.statusColor.value),
-          width: 300,
-          height: 80,
-          child: Center(
-            child: Text(
-              controller.textmsg.value,
-              style: WrText.WrLeadingFont,
-            ),
+    return Obx(
+      () => NeuomorphicContainer(
+        color: controller.statusColor.value,
+        // decoration: BoxDecoration(color: controller.statusColor.value),
+        width: 300,
+        height: 85,
+        intensity: 0.2,
+        offset: Offset(10.0, 10.0),
+        blur: 7,
+        style: NeuomorphicStyle.Pressed,
+        child: Center(
+          child: Text(
+            controller.textmsg.value,
+            style: WrText.WrFont,
           ),
         ),
       ),

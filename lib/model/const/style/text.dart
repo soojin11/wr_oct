@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class WrText {
-  static const TextStyle WrLeadingFont = TextStyle(
-    fontSize: 25,
+  static const TextStyle WrFont = TextStyle(
+    fontSize: 22,
     fontWeight: FontWeight.bold,
     color: Colors.white,
   );
@@ -10,7 +10,7 @@ class WrText {
 
 class WrClockText {
   static const TextStyle WrLeadingFont = TextStyle(
-    fontSize: 18,
+    fontSize: 15,
     fontWeight: FontWeight.bold,
     color: Colors.white,
   );

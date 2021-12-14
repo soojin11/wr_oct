@@ -1,13 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:wr_ui/view/chart/switch_chart.dart';
-import 'package:wr_ui/view/right_side_menu/save_ini.dart';
 import 'log_save.dart';
 
 class LogListController extends GetxController {
-  RxList logData = ['${screenTime()} Start Program'].obs;
+  RxList logData = [' Start Program'].obs;
   //RxBool rederror = false.obs;
   String event = '[Event Trigger]';
   String btnPress = 'button is pressed';
@@ -36,7 +36,7 @@ class LogListController extends GetxController {
 
   void settingBtn() async {
     saveLog();
-    logData.add('${screenTime()} Setting $btnPress');
+    logData.add(' Setting $btnPress');
     Get.find<LogController>()
         .loglist
         .add('${logfileTime()} [Event Trigger] Setting $btnPress' + '\n');
@@ -44,7 +44,7 @@ class LogListController extends GetxController {
 
   void clickedStop() async {
     saveLog();
-    logData.add('${screenTime()} Stop $btnPress');
+    logData.add(' Stop $btnPress');
     Get.find<LogController>()
         .loglist
         .add('${logfileTime()} $event Stop $btnPress' + '\n');
@@ -52,7 +52,7 @@ class LogListController extends GetxController {
 
   void clickedStart() async {
     saveLog();
-    logData.add('${screenTime()} Start $btnPress');
+    logData.add(' Start $btnPress');
     Get.find<LogController>()
         .loglist
         .add('${logfileTime()} $event Start $btnPress' + '\n');
@@ -60,7 +60,7 @@ class LogListController extends GetxController {
 
   void startCsv() async {
     saveLog();
-    logData.add('${screenTime()} Save start $btnPress');
+    logData.add(' Save start $btnPress');
     Get.find<LogController>()
         .loglist
         .add('${logfileTime()} [Event Trigger] Save start $btnPress' + '\n');
@@ -70,7 +70,7 @@ class LogListController extends GetxController {
     saveLog();
     Get.find<LogController>().logSave();
 
-    logData.add('${screenTime()} Save stop $btnPress');
+    logData.add(' Save stop $btnPress');
     Get.find<LogController>()
         .loglist
         .add('${logfileTime()} [Event Trigger] Save stop $btnPress' + '\n');
@@ -83,7 +83,7 @@ class LogListController extends GetxController {
     // Get.find<LogController>().loglist.add(
     //     '${logfileTime} Exposure time has been changed to ${Get.find<iniController>().exposureTime.value}' +
     //         '\n');
-    logData.add('${screenTime()} Save Config');
+    logData.add(' Save Config');
     Get.find<LogController>()
         .loglist
         .add('${logfileTime()} [Event Trigger] Save setting $btnPress' + '\n');
@@ -91,7 +91,7 @@ class LogListController extends GetxController {
 
   void cModeChage() async {
     saveLog();
-    logData.add('${screenTime()} Changed Mode');
+    logData.add(' Changed Mode');
     Get.find<LogController>()
         .loglist
         .add('${logfileTime()} Mode $btnPress' + '\n');
@@ -153,6 +153,7 @@ class LogList extends GetView<LogListController> {
                 //isAlwaysShown: true,
                 child: SingleChildScrollView(
                   child: ListView.builder(
+                    reverse: true,
                     controller: scrollCtrl,
                     addAutomaticKeepAlives: false,
                     addRepaintBoundaries: false,
@@ -161,7 +162,48 @@ class LogList extends GetView<LogListController> {
                     itemCount: controller.logData.length,
                     itemBuilder: (BuildContext context, int index) {
                       return ListTile(
-                        title: Text('${controller.logData[index]}\n'),
+                        //최신 인덱스이면 글자 강조되게
+                        title: index == controller.logData.length - 1
+                            ? Row(
+                                children: [
+                                  Text(
+                                    '${screenTime()}',
+                                    style: TextStyle(
+                                      color: Colors.blueGrey,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  VerticalDivider(
+                                    color: Colors.black,
+                                  ),
+                                  Column(
+                                    children: [
+                                      SizedBox(height: 20),
+                                      Text(
+                                        '${controller.logData[index]}\r\n',
+                                        style: TextStyle(
+                                          color: Colors.blueGrey,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              )
+                            : Row(
+                                children: [
+                                  Text('${screenTime()}'),
+                                  VerticalDivider(
+                                    color: Colors.black,
+                                  ),
+                                  Column(
+                                    children: [
+                                      SizedBox(height: 20),
+                                      Text('${controller.logData[index]}\r\n'),
+                                    ],
+                                  ),
+                                ],
+                              ),
                       );
                     },
                   ),

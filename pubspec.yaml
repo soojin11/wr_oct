@@ -53,6 +53,8 @@ dependencies:
   toggle_switch: ^1.2.0
   webview_flutter: ^2.1.2
   flutter_material_color_picker: ^1.1.0+2
+  neuomorphic_container: ^2.0.3
+  just_the_tooltip: ^0.0.11
 dev_dependencies:
   flutter_test:
     sdk: flutter

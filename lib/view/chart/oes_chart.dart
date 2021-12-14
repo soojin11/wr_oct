@@ -218,7 +218,8 @@ class OesController extends GetxController {
     //chartData.add(item)
     //nChannelIdx = 0
     var nCurrentChannel = int.parse(channelNuminINI[nChannelIdx++]) - 1;
-
+    print('nCurrentChannel : $nCurrentChannel');
+    print('nChannelIdx : $nChannelIdx');
     mpmSetChannel(nCurrentChannel); //채널바꿈
 
     if (await waitSwitching() == true) {

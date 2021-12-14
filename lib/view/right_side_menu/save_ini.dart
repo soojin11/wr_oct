@@ -51,6 +51,7 @@ class iniController extends GetxController {
   RxString measureStartAtProgStart = '1'.obs;
   RxString channelFlow = ''.obs;
   RxInt OES_Count = 0.obs;
+  RxInt comPort = 3.obs;
   //디바이스데이터 채널 변경때문에 임시추가-원희-21/12/08
   RxList<String> chflow = ['1', '3', '5', '7', '8', '6', '4', '2'].obs;
   //디바이스데이터 채널 변경때문에 임시추가-원희-21/12/08
@@ -97,6 +98,8 @@ readConfig() async {
       int plusTime = int.parse(config.get("Common", "PlusTime").toString());
       Get.find<iniController>().plusTime.value = plusTime;
       //////
+      int comPortNum = int.parse(config.get('Common', 'Comport').toString());
+      Get.find<iniController>().comPort.value = comPortNum;
     }
 
     // int integrationTime =

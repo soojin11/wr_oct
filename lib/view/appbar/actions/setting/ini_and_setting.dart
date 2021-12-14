@@ -26,19 +26,20 @@ class SetBtn extends StatefulWidget {
 class _SetBtnState extends State<SetBtn> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: TextButton.icon(
-        onPressed: () {
-          Get.find<LogListController>().settingBtn();
-          Get.find<runErrorStatusController>().connect.value
-              ? runningSet(context)
-              : _showDialog(context);
-        },
-        icon: Icon(
-          Icons.settings,
-          color: wrColors.white,
-        ),
-        label: Text('settings', style: WrText.WrLeadingFont),
+    return TextButton.icon(
+      onPressed: () {
+        Get.find<LogListController>().settingBtn();
+        Get.find<runErrorStatusController>().connect.value
+            ? runningSet(context)
+            : _showDialog(context);
+      },
+      icon: Icon(
+        Icons.settings,
+        color: wrColors.white,
+      ),
+      label: Text(
+        'settings',
+        style: WrText.WrFont,
       ),
     );
   }

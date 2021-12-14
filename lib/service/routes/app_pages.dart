@@ -9,17 +9,19 @@ class AppPages {
   AppPages._();
 
   // static const INITIAL = Routes.ALL;
-  static const INITIAL = Routes.SPLASH;
+  // static const INITIAL = Routes.SPLASH;
+  static const INITIAL = Routes.HOME;
+
   static final routes = [
     GetPage(
       name: _Paths.SPLASH,
       page: () => SplashView(),
-      binding: SplashBinding(),
+      // binding: SplashBinding(),
     ),
     GetPage(
       name: _Paths.HOME,
       page: () => Home(),
-      binding: SplashBinding(),
+      // binding: SplashBinding(),
     ),
   ];
   // static const CHART_INITIAL = Routes.ALL;
