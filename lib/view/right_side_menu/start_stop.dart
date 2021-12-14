@@ -3,6 +3,7 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:wr_ui/main.dart';
 import 'package:wr_ui/view/appbar/actions/setting/setting_menu_final.dart';
 import 'package:wr_ui/view/appbar/leading/run_error_status_mark.dart';
@@ -176,6 +177,8 @@ class StartStop extends GetView<StartStopController> {
 }
 
 void StartButton() {
+  DateTime current = DateTime.now();
+  Get.find<CsvController>().saveFileName.value = DateFormat('yyyyMMdd-HHmmss').format(current);
   if (Get.find<iniController>().sim.value == 1) {
     Get.find<OesController>().inactiveBtn.value = true;
     try {

@@ -37,8 +37,9 @@ Future main() async {
   Get.put(DialogStorageCtrl());
   Get.put(runErrorStatusController());
   Get.put(StartStopController());
-  Get.put(CsvController());
   Get.put(iniController());
+  Get.put(CsvController());
+  
 
   Get.put(LogListController());
   Get.put(LogController());

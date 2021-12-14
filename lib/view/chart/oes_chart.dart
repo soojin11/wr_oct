@@ -4,20 +4,21 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:wr_ui/view/right_side_menu/csv_creator.dart';
 import 'package:wr_ui/view/right_side_menu/save_ini.dart';
 
 class OesController extends GetxController {
   RxList<List<FlSpot>> chartData = RxList.empty();
 
-  RxList<FlSpot> oneData = RxList.empty();
-  RxList<FlSpot> twoData = RxList.empty();
-  RxList<FlSpot> threeData = RxList.empty();
-  RxList<FlSpot> fourData = RxList.empty();
-  RxList<FlSpot> fiveData = RxList.empty();
-  RxList<FlSpot> sixData = RxList.empty();
-  RxList<FlSpot> sevenData = RxList.empty();
-  RxList<FlSpot> eightData = RxList.empty();
+  // RxList<FlSpot> oneData = RxList.empty();
+  // RxList<FlSpot> twoData = RxList.empty();
+  // RxList<FlSpot> threeData = RxList.empty();
+  // RxList<FlSpot> fourData = RxList.empty();
+  // RxList<FlSpot> fiveData = RxList.empty();
+  // RxList<FlSpot> sixData = RxList.empty();
+  // RxList<FlSpot> sevenData = RxList.empty();
+  // RxList<FlSpot> eightData = RxList.empty();
   RxBool inactiveBtn = false.obs;
 
   RxBool checkVal1 = true.obs;
@@ -47,117 +48,39 @@ class OesController extends GetxController {
       if (chartData.isNotEmpty) chartData[i].clear();
     }
 
-    for (var i = 0; i < Get.find<iniController>().OES_Count.value; i++) {
-      for (double xVal = 190; xVal < 760; xVal++) {
-        chartData[i].add(FlSpot(xVal, setRandom()));
+    List<double> xValues = [];
+    for (double i = 0; i < 2048; i++) {
+      xValues.add(i);
+    }
+
+    List<List<double>> formatedSpec = [];
+    for (var z = 0; z < Get.find<iniController>().OES_Count.value; z++) {
+      formatedSpec.add([]);
+      for (var i = 0; i < 2048; i++) {
+        formatedSpec[z].add(setRandom());
       }
     }
 
-    // if (oneData.isNotEmpty) {
-    //   oneData.clear();
-    //   twoData.clear();
-    //   threeData.clear();
-    //   fourData.clear();
-    //   fiveData.clear();
-    //   sixData.clear();
-    //   sevenData.clear();
-    //   eightData.clear();
-    // }
-    // for (double i = 190; i < 760; i++) {
-    //   oneData.add(FlSpot(i, setRandom()));
-    //   twoData.add(FlSpot(i, setRandom()));
-    //   threeData.add(FlSpot(i, setRandom()));
-    //   fourData.add(FlSpot(i, setRandom()));
-    //   fiveData.add(FlSpot(i, setRandom()));
-    //   sixData.add(FlSpot(i, setRandom()));
-    //   sevenData.add(FlSpot(i, setRandom()));
-    //   eightData.add(FlSpot(i, setRandom()));
-    // }
-    if (Get.find<CsvController>().fileSave.value)
-      //await Get.find<CsvController>().csvSave();
-      await Get.find<CsvController>().writeCsv();
-    // if (Get.find<CsvController>().fileSave2.value)
-    //   await Get.find<CsvController>().SecondcsvSave();
-    // if (Get.find<CsvController>().fileSave3.value)
-    //   await Get.find<CsvController>().ThirdcsvSave();
-    // if (Get.find<CsvController>().fileSave4.value)
-    //   await Get.find<CsvController>().FourthcsvSave();
-    // if (Get.find<CsvController>().fileSave5.value)
-    //   await Get.find<CsvController>().FifthcsvSave();
-    // if (Get.find<CsvController>().fileSave6.value)
-    //   await Get.find<CsvController>().SixthcsvSave();
-    // if (Get.find<CsvController>().fileSave7.value)
-    //   await Get.find<CsvController>().SeventhcsvSave();
-    // if (Get.find<CsvController>().fileSave8.value)
-    //   await Get.find<CsvController>().EightcsvSave();
+    for (var i = 0; i < Get.find<iniController>().OES_Count.value; i++) {
+      for (int x = 0; x < 2048; x++) {
+        chartData[i].add(FlSpot(xValues[x], formatedSpec[i][x]));
+      }
+    }
+    if (Get.find<CsvController>().fileSave.value) {
+      for (var i = 0; i < Get.find<iniController>().OES_Count.value; i++) {
+         Get.find<CsvController>().csvForm(
+            path: "_${i + 1}.csv", data: formatedSpec[i]);
+      }
+    }
+
     update();
   }
-  // Future<void> SimupdateDataSource(Timer timer) async {
-  //   if (oneData.isNotEmpty) {
-  //     oneData.clear();
-  //     twoData.clear();
-  //     threeData.clear();
-  //     fourData.clear();
-  //     fiveData.clear();
-  //     sixData.clear();
-  //     sevenData.clear();
-  //     eightData.clear();
-  //   }
-  //   for (double i = 190; i < 760; i++) {
-  //     oneData.add(FlSpot(i, setRandom()));
-  //     twoData.add(FlSpot(i, setRandom()));
-  //     threeData.add(FlSpot(i, setRandom()));
-  //     fourData.add(FlSpot(i, setRandom()));
-  //     fiveData.add(FlSpot(i, setRandom()));
-  //     sixData.add(FlSpot(i, setRandom()));
-  //     sevenData.add(FlSpot(i, setRandom()));
-  //     eightData.add(FlSpot(i, setRandom()));
-  //   }
-  //   if (Get.find<CsvController>().fileSave.value)
-  //     await Get.find<CsvController>().csvSave();
-  //   if (Get.find<CsvController>().fileSave2.value)
-  //     await Get.find<CsvController>().SecondcsvSave();
-  //   if (Get.find<CsvController>().fileSave3.value)
-  //     await Get.find<CsvController>().ThirdcsvSave();
-  //   if (Get.find<CsvController>().fileSave4.value)
-  //     await Get.find<CsvController>().FourthcsvSave();
-  //   if (Get.find<CsvController>().fileSave5.value)
-  //     await Get.find<CsvController>().FifthcsvSave();
-  //   if (Get.find<CsvController>().fileSave6.value)
-  //     await Get.find<CsvController>().SixthcsvSave();
-  //   if (Get.find<CsvController>().fileSave7.value)
-  //     await Get.find<CsvController>().SeventhcsvSave();
-  //   if (Get.find<CsvController>().fileSave8.value)
-  //     await Get.find<CsvController>().EightcsvSave();
-  //   update();
-  // }
-
-  // List<FlSpot> doubleFunction(int value) {
-  //   for (var i = 190; i < value; i++) {
-  //     oneData.add(FlSpot(i.toDouble(), setRandom()));
-  //     twoData.add(FlSpot(i.toDouble(), setRandom()));
-  //     threeData.add(FlSpot(i.toDouble(), setRandom()));
-  //     fourData.add(FlSpot(i.toDouble(), setRandom()));
-  //     fiveData.add(FlSpot(i.toDouble(), setRandom()));
-  //     sixData.add(FlSpot(i.toDouble(), setRandom()));
-  //     sevenData.add(FlSpot(i.toDouble(), setRandom()));
-  //     eightData.add(FlSpot(i.toDouble(), setRandom()));
-  //   }
-  //   return doubleFunction(760);
-  // }
-
-  // Future<List<FlSpot>> createDoubleFunction() async {
-  //   int value = 760;
-  //   List<FlSpot> val = await compute(doubleFunction, value);
-  //   return val;
-  // }
 }
 
 class OesChart extends GetView<OesController> {
   OesChart({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    //final controller = Get.put(OesController());
     return Container(
       padding: EdgeInsets.only(top: 20),
       child: GetBuilder<OesController>(
@@ -185,55 +108,6 @@ class OesChart extends GetView<OesController> {
                     Get.find<iniController>().Series_Color_007.value),
                 lineChartBarData(controller.chartData[7],
                     Get.find<iniController>().Series_Color_008.value),
-
-                // if (controller.checkVal1.value)
-                //   lineChartBarData(
-                //       controller.oneData,
-                //       Get.find<iniController>()
-                //           .Series_Color_001
-                //           .value),
-                // if (controller.checkVal2.value)
-                //   lineChartBarData(
-                //       controller.twoData,
-                //       Get.find<iniController>()
-                //           .Series_Color_002
-                //           .value),
-                // if (controller.checkVal3.value)
-                //   lineChartBarData(
-                //       controller.threeData,
-                //       Get.find<iniController>()
-                //           .Series_Color_003
-                //           .value),
-                // if (controller.checkVal4.value)
-                //   lineChartBarData(
-                //       controller.fourData,
-                //       Get.find<iniController>()
-                //           .Series_Color_004
-                //           .value),
-                // if (controller.checkVal5.value)
-                //   lineChartBarData(
-                //       controller.fiveData,
-                //       Get.find<iniController>()
-                //           .Series_Color_005
-                //           .value),
-                // if (controller.checkVal6.value)
-                //   lineChartBarData(
-                //       controller.sixData,
-                //       Get.find<iniController>()
-                //           .Series_Color_006
-                //           .value),
-                // if (controller.checkVal7.value)
-                //   lineChartBarData(
-                //       controller.sevenData,
-                //       Get.find<iniController>()
-                //           .Series_Color_007
-                //           .value),
-                // if (controller.checkVal8.value)
-                //   lineChartBarData(
-                //       controller.eightData,
-                //       Get.find<iniController>()
-                //           .Series_Color_008
-                //           .value),
               ],
               bottomTitles: SideTitles(
                 showTitles: true,
