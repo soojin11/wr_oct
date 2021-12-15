@@ -101,10 +101,42 @@ Future<void> _showDialog(context) async {
                                           Get.find<iniController>()
                                               .exposureTime
                                               .value = v.toString();
-                                          print(
-                                              'Exposure time has been changed to $v');
                                         },
                                       ),
+                                      TextFormField(
+                                        initialValue: (Get.find<iniController>()
+                                                    .integrationTime
+                                                    .value ~/
+                                                1000)
+                                            .toString(),
+                                        decoration: InputDecoration(
+                                          labelText: 'Integration Time',
+                                          hintText: 'milliseconds',
+                                        ),
+                                        onSaved: (v) {
+                                          Get.find<iniController>()
+                                                  .integrationTime
+                                                  .value =
+                                              int.parse(v.toString()) * 1000;
+                                        },
+                                      ),
+
+                                      TextFormField(
+                                        initialValue: Get.find<iniController>()
+                                            .waitSwitchingTime
+                                            .value
+                                            .toString(),
+                                        decoration: InputDecoration(
+                                          labelText: 'Wait Switching Time',
+                                          hintText: 'milliseconds',
+                                        ),
+                                        onSaved: (v) {
+                                          Get.find<iniController>()
+                                              .waitSwitchingTime
+                                              .value = int.parse(v.toString());
+                                        },
+                                      ),
+
                                       /////delay time 필요 없어져서 지움
                                       // SizedBox(
                                       //   height: 30,
@@ -519,6 +551,7 @@ Future<void> _showDialog(context) async {
                           child: Text('save'),
                           onPressed: () {
                             Get.find<iniController>().key.currentState!.save();
+                            writeConfig2();
                             Get.find<LogListController>().cConfigSave();
                           },
                         ),

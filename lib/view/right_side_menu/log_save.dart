@@ -10,6 +10,7 @@ class LogController extends GetxController {
   RxList loglist = RxList.empty();
 
   Future<File> logSave() async {
+    loglist.clear();
     DateTime current = DateTime.now();
     final String fileName = DateFormat('HH').format(current);
     final String yearName = DateFormat('yyyy').format(current);
@@ -22,14 +23,12 @@ class LogController extends GetxController {
     path.value = "./Log/$yearName/$monthName/$dayName/$fileName.txt";
 
     File file = File(path.value);
-
     List<dynamic> logData = [];
     logData.addAll(Get.find<LogController>().loglist);
-    String addLogFile = logData.join();
-
     print("log file in");
-    String intergrationColumn = addLogFile;
-
-    return file.writeAsString(intergrationColumn);
+    if (await file.exists()) {
+      return file.writeAsString(logData.join(), mode: FileMode.append);
+    }
+    return file.writeAsString(logData.join());
   }
 }

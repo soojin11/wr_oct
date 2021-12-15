@@ -128,14 +128,27 @@ DataStartBtn() {
       int inttime2 = doubletime2.toInt();
       //30ms여유시간(빛 수집 후)
       // double doubletime3 = Get.find<iniController>().plusTime.value / 1000;
-
+//100ms로 plustime
       int time3 = Get.find<iniController>().plusTime.value;
+      time3 = 150;
 
-      int allTime = time1 + inttime2 + time3;
+      int allTime =
+          //  time1+
+          inttime2 + Get.find<iniController>().waitSwitchingTime.value + time3;
+      if (doubletime2 <= Get.find<iniController>().waitSwitchingTime.value) {
+        allTime = inttime2 +
+            Get.find<iniController>().waitSwitchingTime.value +
+            time3;
+      } else
+        allTime = (inttime2 * 2) + time3;
       print('time1?? $time1');
       print('time2?? $inttime2');
       print('time3?? $time3');
       print('allTime??? $allTime');
+      Get.find<LogListController>().logData.add(
+          'all/wait time : $allTime ${Get.find<iniController>().waitSwitchingTime.value}');
+
+      setIntegrationTime(0, Get.find<iniController>().integrationTime.value);
       nChannelIdx = 0;
       //chartData = Get.find<OesController>().oesData[0];
       Get.find<OesController>().timer = Timer.periodic(

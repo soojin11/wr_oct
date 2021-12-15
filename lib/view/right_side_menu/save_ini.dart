@@ -44,7 +44,7 @@ class iniController extends GetxController {
   RxInt channelMovingTime = 2000.obs;
   RxInt integrationTime = 1000.obs;
   RxInt waitSwitchingTime = 1000.obs;
-  RxInt plusTime = 30.obs;
+  RxInt plusTime = 100.obs;
   RxString deviceSimul = ''.obs;
   RxString mosChannel = '0'.obs;
   RxInt sim = 0.obs;
@@ -126,14 +126,14 @@ Future<File> get _localFile async {
 }
 
 writeConfig() async {
-  Config config = new Config();
-  await readConfig();
+  //
+  Config config = await readConfig();
   if (!config.hasSection("Common")) {
     config.addSection("Common");
     config.set("Common", "Comport", "3");
     config.set("Common", "IntegrationTime", "1000");
     config.set("Common", "Channel_Moving_Time", "1500");
-    config.set("Common", "PlusTime", "30");
+    config.set("Common", "PlusTime", "100");
     //밀리세컨즈 1초 == 1000
     config.set("Common", "waitSwitchingTime", "1000");
     config.set("Common", "OES_Simulation", '1');
@@ -182,4 +182,57 @@ writeConfig() async {
         Get.find<iniController>().Series_Color_008.toString());
     writeToConf(config);
   }
+}
+
+writeConfig2() async {
+  Config config = new Config();
+
+  config.addSection("Common");
+  config.set("Common", "Comport", "3");
+  config.set("Common", "IntegrationTime",
+      (Get.find<iniController>().integrationTime.value ~/ 1000).toString());
+  config.set("Common", "Channel_Moving_Time", "1500");
+  config.set("Common", "PlusTime", "100");
+  //밀리세컨즈 1초 == 1000
+  config.set("Common", "waitSwitchingTime",
+      Get.find<iniController>().waitSwitchingTime.value.toString());
+  config.set("Common", "OES_Simulation", '1');
+  config.set("Common", "OES_Count", "8");
+  config.set("Common", "bOESConnect", "false");
+  config.set("Common", "VI_Simulation", "1");
+  config.set("Common", "VI_Count ", "1");
+  config.set("Common", "bVIConnect", "false");
+  config.set("Common", "DataPath", "./datafiles/");
+  config.set("Common", "SaveFromStartSignal", "0");
+  config.set("Common", "measureStartAtProgStart", "0");
+  config.set("Common", "Channel_Flow", "1, 3, 5, 7, 8, 6, 4, 2");
+
+  writeToConf(config);
+  config.addSection("OES_Setting");
+  config.set("OES_Setting", "ExposureTime", "100");
+
+  config.set("OES_Setting", 'DelayTime', "100");
+  writeToConf(config);
+  config.addSection("VI_Setting");
+  config.set("VI_Setting", "a", "0");
+  config.set("VI_Setting", 'b', "2");
+  writeToConf(config);
+  config.addSection("OES_Chart_Setting");
+  config.set("OES_Chart_Setting", "Series_Color_001",
+      Get.find<iniController>().Series_Color_001.toString());
+  config.set("OES_Chart_Setting", 'Series_Color_002',
+      Get.find<iniController>().Series_Color_002.toString());
+  config.set("OES_Chart_Setting", 'Series_Color_003',
+      Get.find<iniController>().Series_Color_003.toString());
+  config.set("OES_Chart_Setting", 'Series_Color_004',
+      Get.find<iniController>().Series_Color_004.toString());
+  config.set("OES_Chart_Setting", 'Series_Color_005',
+      Get.find<iniController>().Series_Color_005.toString());
+  config.set("OES_Chart_Setting", 'Series_Color_006',
+      Get.find<iniController>().Series_Color_006.toString());
+  config.set("OES_Chart_Setting", 'Series_Color_007',
+      Get.find<iniController>().Series_Color_007.toString());
+  config.set("OES_Chart_Setting", 'Series_Color_008',
+      Get.find<iniController>().Series_Color_008.toString());
+  writeToConf(config);
 }

@@ -101,6 +101,7 @@ Future<String?> completelyExit(BuildContext context) {
               showDialog(
                   context: context,
                   builder: (context) {
+                    //종료시간 짧게 넣음
                     Future.delayed(Duration(milliseconds: 100), () {
                       exit(0);
                     });

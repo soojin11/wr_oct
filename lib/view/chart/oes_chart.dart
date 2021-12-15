@@ -92,23 +92,27 @@ class OesController extends GetxController {
 
   Future<bool> waitSwitching() async {
     //타임 시작
-    var stopwatch = Stopwatch()..start();
-    while (mpmIsSwitching() == 1) {
-      Future.delayed(
-        Duration(milliseconds: 1),
-      );
-      //1초 초과 체크 , 넘으면 브레이크(나가게), return false
-      if (stopwatch.elapsedMilliseconds > 200) {
-        // print(' stopwatch1 ');
-        return false;
-      }
-    }
+    // var stopwatch = Stopwatch()..start();
+    // while (mpmIsSwitching() == 1) {
+    //   await Future.delayed(
+    //     Duration(milliseconds: 1),
+    //   );
+    //   //1초 초과 체크 , 넘으면 브레이크(나가게), return false
+    //   if (stopwatch.elapsedMilliseconds > 200) {
+    //     // print(' stopwatch1 ');
+    //     return false;
+    //   }
+    // }
+
+    //기다리는 시간 점점 줄이기
     var isSwitchingCorectionTime =
         Get.find<iniController>().waitSwitchingTime.value;
-    Future.delayed(
+    await Future.delayed(
       Duration(milliseconds: isSwitchingCorectionTime),
     ); //스위치타임 보정-ini
-
+    // Get.find<LogListController>()
+    //     .logData
+    //     .add('waitSwitching Time : $isSwitchingCorectionTime');
     return true;
   }
 
@@ -157,7 +161,12 @@ class OesController extends GetxController {
     //var nCurrentChannel = int.parse(channelNuminINI[nChannelIdx++]) + 1;
     print('nCurrentChannel : $nCurrentChannel');
     print('nChannelIdx : $nChannelIdx');
+    Get.find<LogController>()
+        .loglist
+        .add('${logfileTime()} Start SetChannel\n');
+
     mpmSetChannel(nCurrentChannel); //채널바꿈
+    Get.find<LogController>().loglist.add('${logfileTime()} End SetChannel\n');
 
     if (await waitSwitching() == true) {
       //채널바뀔 때 기다림
@@ -165,17 +174,22 @@ class OesController extends GetxController {
     } else {
       print('Channel Switching fail');
     }
+    Get.find<LogController>()
+        .loglist
+        .add('${logfileTime()} End waitSwitching\n');
     List<double> fmtSpec = await readData(0);
+
+    Get.find<LogController>().loglist.add('${logfileTime()} End readData\n');
     oesData[nCurrentChannel].clear();
     for (var x = 0; x < listWavelength.length; x++) {
       oesData[nCurrentChannel].add(FlSpot(listWavelength[x], fmtSpec[x]));
     }
-
+    Get.find<LogController>().loglist.add('${logfileTime()} End Draw Chart\n');
     if (Get.find<CsvController>().fileSave.value) {
       Get.find<CsvController>()
           .csvForm(path: "_${nCurrentChannel + 1}.csv", data: fmtSpec);
     }
-
+    Get.find<LogController>().loglist.add('${logfileTime()} End csv save\n');
     if (nChannelIdx > channelNuminINI.length - 1) {
       nChannelIdx = 0;
     }
