@@ -225,7 +225,8 @@ class OesController extends GetxController {
     //nChannelIdx;
     //chartData.add(item)
     //nChannelIdx = 0
-    var nCurrentChannel = int.parse(channelNuminINI[nChannelIdx++]) - 1;
+    // var nCurrentChannel = int.parse(channelNuminINI[nChannelIdx++]) - 1;
+    var nCurrentChannel = int.parse(channelNuminINI[nChannelIdx++]) + 1;
     print('nCurrentChannel : $nCurrentChannel');
     print('nChannelIdx : $nChannelIdx');
     mpmSetChannel(nCurrentChannel); //채널바꿈
@@ -282,39 +283,47 @@ class OesController extends GetxController {
       nChannelIdx = 0;
     }
     var nNextChannel = int.parse(channelNuminINI[nChannelIdx]) - 1;
-    switch (nNextChannel) {
-      case 0:
-        chartData = oesData[0];
-        break;
-      case 1:
-        chartData = oesData[1];
+    print('nNextChannel : $nNextChannel');
 
-        break;
-      case 2:
-        chartData = oesData[2];
+    chartData = oesData[nNextChannel];
 
-        break;
-      case 3:
-        chartData = oesData[3];
-
-        break;
-      case 4:
-        chartData = oesData[4];
-
-        break;
-      case 5:
-        chartData = oesData[5];
-
-        break;
-      case 6:
-        chartData = oesData[6];
-
-        break;
-      case 7:
-        chartData = oesData[7];
-
-        break;
+    if (Get.find<CsvController>().fileSave.value) {
+      Get.find<CsvController>()
+          .csvForm(path: "_${nNextChannel - 1}.csv", data: fmtSpec);
     }
+    // switch (nNextChannel) {
+    //   case 0:
+    //     chartData = oesData[0];
+    //     break;
+    //   case 1:
+    //     chartData = oesData[1];
+
+    //     break;
+    //   case 2:
+    //     chartData = oesData[2];
+
+    //     break;
+    //   case 3:
+    //     chartData = oesData[3];
+
+    //     break;
+    //   case 4:
+    //     chartData = oesData[4];
+
+    //     break;
+    //   case 5:
+    //     chartData = oesData[5];
+
+    //     break;
+    //   case 6:
+    //     chartData = oesData[6];
+
+    //     break;
+    //   case 7:
+    //     chartData = oesData[7];
+
+    //     break;
+    // }
     update();
 
     // Get.find<LogListController>().logData.add(

@@ -4,6 +4,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:wr_ui/main.dart';
 import 'package:wr_ui/view/appbar/leading/run_error_status_mark.dart';
 import 'package:wr_ui/view/chart/oes_chart.dart';
@@ -124,6 +125,9 @@ class StartStop extends GetView<StartStopController> {
 }
 
 DataStartBtn() {
+  DateTime current = DateTime.now();
+  Get.find<CsvController>().saveFileName.value =
+      DateFormat('yyyyMMdd-HHmmss').format(current);
   if (Get.find<iniController>().sim.value == 1) {
     Get.find<runErrorStatusController>().statusColor.value = Color(0xFF2CA732);
     Get.find<OesController>().inactiveBtn.value = true;
@@ -145,19 +149,20 @@ DataStartBtn() {
       print('time3?? $inttime3');
       print('allTime??? $allTime');
       nChannelIdx = 0;
-      Get.find<OesController>().oesData[0] = chartData;
+      chartData = Get.find<OesController>().oesData[0];
       Get.find<OesController>().timer = Timer.periodic(
-          Duration(milliseconds: allTime),
-          Get.find<OesController>().updateDataSource2);
-      Get.find<LogListController>()
-          .logData
-          .add('${logfileTime()} channle moving t $time1');
+        Duration(milliseconds: allTime),
+        Get.find<OesController>().updateDataSource2,
+      );
+      Get.find<LogListController>().logData.add(
+            'channle moving t $time1',
+          );
       Get.find<LogController>()
           .loglist
           .add('${logfileTime()} channle moving t $time1');
-      Get.find<LogListController>()
-          .logData
-          .add('${logfileTime()} all t $allTime');
+      Get.find<LogListController>().logData.add(
+            'all time $allTime',
+          );
       Get.find<LogController>().loglist.add('${logfileTime()} all t $allTime');
     } on FormatException {
       print('format error');

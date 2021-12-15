@@ -4,6 +4,7 @@ import 'package:flutter/painting.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:wr_ui/view/chart/switch_chart.dart';
+import 'package:wr_ui/view/right_side_menu/save_ini.dart';
 import 'log_save.dart';
 
 class LogListController extends GetxController {
@@ -78,11 +79,11 @@ class LogListController extends GetxController {
 
   void cConfigSave() async {
     saveLog();
-    // logData.add(
-    //     '${screenLogTime} Exposure time has been changed to ${Get.find<iniController>().exposureTime.value}');
-    // Get.find<LogController>().loglist.add(
-    //     '${logfileTime} Exposure time has been changed to ${Get.find<iniController>().exposureTime.value}' +
-    //         '\n');
+    logData.add(
+        '${screenLogTime} Exposure time has been changed to ${Get.find<iniController>().exposureTime.value}');
+    Get.find<LogController>().loglist.add(
+        '${logfileTime} Exposure time has been changed to ${Get.find<iniController>().exposureTime.value}' +
+            '\n');
     logData.add(' Save Config');
     Get.find<LogController>()
         .loglist
