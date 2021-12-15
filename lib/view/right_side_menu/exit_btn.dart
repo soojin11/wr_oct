@@ -101,7 +101,7 @@ Future<String?> completelyExit(BuildContext context) {
               showDialog(
                   context: context,
                   builder: (context) {
-                    Future.delayed(Duration(seconds: 1), () {
+                    Future.delayed(Duration(milliseconds: 100), () {
                       exit(0);
                     });
                     return AlertDialog(

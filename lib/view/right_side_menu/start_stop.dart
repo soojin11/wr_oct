@@ -16,7 +16,6 @@ import 'log_screen.dart';
 
 int nChannelIdx = 0;
 // int nChannelIdx = -1;//range error 나서 초기값 바꿈
-List<FlSpot> chartData = RxList.empty();
 
 class StartStopController extends GetxController {}
 
@@ -54,17 +53,6 @@ class StartStop extends GetView<StartStopController> {
               ),
               onPressed: () async {
                 DataStartBtn();
-                // Get.defaultDialog<bool>(
-                //   title: 'ocrstart 2',
-                //   content: Text('test'),
-                //   // onConfirm: () => null,
-                //   // onCancel: () => null,
-                //   // onCustom: () => null,
-                //   // textConfirm: "확인",
-                //   // textCancel: "취소",
-                //   // confirm: Container(height: 20),
-                //   // cancel: Container(height: 20),
-                // );
               },
             ),
           ),
@@ -139,17 +127,17 @@ DataStartBtn() {
           Get.find<iniController>().integrationTime.value / 1000;
       int inttime2 = doubletime2.toInt();
       //30ms여유시간(빛 수집 후)
-      double doubletime3 = Get.find<iniController>().plusTime.value / 1000;
+      // double doubletime3 = Get.find<iniController>().plusTime.value / 1000;
 
-      int inttime3 = doubletime3.toInt();
+      int time3 = Get.find<iniController>().plusTime.value;
 
-      int allTime = time1 + inttime2 + inttime3;
+      int allTime = time1 + inttime2 + time3;
       print('time1?? $time1');
-      print('time2?? $inttime3');
-      print('time3?? $inttime3');
+      print('time2?? $inttime2');
+      print('time3?? $time3');
       print('allTime??? $allTime');
       nChannelIdx = 0;
-      chartData = Get.find<OesController>().oesData[0];
+      //chartData = Get.find<OesController>().oesData[0];
       Get.find<OesController>().timer = Timer.periodic(
         Duration(milliseconds: allTime),
         Get.find<OesController>().updateDataSource2,

@@ -108,7 +108,9 @@ Future main() async {
     win.show();
   });
   //메시지박스
-  await readConfig();
+
+  await writeConfig();
+
   print(
       'channel move t in parse : ${Get.find<iniController>().channelMovingTime.value}');
   //메시지박스

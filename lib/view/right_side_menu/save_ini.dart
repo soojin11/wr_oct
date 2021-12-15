@@ -41,9 +41,10 @@ class iniController extends GetxController {
   Rx<Color> Series_Color_008 = Color(0xFFFDB1E0).obs;
   RxString exposureTime = '100'.obs;
   RxString delayTime = '100'.obs;
-  RxInt channelMovingTime = 200.obs;
-  RxInt integrationTime = 100000.obs;
-  RxInt plusTime = 30000.obs;
+  RxInt channelMovingTime = 2000.obs;
+  RxInt integrationTime = 1000.obs;
+  RxInt waitSwitchingTime = 1000.obs;
+  RxInt plusTime = 30.obs;
   RxString deviceSimul = ''.obs;
   RxString mosChannel = '0'.obs;
   RxInt sim = 0.obs;
@@ -88,7 +89,7 @@ readConfig() async {
       int integrationTime =
           int.parse(config.get("Common", "IntegrationTime").toString());
       print('parsing ?? $integrationTime');
-      Get.find<iniController>().integrationTime.value = integrationTime;
+      Get.find<iniController>().integrationTime.value = integrationTime * 1000;
       //////
       int channelMovingTime =
           int.parse(config.get("Common", "Channel_Moving_Time").toString());
@@ -97,33 +98,13 @@ readConfig() async {
       int plusTime = int.parse(config.get("Common", "PlusTime").toString());
       Get.find<iniController>().plusTime.value = plusTime;
       //////
+      int waitSwitchingTime =
+          int.parse(config.get("Common", "waitSwitchingTime").toString());
+      Get.find<iniController>().waitSwitchingTime.value = waitSwitchingTime;
+      //////
       int comPortNum = int.parse(config.get('Common', 'Comport').toString());
       Get.find<iniController>().comPort.value = comPortNum;
     }
-
-    // int integrationTime =
-    //     int.parse(config.get("Common", "IntegrationTime").toString());
-    // Get.find<iniController>().integrationTime.value = integrationTime;
-    // else if (int.parse(config.get("Common", "OES_Simulation").toString()) ==
-    //     1) {
-    //   Get.find<iniController>().sim.value = 1;
-    //   print('${Get.find<iniController>().sim.value}');
-    // }
-
-    // else if (int.parse(config.get("Common", "OES_Simulation").toString()) ==
-    //     1) {
-    //   oesInit();
-    // }
-    //실제 데이터 부분 작동
-
-    //데이터 들어오면 쓸 부분//////////////////////////////////////////
-    // if(int.parse(config.get("Common", "OES_Simulation").toString()) == 0){
-    //   이면 시뮬레이터 SimStartButton();
-    // }
-    // if(int.parse(config.get("Common", "OES_Simulation").toString()) == 1){
-    //   이면 찐 데이터 들어오는거
-    // }
-    //////////////////////////////////////////////////////////
 
     if (int.parse(config.get("Common", "SaveFromStartSignal").toString()) ==
             1 &&
@@ -131,16 +112,6 @@ readConfig() async {
             1) {
       startSaveBtn();
     }
-
-    // if (int.parse(config.get("Common", "OES_Simulation").toString()) == 1) {
-    //   print('디바이스로 실행 준비');
-    //   Get.find<deviceController>().setRealData();
-    // } else if (int.parse(config.get("Common", "OES_Simulation").toString()) ==
-    //     0) {
-    //   print('시뮬레이션으로 실행 준비');
-    // } else {
-    //   print('ini에 0또는 1만 입력');
-    // }
   } catch (e) {
     if (e is FileSystemException) {
       result = Config.fromString("");
@@ -150,6 +121,7 @@ readConfig() async {
 }
 
 Future<File> get _localFile async {
+  Directory('inifiles').create(recursive: true);
   return File('./inifiles/FreqAI.ini');
 }
 
@@ -159,9 +131,11 @@ writeConfig() async {
   if (!config.hasSection("Common")) {
     config.addSection("Common");
     config.set("Common", "Comport", "3");
-    config.set("Common", "IntegrationTime", "100000");
-    config.set("Common", "Channel_Moving_Time", "200000");
-    config.set("Common", "PlusTime", "30000");
+    config.set("Common", "IntegrationTime", "1000");
+    config.set("Common", "Channel_Moving_Time", "1500");
+    config.set("Common", "PlusTime", "30");
+    //밀리세컨즈 1초 == 1000
+    config.set("Common", "waitSwitchingTime", "1000");
     config.set("Common", "OES_Simulation", '1');
     config.set("Common", "OES_Count", "8");
     config.set("Common", "bOESConnect", "false");

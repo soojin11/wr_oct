@@ -4,16 +4,16 @@ import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:wr_ui/main.dart';
 import 'package:wr_ui/view/chart/oes_chart.dart';
+import 'package:wr_ui/view/right_side_menu/log_save.dart';
 import 'package:wr_ui/view/right_side_menu/save_ini.dart';
 import 'log_screen.dart';
-
 
 startSaveBtn() async {
   for (var i = 0; i < Get.find<iniController>().OES_Count.value; i++) {
     Get.find<CsvController>().csvFormInit(
-        path: "_${i + 1}.csv",
-        channelNum: 'channelNum : ${i + 1}');
+        path: "_${i + 1}.csv", channelNum: 'channelNum : ${i + 1}');
   }
 
   Get.find<CsvController>().fileSave.value = true;
@@ -104,10 +104,10 @@ class CsvController extends GetxController with SingleGetTickerProviderMixin {
   //late Rx<DateTime> current;
   RxString saveFileName = ''.obs;
   String fileName() {
-  DateTime current = DateTime.now();
-  String fileName = DateFormat('yyyyMMdd-HHmmss').format(current).toString();
-  return fileName;
-}
+    DateTime current = DateTime.now();
+    String fileName = DateFormat('yyyyMMdd-HHmmss').format(current).toString();
+    return fileName;
+  }
 
   //RxInt fileNum = 1.obs;
   List<dynamic> initData = [
@@ -127,40 +127,37 @@ class CsvController extends GetxController with SingleGetTickerProviderMixin {
     return addTime;
   }
 
-  void csvForm(
-      {required String path, required List<dynamic> data})  {
-        //DateTime current = DateTime.now();
+  void csvForm({required String path, required List<dynamic> data}) async {
+    //DateTime current = DateTime.now();
     //final String fileName = DateFormat('yyyyMMdd-HHmmss').format(current);
-     Directory('datafiles').create(recursive: true);
+    Directory('datafiles').create(recursive: true);
     File file = File("./datafiles/${saveFileName.value}\_$path");
-    List<List<dynamic>> addData = [];
-    addData.add(data);
-    List<dynamic> time = [];
-    time.add(timeVal());
-    String timeee = time.join('\n');
-    String csv = const ListToCsvConverter().convert(addData) + '\n';
-    file.writeAsString(timeee + csv, mode: FileMode.append);
+
+    String csv = timeVal() + ',' + data.join(',') + '\n';
+
+    Get.find<LogListController>()
+        .logData
+        .add('listWavelength.length?? :  ${listWavelength.length}' + '\n');
+    Get.find<LogListController>()
+        .logData
+        .add('addData?? :  ${data.length}' + '\n');
+    await file.writeAsString(csv, mode: FileMode.append);
   }
 
-  Future<void> csvFormInit({required String path, required String channelNum})  {
+  Future<void> csvFormInit({required String path, required String channelNum}) {
     // DateTime current = DateTime.now();
     //final String fileName = DateFormat('yyyyMMdd-HHmmss').format(current);
 
-     Directory('datafiles').create();
+    Directory('datafiles').create();
     File file = File("./datafiles/${saveFileName.value}\_$path");
-    List<double> rangeData = [];
-    for (var i = 0; i < Get.find<iniController>().OES_Count.value; i++) {
-      Get.find<OesController>().oesData[i].forEach((e) {
-        rangeData.add(e.x);
-      });
-    }
+
     String intergrationColumn = channelNum +
         '\n' +
         initData.join('\n') +
         '\n' +
         "Time" +
         ',' +
-        rangeData.join(',') +
+        listWavelength.join(',') +
         '\n';
 
     return file.writeAsString(intergrationColumn);

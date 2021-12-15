@@ -19,17 +19,11 @@ final channelNuminINI = Get.find<iniControllerWithReactive>().channelFlow.value;
 
 /////////////밑에 랜덤데이터 있음
 class OesController extends GetxController {
-  RxList<List<FlSpot>> oesData = RxList.empty();
-  // RxList<FlSpot> oneData = RxList.empty();
-  // RxList<FlSpot> twoData = RxList.empty();
-  // RxList<FlSpot> threeData = RxList.empty();
-  // RxList<FlSpot> fourData = RxList.empty();
-  // RxList<FlSpot> fiveData = RxList.empty();
-  // RxList<FlSpot> sixData = RxList.empty();
-  // RxList<FlSpot> sevenData = RxList.empty();
-  // RxList<FlSpot> eightData = RxList.empty();
+  RxList<List<FlSpot>> oesData = RxList.empty(); //oesData[0]
   RxBool inactiveBtn = false.obs;
+  //microsecond
   RxInt channelMovingTime = 270.obs;
+
   // RxInt plusTime = 30.obs;
   //여유시간
 
@@ -109,13 +103,12 @@ class OesController extends GetxController {
         return false;
       }
     }
-    Future.delayed(Duration(milliseconds: 50)); //스위치타임 보정-ini
+    var isSwitchingCorectionTime =
+        Get.find<iniController>().waitSwitchingTime.value;
+    Future.delayed(
+      Duration(milliseconds: isSwitchingCorectionTime),
+    ); //스위치타임 보정-ini
 
-    // Get.find<LogListController>().logData.add(
-    //     '${logfileTime()} updateStart ${Get.find<OesController>().updateStart.value}');
-    // Get.find<LogListController>().logData.add(
-    //     '${logfileTime()} swap ${stopwatch.elapsedMilliseconds} $nChannelIdx \n');
-    // print('stopwatch  ${stopwatch.elapsedMilliseconds}');
     return true;
   }
 
@@ -147,74 +140,6 @@ class OesController extends GetxController {
           }
         }
       }
-      // switch (nChannel) {
-      //   case 0:
-      //     oesData[0].clear();
-
-      //     for (var i = 0; i < listWavelength.length; i++) {
-      //       dTemp = fmtSpec[i].toDouble();
-      //       oesData[0].add(FlSpot(listWavelength[i], fmtSpec[i]));
-      //     }
-
-      //     break;
-      //   case 1:
-      //     oesData[1].clear();
-      //     for (var i = 0; i < listWavelength.length; i++) {
-      //       dTemp = fmtSpec[i].toDouble();
-      //       oesData[1].add(FlSpot(listWavelength[i], fmtSpec[i]));
-      //     }
-
-      //     break;
-      //   case 2:
-      //     oesData[2].clear();
-      //     for (var i = 0; i < listWavelength.length; i++) {
-      //       dTemp = fmtSpec[i].toDouble();
-      //       oesData[2].add(FlSpot(listWavelength[i], fmtSpec[i]));
-      //     }
-
-      //     break;
-      //   case 3:
-      //     oesData[3].clear();
-      //     for (var i = 0; i < listWavelength.length; i++) {
-      //       dTemp = fmtSpec[i].toDouble();
-      //       oesData[3].add(FlSpot(listWavelength[i], fmtSpec[i]));
-      //     }
-
-      //     break;
-      //   case 4:
-      //     oesData[4].clear();
-      //     for (var i = 0; i < listWavelength.length; i++) {
-      //       dTemp = fmtSpec[i].toDouble();
-      //       oesData[4].add(FlSpot(listWavelength[i], fmtSpec[i]));
-      //     }
-
-      //     break;
-      //   case 5:
-      //     oesData[5].clear();
-      //     for (var i = 0; i < listWavelength.length; i++) {
-      //       dTemp = fmtSpec[i].toDouble();
-      //       oesData[5].add(FlSpot(listWavelength[i], fmtSpec[i]));
-      //     }
-
-      //     break;
-
-      //   case 6:
-      //     oesData[6].clear();
-      //     for (var i = 0; i < listWavelength.length; i++) {
-      //       dTemp = fmtSpec[i].toDouble();
-      //       oesData[6].add(FlSpot(listWavelength[i], fmtSpec[i]));
-      //     }
-
-      //     break;
-      //   case 7:
-      //     oesData[7].clear();
-      //     for (var i = 0; i < listWavelength.length; i++) {
-      //       dTemp = fmtSpec[i].toDouble();
-      //       oesData[7].add(FlSpot(listWavelength[i], fmtSpec[i]));
-      //     }
-
-      //     break;
-      // }
     }
     update();
   }
@@ -223,10 +148,13 @@ class OesController extends GetxController {
     var stopwatch = Stopwatch()..start();
 
     //nChannelIdx;
-    //chartData.add(item)
+    //oesData.add(item)
     //nChannelIdx = 0
-    // var nCurrentChannel = int.parse(channelNuminINI[nChannelIdx++]) - 1;
-    var nCurrentChannel = int.parse(channelNuminINI[nChannelIdx++]) + 1;
+    var nCurrentChannel = int.parse(channelNuminINI[nChannelIdx++]) - 1;
+    saveLog();
+    Get.find<LogController>().loglist.add(
+        '${logfileTime()} current channel start ${nCurrentChannel}' + '\n');
+    //var nCurrentChannel = int.parse(channelNuminINI[nChannelIdx++]) + 1;
     print('nCurrentChannel : $nCurrentChannel');
     print('nChannelIdx : $nChannelIdx');
     mpmSetChannel(nCurrentChannel); //채널바꿈
@@ -238,46 +166,15 @@ class OesController extends GetxController {
       print('Channel Switching fail');
     }
     List<double> fmtSpec = await readData(0);
-    chartData.clear();
+    oesData[nCurrentChannel].clear();
     for (var x = 0; x < listWavelength.length; x++) {
-      chartData.add(FlSpot(listWavelength[x], fmtSpec[x]));
+      oesData[nCurrentChannel].add(FlSpot(listWavelength[x], fmtSpec[x]));
     }
 
-    //csv 저장하는거 넣어야 함////////
-    // switch (nCurrentChannel) {
-    //   case 0:
-    //     if (Get.find<CsvController>().fileSave.value)
-    //       await Get.find<CsvController>().csvSave();
-    //     break;
-    //   case 1:
-    //     if (Get.find<CsvController>().fileSave2.value)
-    //       await Get.find<CsvController>().SecondcsvSave();
-    //     break;
-    //   case 2:
-    //     if (Get.find<CsvController>().fileSave3.value)
-    //       await Get.find<CsvController>().ThirdcsvSave();
-    //     break;
-    //   case 3:
-    //     if (Get.find<CsvController>().fileSave4.value)
-    //       await Get.find<CsvController>().FourthcsvSave();
-    //     break;
-    //   case 4:
-    //     if (Get.find<CsvController>().fileSave5.value)
-    //       await Get.find<CsvController>().FifthcsvSave();
-    //     break;
-    //   case 5:
-    //     if (Get.find<CsvController>().fileSave6.value)
-    //       await Get.find<CsvController>().SixthcsvSave();
-    //     break;
-    //   case 6:
-    //     if (Get.find<CsvController>().fileSave7.value)
-    //       await Get.find<CsvController>().SeventhcsvSave();
-    //     break;
-    //   case 7:
-    //     if (Get.find<CsvController>().fileSave8.value)
-    //       await Get.find<CsvController>().EightcsvSave();
-    //     break;
-    // }
+    if (Get.find<CsvController>().fileSave.value) {
+      Get.find<CsvController>()
+          .csvForm(path: "_${nCurrentChannel + 1}.csv", data: fmtSpec);
+    }
 
     if (nChannelIdx > channelNuminINI.length - 1) {
       nChannelIdx = 0;
@@ -285,51 +182,17 @@ class OesController extends GetxController {
     var nNextChannel = int.parse(channelNuminINI[nChannelIdx]) - 1;
     print('nNextChannel : $nNextChannel');
 
-    chartData = oesData[nNextChannel];
+    //oesData = oesData[nNextChannel];
 
-    if (Get.find<CsvController>().fileSave.value) {
-      Get.find<CsvController>()
-          .csvForm(path: "_${nNextChannel - 1}.csv", data: fmtSpec);
-    }
-    // switch (nNextChannel) {
-    //   case 0:
-    //     chartData = oesData[0];
-    //     break;
-    //   case 1:
-    //     chartData = oesData[1];
-
-    //     break;
-    //   case 2:
-    //     chartData = oesData[2];
-
-    //     break;
-    //   case 3:
-    //     chartData = oesData[3];
-
-    //     break;
-    //   case 4:
-    //     chartData = oesData[4];
-
-    //     break;
-    //   case 5:
-    //     chartData = oesData[5];
-
-    //     break;
-    //   case 6:
-    //     chartData = oesData[6];
-
-    //     break;
-    //   case 7:
-    //     chartData = oesData[7];
-
-    //     break;
-    // }
     update();
 
     // Get.find<LogListController>().logData.add(
     //     '${logfileTime()} 함수시작-끝 ${stopwatch.elapsedMilliseconds} $nCurrentChannel\n');
     // Get.find<LogController>().loglist.add(
     //     '${logfileTime()} 함수시작-끝 ${stopwatch.elapsedMilliseconds} $nCurrentChannel\n');
+
+    Get.find<LogController>().loglist.add(
+        '${logfileTime()} current channel finish ${nCurrentChannel}' + '\n');
   }
 }
 
