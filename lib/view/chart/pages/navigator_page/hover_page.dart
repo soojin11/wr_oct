@@ -64,10 +64,7 @@ class Hoverpage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             chartTabBar(),
-            Expanded(
-              flex: 1,
-              child:oneHoverChart()
-            ),
+            Expanded(flex: 1, child: oneHoverChart()),
           ],
         ),
       ),

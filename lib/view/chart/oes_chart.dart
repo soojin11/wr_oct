@@ -1,13 +1,10 @@
 import 'dart:async';
-import 'dart:ffi';
-import 'package:ffi/ffi.dart';
 import 'dart:math' as math;
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wr_ui/main.dart';
-import 'package:wr_ui/view/appbar/leading/run_error_status_mark.dart';
 import 'package:wr_ui/view/right_side_menu/csv_creator.dart';
 import 'package:wr_ui/view/right_side_menu/ini_creator.dart';
 import 'package:wr_ui/view/right_side_menu/log_save.dart';
@@ -49,46 +46,6 @@ class OesController extends GetxController {
     double yValue = 1800 + math.Random().nextInt(500).toDouble();
     return yValue;
   }
-
-  // Future<void> updateSimulation(Timer timer) async {
-  //   if (oneData.isNotEmpty) {
-  //     oneData.clear();
-  //     twoData.clear();
-  //     threeData.clear();
-  //     fourData.clear();
-  //     fiveData.clear();
-  //     sixData.clear();
-  //     sevenData.clear();
-  //     eightData.clear();
-  //   }
-  //   for (double i = 190; i < 760; i++) {
-  //     oneData.add(FlSpot(i, setRandom()));
-  //     twoData.add(FlSpot(i, setRandom()));
-  //     threeData.add(FlSpot(i, setRandom()));
-  //     fourData.add(FlSpot(i, setRandom()));
-  //     fiveData.add(FlSpot(i, setRandom()));
-  //     sixData.add(FlSpot(i, setRandom()));
-  //     sevenData.add(FlSpot(i, setRandom()));
-  //     eightData.add(FlSpot(i, setRandom()));
-  //   }
-  //   if (Get.find<CsvController>().fileSave.value)
-  //     await Get.find<CsvController>().csvSave();
-  //   if (Get.find<CsvController>().fileSave2.value)
-  //     await Get.find<CsvController>().SecondcsvSave();
-  //   if (Get.find<CsvController>().fileSave3.value)
-  //     await Get.find<CsvController>().ThirdcsvSave();
-  //   if (Get.find<CsvController>().fileSave4.value)
-  //     await Get.find<CsvController>().FourthcsvSave();
-  //   if (Get.find<CsvController>().fileSave5.value)
-  //     await Get.find<CsvController>().FifthcsvSave();
-  //   if (Get.find<CsvController>().fileSave6.value)
-  //     await Get.find<CsvController>().SixthcsvSave();
-  //   if (Get.find<CsvController>().fileSave7.value)
-  //     await Get.find<CsvController>().SeventhcsvSave();
-  //   if (Get.find<CsvController>().fileSave8.value)
-  //     await Get.find<CsvController>().EightcsvSave();
-  //   update();
-  // }
 
   Future<bool> waitSwitching() async {
     //타임 시작
@@ -303,12 +260,7 @@ class OesChart extends GetView<OesController> {
     return LineChart(
       LineChartData(
           minX: 180,
-
-          //listWavelength[0],
           maxX: 800,
-          //listWavelength[2047],
-          // minY: 1800,
-          // maxY: 3000, //데이터를 몇개 넣을 것인지~~
           lineTouchData: LineTouchData(
               touchTooltipData: LineTouchTooltipData(
             fitInsideHorizontally: true,
@@ -323,8 +275,7 @@ class OesChart extends GetView<OesController> {
               rightTitles: SideTitles(showTitles: false)),
           borderData: FlBorderData(
             show: true,
-            border: Border.all(
-                color: const Color(0xff37434d), width: 1), //border만들어서 값 넣기
+            border: Border.all(color: const Color(0xff37434d), width: 1),
           ),
           lineBarsData: lineBarsData),
       swapAnimationDuration: Duration.zero,
