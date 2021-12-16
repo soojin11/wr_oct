@@ -26,11 +26,12 @@ class LogController extends GetxController {
 
     List<dynamic> logData = [];
     logData.addAll(Get.find<LogController>().loglist);
-    String addLogFile = logData.join();
 
     print("log file in");
-    String intergrationColumn = addLogFile;
+    if(await file.exists()){
+      return file.writeAsString(logData.join(), mode: FileMode.append);
+    }
 
-    return file.writeAsString(intergrationColumn);
+    return file.writeAsString(logData.join());
   }
 }
