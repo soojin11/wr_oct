@@ -1,12 +1,12 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:csv/csv.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:open_file/open_file.dart';
 import 'package:wr_ui/main.dart';
-import 'package:wr_ui/view/chart/oes_chart.dart';
-import 'package:wr_ui/view/right_side_menu/log_save.dart';
+import 'package:wr_ui/model/const/style/pallette.dart';
 import 'package:wr_ui/view/right_side_menu/save_ini.dart';
 import 'log_screen.dart';
 
@@ -26,7 +26,7 @@ class CSVButton extends GetView<CsvController> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(height: 30),
+        SizedBox(height: 10),
         Obx(() => IgnorePointer(
             ignoring: controller.inactiveBtn.value,
             child: ElevatedButton(
@@ -45,9 +45,10 @@ class CSVButton extends GetView<CsvController> {
                               child: Row(
                                 children: [
                                   FadeTransition(
-                                      opacity: controller.animation,
-                                      child: Icon(Icons.circle,
-                                          size: 17, color: Colors.red)),
+                                    opacity: controller.animation,
+                                    child: Icon(Icons.circle,
+                                        size: 17, color: Colors.red),
+                                  ),
                                 ],
                               ),
                             ))),
@@ -64,7 +65,7 @@ class CSVButton extends GetView<CsvController> {
                 textStyle: TextStyle(fontSize: 16),
               ),
             ))),
-        SizedBox(height: 30),
+        SizedBox(height: 10),
         Obx(() => IgnorePointer(
               ignoring: !controller.inactiveBtn.value,
               child: ElevatedButton(
@@ -86,9 +87,52 @@ class CSVButton extends GetView<CsvController> {
                         controller.inactiveBtn.value ? Colors.red : Colors.grey,
                     textStyle: TextStyle(fontSize: 16)),
               ),
-            ))
+            )),
+        SizedBox(height: 10),
+        ElevatedButton(
+          onPressed: () async {
+            FilePickerResult? result = await FilePicker.platform.pickFiles(
+              allowMultiple: true,
+              type: FileType.custom,
+              allowedExtensions: ['csv'],
+            );
+            //파일선택 하지 않고 cancel하면 그대로 종료하겠다는 뜻?
+            if (result == null) return;
+            // openFiles(result.files);
+            //파일하나만 열기
+            final file = result.files.first;
+            print('선택된 파일 : $file');
+            print('선택파일[??] : ${result.files.length}');
+            //파일 열기
+            openFile(file);
+
+            print('파일이름 : ${file.name}');
+            // print('파일내용 : ${file.}');
+            print('Bytes : ${file.bytes}');
+            print('파일사이즈 : ${file.size}');
+            print('파일확장자 : ${file.extension}');
+            print('파일경로 : ${file.path}');
+
+            print('경로 : ${file.path!}');
+          },
+          child: Container(
+            width: 200,
+            child: Center(child: Text('Pick File')),
+          ),
+          style: ElevatedButton.styleFrom(
+            primary: wrColors.wrPrimary,
+            textStyle: TextStyle(fontSize: 16),
+          ),
+        ),
+
+        SizedBox(height: 10),
+        //csv 연습
       ],
     );
+  }
+
+  void openFile(PlatformFile file) {
+    OpenFile.open(file.path!);
   }
 }
 
@@ -169,7 +213,7 @@ class CsvController extends GetxController with SingleGetTickerProviderMixin {
 //   Widget build(BuildContext context) {
 //     return Column(
 //       children: [
-//         SizedBox(height: 30),
+//         SizedBox(height: 10),
 //         Obx(() => IgnorePointer(
 //             ignoring: controller.inactiveBtn.value,
 //             child: ElevatedButton(
@@ -224,7 +268,7 @@ class CsvController extends GetxController with SingleGetTickerProviderMixin {
 //                 textStyle: TextStyle(fontSize: 16),
 //               ),
 //             ))),
-//         SizedBox(height: 30),
+//         SizedBox(height: 10),
 //         Obx(() => IgnorePointer(
 //               ignoring: !controller.inactiveBtn.value,
 //               child: ElevatedButton(

@@ -1,27 +1,20 @@
 import 'dart:async';
 import 'dart:ffi';
-import 'dart:typed_data';
-import 'package:ffi/ffi.dart';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:just_the_tooltip/just_the_tooltip.dart';
 import 'package:neuomorphic_container/neuomorphic_container.dart';
 import 'package:wr_ui/controller/drop_down_controller.dart';
 import 'package:wr_ui/controller/home_controller.dart';
 
-import 'package:wr_ui/ing/data%20monitor.dart';
-import 'package:wr_ui/model/const/style/pallette.dart';
 import 'package:wr_ui/service/dark_white_mode/mode.dart';
 import 'package:wr_ui/service/routes/app_pages.dart';
 import 'package:wr_ui/setting_content.dart';
 import 'package:wr_ui/view/appbar/actions/minimize/window_btn.dart';
 import 'package:wr_ui/view/appbar/actions/setting/ini_and_setting.dart';
 import 'package:wr_ui/view/appbar/actions/setting/recipe_menu_final.dart';
-import 'package:wr_ui/view/appbar/actions/setting/setting_menu_final.dart';
 import 'package:wr_ui/view/appbar/leading/clock.dart';
 import 'package:wr_ui/view/appbar/leading/recent_recipe_name.dart';
 import 'package:wr_ui/view/appbar/leading/run_error_status_mark.dart';
@@ -114,7 +107,7 @@ Future main() async {
   print(
       'channel move t in parse : ${Get.find<iniController>().channelMovingTime.value}');
   //메시지박스
-  oesInit();
+  // oesInit();
 }
 
 class MyApp extends StatelessWidget {
@@ -486,7 +479,7 @@ class _WRbodyState extends State<WRbody> {
                                     SizedBox(
                                       width: 20,
                                     ),
-                                    Text('Save File',
+                                    Text('File Manager',
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodyText2),
@@ -600,123 +593,123 @@ appContainer({required double width, required Widget child}) {
       height: 85);
 }
 
-Future<void> oesInit() async {
-  print('in oesInit');
-  ocrStart = wgsFunction
-      .lookup<NativeFunction<Int8 Function()>>('OCR_Start')
-      .asFunction();
-  if (ocrStart == 0) {
-    saveLog();
-    Get.find<LogController>()
-        .loglist
-        .add('${logfileTime()} ocrstart 1 $ocrStart' + '\n');
-  }
+// Future<void> oesInit() async {
+//   print('in oesInit');
+//   ocrStart = wgsFunction
+//       .lookup<NativeFunction<Int8 Function()>>('OCR_Start')
+//       .asFunction();
+//   if (ocrStart == 0) {
+//     saveLog();
+//     Get.find<LogController>()
+//         .loglist
+//         .add('${logfileTime()} ocrstart 1 $ocrStart' + '\n');
+//   }
 
-  final int ocrs = ocrStart();
-  if (ocrs == 0) {
-    Get.find<LogController>()
-        .loglist
-        .add('${logfileTime()} ocrstart 2 $ocrs' + '\n');
-  }
-  print('ocrStart??' + ' ${ocrs}');
+//   final int ocrs = ocrStart();
+//   if (ocrs == 0) {
+//     Get.find<LogController>()
+//         .loglist
+//         .add('${logfileTime()} ocrstart 2 $ocrs' + '\n');
+//   }
+//   print('ocrStart??' + ' ${ocrs}');
 
-  mpmStart = wgsFunction
-      .lookup<NativeFunction<Void Function(Int32)>>('MPMStart')
-      .asFunction();
+//   mpmStart = wgsFunction
+//       .lookup<NativeFunction<Void Function(Int32)>>('MPMStart')
+//       .asFunction();
 
-  mpmStart(3);
+//   mpmStart(3);
 
-  print('mpmstart?? $mpmStart');
+//   print('mpmstart?? $mpmStart');
 
-  mpmClose = wgsFunction
-      .lookup<NativeFunction<Void Function()>>('MPMClose')
-      .asFunction();
+//   mpmClose = wgsFunction
+//       .lookup<NativeFunction<Void Function()>>('MPMClose')
+//       .asFunction();
 
-  mpmClose();
+//   mpmClose();
 
-  mpmOpen = wgsFunction
-      .lookup<NativeFunction<Int8 Function()>>('MPMOpen')
-      .asFunction();
+//   mpmOpen = wgsFunction
+//       .lookup<NativeFunction<Int8 Function()>>('MPMOpen')
+//       .asFunction();
 
-  int intMpmOpen = mpmOpen();
+//   int intMpmOpen = mpmOpen();
 
-  closeAll = wgsFunction
-      .lookup<NativeFunction<Void Function()>>('CloseAll')
-      .asFunction();
-  // closeAll();
-  openAllSpectrometers = wgsFunction
-      .lookup<NativeFunction<Int32 Function()>>('OpenAllSpectrometers')
-      .asFunction();
+//   closeAll = wgsFunction
+//       .lookup<NativeFunction<Void Function()>>('CloseAll')
+//       .asFunction();
+//   // closeAll();
+//   openAllSpectrometers = wgsFunction
+//       .lookup<NativeFunction<Int32 Function()>>('OpenAllSpectrometers')
+//       .asFunction();
 
-  int bb = openAllSpectrometers();
+//   int bb = openAllSpectrometers();
 
-  setIntegrationTime = wgsFunction
-      .lookup<NativeFunction<Int32 Function(Int32, Int32)>>(
-          'SetIntegrationTime')
-      .asFunction();
+//   setIntegrationTime = wgsFunction
+//       .lookup<NativeFunction<Int32 Function(Int32, Int32)>>(
+//           'SetIntegrationTime')
+//       .asFunction();
 
-  int cc =
-      setIntegrationTime(0, Get.find<iniController>().integrationTime.value);
+//   int cc =
+//       setIntegrationTime(0, Get.find<iniController>().integrationTime.value);
 
-  print('intgration???  ${Get.find<iniController>().integrationTime.value}');
-  print('plusTime???  ${Get.find<iniController>().plusTime.value}');
-  setScansToAverage = wgsFunction
-      .lookup<NativeFunction<Int32 Function(Int32, Int32)>>('SetScansToAverage')
-      .asFunction();
+//   print('intgration???  ${Get.find<iniController>().integrationTime.value}');
+//   print('plusTime???  ${Get.find<iniController>().plusTime.value}');
+//   setScansToAverage = wgsFunction
+//       .lookup<NativeFunction<Int32 Function(Int32, Int32)>>('SetScansToAverage')
+//       .asFunction();
 
-  int dd = setScansToAverage(0, 1);
+//   int dd = setScansToAverage(0, 1);
 
-  print('setScansToAverage?? ' + ' $dd');
-  setBoxcarWidth = wgsFunction
-      .lookup<NativeFunction<Int32 Function(Int32, Int32)>>('SetBoxcarWidth')
-      .asFunction();
+//   print('setScansToAverage?? ' + ' $dd');
+//   setBoxcarWidth = wgsFunction
+//       .lookup<NativeFunction<Int32 Function(Int32, Int32)>>('SetBoxcarWidth')
+//       .asFunction();
 
-  int ss = setBoxcarWidth(0, 0);
+//   int ss = setBoxcarWidth(0, 0);
 
-  print('setBoxCarWidth?? ' + '$ss');
-  setElectricDarkEnable = wgsFunction
-      .lookup<NativeFunction<Int32 Function(Int32, Int32)>>(
-          'SetElectricDarkEnable')
-      .asFunction();
+//   print('setBoxCarWidth?? ' + '$ss');
+//   setElectricDarkEnable = wgsFunction
+//       .lookup<NativeFunction<Int32 Function(Int32, Int32)>>(
+//           'SetElectricDarkEnable')
+//       .asFunction();
 
-  int rr = setElectricDarkEnable(0, 0);
+//   int rr = setElectricDarkEnable(0, 0);
 
-  print('setElectricDarkEnable?? ' + '$rr');
-  setNonlinearityCorrectionEnabled = wgsFunction
-      .lookup<NativeFunction<Int32 Function(Int32, Int32)>>(
-          'SetNonlinearityCorrectionEnabled')
-      .asFunction();
+//   print('setElectricDarkEnable?? ' + '$rr');
+//   setNonlinearityCorrectionEnabled = wgsFunction
+//       .lookup<NativeFunction<Int32 Function(Int32, Int32)>>(
+//           'SetNonlinearityCorrectionEnabled')
+//       .asFunction();
 
-  int ee = setNonlinearityCorrectionEnabled(0, 0);
+//   int ee = setNonlinearityCorrectionEnabled(0, 0);
 
-  print('setNonlinearityCorrectionEnabled?? ' + ' $ee');
-  setTriggerMode = wgsFunction
-      .lookup<NativeFunction<Int32 Function(Int32, Int32)>>('SetTriggerMode')
-      .asFunction();
+//   print('setNonlinearityCorrectionEnabled?? ' + ' $ee');
+//   setTriggerMode = wgsFunction
+//       .lookup<NativeFunction<Int32 Function(Int32, Int32)>>('SetTriggerMode')
+//       .asFunction();
 
-  int gg = setTriggerMode(0, 0);
+//   int gg = setTriggerMode(0, 0);
 
-  print('setTriggerMode?? ' + ' $gg');
+//   print('setTriggerMode?? ' + ' $gg');
 
-  getWavelength = wgsFunction
-      .lookup<NativeFunction<Pointer<Double> Function(Int32)>>('GetWavelength')
-      .asFunction();
-  Pointer<Double> pdwaveLength = getWavelength(0);
-  for (var i = 0; i < 2048; i++) {
-    listWavelength.add(pdwaveLength[i]);
-  }
+//   getWavelength = wgsFunction
+//       .lookup<NativeFunction<Pointer<Double> Function(Int32)>>('GetWavelength')
+//       .asFunction();
+//   Pointer<Double> pdwaveLength = getWavelength(0);
+//   for (var i = 0; i < 2048; i++) {
+//     listWavelength.add(pdwaveLength[i]);
+//   }
 
-  print('getWavelength?? ' + ' $getWavelength');
+//   print('getWavelength?? ' + ' $getWavelength');
 
-  mpmSetChannel = wgsFunction
-      .lookup<NativeFunction<Int32 Function(Int32)>>('MPMSetChannel')
-      .asFunction();
+//   mpmSetChannel = wgsFunction
+//       .lookup<NativeFunction<Int32 Function(Int32)>>('MPMSetChannel')
+//       .asFunction();
 
-  int rrr = mpmSetChannel(0);
+//   int rrr = mpmSetChannel(0);
 
-  print('mpmsetChannel?? ' + ' $rrr');
-  mpmIsSwitching = wgsFunction
-      .lookup<NativeFunction<Int32 Function()>>('MPMIsSwitching')
-      .asFunction();
-  // return true;
-}
+//   print('mpmsetChannel?? ' + ' $rrr');
+//   mpmIsSwitching = wgsFunction
+//       .lookup<NativeFunction<Int32 Function()>>('MPMIsSwitching')
+//       .asFunction();
+//   // return true;
+// }
