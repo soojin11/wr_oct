@@ -9,26 +9,28 @@ import 'package:wr_ui/view/right_side_menu/csv_creator.dart';
 import 'package:wr_ui/view/right_side_menu/save_ini.dart';
 
 class OesController extends GetxController {
-  RxList<List<FlSpot>> chartData = RxList.empty();
-
-  // RxList<FlSpot> oneData = RxList.empty();
-  // RxList<FlSpot> twoData = RxList.empty();
-  // RxList<FlSpot> threeData = RxList.empty();
-  // RxList<FlSpot> fourData = RxList.empty();
-  // RxList<FlSpot> fiveData = RxList.empty();
-  // RxList<FlSpot> sixData = RxList.empty();
-  // RxList<FlSpot> sevenData = RxList.empty();
-  // RxList<FlSpot> eightData = RxList.empty();
+  RxList<List<FlSpot>> oesData = RxList.empty();
+  RxBool isOes = true.obs;
   RxBool inactiveBtn = false.obs;
+  RxList<bool> checkVal = [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+  ].obs;
 
-  RxBool checkVal1 = true.obs;
-  RxBool checkVal2 = true.obs;
-  RxBool checkVal3 = true.obs;
-  RxBool checkVal4 = true.obs;
-  RxBool checkVal5 = true.obs;
-  RxBool checkVal6 = true.obs;
-  RxBool checkVal7 = true.obs;
-  RxBool checkVal8 = true.obs;
+  // RxBool checkVal1 = true.obs;
+  // RxBool checkVal2 = true.obs;
+  // RxBool checkVal3 = true.obs;
+  // RxBool checkVal4 = true.obs;
+  // RxBool checkVal5 = true.obs;
+  // RxBool checkVal6 = true.obs;
+  // RxBool checkVal7 = true.obs;
+  // RxBool checkVal8 = true.obs;
   late Timer timer;
   RxBool bRunning = false.obs;
 
@@ -45,7 +47,7 @@ class OesController extends GetxController {
 
   Future<void> updateDataSource(Timer timer) async {
     for (var i = 0; i < Get.find<iniController>().OES_Count.value; i++) {
-      if (chartData.isNotEmpty) chartData[i].clear();
+      if (oesData.isNotEmpty) oesData[i].clear();
     }
 
     List<double> xValues = [];
@@ -63,13 +65,13 @@ class OesController extends GetxController {
 
     for (var i = 0; i < Get.find<iniController>().OES_Count.value; i++) {
       for (int x = 0; x < 2048; x++) {
-        chartData[i].add(FlSpot(xValues[x], formatedSpec[i][x]));
+        oesData[i].add(FlSpot(xValues[x], formatedSpec[i][x]));
       }
     }
     if (Get.find<CsvController>().fileSave.value) {
       for (var i = 0; i < Get.find<iniController>().OES_Count.value; i++) {
-         Get.find<CsvController>().csvForm(
-            path: "_${i + 1}.csv", data: formatedSpec[i]);
+        Get.find<CsvController>()
+            .csvForm(path: "_${i + 1}.csv", data: formatedSpec[i]);
       }
     }
 
@@ -92,22 +94,30 @@ class OesChart extends GetView<OesController> {
               lineBarsData:
                   //0일때 시뮬레이션 1일 때 찐 데이터
                   [
-                lineChartBarData(controller.chartData[0],
-                    Get.find<iniController>().Series_Color_001.value),
-                lineChartBarData(controller.chartData[1],
-                    Get.find<iniController>().Series_Color_002.value),
-                lineChartBarData(controller.chartData[2],
-                    Get.find<iniController>().Series_Color_003.value),
-                lineChartBarData(controller.chartData[3],
-                    Get.find<iniController>().Series_Color_004.value),
-                lineChartBarData(controller.chartData[4],
-                    Get.find<iniController>().Series_Color_005.value),
-                lineChartBarData(controller.chartData[5],
-                    Get.find<iniController>().Series_Color_006.value),
-                lineChartBarData(controller.chartData[6],
-                    Get.find<iniController>().Series_Color_007.value),
-                lineChartBarData(controller.chartData[7],
-                    Get.find<iniController>().Series_Color_008.value),
+                if (controller.checkVal[0])
+                  lineChartBarData(controller.oesData[0],
+                      Get.find<iniController>().Series_Color_001.value),
+                if (controller.checkVal[1])
+                  lineChartBarData(controller.oesData[1],
+                      Get.find<iniController>().Series_Color_002.value),
+                if (controller.checkVal[2])
+                  lineChartBarData(controller.oesData[2],
+                      Get.find<iniController>().Series_Color_003.value),
+                if (controller.checkVal[3])
+                  lineChartBarData(controller.oesData[3],
+                      Get.find<iniController>().Series_Color_004.value),
+                if (controller.checkVal[4])
+                  lineChartBarData(controller.oesData[4],
+                      Get.find<iniController>().Series_Color_005.value),
+                if (controller.checkVal[5])
+                  lineChartBarData(controller.oesData[5],
+                      Get.find<iniController>().Series_Color_006.value),
+                if (controller.checkVal[6])
+                  lineChartBarData(controller.oesData[6],
+                      Get.find<iniController>().Series_Color_007.value),
+                if (controller.checkVal[7])
+                  lineChartBarData(controller.oesData[7],
+                      Get.find<iniController>().Series_Color_008.value),
               ],
               bottomTitles: SideTitles(
                 showTitles: true,

@@ -39,7 +39,6 @@ Future main() async {
   Get.put(StartStopController());
   Get.put(iniController());
   Get.put(CsvController());
-  
 
   Get.put(LogListController());
   Get.put(LogController());
@@ -55,8 +54,8 @@ Future main() async {
 
   Get.find<LogListController>().programStart();
 
-   for (var i = 0; i < Get.find<iniController>().OES_Count.value; i++) {
-    Get.find<OesController>().chartData.add([]);
+  for (var i = 0; i < Get.find<iniController>().OES_Count.value; i++) {
+    Get.find<OesController>().oesData.add([]);
   }
   runApp(MyApp());
   doWhenWindowReady(() {
@@ -172,18 +171,35 @@ class WRappbar extends StatelessWidget implements PreferredSizeWidget {
                         fit: BoxFit.fitHeight,
                       ),
                     )),
-                SizedBox(width: 120),
+                SizedBox(width: 50),
                 appContainer(width: 180, child: Clock()),
-                SizedBox(width: 80),
+                SizedBox(width: 50),
                 appContainer(
                   width: 170,
                   child: Text('WR-FreqAI', style: WrText.WrLeadingFont),
                 ),
-                SizedBox(width: 80),
+                SizedBox(width: 50),
                 appContainer(width: 170, child: RecentRecipeName()),
-                SizedBox(width: 100),
+                SizedBox(width: 50),
+                appContainer(
+                    width: 90,
+                    child: GestureDetector(
+                      onTap: () {
+                        Get.find<OesController>().isOes.value = true;
+                      },
+                      child: Text('OES', style: WrText.WrLeadingFont),
+                    )),
+                appContainer(
+                    width: 90,
+                    child: GestureDetector(
+                      onTap: () {
+                        Get.find<OesController>().isOes.value = false;
+                      },
+                      child: Text('VIZ', style: WrText.WrLeadingFont),
+                    )),
+                SizedBox(width: 70),
                 RunErrorStatus(),
-                SizedBox(width: 160),
+                SizedBox(width: 100),
                 SetBtn(),
                 SizedBox(width: 70),
                 GestureDetector(
@@ -243,40 +259,41 @@ class _WRbodyState extends State<WRbody> {
         child: Column(
           children: [
             Expanded(
-                flex: 3,
-                child: Padding(
-                  padding: const EdgeInsets.all(10),
+              flex: 3,
+              child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: Container(
                   child: Container(
-                    child: Obx(
-                      () => Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10)),
-                          child:
-                              // MaterialApp(
-                              //   debugShowCheckedModeBanner: false,
-                              //   theme: Themes.light,
-                              //   darkTheme: Themes.dark,
-                              //   initialRoute: '/all',
-                              //   routes: {
-                              //     '/all': (context) => ALLpage(),
-                              //     '/oes': (context) => OESpage(),
-                              //     '/vi': (context) => VIpage(),
-                              //     '/custom': (context) => CUSTOMpage(),
-                              //     '/add': (context) => ADDpage(),
-                              //   },
-                              // ),
-                              Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              chartTabBar(),
-                              Expanded(
-                                  flex: 1,
-                                  child: Get.find<chooseChart>().choose())
-                            ],
-                          )),
-                    ),
-                  ),
-                )),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10)),
+                      child:
+                          // MaterialApp(
+                          //   debugShowCheckedModeBanner: false,
+                          //   theme: Themes.light,
+                          //   darkTheme: Themes.dark,
+                          //   initialRoute: '/all',
+                          //   routes: {
+                          //     '/all': (context) => ALLpage(),
+                          //     '/oes': (context) => OESpage(),
+                          //     '/vi': (context) => VIpage(),
+                          //     '/custom': (context) => CUSTOMpage(),
+                          //     '/add': (context) => ADDpage(),
+                          //   },
+                          // ),
+                          Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          chartTabBar(),
+                          Expanded(
+                            flex: 1,
+                            child: OesChart(),
+                          )
+                          // child: Get.find<chooseChart>().choose())
+                        ],
+                      )),
+                ),
+              ),
+            ),
             Expanded(
                 flex: 1,
                 child: Padding(

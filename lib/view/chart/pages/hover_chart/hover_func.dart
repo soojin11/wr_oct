@@ -17,12 +17,6 @@ class BtnHoverCtrl extends GetxController {
   RxBool isHover6 = false.obs;
   RxBool isHover7 = false.obs;
   RxBool isHover8 = false.obs;
-
-  @override
-  void onClose() {
-    BtnHoverCtrl;
-    super.onClose();
-  }
 }
 
 class FirstHover extends GetView<BtnHoverCtrl> {
@@ -41,17 +35,19 @@ class FirstHover extends GetView<BtnHoverCtrl> {
           () => GestureDetector(
             onTap: () {
               print('1번째 차트 선택');
-            Get.find<chooseChart>().chartNum.value = 1;
-            Get.find<LogListController>().clickedHover();
-            Get.find<OesController>().checkVal1.value = true;
-            Get.find<OesController>().checkVal2.value = false;
-            Get.find<OesController>().checkVal3.value = false;
-            Get.find<OesController>().checkVal4.value = false;
-            Get.find<OesController>().checkVal5.value = false;
-            Get.find<OesController>().checkVal6.value = false;
-            Get.find<OesController>().checkVal7.value = false;
-            Get.find<OesController>().checkVal8.value = false;
-            Get.find<ChartName>().chartName.value = 'OES_1';
+              Get.find<chooseChart>().chartNum.value = 1;
+              Get.find<LogListController>().clickedHover();
+              Get.find<OesController>().checkVal.value = [
+                true,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+              ];
+              Get.find<ChartName>().chartName.value = 'OES_1';
             },
             child: AnimatedContainer(
               margin: EdgeInsets.symmetric(
@@ -69,23 +65,7 @@ class FirstHover extends GetView<BtnHoverCtrl> {
                     offset: Offset(0, 2), // 그림자위치 바꾸는거
                   ),
                 ],
-              )
-
-              // BoxDecoration(
-              //     boxShadow: [
-              //       BoxShadow(
-              //           blurRadius: 7,
-              //           spreadRadius: 5,
-              //           color: controller.isHover.value
-              //               ? Colors.cyan.withOpacity(0.2)
-              //               : Colors.grey)
-              //     ],
-              //     color: Colors.white,
-              //     //Theme.of(context).appBarTheme.foregroundColor,
-              //     borderRadius: BorderRadius.all(
-              //       Radius.circular(10),
-              //     ))
-              ,
+              ),
               duration: Duration(milliseconds: 200),
               width: controller.isHover.value ? 200 : 170,
               height: controller.isHover.value ? 200 : 150,
@@ -116,15 +96,17 @@ class SecondHover extends GetView<BtnHoverCtrl> {
               print('2번째 차트 선택');
               Get.find<chooseChart>().chartNum.value = 2;
               Get.find<LogListController>().clickedHover();
-              Get.find<OesController>().checkVal1.value = false;
-            Get.find<OesController>().checkVal2.value = true;
-            Get.find<OesController>().checkVal3.value = false;
-            Get.find<OesController>().checkVal4.value = false;
-            Get.find<OesController>().checkVal5.value = false;
-            Get.find<OesController>().checkVal6.value = false;
-            Get.find<OesController>().checkVal7.value = false;
-            Get.find<OesController>().checkVal8.value = false;
-            Get.find<ChartName>().chartName.value = 'OES_2';
+              Get.find<OesController>().checkVal.value = [
+                false,
+                true,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+              ];
+              Get.find<ChartName>().chartName.value = 'OES_2';
             },
             child: AnimatedContainer(
               margin: EdgeInsets.symmetric(
@@ -173,15 +155,17 @@ class ThirdHover extends GetView<BtnHoverCtrl> {
               print('3번째 차트 선택');
               Get.find<chooseChart>().chartNum.value = 3;
               Get.find<LogListController>().clickedHover();
-              Get.find<OesController>().checkVal1.value = false;
-            Get.find<OesController>().checkVal2.value = false;
-            Get.find<OesController>().checkVal3.value = true;
-            Get.find<OesController>().checkVal4.value = false;
-            Get.find<OesController>().checkVal5.value = false;
-            Get.find<OesController>().checkVal6.value = false;
-            Get.find<OesController>().checkVal7.value = false;
-            Get.find<OesController>().checkVal8.value = false;
-            Get.find<ChartName>().chartName.value = 'OES_3';
+              Get.find<OesController>().checkVal.value = [
+                false,
+                false,
+                true,
+                false,
+                false,
+                false,
+                false,
+                false,
+              ];
+              Get.find<ChartName>().chartName.value = 'OES_3';
             },
             child: AnimatedContainer(
               margin: EdgeInsets.symmetric(
@@ -230,15 +214,17 @@ class FourthHover extends GetView<BtnHoverCtrl> {
               print('4번째 차트 선택');
               Get.find<chooseChart>().chartNum.value = 4;
               Get.find<LogListController>().clickedHover();
-              Get.find<OesController>().checkVal1.value = false;
-            Get.find<OesController>().checkVal2.value = false;
-            Get.find<OesController>().checkVal3.value = false;
-            Get.find<OesController>().checkVal4.value = true;
-            Get.find<OesController>().checkVal5.value = false;
-            Get.find<OesController>().checkVal6.value = false;
-            Get.find<OesController>().checkVal7.value = false;
-            Get.find<OesController>().checkVal8.value = false;
-            Get.find<ChartName>().chartName.value = 'OES_4';
+              Get.find<OesController>().checkVal.value = [
+                false,
+                false,
+                false,
+                true,
+                false,
+                false,
+                false,
+                false,
+              ];
+              Get.find<ChartName>().chartName.value = 'OES_4';
             },
             child: AnimatedContainer(
               margin: EdgeInsets.symmetric(
@@ -287,15 +273,17 @@ class FifthHover extends GetView<BtnHoverCtrl> {
               print('5번째 차트 선택');
               Get.find<chooseChart>().chartNum.value = 5;
               Get.find<LogListController>().clickedHover();
-              Get.find<OesController>().checkVal1.value = false;
-            Get.find<OesController>().checkVal2.value = false;
-            Get.find<OesController>().checkVal3.value = false;
-            Get.find<OesController>().checkVal4.value = false;
-            Get.find<OesController>().checkVal5.value = true;
-            Get.find<OesController>().checkVal6.value = false;
-            Get.find<OesController>().checkVal7.value = false;
-            Get.find<OesController>().checkVal8.value = false;
-            Get.find<ChartName>().chartName.value = 'OES_5';
+              Get.find<OesController>().checkVal.value = [
+                false,
+                false,
+                false,
+                false,
+                true,
+                false,
+                false,
+                false,
+              ];
+              Get.find<ChartName>().chartName.value = 'OES_5';
             },
             child: AnimatedContainer(
               margin: EdgeInsets.symmetric(
@@ -344,15 +332,17 @@ class SixthHover extends GetView<BtnHoverCtrl> {
               print('6번째 차트 선택');
               Get.find<chooseChart>().chartNum.value = 6;
               Get.find<LogListController>().clickedHover();
-              Get.find<OesController>().checkVal1.value = false;
-            Get.find<OesController>().checkVal2.value = false;
-            Get.find<OesController>().checkVal3.value = false;
-            Get.find<OesController>().checkVal4.value = false;
-            Get.find<OesController>().checkVal5.value = false;
-            Get.find<OesController>().checkVal6.value = true;
-            Get.find<OesController>().checkVal7.value = false;
-            Get.find<OesController>().checkVal8.value = false;
-            Get.find<ChartName>().chartName.value = 'OES_6';
+              Get.find<OesController>().checkVal.value = [
+                false,
+                false,
+                false,
+                false,
+                false,
+                true,
+                false,
+                false,
+              ];
+              Get.find<ChartName>().chartName.value = 'OES_6';
             },
             child: AnimatedContainer(
               margin: EdgeInsets.symmetric(
@@ -401,15 +391,17 @@ class SeventhHover extends GetView<BtnHoverCtrl> {
               print('7번째 차트 선택');
               Get.find<chooseChart>().chartNum.value = 7;
               Get.find<LogListController>().clickedHover();
-              Get.find<OesController>().checkVal1.value = false;
-            Get.find<OesController>().checkVal2.value = false;
-            Get.find<OesController>().checkVal3.value = false;
-            Get.find<OesController>().checkVal4.value = false;
-            Get.find<OesController>().checkVal5.value = false;
-            Get.find<OesController>().checkVal6.value = false;
-            Get.find<OesController>().checkVal7.value = true;
-            Get.find<OesController>().checkVal8.value = false;
-            Get.find<ChartName>().chartName.value = 'OES_7';
+              Get.find<OesController>().checkVal.value = [
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                true,
+                false,
+              ];
+              Get.find<ChartName>().chartName.value = 'OES_7';
             },
             child: AnimatedContainer(
               margin: EdgeInsets.symmetric(
@@ -458,15 +450,17 @@ class EightHover extends GetView<BtnHoverCtrl> {
               print('8번째 차트 선택');
               Get.find<chooseChart>().chartNum.value = 8;
               Get.find<LogListController>().clickedHover();
-              Get.find<OesController>().checkVal1.value = false;
-            Get.find<OesController>().checkVal2.value = false;
-            Get.find<OesController>().checkVal3.value = false;
-            Get.find<OesController>().checkVal4.value = false;
-            Get.find<OesController>().checkVal5.value = false;
-            Get.find<OesController>().checkVal6.value = false;
-            Get.find<OesController>().checkVal7.value = false;
-            Get.find<OesController>().checkVal8.value = true;
-            Get.find<ChartName>().chartName.value = 'OES_8';
+              Get.find<OesController>().checkVal.value = [
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                true,
+              ];
+              Get.find<ChartName>().chartName.value = 'OES_8';
             },
             child: AnimatedContainer(
               margin: EdgeInsets.symmetric(
