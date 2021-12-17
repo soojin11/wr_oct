@@ -1,20 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 import 'package:get/get.dart';
-import 'package:ini/ini.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:wr_ui/controller/setting_controller.dart';
 import 'package:wr_ui/main.dart';
 import 'dart:async';
-import 'dart:io';
 import 'package:wr_ui/model/const/style/pallette.dart';
 import 'package:wr_ui/model/const/style/text.dart';
-import 'package:wr_ui/view/appbar/actions/setting/setting_menu_final.dart';
 import 'package:wr_ui/view/appbar/leading/run_error_status_mark.dart';
 import 'package:wr_ui/view/chart/oes_chart.dart';
 import 'package:wr_ui/view/right_side_menu/csv_creator.dart';
-import 'package:wr_ui/view/right_side_menu/ini_creator.dart';
 import 'package:wr_ui/view/right_side_menu/log_screen.dart';
 import 'package:wr_ui/view/right_side_menu/save_ini.dart';
 
@@ -593,11 +586,7 @@ Future<String?> runningSet(BuildContext context) {
           onPressed: () {
             Get.find<OesController>().inactiveBtn.value = false;
             Get.find<CsvController>().inactiveBtn.value = false;
-            if (Get.find<iniController>().sim.value == 1) {
-              Get.find<OesController>().timer?.cancel();
-            } else if (Get.find<iniController>().sim.value == 0) {
-              Get.find<OesController>().simTimer?.cancel();
-            }
+            Get.find<OesController>().timer?.cancel();
             Get.find<LogListController>().clickedStop();
             Get.find<CsvController>().fileSave.value = false;
             Get.find<runErrorStatusController>().connect.value = false;

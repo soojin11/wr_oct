@@ -4,7 +4,6 @@ import 'package:ini/ini.dart';
 import 'package:wr_ui/main.dart';
 import 'package:wr_ui/model/const/style/text.dart';
 import 'package:wr_ui/view/chart/oes_chart.dart';
-import 'package:wr_ui/view/right_side_menu/ini_creator.dart';
 
 class runErrorStatusController extends GetxController {
   RxString textmsg = 'S T O P'.obs;

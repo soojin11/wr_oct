@@ -1,12 +1,9 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:wr_ui/main.dart';
-import 'package:wr_ui/view/chart/oes_chart.dart';
-import 'package:wr_ui/view/right_side_menu/log_save.dart';
 import 'package:wr_ui/view/right_side_menu/save_ini.dart';
 import 'log_screen.dart';
 

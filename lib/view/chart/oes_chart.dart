@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wr_ui/main.dart';
 import 'package:wr_ui/view/right_side_menu/csv_creator.dart';
-import 'package:wr_ui/view/right_side_menu/ini_creator.dart';
 import 'package:wr_ui/view/right_side_menu/log_save.dart';
 import 'package:wr_ui/view/right_side_menu/log_screen.dart';
 import 'package:wr_ui/view/right_side_menu/save_ini.dart';
@@ -20,6 +19,7 @@ class OesController extends GetxController {
   RxBool inactiveBtn = false.obs;
   //microsecond
   RxInt channelMovingTime = 270.obs;
+  RxBool isOes = true.obs;
 
   // RxInt plusTime = 30.obs;
   //여유시간
@@ -35,7 +35,6 @@ class OesController extends GetxController {
   RxString updateStart = ''.obs;
   RxString updateend = ''.obs;
   Timer? timer;
-  Timer? simTimer;
   //RxBool bRunning = false.obs;
   @override
   void onInit() {

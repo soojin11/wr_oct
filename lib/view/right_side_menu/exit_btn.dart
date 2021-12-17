@@ -67,11 +67,7 @@ Future<String?> runningExit(BuildContext context) {
             style: TextStyle(color: wrColors.wrPrimary),
           ),
           onPressed: () {
-            if (Get.find<iniController>().sim.value == 1) {
-              Get.find<OesController>().timer?.cancel();
-            } else if (Get.find<iniController>().sim.value == 0) {
-              Get.find<OesController>().simTimer?.cancel();
-            }
+            Get.find<OesController>().timer?.cancel();
             Get.find<OesController>().inactiveBtn.value = false;
             Get.find<CsvController>().inactiveBtn.value = false;
             completelyExit(context);

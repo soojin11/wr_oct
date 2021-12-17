@@ -7,16 +7,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wr_ui/controller/drop_down_controller.dart';
 import 'package:wr_ui/controller/home_controller.dart';
-
-import 'package:wr_ui/ing/data%20monitor.dart';
-import 'package:wr_ui/model/const/style/pallette.dart';
 import 'package:wr_ui/service/dark_white_mode/mode.dart';
 import 'package:wr_ui/service/routes/app_pages.dart';
 import 'package:wr_ui/setting_content.dart';
 import 'package:wr_ui/view/appbar/actions/minimize/window_btn.dart';
 import 'package:wr_ui/view/appbar/actions/setting/ini_and_setting.dart';
 import 'package:wr_ui/view/appbar/actions/setting/recipe_menu_final.dart';
-import 'package:wr_ui/view/appbar/actions/setting/setting_menu_final.dart';
 import 'package:wr_ui/view/appbar/leading/clock.dart';
 import 'package:wr_ui/view/appbar/leading/recent_recipe_name.dart';
 import 'package:wr_ui/view/appbar/leading/run_error_status_mark.dart';
@@ -25,9 +21,9 @@ import 'package:wr_ui/view/chart/oes_chart.dart';
 import 'package:wr_ui/view/chart/pages/hover_chart/hover_func.dart';
 import 'package:wr_ui/view/chart/pages/hover_chart/hover_row.dart';
 import 'package:wr_ui/view/chart/switch_chart.dart';
+import 'package:wr_ui/view/chart/viz.dart';
 import 'package:wr_ui/view/right_side_menu/csv_creator.dart';
 import 'package:wr_ui/view/right_side_menu/exit_btn.dart';
-import 'package:wr_ui/view/right_side_menu/ini_creator.dart';
 import 'package:wr_ui/view/right_side_menu/log_save.dart';
 import 'package:wr_ui/view/right_side_menu/log_screen.dart';
 import 'package:wr_ui/view/right_side_menu/save_ini.dart';
@@ -259,12 +255,13 @@ class WRappbar extends StatelessWidget implements PreferredSizeWidget {
                   SizedBox(width: 80),
                   ElevatedButton(
                       onPressed: () {
-                        print('OES');
+                        Get.find<OesController>().isOes.value = true;
                       },
                       child: Text('OES')),
                   ElevatedButton(
+                      style: ElevatedButton.styleFrom(),
                       onPressed: () {
-                        print('VIZ');
+                        Get.find<OesController>().isOes.value = false;
                       },
                       child: Text('VIZ')),
                 ],
@@ -346,7 +343,9 @@ class _WRbodyState extends State<WRbody> {
                               chartTabBar(),
                               Expanded(
                                   flex: 1,
-                                  child: Get.find<chooseChart>().choose())
+                                  child: Get.find<OesController>().isOes.value
+                                      ? OesChart()
+                                      : VizChart())
                             ],
                           )),
                     ),
