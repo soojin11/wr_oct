@@ -11,7 +11,6 @@
 //   RxList<SpecData> firstData = RxList.empty();
 //   RxBool inactiveBtn = false.obs;
 
-
 //   late ChartSeriesController chartSeriesController, firstChartCtrl;
 //   late ZoomPanBehavior zoomPanBehavior;
 //   late TrackballBehavior trackballBehavior;
@@ -53,10 +52,10 @@
 //     firstChartCtrl.updateDataSource(addedDataIndex: firstData.length - 1);
 //     if (Get.find<CsvController>().fileSave.value)
 //       await Get.find<CsvController>().csvSave();
-//       if(chartData.length>500&&firstData.length>500){
-//         chartData.removeAt(0);
-//         firstData.removeAt(0);
-//       }
+//     if (chartData.length > 500 && firstData.length > 500) {
+//       chartData.removeAt(0);
+//       firstData.removeAt(0);
+//     }
 //   }
 
 //   double setRandomData() {
@@ -70,7 +69,6 @@
 //   int time;
 //   double num;
 //   SpecData({required this.time, required this.num});
-
 // }
 
 // class ChartSetting {

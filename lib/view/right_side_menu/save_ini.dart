@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:ffi';
 import 'dart:io';
+import 'dart:math' as math;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,7 +10,12 @@ import 'package:wr_ui/main.dart';
 import 'csv_creator.dart';
 
 Future<List<double>> readData(int a) async {
-  return compute(dllReadData, a);
+  if (Get.find<iniController>().sim.value == 1) {
+    return compute(dllReadData, a);
+  }
+  List<double> aa = [];
+  aa.add(math.Random().nextInt(50).toDouble());
+  return aa;
 }
 
 List<double> dllReadData(int a) {

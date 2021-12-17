@@ -85,15 +85,9 @@ class StartStop extends GetView<StartStopController> {
                       Colors.red;
                   Get.find<OesController>().inactiveBtn.value = false;
                   Get.find<CsvController>().inactiveBtn.value = false;
-                  //스탑버튼 눌렀을 때, OES_Simulation==1(디바이스 데이터) 일 경우에 할 것들
+                  Get.find<OesController>().timer?.cancel();
                   if (Get.find<iniController>().sim.value == 1) {
-                    //채널 1번으로
                     mpmSetChannel(0);
-                    //타이머 캔슬
-                    Get.find<OesController>().timer?.cancel();
-                    //스탑버튼 눌렀을 때, OES_Simulation==0(디바이스 데이터) 일 경우에 할 것들
-                  } else if (Get.find<iniController>().sim.value == 0) {
-                    Get.find<OesController>().simTimer?.cancel();
                   }
                   Get.find<LogListController>().clickedStop();
                   Get.find<CsvController>().fileSave.value = false;
@@ -114,26 +108,22 @@ class StartStop extends GetView<StartStopController> {
 
 DataStartBtn() {
   DateTime current = DateTime.now();
+
   Get.find<CsvController>().saveFileName.value =
       DateFormat('yyyyMMdd-HHmmss').format(current);
+  Get.find<runErrorStatusController>().connect.value = true;
+  Get.find<LogListController>().clickedStart();
+  Get.find<OesController>().inactiveBtn.value = true;
   if (Get.find<iniController>().sim.value == 1) {
     Get.find<runErrorStatusController>().statusColor.value = Color(0xFF2CA732);
-    Get.find<OesController>().inactiveBtn.value = true;
     try {
-      //채널움직이는시간
       int time1 = Get.find<iniController>().channelMovingTime.value.toInt();
-      //integration 빛수집
       double doubletime2 =
           Get.find<iniController>().integrationTime.value / 1000;
       int inttime2 = doubletime2.toInt();
-      //30ms여유시간(빛 수집 후)
-      // double doubletime3 = Get.find<iniController>().plusTime.value / 1000;
-//100ms로 plustime
       int time3 = Get.find<iniController>().plusTime.value;
       time3 = 150;
-
       int allTime =
-          //  time1+
           inttime2 + Get.find<iniController>().waitSwitchingTime.value + time3;
       if (doubletime2 <= Get.find<iniController>().waitSwitchingTime.value) {
         allTime = inttime2 +
@@ -150,7 +140,6 @@ DataStartBtn() {
 
       setIntegrationTime(0, Get.find<iniController>().integrationTime.value);
       nChannelIdx = 0;
-      //chartData = Get.find<OesController>().oesData[0];
       Get.find<OesController>().timer = Timer.periodic(
         Duration(milliseconds: allTime),
         Get.find<OesController>().updateDataSource2,
@@ -169,26 +158,19 @@ DataStartBtn() {
       print('format error');
     }
     Get.find<OesController>().oesData[0];
-    Get.find<runErrorStatusController>().connect.value = true;
+
     Get.find<runErrorStatusController>().textmsg.value = 'R U N';
-    Get.find<LogListController>().clickedStart();
   } else if (Get.find<iniController>().sim.value == 0) {
     SimStartBtn();
   }
 }
 
 SimStartBtn() {
-  Get.find<runErrorStatusController>().connect.value = true;
-  Get.find<OesController>().inactiveBtn.value = true;
-  // try {
-  //   Get.find<OesController>().simTimer = Timer.periodic(
-  //       Duration(milliseconds: 500),
-  //       Get.find<OesController>().updateSimulation);
-  // } on FormatException {
-  //   print('format error');
-  // }
+  Get.find<OesController>().timer = Timer.periodic(
+    Duration(milliseconds: 100),
+    Get.find<OesController>().updateDataSource2,
+  );
   Get.find<runErrorStatusController>().textmsg.value = 'S I M U L A T I O N';
-  Get.find<LogListController>().clickedStart();
   Get.find<runErrorStatusController>().statusColor.value = Color(0xFFE9DF50);
 }
 
