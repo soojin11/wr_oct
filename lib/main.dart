@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:libserialport/libserialport.dart';
 import 'package:wr_ui/controller/drop_down_controller.dart';
 import 'package:wr_ui/controller/home_controller.dart';
 import 'package:wr_ui/service/dark_white_mode/mode.dart';
@@ -21,7 +22,7 @@ import 'package:wr_ui/view/chart/oes_chart.dart';
 import 'package:wr_ui/view/chart/pages/hover_chart/hover_func.dart';
 import 'package:wr_ui/view/chart/pages/hover_chart/hover_row.dart';
 import 'package:wr_ui/view/chart/switch_chart.dart';
-import 'package:wr_ui/view/chart/viz.dart';
+import 'package:wr_ui/view/chart/viz_ctrl.dart';
 import 'package:wr_ui/view/right_side_menu/csv_creator.dart';
 import 'package:wr_ui/view/right_side_menu/exit_btn.dart';
 import 'package:wr_ui/view/right_side_menu/log_save.dart';
@@ -60,8 +61,27 @@ late int Function() mpmIsSwitching;
 List listWavelength = [];
 bool runningSignal = false;
 
+late int Function(int a) spTestAllChannels;
+late void Function(Pointer<Int16> a) spGetAssignedChannelID;
+late int Function(int a) spSetupGivenChannel;
+late int Function(int a, int b) spInitGivenChannel;
+late int Function(int a, int b) spSetIntEx;
+late int Function(Pointer<Int32> a, int b) spReadDataEx;
+late int Function(int a) serialConnect;
+
 Future main() async {
+  print('Available ports:');
+  var i = 0;
+  for (final name in SerialPort.availablePorts) {
+    final sp = SerialPort(name);
+    print('${++i}) $name');
+    print('\tDescription: ${sp.description}');
+    print('\tManufacturer: ${sp.manufacturer}');
+    print('\tSerial Number: ${sp.serialNumber}');
+  }
+
   Get.lazyPut(() => iniController());
+  Get.put(VizCtrl());
   // Get.put(iniController());
   Get.put(OesController()); //Get.put(DialogStorageCtrl());
   Get.put(runErrorStatusController());
@@ -82,6 +102,8 @@ Future main() async {
 
   // readConfig();
   // oesInit();
+  VizCtrl.to.init();
+  VizCtrl.to.startSerial();
   for (var i = 0; i < Get.find<iniController>().OES_Count.value; i++) {
     Get.find<OesController>().oesData.add([]);
   }
