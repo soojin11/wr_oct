@@ -1,6 +1,5 @@
 import 'dart:async';
-
-import 'package:fl_chart/fl_chart.dart';
+import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -8,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:wr_ui/main.dart';
 import 'package:wr_ui/view/appbar/leading/run_error_status_mark.dart';
 import 'package:wr_ui/view/chart/oes_chart.dart';
+import 'package:wr_ui/view/chart/viz_ctrl.dart';
 import 'package:wr_ui/view/right_side_menu/log_save.dart';
 import 'package:wr_ui/view/right_side_menu/save_ini.dart';
 
@@ -101,6 +101,35 @@ class StartStop extends GetView<StartStopController> {
                 }),
           ),
         ),
+        ElevatedButton(
+          child: Text('read'),
+          onPressed: () {
+            VizCtrl.to.readSerial();
+          },
+        ),
+        Row(
+          children: [
+            ElevatedButton(
+              child: Text('시작'),
+              onPressed: () async {
+                VizCtrl.to.isStart.value = true;
+
+                // while (VizCtrl.to.isStart.value) {
+                //   await VizCtrl.to.readSerial();
+                // }
+              },
+            ),
+            ElevatedButton(
+              child: Text('멈춤'),
+              onPressed: () async {
+                VizCtrl.to.isStart.value = false;
+                //임시로 닫는거 여기에 넣음
+                VizCtrl.to.vizChannel[0].port.close() == true;
+                print('열렸나? ${VizCtrl.to.vizChannel[0].port.isOpen}');
+              },
+            )
+          ],
+        )
       ],
     );
   }

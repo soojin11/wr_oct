@@ -5,7 +5,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:libserialport/libserialport.dart';
 import 'package:wr_ui/controller/drop_down_controller.dart';
 import 'package:wr_ui/controller/home_controller.dart';
 import 'package:wr_ui/service/dark_white_mode/mode.dart';
@@ -61,25 +60,9 @@ late int Function() mpmIsSwitching;
 List listWavelength = [];
 bool runningSignal = false;
 
-late int Function(int a) spTestAllChannels;
-late void Function(Pointer<Int16> a) spGetAssignedChannelID;
-late int Function(int a) spSetupGivenChannel;
-late int Function(int a, int b) spInitGivenChannel;
-late int Function(int a, int b) spSetIntEx;
-late int Function(Pointer<Int32> a, int b) spReadDataEx;
 late int Function(int a) serialConnect;
 
 Future main() async {
-  print('Available ports:');
-  var i = 0;
-  for (final name in SerialPort.availablePorts) {
-    final sp = SerialPort(name);
-    print('${++i}) $name');
-    print('\tDescription: ${sp.description}');
-    print('\tManufacturer: ${sp.manufacturer}');
-    print('\tSerial Number: ${sp.serialNumber}');
-  }
-
   Get.lazyPut(() => iniController());
   Get.put(VizCtrl());
   // Get.put(iniController());
@@ -88,22 +71,19 @@ Future main() async {
   Get.put(ChartName());
   Get.put(StartStopController());
   Get.put(CsvController());
-  // Get.put(iniController());
   Get.put(LogListController());
   Get.put(LogController());
-  //Get.put(SettingController());
   Get.put(SettingContnet());
   Get.put(BtnHoverCtrl());
   Get.put(chooseChart());
-  // Get.put(DataMonitorCtrl());
   Get.put(StartStopController());
-  // Pointer<Double> getWavelength = calloc<Double>(8);
   Get.find<LogListController>().programStart();
 
-  // readConfig();
-  // oesInit();
+  ///시리얼 포트///
   VizCtrl.to.init();
   VizCtrl.to.startSerial();
+  /////////////////////
+
   for (var i = 0; i < Get.find<iniController>().OES_Count.value; i++) {
     Get.find<OesController>().oesData.add([]);
   }
