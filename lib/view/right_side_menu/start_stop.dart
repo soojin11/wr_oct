@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:ffi';
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -101,31 +103,40 @@ class StartStop extends GetView<StartStopController> {
                 }),
           ),
         ),
-        ElevatedButton(
-          child: Text('read'),
-          onPressed: () {
-            VizCtrl.to.readSerial();
-          },
+        Row(
+          children: [
+            ElevatedButton(
+              child: Text('open'),
+              onPressed: () {
+                VizCtrl.to.startSerial();
+                // VizCtrl.to.readSerial;
+              },
+            ),
+            ElevatedButton(
+              child: Text('close'),
+              onPressed: () {
+                VizCtrl.to.vizChannel[0].port.close();
+                print('열렸나? ${VizCtrl.to.vizChannel[0].port.isOpen}');
+              },
+            ),
+          ],
         ),
         Row(
           children: [
             ElevatedButton(
               child: Text('시작'),
               onPressed: () async {
-                VizCtrl.to.isStart.value = true;
-
-                // while (VizCtrl.to.isStart.value) {
-                //   await VizCtrl.to.readSerial();
-                // }
+                await VizCtrl.to.sendStart(); //측정 시작
+                VizCtrl.to.buffer.clear();
+                VizCtrl.to.vizTimer = Timer.periodic(
+                    Duration(milliseconds: 100), VizCtrl.to.readSerial);
+                // VizCtrl.to.readSerial();
               },
             ),
             ElevatedButton(
               child: Text('멈춤'),
               onPressed: () async {
-                VizCtrl.to.isStart.value = false;
-                //임시로 닫는거 여기에 넣음
-                VizCtrl.to.vizChannel[0].port.close() == true;
-                print('열렸나? ${VizCtrl.to.vizChannel[0].port.isOpen}');
+                VizCtrl.to.vizTimer?.cancel();
               },
             )
           ],

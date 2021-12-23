@@ -81,7 +81,6 @@ Future main() async {
 
   ///시리얼 포트///
   VizCtrl.to.init();
-  VizCtrl.to.startSerial();
   /////////////////////
 
   for (var i = 0; i < Get.find<iniController>().OES_Count.value; i++) {
