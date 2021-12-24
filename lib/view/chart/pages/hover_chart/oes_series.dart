@@ -8,9 +8,9 @@ class oneHoverChart extends GetView<OesController> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(20),
-      child: GetBuilder<OesController>(
-          builder: (controller) => OesChart().LineChartForm(
+        padding: EdgeInsets.all(20),
+        child: GetBuilder<OesController>(
+          builder: (controller) => Obx(() => OesChart().LineChartForm(
               controller: controller,
               lineBarsData: [
                 OesChart().lineChartBarData(controller.oesData[0],
@@ -18,7 +18,7 @@ class oneHoverChart extends GetView<OesController> {
               ],
               leftTitles: SideTitles(showTitles: false),
               bottomTitles: SideTitles(showTitles: false))),
-    );
+        ));
   }
 }
 
@@ -26,9 +26,9 @@ class twoHoverChart extends GetView<OesController> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(20),
-      child: GetBuilder<OesController>(
-          builder: (controller) => OesChart().LineChartForm(
+        padding: EdgeInsets.all(20),
+        child: GetBuilder<OesController>(
+          builder: (controller) => Obx(() => OesChart().LineChartForm(
               controller: controller,
               lineBarsData: [
                 OesChart().lineChartBarData(controller.oesData[1],
@@ -36,7 +36,7 @@ class twoHoverChart extends GetView<OesController> {
               ],
               leftTitles: SideTitles(showTitles: false),
               bottomTitles: SideTitles(showTitles: false))),
-    );
+        ));
   }
 }
 
@@ -44,9 +44,9 @@ class threeHoverChart extends GetView<OesController> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(20),
-      child: GetBuilder<OesController>(
-          builder: (controller) => OesChart().LineChartForm(
+        padding: EdgeInsets.all(20),
+        child: GetBuilder<OesController>(
+          builder: (controller) => Obx(() => OesChart().LineChartForm(
               controller: controller,
               lineBarsData: [
                 OesChart().lineChartBarData(controller.oesData[2],
@@ -54,7 +54,7 @@ class threeHoverChart extends GetView<OesController> {
               ],
               leftTitles: SideTitles(showTitles: false),
               bottomTitles: SideTitles(showTitles: false))),
-    );
+        ));
   }
 }
 
@@ -62,9 +62,9 @@ class fourHoverChart extends GetView<OesController> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(20),
-      child: GetBuilder<OesController>(
-          builder: (controller) => OesChart().LineChartForm(
+        padding: EdgeInsets.all(20),
+        child: GetBuilder<OesController>(
+          builder: (controller) => Obx(() => OesChart().LineChartForm(
               controller: controller,
               lineBarsData: [
                 OesChart().lineChartBarData(controller.oesData[3],
@@ -72,7 +72,7 @@ class fourHoverChart extends GetView<OesController> {
               ],
               leftTitles: SideTitles(showTitles: false),
               bottomTitles: SideTitles(showTitles: false))),
-    );
+        ));
   }
 }
 
@@ -80,9 +80,9 @@ class fiveHoverChart extends GetView<OesController> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(20),
-      child: GetBuilder<OesController>(
-          builder: (controller) => OesChart().LineChartForm(
+        padding: EdgeInsets.all(20),
+        child: GetBuilder<OesController>(
+          builder: (controller) => Obx(() => OesChart().LineChartForm(
               controller: controller,
               lineBarsData: [
                 OesChart().lineChartBarData(controller.oesData[4],
@@ -90,7 +90,7 @@ class fiveHoverChart extends GetView<OesController> {
               ],
               leftTitles: SideTitles(showTitles: false),
               bottomTitles: SideTitles(showTitles: false))),
-    );
+        ));
   }
 }
 
@@ -98,9 +98,9 @@ class sixHoverChart extends GetView<OesController> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(20),
-      child: GetBuilder<OesController>(
-          builder: (controller) => OesChart().LineChartForm(
+        padding: EdgeInsets.all(20),
+        child: GetBuilder<OesController>(
+          builder: (controller) => Obx(() => OesChart().LineChartForm(
               controller: controller,
               lineBarsData: [
                 OesChart().lineChartBarData(controller.oesData[5],
@@ -108,7 +108,7 @@ class sixHoverChart extends GetView<OesController> {
               ],
               leftTitles: SideTitles(showTitles: false),
               bottomTitles: SideTitles(showTitles: false))),
-    );
+        ));
   }
 }
 
@@ -116,9 +116,9 @@ class sevenHoverChart extends GetView<OesController> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(20),
-      child: GetBuilder<OesController>(
-          builder: (controller) => OesChart().LineChartForm(
+        padding: EdgeInsets.all(20),
+        child: GetBuilder<OesController>(
+          builder: (controller) => Obx(() => OesChart().LineChartForm(
               controller: controller,
               lineBarsData: [
                 OesChart().lineChartBarData(controller.oesData[6],
@@ -126,7 +126,7 @@ class sevenHoverChart extends GetView<OesController> {
               ],
               leftTitles: SideTitles(showTitles: false),
               bottomTitles: SideTitles(showTitles: false))),
-    );
+        ));
   }
 }
 
@@ -134,9 +134,9 @@ class eightHoverChart extends GetView<OesController> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(20),
-      child: GetBuilder<OesController>(
-          builder: (controller) => OesChart().LineChartForm(
+        padding: EdgeInsets.all(20),
+        child: GetBuilder<OesController>(
+          builder: (controller) => Obx(() => OesChart().LineChartForm(
               controller: controller,
               lineBarsData: [
                 OesChart().lineChartBarData(controller.oesData[7],
@@ -144,6 +144,6 @@ class eightHoverChart extends GetView<OesController> {
               ],
               leftTitles: SideTitles(showTitles: false),
               bottomTitles: SideTitles(showTitles: false))),
-    );
+        ));
   }
 }

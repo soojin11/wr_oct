@@ -153,17 +153,28 @@ class OesController extends GetxController {
         onPointerSignal: (signal) {
           if (signal is PointerScrollEvent) {
             if (signal.scrollDelta.dy.isNegative) {
-              minX.value += maxX * 0.05;
-              maxX.value -= maxX * 0.05;
+              //여기에 if 문 추가 그니까 여기서 min값이 max값 보다 커지는걸 잡아야해
+              if (maxX.value > minX.value + 50) {
+                minX.value += 50;
+                maxX.value -= 50;
+              } else {
+                minX.value = minX.value;
+                maxX.value = maxX.value;
+              }
+
+              Get.find<LogListController>().logData.add('zoom in');
             } else {
-              if (minX - maxX * 0.05 >= 0 || maxX + maxX * 0.05 <= 2048) {
-                minX.value -= maxX * 0.05;
-                maxX.value += maxX * 0.05;
+              if (maxX.value - maxX * 0.1 <= 2048 && minX - maxX * 0.1 >= 0) {
+                minX.value -= maxX * 0.1;
+                maxX.value += maxX * 0.1;
               } else {
                 minX.value = 0;
                 maxX.value = 2048;
               }
             }
+
+            Get.find<LogListController>().logData.add(
+                'x ${minX.value.round().toString()}  ${maxX.value.round().toString()}');
           }
         },
         child: GestureDetector(
