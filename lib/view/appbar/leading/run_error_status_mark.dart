@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ini/ini.dart';
-import 'package:wr_ui/main.dart';
 import 'package:wr_ui/model/const/style/text.dart';
-import 'package:wr_ui/view/chart/oes_chart.dart';
 
 class runErrorStatusController extends GetxController {
   RxString textmsg = 'S T O P'.obs;
@@ -21,7 +18,6 @@ class RunErrorStatus extends GetView<runErrorStatusController> {
     return Obx(
       () => Container(
         color: controller.statusColor.value,
-        // decoration: BoxDecoration(color: controller.statusColor.value),
         width: 300,
         height: 85,
         child: Center(

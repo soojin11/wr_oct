@@ -43,6 +43,7 @@ class FirstHover extends GetView<BtnHoverCtrl> {
               print('1번째 차트 선택');
               Get.find<chooseChart>().chartNum.value = 1;
               Get.find<LogListController>().clickedHover();
+
               Get.find<OesController>().checkVal1.value = true;
               Get.find<OesController>().checkVal2.value = false;
               Get.find<OesController>().checkVal3.value = false;
@@ -69,23 +70,7 @@ class FirstHover extends GetView<BtnHoverCtrl> {
                     offset: Offset(0, 2), // 그림자위치 바꾸는거
                   ),
                 ],
-              )
-
-              // BoxDecoration(
-              //     boxShadow: [
-              //       BoxShadow(
-              //           blurRadius: 7,
-              //           spreadRadius: 5,
-              //           color: controller.isHover.value
-              //               ? Colors.cyan.withOpacity(0.2)
-              //               : Colors.grey)
-              //     ],
-              //     color: Colors.white,
-              //     //Theme.of(context).appBarTheme.foregroundColor,
-              //     borderRadius: BorderRadius.all(
-              //       Radius.circular(10),
-              //     ))
-              ,
+              ),
               duration: Duration(milliseconds: 200),
               width: controller.isHover.value ? 200 : 170,
               height: controller.isHover.value ? 200 : 150,

@@ -1,7 +1,4 @@
 import 'dart:async';
-import 'dart:ffi';
-import 'dart:io';
-import 'dart:typed_data';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,7 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:wr_ui/main.dart';
 import 'package:wr_ui/view/appbar/leading/run_error_status_mark.dart';
 import 'package:wr_ui/view/chart/oes_chart.dart';
-import 'package:wr_ui/view/chart/viz_ctrl.dart';
+import 'package:wr_ui/controller/viz_ctrl.dart';
 import 'package:wr_ui/view/right_side_menu/log_save.dart';
 import 'package:wr_ui/view/right_side_menu/save_ini.dart';
 
@@ -119,16 +116,12 @@ class StartStop extends GetView<StartStopController> {
                 print('열렸나? ${VizCtrl.to.vizChannel[0].port.isOpen}');
               },
             ),
-          ],
-        ),
-        Row(
-          children: [
             ElevatedButton(
               child: Text('시작'),
               onPressed: () async {
                 await VizCtrl.to.sendStart(); //측정 시작
                 VizCtrl.to.buffer.clear();
-                VizCtrl.to.vizTimer = Timer.periodic(
+                VizCtrl.to.timer = Timer.periodic(
                     Duration(milliseconds: 100), VizCtrl.to.readSerial);
                 // VizCtrl.to.readSerial();
               },
@@ -136,7 +129,32 @@ class StartStop extends GetView<StartStopController> {
             ElevatedButton(
               child: Text('멈춤'),
               onPressed: () async {
-                VizCtrl.to.vizTimer?.cancel();
+                VizCtrl.to.timer?.cancel();
+              },
+            )
+          ],
+        ),
+        Row(
+          children: [
+            ElevatedButton(
+              child: Text('viz시작'),
+              onPressed: () {
+                VizCtrl.to.vizChartTimer = Timer.periodic(
+                    Duration(milliseconds: 10), VizCtrl.to.vizUpdate);
+                // VizCtrl.to.readSerial();
+              },
+            ),
+            ElevatedButton(
+              child: Text('viz멈춤'),
+              onPressed: () {
+                VizCtrl.to.vizChartTimer.cancel();
+              },
+            ),
+            ElevatedButton(
+              child: Text('줌리셋'),
+              onPressed: () {
+                Get.find<OesController>().minX.value = 0;
+                Get.find<OesController>().maxX.value = 2048;
               },
             )
           ],

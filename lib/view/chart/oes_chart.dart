@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math' as math;
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wr_ui/main.dart';
@@ -13,7 +14,6 @@ import 'package:wr_ui/view/right_side_menu/start_stop.dart';
 
 final channelNuminINI = Get.find<iniController>().channelFlow.value;
 
-/////////////밑에 랜덤데이터 있음
 class OesController extends GetxController {
   RxList<List<FlSpot>> oesData = RxList.empty(); //oesData[0]
   RxBool inactiveBtn = false.obs;
@@ -36,8 +36,14 @@ class OesController extends GetxController {
   RxString updateend = ''.obs;
   Timer? timer;
   //RxBool bRunning = false.obs;
+  //zoom  controller
+  late RxDouble minX;
+  late RxDouble maxX;
+
   @override
   void onInit() {
+    minX = 0.0.obs;
+    maxX = 2048.0.obs;
     super.onInit();
   }
 
@@ -57,7 +63,7 @@ class OesController extends GetxController {
 
   Future<void> updateDataSource2(Timer timer) async {
     if (Get.find<iniController>().sim.value == 1) {
-      var stopwatch = Stopwatch()..start();
+      //var stopwatch = Stopwatch()..start();
 
       var nCurrentChannel = int.parse(channelNuminINI[nChannelIdx++]) - 1;
       saveLog();
@@ -141,12 +147,46 @@ class OesController extends GetxController {
       update();
     }
   }
-}
 
-////////////////////
-Future<bool> func(Timer arg) async {
-  print("in compute");
-  return true;
+  scrollEvent({required Widget child}) {
+    return Listener(
+        onPointerSignal: (signal) {
+          if (signal is PointerScrollEvent) {
+            if (signal.scrollDelta.dy.isNegative) {
+              minX.value += maxX * 0.05;
+              maxX.value -= maxX * 0.05;
+            } else {
+              if (minX - maxX * 0.05 >= 0 || maxX + maxX * 0.05 <= 2048) {
+                minX.value -= maxX * 0.05;
+                maxX.value += maxX * 0.05;
+              } else {
+                minX.value = 0;
+                maxX.value = 2048;
+              }
+            }
+          }
+        },
+        child: GestureDetector(
+          onDoubleTap: () {
+            minX.value = 0;
+            maxX.value = oesData.length.toDouble();
+          },
+          onHorizontalDragUpdate: (dragUpdate) {
+            double primeDelta = dragUpdate.primaryDelta ?? 0.0;
+            if (primeDelta != 0) {
+              if (primeDelta.isNegative) {
+                minX.value += maxX * 0.005;
+                maxX.value += maxX * 0.005;
+              } else {
+                // minX -= maxX * 0.005;
+                maxX.value -= maxX * 0.005;
+              }
+            }
+            update();
+          },
+          child: child,
+        ));
+  }
 }
 
 class OesChart extends GetView<OesController> {
@@ -154,78 +194,105 @@ class OesChart extends GetView<OesController> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(top: 20),
-      child: GetBuilder<OesController>(
-        builder: (controller) => InteractiveViewer(
-          child: Container(
-            padding: EdgeInsets.only(left: 20, right: 20, top: 10),
-            child: LineChartForm(
-              controller: controller,
-              lineBarsData: [
-                if (controller.checkVal1.value)
-                  lineChartBarData(controller.oesData[0],
-                      Get.find<iniController>().Series_Color_001.value),
-                if (controller.checkVal2.value)
-                  lineChartBarData(controller.oesData[1],
-                      Get.find<iniController>().Series_Color_002.value),
-                if (controller.checkVal3.value)
-                  lineChartBarData(controller.oesData[2],
-                      Get.find<iniController>().Series_Color_003.value),
-                if (controller.checkVal4.value)
-                  lineChartBarData(controller.oesData[3],
-                      Get.find<iniController>().Series_Color_004.value),
-                if (controller.checkVal5.value)
-                  lineChartBarData(controller.oesData[4],
-                      Get.find<iniController>().Series_Color_005.value),
-                if (controller.checkVal6.value)
-                  lineChartBarData(controller.oesData[5],
-                      Get.find<iniController>().Series_Color_006.value),
-                if (controller.checkVal7.value)
-                  lineChartBarData(controller.oesData[6],
-                      Get.find<iniController>().Series_Color_007.value),
-                if (controller.checkVal8.value)
-                  lineChartBarData(controller.oesData[7],
-                      Get.find<iniController>().Series_Color_008.value),
-              ],
-              bottomTitles: SideTitles(
-                showTitles: true,
-                reservedSize: 20, //글씨 밑에 margin 주기
-                getTextStyles: (BuildContext, double) => const TextStyle(
-                  color: Color(0xff68737d),
-                  fontWeight: FontWeight.bold,
-                  fontSize: 13,
-                ),
-                getTitles: (value) {
-                  return '${value.round()}';
-                },
-                margin: 8, //스캐일에 쓴 글씨와 그래프의 margin
-              ),
-              leftTitles: SideTitles(
-                showTitles: true,
-                getTextStyles: (BuildContext, double) => const TextStyle(
-                  color: Color(0xff67727d),
-                  fontWeight: FontWeight.bold,
-                  fontSize: 15,
-                ),
-                getTitles: (value) {
-                  switch (value.toInt()) {
-                    case 0:
-                      return '10k';
-                    case 250:
-                      return '30k';
-                    case 500:
-                      return '50k';
-                  }
-                  return '';
-                },
-                reservedSize: 10,
-                margin: 12,
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
+        padding: EdgeInsets.only(top: 20),
+        child: GetBuilder<OesController>(
+            builder: (controller) => Obx(
+                  () => controller.scrollEvent(
+                    child: Container(
+                      padding: EdgeInsets.only(left: 20, right: 20, top: 10),
+                      child: LineChartForm(
+                        controller: controller,
+                        lineBarsData: [
+                          if (controller.checkVal1.value)
+                            lineChartBarData(
+                                controller.oesData[0],
+                                Get.find<iniController>()
+                                    .Series_Color_001
+                                    .value),
+                          if (controller.checkVal2.value)
+                            lineChartBarData(
+                                controller.oesData[1],
+                                Get.find<iniController>()
+                                    .Series_Color_002
+                                    .value),
+                          if (controller.checkVal3.value)
+                            lineChartBarData(
+                                controller.oesData[2],
+                                Get.find<iniController>()
+                                    .Series_Color_003
+                                    .value),
+                          if (controller.checkVal4.value)
+                            lineChartBarData(
+                                controller.oesData[3],
+                                Get.find<iniController>()
+                                    .Series_Color_004
+                                    .value),
+                          if (controller.checkVal5.value)
+                            lineChartBarData(
+                                controller.oesData[4],
+                                Get.find<iniController>()
+                                    .Series_Color_005
+                                    .value),
+                          if (controller.checkVal6.value)
+                            lineChartBarData(
+                                controller.oesData[5],
+                                Get.find<iniController>()
+                                    .Series_Color_006
+                                    .value),
+                          if (controller.checkVal7.value)
+                            lineChartBarData(
+                                controller.oesData[6],
+                                Get.find<iniController>()
+                                    .Series_Color_007
+                                    .value),
+                          if (controller.checkVal8.value)
+                            lineChartBarData(
+                                controller.oesData[7],
+                                Get.find<iniController>()
+                                    .Series_Color_008
+                                    .value),
+                        ],
+                        bottomTitles: SideTitles(
+                          interval: 100,
+                          showTitles: true,
+                          reservedSize: 20, //글씨 밑에 margin 주기
+                          // getTextStyles: (BuildContext, double) => const TextStyle(
+                          //   color: Color(0xff68737d),
+                          //   fontWeight: FontWeight.bold,
+                          //   fontSize: 13,
+                          // ),
+                          // getTitles: (value) {
+                          //   return '${value.round()}';
+                          // },
+                          margin: 8, //스캐일에 쓴 글씨와 그래프의 margin
+                        ),
+                        leftTitles: SideTitles(
+                          showTitles: true,
+                          getTextStyles: (BuildContext, double) =>
+                              const TextStyle(
+                            color: Color(0xff67727d),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                          ),
+                          interval: 100,
+                          // getTitles: (value) {
+                          //   switch (value.toInt()) {
+                          //     case 0:
+                          //       return '10k';
+                          //     case 250:
+                          //       return '30k';
+                          //     case 500:
+                          //       return '50k';
+                          //   }
+                          //   return '';
+                          // },
+                          reservedSize: 10,
+                          margin: 12,
+                        ),
+                      ),
+                    ),
+                  ),
+                )));
   }
 
   LineChart LineChartForm(
@@ -235,8 +302,8 @@ class OesChart extends GetView<OesController> {
       SideTitles? bottomTitles}) {
     return LineChart(
       LineChartData(
-          minX: 180,
-          maxX: 800,
+          minX: controller.minX.value,
+          maxX: controller.maxX.value,
           lineTouchData: LineTouchData(
               touchTooltipData: LineTouchTooltipData(
             fitInsideHorizontally: true,

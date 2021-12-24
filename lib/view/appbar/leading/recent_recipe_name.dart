@@ -16,9 +16,8 @@ class RecentRecipeName extends GetView<ChartName> {
     return Obx(() => Container(
           padding: EdgeInsets.only(top: 5, bottom: 5),
           child: Text(
-            controller.chartName.value, style: WrText.WrFont,
-            // TextStyle(
-            //     fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
+            controller.chartName.value,
+            style: WrText.WrFont,
           ),
         ));
   }

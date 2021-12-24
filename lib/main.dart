@@ -9,10 +9,8 @@ import 'package:wr_ui/controller/drop_down_controller.dart';
 import 'package:wr_ui/controller/home_controller.dart';
 import 'package:wr_ui/service/dark_white_mode/mode.dart';
 import 'package:wr_ui/service/routes/app_pages.dart';
-import 'package:wr_ui/setting_content.dart';
 import 'package:wr_ui/view/appbar/actions/minimize/window_btn.dart';
 import 'package:wr_ui/view/appbar/actions/setting/ini_and_setting.dart';
-import 'package:wr_ui/view/appbar/actions/setting/recipe_menu_final.dart';
 import 'package:wr_ui/view/appbar/leading/clock.dart';
 import 'package:wr_ui/view/appbar/leading/recent_recipe_name.dart';
 import 'package:wr_ui/view/appbar/leading/run_error_status_mark.dart';
@@ -21,7 +19,8 @@ import 'package:wr_ui/view/chart/oes_chart.dart';
 import 'package:wr_ui/view/chart/pages/hover_chart/hover_func.dart';
 import 'package:wr_ui/view/chart/pages/hover_chart/hover_row.dart';
 import 'package:wr_ui/view/chart/switch_chart.dart';
-import 'package:wr_ui/view/chart/viz_ctrl.dart';
+import 'package:wr_ui/view/chart/viz_chart.dart';
+import 'package:wr_ui/controller/viz_ctrl.dart';
 import 'package:wr_ui/view/right_side_menu/csv_creator.dart';
 import 'package:wr_ui/view/right_side_menu/exit_btn.dart';
 import 'package:wr_ui/view/right_side_menu/log_save.dart';
@@ -65,15 +64,13 @@ late int Function(int a) serialConnect;
 Future main() async {
   Get.lazyPut(() => iniController());
   Get.put(VizCtrl());
-  // Get.put(iniController());
-  Get.put(OesController()); //Get.put(DialogStorageCtrl());
+  Get.put(OesController());
   Get.put(runErrorStatusController());
   Get.put(ChartName());
   Get.put(StartStopController());
   Get.put(CsvController());
   Get.put(LogListController());
   Get.put(LogController());
-  Get.put(SettingContnet());
   Get.put(BtnHoverCtrl());
   Get.put(chooseChart());
   Get.put(StartStopController());
@@ -487,7 +484,7 @@ class _WRbodyState extends State<WRbody> {
                                     indent: 10,
                                     endIndent: 10,
                                   ),
-                                  RecipeMenu()
+                                  //RecipeMenu()
                                 ],
                               ),
                             ),

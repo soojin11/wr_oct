@@ -13,7 +13,7 @@ class chooseChart extends GetxController {
   RxBool chartSide7 = false.obs;
   RxBool chartSide8 = false.obs;
   choose() {
-    if (chartNum <= 1 && chartNum > 0) {
+    if (chartNum == 1) {
       chartSide1.value = true;
       chartSide2.value = false;
       chartSide3.value = false;
@@ -23,7 +23,7 @@ class chooseChart extends GetxController {
       chartSide7.value = false;
       chartSide8.value = false;
       return oneHoverChart();
-    } else if (chartNum <= 2 && chartNum > 1) {
+    } else if (chartNum == 2) {
       chartSide1.value = false;
       chartSide2.value = true;
       chartSide3.value = false;
@@ -33,7 +33,7 @@ class chooseChart extends GetxController {
       chartSide7.value = false;
       chartSide8.value = false;
       return twoHoverChart();
-    } else if (chartNum <= 3 && chartNum > 2) {
+    } else if (chartNum == 3) {
       chartSide1.value = false;
       chartSide2.value = false;
       chartSide3.value = true;
@@ -43,7 +43,7 @@ class chooseChart extends GetxController {
       chartSide7.value = false;
       chartSide8.value = false;
       return threeHoverChart();
-    } else if (chartNum <= 4 && chartNum > 3) {
+    } else if (chartNum == 4) {
       chartSide1.value = false;
       chartSide2.value = false;
       chartSide3.value = false;
@@ -53,7 +53,7 @@ class chooseChart extends GetxController {
       chartSide7.value = false;
       chartSide8.value = false;
       return fourHoverChart();
-    } else if (chartNum <= 5 && chartNum > 4) {
+    } else if (chartNum == 5) {
       chartSide1.value = false;
       chartSide2.value = false;
       chartSide3.value = false;
@@ -63,7 +63,7 @@ class chooseChart extends GetxController {
       chartSide7.value = false;
       chartSide8.value = false;
       return fiveHoverChart();
-    } else if (chartNum <= 6 && chartNum > 5) {
+    } else if (chartNum == 6) {
       chartSide1.value = false;
       chartSide2.value = false;
       chartSide3.value = false;
@@ -73,7 +73,7 @@ class chooseChart extends GetxController {
       chartSide7.value = false;
       chartSide8.value = false;
       return sixHoverChart();
-    } else if (chartNum <= 7 && chartNum > 6) {
+    } else if (chartNum == 7) {
       chartSide1.value = false;
       chartSide2.value = false;
       chartSide3.value = false;
@@ -83,7 +83,7 @@ class chooseChart extends GetxController {
       chartSide7.value = true;
       chartSide8.value = false;
       return sevenHoverChart();
-    } else if (chartNum <= 8 && chartNum > 7) {
+    } else if (chartNum == 8) {
       chartSide1.value = false;
       chartSide2.value = false;
       chartSide3.value = false;
@@ -91,7 +91,7 @@ class chooseChart extends GetxController {
       chartSide5.value = false;
       chartSide6.value = false;
       chartSide7.value = false;
-      chartSide8.value = false;
+      chartSide8.value = true;
       return eightHoverChart();
     }
     return OesChart();

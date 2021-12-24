@@ -8,7 +8,6 @@ class SplashController extends GetxController {
 
   @override
   void onReady() {
-    // TODO: implement onReady
     super.onReady();
     loading();
   }
