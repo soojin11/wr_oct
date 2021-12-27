@@ -71,7 +71,7 @@ Future main() async {
   Get.put(CsvController());
   Get.put(LogListController());
   Get.put(LogController());
-  Get.put(BtnHoverCtrl());
+  Get.put(HoverCtrl());
   Get.put(chooseChart());
   Get.put(StartStopController());
   Get.find<LogListController>().programStart();
@@ -82,6 +82,13 @@ Future main() async {
 
   for (var i = 0; i < Get.find<iniController>().OES_Count.value; i++) {
     Get.find<OesController>().oesData.add([]);
+  }
+  for (var i = 0; i < 7; i++) {
+    VizCtrl.to.vizVal1.add([]);
+    VizCtrl.to.vizVal2.add([]);
+    VizCtrl.to.vizVal3.add([]);
+    VizCtrl.to.vizVal4.add([]);
+    VizCtrl.to.vizVal5.add([]);
   }
   runApp(MyApp());
 

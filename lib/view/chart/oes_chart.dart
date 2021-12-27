@@ -23,6 +23,7 @@ class OesController extends GetxController {
 
   // RxInt plusTime = 30.obs;
   //여유시간
+  RxBool vizCheck = true.obs;
 
   RxBool checkVal1 = true.obs;
   RxBool checkVal2 = true.obs;
@@ -61,7 +62,7 @@ class OesController extends GetxController {
     return true;
   }
 
-  Future<void> updateDataSource2(Timer timer) async {
+  Future<void> updateDataSource(Timer timer) async {
     if (Get.find<iniController>().sim.value == 1) {
       //var stopwatch = Stopwatch()..start();
 
@@ -162,7 +163,7 @@ class OesController extends GetxController {
                 maxX.value = maxX.value;
               }
 
-              Get.find<LogListController>().logData.add('zoom in');
+              // Get.find<LogListController>().logData.add('zoom in');
             } else {
               if (maxX.value - maxX * 0.1 <= 2048 && minX - maxX * 0.1 >= 0) {
                 minX.value -= maxX * 0.1;
@@ -173,8 +174,8 @@ class OesController extends GetxController {
               }
             }
 
-            Get.find<LogListController>().logData.add(
-                'x ${minX.value.round().toString()}  ${maxX.value.round().toString()}');
+            // Get.find<LogListController>().logData.add(
+            //     'x ${minX.value.round().toString()}  ${maxX.value.round().toString()}');
           }
         },
         child: GestureDetector(

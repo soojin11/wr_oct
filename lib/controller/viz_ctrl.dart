@@ -6,52 +6,125 @@ import 'package:libserialport/libserialport.dart';
 import 'package:wr_ui/model/viz_data.dart';
 import 'dart:math' as math;
 
-import 'package:wr_ui/view/chart/oes_chart.dart';
-
 class VizCtrl extends GetxController {
   static VizCtrl get to => Get.find();
+  RxList<bool> vizCheckVal = [true, true, true, true, true, true, true].obs;
+  RxList<bool> selectVizChannel = [true, true, true, true, true].obs;
   RxList<VizChannel> vizChannel = RxList.empty();
   RxBool isStart = false.obs;
   Timer? timer;
+  int numOfViz = 7;
   List<int> buffer = [];
-  List<double> cutData = [];
-  RxList<List<FlSpot>> vizVal = RxList.empty();
+  RxList<double> cutData = RxList.empty();
   Rx<VizData> vizData = VizData.init().obs;
 
   //////////////차트ctrl///////////////
-  RxList<FlSpot> vizSimVal = RxList.empty();
-  RxList<FlSpot> vizBuffer = RxList.empty();
-  double time = 0;
+  RxList<List<FlSpot>> vizSimVal = RxList.empty();
+  RxList<List<FlSpot>> vizVal1 = RxList.empty();
+  RxList<List<FlSpot>> vizVal2 = RxList.empty();
+  RxList<List<FlSpot>> vizVal3 = RxList.empty();
+  RxList<List<FlSpot>> vizVal4 = RxList.empty();
+  RxList<List<FlSpot>> vizVal5 = RxList.empty();
+  RxDouble step = 1.0.obs;
+  RxDouble chartMaxX = 800.0.obs;
+  RxDouble chartMinX = 0.0.obs;
+  late RxDouble minX;
+  late RxDouble maxX;
+  RxDouble xValue = 0.0.obs;
+  RxDouble yValue = 0.0.obs;
+  // RxList<FlSpot> vizBuffer = RxList.empty();
   late Timer vizChartTimer;
+
   double setRandom() {
-    double yValue = math.Random().nextInt(500).toDouble();
+    double yValue = math.Random().nextInt(10).toDouble();
     return yValue;
   }
 
-  Future<void> vizUpdate(Timer vizChartTimer) async {
-    vizSimVal.add(FlSpot(time++, setRandom()));
-
-    // if (vizSimVal.length == 800) {
-    //   vizSimVal.removeAt(0);
-    //   vizBuffer.addAll(vizSimVal);
-    // }
-    // vizSimVal = vizBuffer;
-
-    update();
-  }
   ///////////////////////////////////////
 
   Future<void> init() async {
     vizChannel.clear();
     vizChannel
         .add(VizChannel(vizData: VizData.init(), port: SerialPort('COM4')));
-    vizSimVal.clear();
-    vizSimVal.add(FlSpot(0, 0));
-    Get.find<OesController>().oesData.clear();
-    Get.find<OesController>().oesData[0].add(FlSpot(0, 0));
+    // vizSimVal.clear();
+    // vizSimVal.add(FlSpot(0, 0));
+    // Get.find<OesController>().oesData.clear();
+    // Get.find<OesController>().oesData[0].add(FlSpot(0, 0));
   }
 
-  Future<void> updateViz(Timer timer) async {}
+  Future<void> vizUpdate(Timer vizChartTimer) async {
+    // for (var i = 0; i < numOfViz; i++) {
+    //   vizVal[i].add(FlSpot(xValue.value++, cutData[i]));
+    // }
+    //VIZ_1
+    vizVal1[0].add(FlSpot(xValue.value++, cutData[0] / 1000000));
+    vizVal1[1].add(FlSpot(xValue.value++, cutData[1]));
+    vizVal1[2].add(FlSpot(xValue.value++, cutData[2] / 10));
+    vizVal1[3].add(FlSpot(xValue.value++, cutData[3] * 10));
+    vizVal1[4].add(FlSpot(xValue.value++, cutData[4]));
+    vizVal1[5].add(FlSpot(xValue.value++, cutData[5]));
+    vizVal1[6].add(FlSpot(xValue.value++, cutData[6]));
+    if (xValue.value > chartMaxX.value) {
+      chartMinX.value += step.value;
+      chartMaxX.value += step.value;
+    }
+    update();
+  }
+
+  Future<void> vizSimUpdate(Timer timer) async {
+    // for (var i = 0; i < numOfViz; i++) {
+    //   vizVal[i].add(FlSpot(xValue.value++, setRandom()));
+    // }
+    vizVal1[0].add(
+        FlSpot(xValue.value++, (setRandom() + 14000000) / 10000000)); //freq
+    vizVal1[1].add(FlSpot(xValue.value++, (setRandom() + 57) / 100)); //p_div
+    vizVal1[2].add(FlSpot(xValue.value++, (setRandom() + 50) / 100)); //v
+    vizVal1[3].add(FlSpot(xValue.value++, setRandom() / 10)); //i
+    vizVal1[4].add(FlSpot(xValue.value++, setRandom() / 10)); //r
+    vizVal1[5].add(FlSpot(xValue.value++, setRandom() / 10)); //x
+    vizVal1[6].add(FlSpot(xValue.value++, (setRandom() + 50) / 100)); //phase
+    //2
+    vizVal2[0].add(
+        FlSpot(xValue.value++, (setRandom() + 14000000) / 10000000)); //freq
+    vizVal2[1].add(FlSpot(xValue.value++, (setRandom() + 57) / 100)); //p_div
+    vizVal2[2].add(FlSpot(xValue.value++, (setRandom() + 50) / 100)); //v
+    vizVal2[3].add(FlSpot(xValue.value++, setRandom() / 10)); //i
+    vizVal2[4].add(FlSpot(xValue.value++, setRandom() / 10)); //r
+    vizVal2[5].add(FlSpot(xValue.value++, setRandom() / 10)); //x
+    vizVal2[6].add(FlSpot(xValue.value++, (setRandom() + 50) / 100)); //phase
+    //3
+    vizVal3[0].add(
+        FlSpot(xValue.value++, (setRandom() + 14000000) / 10000000)); //freq
+    vizVal3[1].add(FlSpot(xValue.value++, (setRandom() + 57) / 100)); //p_div
+    vizVal3[2].add(FlSpot(xValue.value++, (setRandom() + 50) / 100)); //v
+    vizVal3[3].add(FlSpot(xValue.value++, setRandom() / 10)); //i
+    vizVal3[4].add(FlSpot(xValue.value++, setRandom() / 10)); //r
+    vizVal3[5].add(FlSpot(xValue.value++, setRandom() / 10)); //x
+    vizVal3[6].add(FlSpot(xValue.value++, (setRandom() + 50) / 100)); //phase
+    //4
+    vizVal4[0].add(
+        FlSpot(xValue.value++, (setRandom() + 14000000) / 10000000)); //freq
+    vizVal4[1].add(FlSpot(xValue.value++, (setRandom() + 57) / 100)); //p_div
+    vizVal4[2].add(FlSpot(xValue.value++, (setRandom() + 50) / 100)); //v
+    vizVal4[3].add(FlSpot(xValue.value++, setRandom() / 10)); //i
+    vizVal4[4].add(FlSpot(xValue.value++, setRandom() / 10)); //r
+    vizVal4[5].add(FlSpot(xValue.value++, setRandom() / 10)); //x
+    vizVal4[6].add(FlSpot(xValue.value++, (setRandom() + 50) / 100)); //phase
+    //5
+    vizVal5[0].add(
+        FlSpot(xValue.value++, (setRandom() + 14000000) / 10000000)); //freq
+    vizVal5[1].add(FlSpot(xValue.value++, (setRandom() + 57) / 100)); //p_div
+    vizVal5[2].add(FlSpot(xValue.value++, (setRandom() + 50) / 100)); //v
+    vizVal5[3].add(FlSpot(xValue.value++, setRandom() / 10)); //i
+    vizVal5[4].add(FlSpot(xValue.value++, setRandom() / 10)); //r
+    vizVal5[5].add(FlSpot(xValue.value++, setRandom() / 10)); //x
+    vizVal5[6].add(FlSpot(xValue.value++, (setRandom() + 50) / 100)); //phase
+    if (xValue.value > chartMaxX.value) {
+      chartMinX.value += step.value;
+      chartMaxX.value += step.value;
+    }
+    update();
+  }
 
   Future<int> startSerial() async {
     vizChannel[0].port.config.baudRate = 115200;
@@ -85,6 +158,9 @@ class VizCtrl extends GetxController {
   }
 
   validity(Uint8List data) async {
+    if (cutData.isNotEmpty) {
+      cutData.clear();
+    }
     if (data.isEmpty) return;
     const int receiveLength = 79;
     int startDataIdx = 5 + 32;
@@ -148,7 +224,7 @@ class VizCtrl extends GetxController {
     //length == 87
     //freq = qwre
     //v = fwe
-    for (var i = 0; i < 7; i++) {
+    for (var i = 0; i < numOfViz; i++) {
       cutData.add((Uint8List.fromList(_b)
           .sublist(startDataIdx, startDataIdx += 4)
           .buffer
@@ -174,7 +250,9 @@ class VizCtrl extends GetxController {
   }
 
   Future<void> readSerial(Timer timer) async {
-    if (vizChannel[0].port.isOpen) await sendRead(); // 측정한 data 값 요구
+    if (vizChannel[0].port.isOpen) {
+      await sendRead();
+    } // 측정한 data 값 요구
   }
 
   Future readData(Timer timer) async {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'hover_func.dart';
 
 class ArrangeHover extends StatelessWidget {
@@ -7,24 +8,9 @@ class ArrangeHover extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: hoverCard(),
-    );
-  }
-
-  hoverCard() {
-    //ddd
-    return Row(
-      children: [
-        FirstHover(),
-        SecondHover(),
-        ThirdHover(),
-        FourthHover(),
-        FifthHover(),
-        SixthHover(),
-        SeventhHover(),
-        EightHover()
-      ],
-    );
+        scrollDirection: Axis.horizontal,
+        child: Obx(
+          () => Get.find<HoverCtrl>().hoverCard(),
+        ));
   }
 }

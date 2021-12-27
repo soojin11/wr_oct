@@ -80,11 +80,13 @@ class StartStop extends GetView<StartStopController> {
                         : Colors.grey,
                     textStyle: TextStyle(fontSize: 16)),
                 onPressed: () {
+                  Get.find<OesController>().isOes.value
+                      ? Get.find<OesController>().timer?.cancel()
+                      : VizCtrl.to.vizChartTimer.cancel();
                   Get.find<runErrorStatusController>().statusColor.value =
                       Colors.red;
                   Get.find<OesController>().inactiveBtn.value = false;
                   Get.find<CsvController>().inactiveBtn.value = false;
-                  Get.find<OesController>().timer?.cancel();
                   if (Get.find<iniController>().sim.value == 1) {
                     mpmSetChannel(0);
                   }
@@ -122,7 +124,9 @@ class StartStop extends GetView<StartStopController> {
                 await VizCtrl.to.sendStart(); //측정 시작
                 VizCtrl.to.buffer.clear();
                 VizCtrl.to.timer = Timer.periodic(
-                    Duration(milliseconds: 100), VizCtrl.to.readSerial);
+                  Duration(milliseconds: 100),
+                  VizCtrl.to.readSerial,
+                );
                 // VizCtrl.to.readSerial();
               },
             ),
@@ -139,9 +143,10 @@ class StartStop extends GetView<StartStopController> {
             ElevatedButton(
               child: Text('viz시작'),
               onPressed: () {
+                // VizCtrl.to.vizChartTimer = Timer.periodic(
+                //     Duration(milliseconds: 100), VizCtrl.to.vizSimUpdate);
                 VizCtrl.to.vizChartTimer = Timer.periodic(
-                    Duration(milliseconds: 10), VizCtrl.to.vizUpdate);
-                // VizCtrl.to.readSerial();
+                    Duration(milliseconds: 100), VizCtrl.to.vizUpdate);
               },
             ),
             ElevatedButton(
@@ -200,7 +205,7 @@ DataStartBtn() {
       nChannelIdx = 0;
       Get.find<OesController>().timer = Timer.periodic(
         Duration(milliseconds: allTime),
-        Get.find<OesController>().updateDataSource2,
+        Get.find<OesController>().updateDataSource,
       );
       Get.find<LogListController>().logData.add(
             'channle moving t $time1',
@@ -219,18 +224,19 @@ DataStartBtn() {
 
     Get.find<runErrorStatusController>().textmsg.value = 'R U N';
   } else if (Get.find<iniController>().sim.value == 0) {
-    SimStartBtn();
+    Get.find<OesController>().isOes.value
+        ? Get.find<OesController>().timer = Timer.periodic(
+            Duration(milliseconds: 100),
+            Get.find<OesController>().updateDataSource,
+          )
+        : VizCtrl.to.vizChartTimer = Timer.periodic(
+            Duration(milliseconds: 100), VizCtrl.to.vizSimUpdate);
+    Get.find<runErrorStatusController>().textmsg.value = 'S I M U L A T I O N';
+    Get.find<runErrorStatusController>().statusColor.value = Color(0xFFE9DF50);
   }
 }
 
-SimStartBtn() {
-  Get.find<OesController>().timer = Timer.periodic(
-    Duration(milliseconds: 100),
-    Get.find<OesController>().updateDataSource2,
-  );
-  Get.find<runErrorStatusController>().textmsg.value = 'S I M U L A T I O N';
-  Get.find<runErrorStatusController>().statusColor.value = Color(0xFFE9DF50);
-}
+
 
 // SimStartBtn() {
 //   Get.find<OesController>().inactiveBtn.value = true;
