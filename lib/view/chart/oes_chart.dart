@@ -15,16 +15,14 @@ import 'package:wr_ui/view/right_side_menu/start_stop.dart';
 final channelNuminINI = Get.find<iniController>().channelFlow.value;
 
 class OesController extends GetxController {
-  RxList<List<FlSpot>> oesData = RxList.empty(); //oesData[0]
+  RxList<List<FlSpot>> oesData = RxList.empty();
   RxBool inactiveBtn = false.obs;
   //microsecond
   RxInt channelMovingTime = 270.obs;
-  RxBool isOes = true.obs;
 
   // RxInt plusTime = 30.obs;
   //여유시간
-  RxBool vizCheck = true.obs;
-
+  RxDouble addYvalue = 0.0.obs;
   RxBool checkVal1 = true.obs;
   RxBool checkVal2 = true.obs;
   RxBool checkVal3 = true.obs;
@@ -40,6 +38,9 @@ class OesController extends GetxController {
   //zoom  controller
   late RxDouble minX;
   late RxDouble maxX;
+  RxDouble yValue = 0.0.obs;
+  RxDouble yMax = 0.0.obs;
+  RxBool autoSave = false.obs;
 
   @override
   void onInit() {
@@ -49,8 +50,9 @@ class OesController extends GetxController {
   }
 
   double setRandom() {
-    double yValue = 1800 + math.Random().nextInt(500).toDouble();
-    return yValue;
+    yValue.value =
+        1800 + math.Random().nextInt(100).toDouble() + addYvalue.value;
+    return yValue.value;
   }
 
   Future<bool> waitSwitching() async {
@@ -63,90 +65,130 @@ class OesController extends GetxController {
   }
 
   Future<void> updateDataSource(Timer timer) async {
-    if (Get.find<iniController>().sim.value == 1) {
-      //var stopwatch = Stopwatch()..start();
+    //var stopwatch = Stopwatch()..start();
 
-      var nCurrentChannel = int.parse(channelNuminINI[nChannelIdx++]) - 1;
-      saveLog();
-      Get.find<LogController>().loglist.add(
-          '${logfileTime()} current channel start ${nCurrentChannel}' + '\n');
-      print('nCurrentChannel : $nCurrentChannel');
-      print('nChannelIdx : $nChannelIdx');
-      Get.find<LogController>()
-          .loglist
-          .add('${logfileTime()} Start SetChannel\n');
-
+    var nCurrentChannel = int.parse(channelNuminINI[nChannelIdx++]) - 1;
+    saveLog();
+    Get.find<LogController>().loglist.add(
+        '${logfileTime()} current channel start ${nCurrentChannel}' + '\n');
+    print('nCurrentChannel : $nCurrentChannel');
+    print('nChannelIdx : $nChannelIdx');
+    Get.find<LogController>()
+        .loglist
+        .add('${logfileTime()} Start SetChannel\n');
+    if (Get.find<iniController>().sim == 1) {
       mpmSetChannel(nCurrentChannel);
-      Get.find<LogController>()
-          .loglist
-          .add('${logfileTime()} End SetChannel\n');
-
-      if (await waitSwitching() == true) {
-        //채널바뀔 때 기다림
-        //print('stopwatch success');
-      } else {
-        print('Channel Switching fail');
-      }
-      Get.find<LogController>()
-          .loglist
-          .add('${logfileTime()} End waitSwitching\n');
-      List<double> fmtSpec = await readData(0);
-
-      Get.find<LogController>().loglist.add('${logfileTime()} End readData\n');
-      oesData[nCurrentChannel].clear();
-      for (var x = 0; x < listWavelength.length; x++) {
-        oesData[nCurrentChannel].add(FlSpot(listWavelength[x], fmtSpec[x]));
-      }
-      Get.find<LogController>()
-          .loglist
-          .add('${logfileTime()} End Draw Chart\n');
-      if (Get.find<CsvController>().fileSave.value) {
-        Get.find<CsvController>()
-            .csvForm(path: "_${nCurrentChannel + 1}.csv", data: fmtSpec);
-      }
-      Get.find<LogController>().loglist.add('${logfileTime()} End csv save\n');
-      if (nChannelIdx > channelNuminINI.length - 1) {
-        nChannelIdx = 0;
-      }
-      var nNextChannel = int.parse(channelNuminINI[nChannelIdx]) - 1;
-      print('nNextChannel : $nNextChannel');
-
-      update();
-
-      Get.find<LogController>().loglist.add(
-          '${logfileTime()} current channel finish ${nCurrentChannel}' + '\n');
-    } else if (Get.find<iniController>().sim.value == 0) {
-      for (var i = 0; i < Get.find<iniController>().OES_Count.value; i++) {
-        if (oesData.isNotEmpty) oesData[i].clear();
-      }
-
-      List<double> xValues = [];
-      for (double i = 0; i < 2048; i++) {
-        xValues.add(i);
-      }
-
-      List<List<double>> formatedSpec = [];
-      for (var z = 0; z < Get.find<iniController>().OES_Count.value; z++) {
-        formatedSpec.add([]);
-        for (var i = 0; i < 2048; i++) {
-          formatedSpec[z].add(setRandom());
-        }
-      }
-
-      for (var i = 0; i < Get.find<iniController>().OES_Count.value; i++) {
-        for (int x = 0; x < 2048; x++) {
-          oesData[i].add(FlSpot(xValues[x], formatedSpec[i][x]));
-        }
-      }
-      if (Get.find<CsvController>().fileSave.value) {
-        for (var i = 0; i < Get.find<iniController>().OES_Count.value; i++) {
-          Get.find<CsvController>()
-              .csvForm(path: "_${i + 1}.csv", data: formatedSpec[i]);
-        }
-      }
-
-      update();
     }
+
+    Get.find<LogController>().loglist.add('${logfileTime()} End SetChannel\n');
+
+    if (await waitSwitching() == true) {
+    } else {
+      print('Channel Switching fail');
+    }
+    Get.find<LogController>()
+        .loglist
+        .add('${logfileTime()} End waitSwitching\n');
+    //21.12.29추가
+    for (var i = 0; i < 8; i++) {
+      if (listWavelength.isNotEmpty) {
+        listWavelength.clear();
+      }
+    }
+
+    if (Get.find<iniController>().sim == 0) {
+      for (var i = 0; i < 2048; i++) {
+        listWavelength.add(i.toDouble());
+      }
+    }
+    List<double> fmtSpec = await readData(0);
+
+    Get.find<LogController>().loglist.add('${logfileTime()} End readData\n');
+    oesData[nCurrentChannel].clear();
+    for (var x = 0; x < listWavelength.length; x++) {
+      oesData[nCurrentChannel].add(FlSpot(listWavelength[x], fmtSpec[x]));
+      // max값 찾기
+      yMax.value =
+          fmtSpec.reduce((value, element) => value > element ? value : element);
+      print(yMax.value);
+    }
+
+    Get.find<LogController>().loglist.add('${logfileTime()} End Draw Chart\n');
+    //csv 저장
+    if (yMax.value >= Get.find<iniController>().oesMaxValue.value) {
+      Get.find<CsvController>().fileSave.value = true;
+      autoSave.value = true;
+    }
+
+    if (yMax.value < Get.find<iniController>().oesMaxValue.value &&
+        autoSave.value) {
+      Get.find<CsvController>().fileSave.value = false;
+      autoSave.value = false;
+    }
+    if (Get.find<CsvController>().fileSave.value) {
+      Get.find<CsvController>()
+          .csvForm(path: "_${nCurrentChannel + 1}.csv", data: fmtSpec);
+    }
+    Get.find<LogController>().loglist.add('${logfileTime()} End csv save\n');
+    if (nChannelIdx > channelNuminINI.length - 1) {
+      nChannelIdx = 0;
+    }
+    var nNextChannel = int.parse(channelNuminINI[nChannelIdx]) - 1;
+    print('nNextChannel : $nNextChannel');
+
+    Get.find<LogController>().loglist.add(
+        '${logfileTime()} current channel finish ${nCurrentChannel}' + '\n');
+    update();
+    return;
+    // if (Get.find<iniController>().sim.value == 0) {
+    //   for (var i = 0; i < Get.find<iniController>().OES_Count.value; i++) {
+    //     if (oesData.isNotEmpty) oesData[i].clear();
+    //   }
+
+    //   List<double> xValues = [];
+    //   for (double i = 0; i < 2048; i++) {
+    //     xValues.add(i);
+    //   }
+
+    //   List<List<double>> formatedSpec = [];
+    //   for (var z = 0; z < Get.find<iniController>().OES_Count.value; z++) {
+    //     formatedSpec.add([]);
+    //     for (var i = 0; i < 2048; i++) {
+    //       formatedSpec[z].add(setRandom());
+    //     }
+    //   }
+
+    //   for (var i = 0; i < Get.find<iniController>().OES_Count.value; i++) {
+    //     for (int x = 0; x < 2048; x++) {
+    //       oesData[i].add(FlSpot(xValues[x], formatedSpec[i][x]));
+    //     }
+    //     // max값 찾기
+    //     yMax.value = formatedSpec[i]
+    //         .reduce((value, element) => value > element ? value : element);
+    //     // print(yMax.value);
+    //   }
+    //   if (yMax.value >= Get.find<iniController>().oesMaxValue.value) {
+    //     Get.find<CsvController>().fileSave.value = true;
+    //     autoSave.value = true;
+    //     print(autoSave.value);
+    //   }
+
+    //   if (yMax.value < Get.find<iniController>().oesMaxValue.value &&
+    //       autoSave.value) {
+    //     Get.find<CsvController>().fileSave.value = false;
+    //     autoSave.value = false;
+    //     print(autoSave.value);
+    //   }
+
+    //   if (Get.find<CsvController>().fileSave.value) {
+    //     for (var i = 0; i < Get.find<iniController>().OES_Count.value; i++) {
+    //       Get.find<CsvController>()
+    //           .csvForm(path: "_${i + 1}.csv", data: formatedSpec[i]);
+    //     }
+    //   }
+
+    //   update();
+    // }
   }
 
   scrollEvent({required Widget child}) {
@@ -154,7 +196,6 @@ class OesController extends GetxController {
         onPointerSignal: (signal) {
           if (signal is PointerScrollEvent) {
             if (signal.scrollDelta.dy.isNegative) {
-              //여기에 if 문 추가 그니까 여기서 min값이 max값 보다 커지는걸 잡아야해
               if (maxX.value > minX.value + 50) {
                 minX.value += 50;
                 maxX.value -= 50;
@@ -280,12 +321,6 @@ class OesChart extends GetView<OesController> {
                         ),
                         leftTitles: SideTitles(
                           showTitles: true,
-                          getTextStyles: (BuildContext, double) =>
-                              const TextStyle(
-                            color: Color(0xff67727d),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15,
-                          ),
                           interval: 100,
                           // getTitles: (value) {
                           //   switch (value.toInt()) {
@@ -298,8 +333,8 @@ class OesChart extends GetView<OesController> {
                           //   }
                           //   return '';
                           // },
-                          reservedSize: 10,
-                          margin: 12,
+                          reservedSize: 30,
+                          margin: 10,
                         ),
                       ),
                     ),
@@ -316,6 +351,8 @@ class OesChart extends GetView<OesController> {
       LineChartData(
           minX: controller.minX.value,
           maxX: controller.maxX.value,
+          minY: 1800,
+          maxY: 2200,
           lineTouchData: LineTouchData(
               touchTooltipData: LineTouchTooltipData(
             fitInsideHorizontally: true,

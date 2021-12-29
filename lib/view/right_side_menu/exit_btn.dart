@@ -68,7 +68,8 @@ Future<String?> runningExit(BuildContext context) {
           onPressed: () {
             Get.find<OesController>().timer?.cancel();
             Get.find<OesController>().inactiveBtn.value = false;
-            Get.find<CsvController>().inactiveBtn.value = false;
+            Get.find<CsvController>().fileSave.value == false;
+            // Get.find<CsvController>().inactiveBtn.value = false;
             completelyExit(context);
           },
         ),

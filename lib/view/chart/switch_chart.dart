@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
+import 'package:wr_ui/controller/viz_ctrl.dart';
 import 'package:wr_ui/view/chart/oes_chart.dart';
 import 'package:wr_ui/view/chart/pages/hover_chart/oes_series.dart';
+import 'package:wr_ui/view/chart/viz_chart.dart';
 
 class chooseChart extends GetxController {
   RxInt chartNum = 0.obs;
@@ -96,4 +98,19 @@ class chooseChart extends GetxController {
     }
     return OesChart();
   }
+
+  // choice() {
+  //   if (VizCtrl.to.chartNum == 1) {
+  //     return VizCtrl.to.vizFirst();
+  //   } else if (VizCtrl.to.chartNum == 2) {
+  //     return VizCtrl.to.vizSecond();
+  //   } else if (VizCtrl.to.chartNum == 3) {
+  //     return VizCtrl.to.vizThird();
+  //   } else if (VizCtrl.to.chartNum == 4) {
+  //     return VizCtrl.to.vizFourth();
+  //   } else if (VizCtrl.to.chartNum == 5) {
+  //     return VizCtrl.to.vizFifth();
+  //   }
+  //   return VizChart();
+  // }
 }

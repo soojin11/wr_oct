@@ -27,7 +27,6 @@ import 'package:wr_ui/view/right_side_menu/log_save.dart';
 import 'package:wr_ui/view/right_side_menu/log_screen.dart';
 import 'package:wr_ui/view/right_side_menu/save_ini.dart';
 import 'package:wr_ui/view/right_side_menu/start_stop.dart';
-
 import 'model/const/style/text.dart';
 
 final DynamicLibrary wgsFunction = DynamicLibrary.open("WGSFunction.dll");
@@ -56,8 +55,9 @@ late int Function(int channelIndex) mpmSetChannel;
 late Pointer<Double> Function(int a) getformatSpec;
 late Pointer<Double> Function(int a) getWavelength;
 late int Function() mpmIsSwitching;
-List listWavelength = [];
+List<double> listWavelength = [];
 bool runningSignal = false;
+RxDouble addVal = 0.0.obs;
 
 late int Function(int a) serialConnect;
 
@@ -67,13 +67,11 @@ Future main() async {
   Get.put(OesController());
   Get.put(runErrorStatusController());
   Get.put(ChartName());
-  Get.put(StartStopController());
   Get.put(CsvController());
   Get.put(LogListController());
   Get.put(LogController());
   Get.put(HoverCtrl());
   Get.put(chooseChart());
-  Get.put(StartStopController());
   Get.find<LogListController>().programStart();
 
   ///시리얼 포트///
@@ -90,6 +88,7 @@ Future main() async {
     VizCtrl.to.vizVal4.add([]);
     VizCtrl.to.vizVal5.add([]);
   }
+
   runApp(MyApp());
 
   doWhenWindowReady(() {
@@ -184,7 +183,7 @@ class WRappbar extends StatelessWidget implements PreferredSizeWidget {
                           fit: BoxFit.fitHeight,
                         ),
                       )),
-                  SizedBox(width: 120),
+                  SizedBox(width: 100),
                   Tooltip(
                     height: 50,
                     textStyle: TextStyle(
@@ -201,7 +200,7 @@ class WRappbar extends StatelessWidget implements PreferredSizeWidget {
                   ),
 
                   // appContainer(child: Clock(), width: 180),
-                  SizedBox(width: 80),
+                  SizedBox(width: 100),
                   Container(
                     child: Center(
                       child: Text(
@@ -244,48 +243,112 @@ class WRappbar extends StatelessWidget implements PreferredSizeWidget {
                     child: RunErrorStatus(),
                   ),
                   // appContainer(child: RunErrorStatus(), width: 300),
-                  SizedBox(width: 80),
+                  SizedBox(width: 100),
                   Tooltip(
                     height: 50,
                     textStyle: TextStyle(
                       fontSize: 15,
                       color: Colors.white,
                     ),
-                    message: 'Click to change settings',
+                    message: 'Change settings',
                     child: appContainer(
                       child: SetBtn(),
                       width: 180,
                     ),
                   ),
-                  SizedBox(width: 80),
-                  ElevatedButton(
-                      onPressed: () {
-                        Get.find<OesController>().isOes.value = true;
-                      },
-                      child: Text('OES')),
-                  ElevatedButton(
-                      style: ElevatedButton.styleFrom(),
-                      onPressed: () {
-                        Get.find<OesController>().isOes.value = false;
-                      },
-                      child: Text('VIZ')),
+                  SizedBox(width: 60),
+                  Obx(() => DropdownButton(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        onChanged: (v) {
+                          VizCtrl.to.setSelected(v);
+                        },
+                        style: TextStyle(fontSize: 20, color: Colors.black),
+                        value: VizCtrl.to.selected.value,
+                        items: VizCtrl.to.dropItem
+                            .map((e) =>
+                                DropdownMenuItem(value: e, child: Text(e)))
+                            .toList(),
+                      )),
+
+                  // Tooltip(
+                  //   height: 50,
+                  //   textStyle: TextStyle(
+                  //     fontSize: 15,
+                  //     color: Colors.white,
+                  //   ),
+                  //   message: 'OES & VIZ',
+                  //   child: ElevatedButton(
+                  //     style: ElevatedButton.styleFrom(
+                  //         fixedSize: Size(100, 50),
+                  //         primary: Colors.blueGrey[600]),
+                  //     child: Text('OES & VIZ'),
+                  //     onPressed: () {},
+                  //   ),
+                  // ),
+
+                  // Tooltip(
+                  //     height: 50,
+                  //     textStyle: TextStyle(
+                  //       fontSize: 15,
+                  //       color: Colors.white,
+                  //     ),
+                  //     message: 'OES Chart',
+                  //     child: Obx(
+                  //       () => IgnorePointer(
+                  //           ignoring:
+                  //               Get.find<OesController>().isOes.value == true,
+                  //           child: ElevatedButton(
+                  //               style: ElevatedButton.styleFrom(
+                  //                   fixedSize: Size(80, 50),
+                  //                   primary:
+                  //                       Get.find<OesController>().isOes.value
+                  //                           ? Colors.green
+                  //                           : Colors.blueGrey[600]),
+                  //               onPressed: () {
+                  //                 Get.find<OesController>().isOes.value = true;
+                  //               },
+                  //               child: Text('OES'))),
+                  //     )),
+                  // Tooltip(
+                  //     height: 50,
+                  //     textStyle: TextStyle(
+                  //       fontSize: 15,
+                  //       color: Colors.white,
+                  //     ),
+                  //     message: 'VIZ Chart',
+                  //     child: Obx(
+                  //       () => IgnorePointer(
+                  //           ignoring:
+                  //               Get.find<OesController>().isOes.value == false,
+                  //           child: ElevatedButton(
+                  //               style: ElevatedButton.styleFrom(
+                  //                   fixedSize: Size(80, 50),
+                  //                   primary:
+                  //                       Get.find<OesController>().isOes.value
+                  //                           ? Colors.blueGrey[600]
+                  //                           : Colors.green),
+                  //               onPressed: () {
+                  //                 Get.find<OesController>().isOes.value = false;
+                  //               },
+                  //               child: Text('VIZ'))),
+                  //     )),
                 ],
               ),
             ),
           ),
-          Spacer(),
+          SizedBox(width: 60),
           Tooltip(
             height: 50,
             textStyle: TextStyle(
               fontSize: 15,
               color: Colors.white,
             ),
-            message: Get.isDarkMode
-                ? 'Click to change white theme'
-                : 'Click to change dark theme',
+            message:
+                Get.isDarkMode ? 'Change white theme' : 'Change dark theme',
             child: GestureDetector(
               onTap: () {
                 ThemeService().switchTheme();
+                Get.find<LogListController>().cModeChage();
               },
               child: Icon(
                 Get.isDarkMode
@@ -348,9 +411,11 @@ class _WRbodyState extends State<WRbody> {
                               chartTabBar(),
                               Expanded(
                                   flex: 1,
-                                  child: Get.find<OesController>().isOes.value
+                                  child: VizCtrl.to.selected == "OES"
                                       ? OesChart()
-                                      : VizChart())
+                                      : VizCtrl.to.selected == "VIZ"
+                                          ? VizChart()
+                                          : Container())
                             ],
                           )),
                     ),
@@ -500,7 +565,7 @@ class _WRbodyState extends State<WRbody> {
                         /////////////레시피버튼
                         ////////////나가기
                         Padding(
-                          padding: const EdgeInsets.all(10.0),
+                          padding: const EdgeInsets.all(5.0),
                           child: Container(
                             child: Column(
                               children: [
@@ -584,7 +649,7 @@ Future<void> oesInit() async {
     mpmStart = wgsFunction
         .lookup<NativeFunction<Void Function(Int32)>>('MPMStart')
         .asFunction();
-
+//포트 번호
     mpmStart(3);
 
     print('mpmstart?? $mpmStart');

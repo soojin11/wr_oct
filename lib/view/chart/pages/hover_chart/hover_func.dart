@@ -21,11 +21,6 @@ class HoverCtrl extends GetxController {
   RxBool viz3 = false.obs;
   RxBool viz4 = false.obs;
   RxBool viz5 = false.obs;
-  RxBool selectedViz1 = false.obs;
-  RxBool selectedViz2 = false.obs;
-  RxBool selectedViz3 = false.obs;
-  RxBool selectedViz4 = false.obs;
-  RxBool selectedViz5 = false.obs;
   RxBool isHover = false.obs;
   RxBool isHover2 = false.obs;
   RxBool isHover3 = false.obs;
@@ -37,7 +32,7 @@ class HoverCtrl extends GetxController {
 
   hoverCard() {
     //ddd
-    return Get.find<OesController>().isOes.value
+    return VizCtrl.to.selected == "OES"
         ? Row(
             children: [
               FirstHover(),
@@ -50,443 +45,266 @@ class HoverCtrl extends GetxController {
               EightHover()
             ],
           )
-        : Row(
-            children: [
-              Obx(() => Hover(
-                    onEnter: (PointerEnterEvent event) {
-                      viz1(true);
-                      // vizHover[0].value == true;
-                      // print(vizHover[0].value);
-                    },
-                    onExit: (PointerExitEvent event) {
-                      viz1(false);
-                    },
-                    onTap: () {
-                      // selectedViz1(true);
-                      viz1(true);
-                      viz2(false);
-                      viz3(false);
-                      viz4(false);
-                      viz5(false);
-                      print('VIZ_1 선택 $viz1');
-                    },
-                    child: HoverChart(
-                        chart: GetBuilder<VizCtrl>(
-                            builder: (controller) => Obx(() => VizChart()
-                                    .LineChartForm(
-                                        controller: controller,
-                                        lineBarsData: [
-                                      if (VizCtrl.to.vizCheckVal[0])
-                                        VizChart().lineChartBarData(
-                                            VizCtrl.to.vizVal1[0],
-                                            Get.find<iniController>()
-                                                .Series_Color_001
-                                                .value),
-                                      if (VizCtrl.to.vizCheckVal[1])
-                                        VizChart().lineChartBarData(
-                                            VizCtrl.to.vizVal1[1],
-                                            Get.find<iniController>()
-                                                .Series_Color_002
-                                                .value),
-                                      if (VizCtrl.to.vizCheckVal[2])
-                                        VizChart().lineChartBarData(
-                                            VizCtrl.to.vizVal1[2],
-                                            Get.find<iniController>()
-                                                .Series_Color_007
-                                                .value),
-                                      if (VizCtrl.to.vizCheckVal[3])
-                                        VizChart().lineChartBarData(
-                                            VizCtrl.to.vizVal1[3],
-                                            Get.find<iniController>()
-                                                .Series_Color_004
-                                                .value),
-                                      if (VizCtrl.to.vizCheckVal[4])
-                                        VizChart().lineChartBarData(
-                                            VizCtrl.to.vizVal1[4],
-                                            Get.find<iniController>()
-                                                .Series_Color_005
-                                                .value),
-                                      if (VizCtrl.to.vizCheckVal[5])
-                                        VizChart().lineChartBarData(
-                                            VizCtrl.to.vizVal1[5],
-                                            Get.find<iniController>()
-                                                .Series_Color_006
-                                                .value),
-                                      if (VizCtrl.to.vizCheckVal[6])
-                                        VizChart().lineChartBarData(
-                                            VizCtrl.to.vizVal1[6],
-                                            Get.find<iniController>()
-                                                .Series_Color_007
-                                                .value),
-                                    ])))),
-                    width: viz1.value ? 200 : 170,
-                    height: viz1.value ? 200 : 150,
-                  )),
-              SizedBox(width: 50),
-              Obx(() => Hover(
-                    onEnter: (PointerEnterEvent event) {
-                      viz2(true);
-                    },
-                    onExit: (PointerExitEvent event) {
-                      viz2(false);
-                    },
-                    onTap: () {},
-                    child: HoverChart(
-                        chart: GetBuilder<VizCtrl>(
-                            builder: (controller) => Obx(() => VizChart()
-                                    .LineChartForm(
-                                        controller: controller,
-                                        lineBarsData: [
-                                      if (VizCtrl.to.vizCheckVal[0])
-                                        VizChart().lineChartBarData(
-                                            VizCtrl.to.vizVal2[0],
-                                            Get.find<iniController>()
-                                                .Series_Color_001
-                                                .value),
-                                      if (VizCtrl.to.vizCheckVal[1])
-                                        VizChart().lineChartBarData(
-                                            VizCtrl.to.vizVal2[1],
-                                            Get.find<iniController>()
-                                                .Series_Color_002
-                                                .value),
-                                      if (VizCtrl.to.vizCheckVal[2])
-                                        VizChart().lineChartBarData(
-                                            VizCtrl.to.vizVal2[2],
-                                            Get.find<iniController>()
-                                                .Series_Color_007
-                                                .value),
-                                      if (VizCtrl.to.vizCheckVal[3])
-                                        VizChart().lineChartBarData(
-                                            VizCtrl.to.vizVal2[3],
-                                            Get.find<iniController>()
-                                                .Series_Color_004
-                                                .value),
-                                      if (VizCtrl.to.vizCheckVal[4])
-                                        VizChart().lineChartBarData(
-                                            VizCtrl.to.vizVal2[4],
-                                            Get.find<iniController>()
-                                                .Series_Color_005
-                                                .value),
-                                      if (VizCtrl.to.vizCheckVal[5])
-                                        VizChart().lineChartBarData(
-                                            VizCtrl.to.vizVal2[5],
-                                            Get.find<iniController>()
-                                                .Series_Color_006
-                                                .value),
-                                      if (VizCtrl.to.vizCheckVal[6])
-                                        VizChart().lineChartBarData(
-                                            VizCtrl.to.vizVal2[6],
-                                            Get.find<iniController>()
-                                                .Series_Color_007
-                                                .value),
-                                    ])))),
-                    width: viz2.value ? 200 : 170,
-                    height: viz2.value ? 200 : 150,
-                  )),
-              SizedBox(width: 50),
-              Obx(() => Hover(
-                    onEnter: (PointerEnterEvent event) {
-                      viz3(true);
-                    },
-                    onExit: (PointerExitEvent event) {
-                      viz3(false);
-                    },
-                    onTap: () {},
-                    child: HoverChart(
-                        chart: GetBuilder<VizCtrl>(
-                            builder: (controller) => Obx(() => VizChart()
-                                    .LineChartForm(
-                                        controller: controller,
-                                        lineBarsData: [
-                                      if (VizCtrl.to.vizCheckVal[0])
-                                        VizChart().lineChartBarData(
-                                            VizCtrl.to.vizVal3[0],
-                                            Get.find<iniController>()
-                                                .Series_Color_001
-                                                .value),
-                                      if (VizCtrl.to.vizCheckVal[1])
-                                        VizChart().lineChartBarData(
-                                            VizCtrl.to.vizVal3[1],
-                                            Get.find<iniController>()
-                                                .Series_Color_002
-                                                .value),
-                                      if (VizCtrl.to.vizCheckVal[2])
-                                        VizChart().lineChartBarData(
-                                            VizCtrl.to.vizVal3[2],
-                                            Get.find<iniController>()
-                                                .Series_Color_007
-                                                .value),
-                                      if (VizCtrl.to.vizCheckVal[3])
-                                        VizChart().lineChartBarData(
-                                            VizCtrl.to.vizVal3[3],
-                                            Get.find<iniController>()
-                                                .Series_Color_004
-                                                .value),
-                                      if (VizCtrl.to.vizCheckVal[4])
-                                        VizChart().lineChartBarData(
-                                            VizCtrl.to.vizVal3[4],
-                                            Get.find<iniController>()
-                                                .Series_Color_005
-                                                .value),
-                                      if (VizCtrl.to.vizCheckVal[5])
-                                        VizChart().lineChartBarData(
-                                            VizCtrl.to.vizVal3[5],
-                                            Get.find<iniController>()
-                                                .Series_Color_006
-                                                .value),
-                                      if (VizCtrl.to.vizCheckVal[6])
-                                        VizChart().lineChartBarData(
-                                            VizCtrl.to.vizVal3[6],
-                                            Get.find<iniController>()
-                                                .Series_Color_007
-                                                .value),
-                                    ])))),
-                    width: viz3.value ? 200 : 170,
-                    height: viz3.value ? 200 : 150,
-                  )),
-              SizedBox(width: 50),
-              Obx(() => Hover(
-                    onEnter: (PointerEnterEvent event) {
-                      viz4(true);
-                    },
-                    onExit: (PointerExitEvent event) {
-                      viz4(false);
-                    },
-                    onTap: () {},
-                    child: HoverChart(
-                        chart: GetBuilder<VizCtrl>(
-                            builder: (controller) => Obx(() => VizChart()
-                                    .LineChartForm(
-                                        controller: controller,
-                                        lineBarsData: [
-                                      if (VizCtrl.to.vizCheckVal[0])
-                                        VizChart().lineChartBarData(
-                                            VizCtrl.to.vizVal4[0],
-                                            Get.find<iniController>()
-                                                .Series_Color_001
-                                                .value),
-                                      if (VizCtrl.to.vizCheckVal[1])
-                                        VizChart().lineChartBarData(
-                                            VizCtrl.to.vizVal4[1],
-                                            Get.find<iniController>()
-                                                .Series_Color_002
-                                                .value),
-                                      if (VizCtrl.to.vizCheckVal[2])
-                                        VizChart().lineChartBarData(
-                                            VizCtrl.to.vizVal4[2],
-                                            Get.find<iniController>()
-                                                .Series_Color_007
-                                                .value),
-                                      if (VizCtrl.to.vizCheckVal[3])
-                                        VizChart().lineChartBarData(
-                                            VizCtrl.to.vizVal4[3],
-                                            Get.find<iniController>()
-                                                .Series_Color_004
-                                                .value),
-                                      if (VizCtrl.to.vizCheckVal[4])
-                                        VizChart().lineChartBarData(
-                                            VizCtrl.to.vizVal4[4],
-                                            Get.find<iniController>()
-                                                .Series_Color_005
-                                                .value),
-                                      if (VizCtrl.to.vizCheckVal[5])
-                                        VizChart().lineChartBarData(
-                                            VizCtrl.to.vizVal4[5],
-                                            Get.find<iniController>()
-                                                .Series_Color_006
-                                                .value),
-                                      if (VizCtrl.to.vizCheckVal[6])
-                                        VizChart().lineChartBarData(
-                                            VizCtrl.to.vizVal4[6],
-                                            Get.find<iniController>()
-                                                .Series_Color_007
-                                                .value),
-                                    ])))),
-                    width: viz4.value ? 200 : 170,
-                    height: viz4.value ? 200 : 150,
-                  )),
-              SizedBox(width: 50),
-              Obx(() => Hover(
-                    onEnter: (PointerEnterEvent event) {
-                      viz5(true);
-                    },
-                    onExit: (PointerExitEvent event) {
-                      viz5(false);
-                    },
-                    onTap: () {},
-                    child: HoverChart(
-                        chart: GetBuilder<VizCtrl>(
-                            builder: (controller) => Obx(() => VizChart()
-                                    .LineChartForm(
-                                        controller: controller,
-                                        lineBarsData: [
-                                      if (VizCtrl.to.vizCheckVal[0])
-                                        VizChart().lineChartBarData(
-                                            VizCtrl.to.vizVal5[0],
-                                            Get.find<iniController>()
-                                                .Series_Color_001
-                                                .value),
-                                      if (VizCtrl.to.vizCheckVal[1])
-                                        VizChart().lineChartBarData(
-                                            VizCtrl.to.vizVal5[1],
-                                            Get.find<iniController>()
-                                                .Series_Color_002
-                                                .value),
-                                      if (VizCtrl.to.vizCheckVal[2])
-                                        VizChart().lineChartBarData(
-                                            VizCtrl.to.vizVal5[2],
-                                            Get.find<iniController>()
-                                                .Series_Color_007
-                                                .value),
-                                      if (VizCtrl.to.vizCheckVal[3])
-                                        VizChart().lineChartBarData(
-                                            VizCtrl.to.vizVal5[3],
-                                            Get.find<iniController>()
-                                                .Series_Color_004
-                                                .value),
-                                      if (VizCtrl.to.vizCheckVal[4])
-                                        VizChart().lineChartBarData(
-                                            VizCtrl.to.vizVal5[4],
-                                            Get.find<iniController>()
-                                                .Series_Color_005
-                                                .value),
-                                      if (VizCtrl.to.vizCheckVal[5])
-                                        VizChart().lineChartBarData(
-                                            VizCtrl.to.vizVal5[5],
-                                            Get.find<iniController>()
-                                                .Series_Color_006
-                                                .value),
-                                      if (VizCtrl.to.vizCheckVal[6])
-                                        VizChart().lineChartBarData(
-                                            VizCtrl.to.vizVal5[6],
-                                            Get.find<iniController>()
-                                                .Series_Color_007
-                                                .value),
-                                    ])))),
-                    width: viz5.value ? 200 : 170,
-                    height: viz5.value ? 200 : 150,
-                  )),
-              SizedBox(width: 50),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+        : VizCtrl.to.selected == "VIZ"
+            ? Row(
                 children: [
-                  Row(
+                  Obx(() => Hover(
+                        onEnter: (PointerEnterEvent event) {
+                          viz1(true);
+                          // vizHover[0].value == true;
+                          // print(vizHover[0].value);
+                        },
+                        onExit: (PointerExitEvent event) {
+                          viz1(false);
+                        },
+                        onTap: () {
+                          VizCtrl.to.chartNum.value == 1;
+                          VizCtrl.to.vizCheck1.value = true;
+                          VizCtrl.to.vizCheck2.value = false;
+                          VizCtrl.to.vizCheck3.value = false;
+                          VizCtrl.to.vizCheck4.value = false;
+                          VizCtrl.to.vizCheck5.value = false;
+                          Get.find<ChartName>().chartName.value = 'VIZ_1';
+                        },
+                        child: VizCtrl.to.vizFirst(),
+                        width: viz1.value ? 200 : 170,
+                        height: viz1.value ? 200 : 150,
+                      )),
+                  SizedBox(width: 50),
+                  Obx(() => Hover(
+                        onEnter: (PointerEnterEvent event) {
+                          viz2(true);
+                        },
+                        onExit: (PointerExitEvent event) {
+                          viz2(false);
+                        },
+                        onTap: () {
+                          VizCtrl.to.chartNum.value == 2;
+                          // VizCtrl.to.selectVizChannel.value = [
+                          //   false,
+                          //   true,
+                          //   false,
+                          //   false,
+                          //   false
+                          // ];
+                          VizCtrl.to.vizCheck1.value = false;
+                          VizCtrl.to.vizCheck2.value = true;
+                          VizCtrl.to.vizCheck3.value = false;
+                          VizCtrl.to.vizCheck4.value = false;
+                          VizCtrl.to.vizCheck5.value = false;
+                          Get.find<ChartName>().chartName.value = 'VIZ_2';
+                        },
+                        child: VizCtrl.to.vizSecond(),
+                        width: viz2.value ? 200 : 170,
+                        height: viz2.value ? 200 : 150,
+                      )),
+                  SizedBox(width: 50),
+                  Obx(() => Hover(
+                        onEnter: (PointerEnterEvent event) {
+                          viz3(true);
+                        },
+                        onExit: (PointerExitEvent event) {
+                          viz3(false);
+                        },
+                        onTap: () {
+                          VizCtrl.to.chartNum.value == 3;
+                          VizCtrl.to.vizCheck1.value = false;
+                          VizCtrl.to.vizCheck2.value = false;
+                          VizCtrl.to.vizCheck3.value = true;
+                          VizCtrl.to.vizCheck4.value = false;
+                          VizCtrl.to.vizCheck5.value = false;
+                          Get.find<ChartName>().chartName.value = 'VIZ_3';
+                          // VizCtrl.to.selectVizChannel.value = [
+                          //   false,
+                          //   false,
+                          //   true,
+                          //   false,
+                          //   false
+                          // ];
+                        },
+                        child: VizCtrl.to.vizThird(),
+                        width: viz3.value ? 200 : 170,
+                        height: viz3.value ? 200 : 150,
+                      )),
+                  SizedBox(width: 50),
+                  Obx(() => Hover(
+                        onEnter: (PointerEnterEvent event) {
+                          viz4(true);
+                        },
+                        onExit: (PointerExitEvent event) {
+                          viz4(false);
+                        },
+                        onTap: () {
+                          VizCtrl.to.chartNum.value == 4;
+                          VizCtrl.to.vizCheck1.value = false;
+                          VizCtrl.to.vizCheck2.value = false;
+                          VizCtrl.to.vizCheck3.value = false;
+                          VizCtrl.to.vizCheck4.value = true;
+                          VizCtrl.to.vizCheck5.value = false;
+                          Get.find<ChartName>().chartName.value = 'VIZ_4';
+                          // VizCtrl.to.selectVizChannel.value = [
+                          //   false,
+                          //   false,
+                          //   false,
+                          //   true,
+                          //   false
+                          // ];
+                        },
+                        child: VizCtrl.to.vizFourth(),
+                        width: viz4.value ? 200 : 170,
+                        height: viz4.value ? 200 : 150,
+                      )),
+                  SizedBox(width: 50),
+                  Obx(() => Hover(
+                        onEnter: (PointerEnterEvent event) {
+                          viz5(true);
+                        },
+                        onExit: (PointerExitEvent event) {
+                          viz5(false);
+                        },
+                        onTap: () {
+                          VizCtrl.to.chartNum.value == 5;
+                          VizCtrl.to.vizCheck1.value = false;
+                          VizCtrl.to.vizCheck2.value = false;
+                          VizCtrl.to.vizCheck3.value = false;
+                          VizCtrl.to.vizCheck4.value = false;
+                          VizCtrl.to.vizCheck5.value = true;
+                          Get.find<ChartName>().chartName.value = 'VIZ_5';
+                          // VizCtrl.to.selectVizChannel.value = [
+                          //   false,
+                          //   false,
+                          //   false,
+                          //   false,
+                          //   true
+                          // ];
+                          print('5');
+                        },
+                        child: VizCtrl.to.vizFifth(),
+                        width: viz5.value ? 200 : 170,
+                        height: viz5.value ? 200 : 150,
+                      )),
+                  SizedBox(width: 50),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Container(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Column(
+                      Row(
+                        children: [
+                          Container(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                Text('Frequency'),
-                                Obx(
-                                  () => Switch(
-                                    value: VizCtrl.to.vizCheckVal[0],
-                                    onChanged: (e) {
-                                      VizCtrl.to.vizCheckVal[0] = e;
-                                    },
-                                  ),
+                                Column(
+                                  children: [
+                                    Text('Frequency'),
+                                    Obx(
+                                      () => Switch(
+                                        value: VizCtrl.to.vizSeriesList[0],
+                                        onChanged: (e) {
+                                          VizCtrl.to.vizSeriesList[0] = e;
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Column(
+                                  children: [
+                                    Text('P_div'),
+                                    Obx(
+                                      () => Switch(
+                                        value: VizCtrl.to.vizSeriesList[1],
+                                        onChanged: (e) {
+                                          VizCtrl.to.vizSeriesList[1] = e;
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Column(
+                                  children: [
+                                    Text('Phase'),
+                                    Obx(
+                                      () => Switch(
+                                        value: VizCtrl.to.vizSeriesList[6],
+                                        onChanged: (e) {
+                                          VizCtrl.to.vizSeriesList[6] = e;
+                                        },
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
-                            Column(
+                          )
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Container(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                Text('P_div'),
-                                Obx(
-                                  () => Switch(
-                                    value: VizCtrl.to.vizCheckVal[1],
-                                    onChanged: (e) {
-                                      VizCtrl.to.vizCheckVal[1] = e;
-                                    },
-                                  ),
+                                Column(
+                                  children: [
+                                    Text('V'),
+                                    Obx(
+                                      () => Switch(
+                                        value: VizCtrl.to.vizSeriesList[2],
+                                        onChanged: (e) {
+                                          VizCtrl.to.vizSeriesList[2] = e;
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Column(
+                                  children: [
+                                    Text('I'),
+                                    Obx(
+                                      () => Switch(
+                                        value: VizCtrl.to.vizSeriesList[3],
+                                        onChanged: (e) {
+                                          VizCtrl.to..vizSeriesList[3] = e;
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Column(
+                                  children: [
+                                    Text('R'),
+                                    Obx(
+                                      () => Switch(
+                                        value: VizCtrl.to.vizSeriesList[4],
+                                        onChanged: (e) {
+                                          VizCtrl.to.vizSeriesList[4] = e;
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Column(
+                                  children: [
+                                    Text('X'),
+                                    Obx(
+                                      () => Switch(
+                                        value: VizCtrl.to.vizSeriesList[5],
+                                        onChanged: (e) {
+                                          VizCtrl.to.vizSeriesList[5] = e;
+                                        },
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
-                            Column(
-                              children: [
-                                Text('Phase'),
-                                Obx(
-                                  () => Switch(
-                                    value: VizCtrl.to.vizCheckVal[6],
-                                    onChanged: (e) {
-                                      VizCtrl.to.vizCheckVal[6] = e;
-                                    },
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Container(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Column(
-                              children: [
-                                Text('V'),
-                                Obx(
-                                  () => Switch(
-                                    value: VizCtrl.to.vizCheckVal[2],
-                                    onChanged: (e) {
-                                      VizCtrl.to.vizCheckVal[2] = e;
-                                    },
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Column(
-                              children: [
-                                Text('I'),
-                                Obx(
-                                  () => Switch(
-                                    value: VizCtrl.to.vizCheckVal[3],
-                                    onChanged: (e) {
-                                      VizCtrl.to..vizCheckVal[3] = e;
-                                    },
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Column(
-                              children: [
-                                Text('R'),
-                                Obx(
-                                  () => Switch(
-                                    value: VizCtrl.to.vizCheckVal[4],
-                                    onChanged: (e) {
-                                      VizCtrl.to.vizCheckVal[4] = e;
-                                    },
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Column(
-                              children: [
-                                Text('X'),
-                                Obx(
-                                  () => Switch(
-                                    value: VizCtrl.to.vizCheckVal[5],
-                                    onChanged: (e) {
-                                      VizCtrl.to.vizCheckVal[5] = e;
-                                    },
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
+                          )
+                        ],
                       )
                     ],
                   )
                 ],
               )
-            ],
-          );
+            : Container();
   }
 }
 

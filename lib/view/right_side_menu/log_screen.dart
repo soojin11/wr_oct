@@ -8,7 +8,7 @@ import 'package:wr_ui/view/right_side_menu/save_ini.dart';
 import 'log_save.dart';
 
 class LogListController extends GetxController {
-  RxList logData = [' Start Program'].obs;
+  RxList logData = ['Start Program'].obs;
   //RxBool rederror = false.obs;
   String event = '[Event Trigger]';
   String btnPress = 'button is pressed';
@@ -37,7 +37,7 @@ class LogListController extends GetxController {
 
   void settingBtn() async {
     saveLog();
-    logData.add(' Setting $btnPress');
+    logData.add('Setting');
     Get.find<LogController>()
         .loglist
         .add('${logfileTime()} [Event Trigger] Setting $btnPress' + '\n');
@@ -45,7 +45,7 @@ class LogListController extends GetxController {
 
   void clickedStop() async {
     saveLog();
-    logData.add(' Stop $btnPress');
+    logData.add('Stop $btnPress');
     Get.find<LogController>()
         .loglist
         .add('${logfileTime()} $event Stop $btnPress' + '\n');
@@ -53,7 +53,7 @@ class LogListController extends GetxController {
 
   void clickedStart() async {
     saveLog();
-    logData.add(' Start $btnPress');
+    logData.add('Start $btnPress');
     Get.find<LogController>()
         .loglist
         .add('${logfileTime()} $event Start $btnPress' + '\n');
@@ -61,7 +61,7 @@ class LogListController extends GetxController {
 
   void startCsv() async {
     saveLog();
-    logData.add(' Save start $btnPress');
+    logData.add('Save start');
     Get.find<LogController>()
         .loglist
         .add('${logfileTime()} [Event Trigger] Save start $btnPress' + '\n');
@@ -71,7 +71,7 @@ class LogListController extends GetxController {
     saveLog();
     Get.find<LogController>().logSave();
 
-    logData.add(' Save stop $btnPress');
+    logData.add('Save stop');
     Get.find<LogController>()
         .loglist
         .add('${logfileTime()} [Event Trigger] Save stop $btnPress' + '\n');
@@ -79,23 +79,25 @@ class LogListController extends GetxController {
 
   void cConfigSave() async {
     saveLog();
-    logData.add(
-        '${screenLogTime} Exposure time has been changed to ${Get.find<iniController>().exposureTime.value}');
+    logData
+        .add('Exposure time : ${Get.find<iniController>().exposureTime.value}');
     Get.find<LogController>().loglist.add(
         '${logfileTime} Exposure time has been changed to ${Get.find<iniController>().exposureTime.value}' +
             '\n');
-    logData.add(' Save Config');
-    Get.find<LogController>()
-        .loglist
-        .add('${logfileTime()} [Event Trigger] Save setting $btnPress' + '\n');
+    logData.add('Save Config');
+    Get.find<LogController>().loglist.add(
+        '${logfileTime()} [Event Trigger] Save setting ' +
+            '\n' +
+            '$btnPress' +
+            '\n');
   }
 
   void cModeChage() async {
     saveLog();
-    logData.add(' Changed Mode');
-    Get.find<LogController>()
-        .loglist
-        .add('${logfileTime()} Mode $btnPress' + '\n');
+    logData.add('Changed Mode');
+    Get.find<LogController>().loglist.add(Get.isDarkMode
+        ? '${logfileTime()}Changed bright Mode' + '\n'
+        : '${logfileTime()}Changed dark Mode' + '\n');
   }
 
   void cExit() async {
@@ -107,7 +109,7 @@ class LogListController extends GetxController {
     saveLog();
     String select =
         'Num${Get.find<chooseChart>().chartNum.value} chart is selected';
-    logData.add('${screenLogTime} $select');
+    logData.add('$select');
     Get.find<LogController>()
         .loglist
         .add('${logTime} [Event Trigger] $select' + '\n');
