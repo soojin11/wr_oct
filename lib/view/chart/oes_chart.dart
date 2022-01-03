@@ -66,7 +66,6 @@ class OesController extends GetxController {
 
   Future<void> updateDataSource(Timer timer) async {
     //var stopwatch = Stopwatch()..start();
-
     var nCurrentChannel = int.parse(channelNuminINI[nChannelIdx++]) - 1;
     saveLog();
     Get.find<LogController>().loglist.add(
@@ -76,7 +75,7 @@ class OesController extends GetxController {
     Get.find<LogController>()
         .loglist
         .add('${logfileTime()} Start SetChannel\n');
-    if (Get.find<iniController>().sim == 1) {
+    if (Get.find<iniController>().sim == 0) {
       mpmSetChannel(nCurrentChannel);
     }
 
@@ -96,7 +95,7 @@ class OesController extends GetxController {
       }
     }
 
-    if (Get.find<iniController>().sim == 0) {
+    if (Get.find<iniController>().sim == 1) {
       for (var i = 0; i < 2048; i++) {
         listWavelength.add(i.toDouble());
       }
@@ -110,25 +109,45 @@ class OesController extends GetxController {
       // max값 찾기
       yMax.value =
           fmtSpec.reduce((value, element) => value > element ? value : element);
-      print(yMax.value);
+      // print(yMax.value);
     }
 
     Get.find<LogController>().loglist.add('${logfileTime()} End Draw Chart\n');
     //csv 저장
-    if (yMax.value >= Get.find<iniController>().oesMaxValue.value) {
-      Get.find<CsvController>().fileSave.value = true;
+    if (Get.find<CsvController>().csvSaveData.value) {
+      for (var i = 0; i < Get.find<iniController>().OES_Count.value; i++) {
+        Get.find<CsvController>().csvSaveInit.value = false;
+        Get.find<CsvController>()
+            .csvForm(path: "_${nCurrentChannel + 1}.csv", data: fmtSpec);
+      }
+    }
+    if (yMax.value >= Get.find<iniController>().oesAutoSave.value) {
+      Get.find<CsvController>().csvSaveInit.value = true;
       autoSave.value = true;
     }
 
-    if (yMax.value < Get.find<iniController>().oesMaxValue.value &&
+    if (Get.find<CsvController>().csvSaveInit.value) {
+      for (var i = 0; i < Get.find<iniController>().OES_Count.value; i++) {
+        Get.find<CsvController>().csvFormInit(
+            path: "_${i + 1}.csv", channelNum: 'channelNum : ${i + 1}');
+      }
+      Get.find<CsvController>().csvSaveData.value = true;
+    }
+
+    if (yMax.value < Get.find<iniController>().oesAutoSave.value &&
         autoSave.value) {
-      Get.find<CsvController>().fileSave.value = false;
+      Get.find<CsvController>().csvSaveInit.value = false;
+      Get.find<CsvController>().csvSaveData.value = false;
+      // Get.find<CsvController>().fileSave.value = false;
       autoSave.value = false;
     }
-    if (Get.find<CsvController>().fileSave.value) {
-      Get.find<CsvController>()
-          .csvForm(path: "_${nCurrentChannel + 1}.csv", data: fmtSpec);
-    }
+    // if (Get.find<CsvController>().csvSaveData.value) {
+    //   Get.find<CsvController>().csvSaveInit.value = false;
+    //   for (var i = 0; i < Get.find<iniController>().OES_Count.value; i++) {
+    //     Get.find<CsvController>()
+    //         .csvForm(path: "_${nCurrentChannel + 1}.csv", data: fmtSpec);
+    //   }
+    // }
     Get.find<LogController>().loglist.add('${logfileTime()} End csv save\n');
     if (nChannelIdx > channelNuminINI.length - 1) {
       nChannelIdx = 0;
@@ -139,56 +158,6 @@ class OesController extends GetxController {
     Get.find<LogController>().loglist.add(
         '${logfileTime()} current channel finish ${nCurrentChannel}' + '\n');
     update();
-    return;
-    // if (Get.find<iniController>().sim.value == 0) {
-    //   for (var i = 0; i < Get.find<iniController>().OES_Count.value; i++) {
-    //     if (oesData.isNotEmpty) oesData[i].clear();
-    //   }
-
-    //   List<double> xValues = [];
-    //   for (double i = 0; i < 2048; i++) {
-    //     xValues.add(i);
-    //   }
-
-    //   List<List<double>> formatedSpec = [];
-    //   for (var z = 0; z < Get.find<iniController>().OES_Count.value; z++) {
-    //     formatedSpec.add([]);
-    //     for (var i = 0; i < 2048; i++) {
-    //       formatedSpec[z].add(setRandom());
-    //     }
-    //   }
-
-    //   for (var i = 0; i < Get.find<iniController>().OES_Count.value; i++) {
-    //     for (int x = 0; x < 2048; x++) {
-    //       oesData[i].add(FlSpot(xValues[x], formatedSpec[i][x]));
-    //     }
-    //     // max값 찾기
-    //     yMax.value = formatedSpec[i]
-    //         .reduce((value, element) => value > element ? value : element);
-    //     // print(yMax.value);
-    //   }
-    //   if (yMax.value >= Get.find<iniController>().oesMaxValue.value) {
-    //     Get.find<CsvController>().fileSave.value = true;
-    //     autoSave.value = true;
-    //     print(autoSave.value);
-    //   }
-
-    //   if (yMax.value < Get.find<iniController>().oesMaxValue.value &&
-    //       autoSave.value) {
-    //     Get.find<CsvController>().fileSave.value = false;
-    //     autoSave.value = false;
-    //     print(autoSave.value);
-    //   }
-
-    //   if (Get.find<CsvController>().fileSave.value) {
-    //     for (var i = 0; i < Get.find<iniController>().OES_Count.value; i++) {
-    //       Get.find<CsvController>()
-    //           .csvForm(path: "_${i + 1}.csv", data: formatedSpec[i]);
-    //     }
-    //   }
-
-    //   update();
-    // }
   }
 
   scrollEvent({required Widget child}) {
@@ -203,8 +172,6 @@ class OesController extends GetxController {
                 minX.value = minX.value;
                 maxX.value = maxX.value;
               }
-
-              // Get.find<LogListController>().logData.add('zoom in');
             } else {
               if (maxX.value - maxX * 0.1 <= 2048 && minX - maxX * 0.1 >= 0) {
                 minX.value -= maxX * 0.1;
@@ -214,31 +181,30 @@ class OesController extends GetxController {
                 maxX.value = 2048;
               }
             }
-
-            // Get.find<LogListController>().logData.add(
-            //     'x ${minX.value.round().toString()}  ${maxX.value.round().toString()}');
           }
         },
-        child: GestureDetector(
-          onDoubleTap: () {
-            minX.value = 0;
-            maxX.value = oesData.length.toDouble();
-          },
-          onHorizontalDragUpdate: (dragUpdate) {
-            double primeDelta = dragUpdate.primaryDelta ?? 0.0;
-            if (primeDelta != 0) {
-              if (primeDelta.isNegative) {
-                minX.value += maxX * 0.005;
-                maxX.value += maxX * 0.005;
-              } else {
-                // minX -= maxX * 0.005;
-                maxX.value -= maxX * 0.005;
-              }
-            }
-            update();
-          },
-          child: child,
-        ));
+        child: child
+        // child: GestureDetector(
+        //   onDoubleTap: () {
+        //     minX.value = 0;
+        //     maxX.value = oesData.length.toDouble();
+        //   },
+        //   onHorizontalDragUpdate: (dragUpdate) {
+        //     double primeDelta = dragUpdate.primaryDelta ?? 0.0;
+        //     if (primeDelta != 0) {
+        //       if (primeDelta.isNegative) {
+        //         minX.value += maxX * 0.005;
+        //         maxX.value += maxX * 0.005;
+        //       } else {
+        //         // minX -= maxX * 0.005;
+        //         maxX.value -= maxX * 0.005;
+        //       }
+        //     }
+        //     update();
+        //   },
+        //   child: child,
+        // )
+        );
   }
 }
 
@@ -308,31 +274,12 @@ class OesChart extends GetView<OesController> {
                         bottomTitles: SideTitles(
                           interval: 100,
                           showTitles: true,
-                          reservedSize: 20, //글씨 밑에 margin 주기
-                          // getTextStyles: (BuildContext, double) => const TextStyle(
-                          //   color: Color(0xff68737d),
-                          //   fontWeight: FontWeight.bold,
-                          //   fontSize: 13,
-                          // ),
-                          // getTitles: (value) {
-                          //   return '${value.round()}';
-                          // },
-                          margin: 8, //스캐일에 쓴 글씨와 그래프의 margin
+                          reservedSize: 20,
+                          margin: 8,
                         ),
                         leftTitles: SideTitles(
                           showTitles: true,
                           interval: 100,
-                          // getTitles: (value) {
-                          //   switch (value.toInt()) {
-                          //     case 0:
-                          //       return '10k';
-                          //     case 250:
-                          //       return '30k';
-                          //     case 500:
-                          //       return '50k';
-                          //   }
-                          //   return '';
-                          // },
                           reservedSize: 30,
                           margin: 10,
                         ),

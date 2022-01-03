@@ -17,12 +17,6 @@ class LogListController extends GetxController {
   String screenLogTime = screenTime();
 
   @override
-  void onInit() {
-    //ever(logData, (_) => logData.add('클릭');
-    super.onInit();
-  }
-
-  @override
   void onClose() {
     LogListController;
     super.onClose();
@@ -79,17 +73,27 @@ class LogListController extends GetxController {
 
   void cConfigSave() async {
     saveLog();
+    logData.add('OES Comport : ${Get.find<iniController>().oes_comport.value}');
+    for (var i = 0; i < 5; i++) {
+      logData.add(
+          'VIZ${i + 1} Comport : COM${Get.find<iniController>().vizComport[i]}');
+    }
+    logData.add('Auto Save : ${Get.find<iniController>().oesAutoSave.value}');
+    logData
+        .add('Viz Interval : ${Get.find<iniController>().viz_Interval.value}');
     logData
         .add('Exposure time : ${Get.find<iniController>().exposureTime.value}');
+    logData.add(
+        'Oes Integration : ${Get.find<iniController>().integrationTime.value}');
+    logData.add(
+        'Switching Time : ${Get.find<iniController>().waitSwitchingTime.value}');
+    logData.add('Save Config');
     Get.find<LogController>().loglist.add(
         '${logfileTime} Exposure time has been changed to ${Get.find<iniController>().exposureTime.value}' +
             '\n');
-    logData.add('Save Config');
+
     Get.find<LogController>().loglist.add(
-        '${logfileTime()} [Event Trigger] Save setting ' +
-            '\n' +
-            '$btnPress' +
-            '\n');
+        '${logfileTime()} [Event Trigger] Auto Save : ${Get.find<iniController>().oesAutoSave.value}\n${logfileTime()} [Event Trigger] Save setting $btnPress\n');
   }
 
   void cModeChage() async {
@@ -148,73 +152,74 @@ class LogList extends GetView<LogListController> {
         width: 350,
         height: 395,
         child: Obx(() {
-          if (controller.logData.length < 0) {
-            return Center(child: Text('log does not exist.'));
-          } else {
-            return SafeArea(
-              child: Scrollbar(
-                //isAlwaysShown: true,
-                child: SingleChildScrollView(
-                  child: ListView.builder(
-                    reverse: true,
-                    controller: scrollCtrl,
-                    addAutomaticKeepAlives: false,
-                    addRepaintBoundaries: false,
-                    padding: const EdgeInsets.all(8),
-                    shrinkWrap: true,
-                    itemCount: controller.logData.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return ListTile(
-                        //최신 인덱스이면 글자 강조되게
-                        title: index == controller.logData.length - 1
-                            ? Row(
-                                children: [
-                                  Text(
-                                    '${screenTime()}',
-                                    style: TextStyle(
-                                      color: Colors.blueGrey,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+          // if (controller.logData.length == 0) {
+          //   return Center(child: Text('log does not exist.'));
+          // } else {
+          return SafeArea(
+            child: Scrollbar(
+              //isAlwaysShown: true,
+              child: SingleChildScrollView(
+                child: ListView.builder(
+                  reverse: true,
+                  controller: scrollCtrl,
+                  addAutomaticKeepAlives: false,
+                  addRepaintBoundaries: false,
+                  padding: const EdgeInsets.all(8),
+                  shrinkWrap: true,
+                  itemCount: controller.logData.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return ListTile(
+                      //최신 인덱스이면 글자 강조되게
+                      title: index == controller.logData.length - 1
+                          ? Row(
+                              children: [
+                                Text(
+                                  '${screenTime()}',
+                                  style: TextStyle(
+                                    color: Colors.blueGrey,
+                                    fontWeight: FontWeight.bold,
                                   ),
-                                  VerticalDivider(
-                                    color: Colors.black,
-                                  ),
-                                  Column(
-                                    children: [
-                                      SizedBox(height: 20),
-                                      Text(
-                                        '${controller.logData[index]}\r\n',
-                                        style: TextStyle(
-                                          color: Colors.blueGrey,
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                                ),
+                                VerticalDivider(
+                                  color: Colors.black,
+                                ),
+                                Column(
+                                  children: [
+                                    SizedBox(height: 20),
+                                    Text(
+                                      '${controller.logData[index]}\r\n',
+                                      style: TextStyle(
+                                        color: Colors.blueGrey,
+                                        fontWeight: FontWeight.bold,
                                       ),
-                                    ],
-                                  ),
-                                ],
-                              )
-                            : Row(
-                                children: [
-                                  Text('${screenTime()}'),
-                                  VerticalDivider(
-                                    color: Colors.black,
-                                  ),
-                                  Column(
-                                    children: [
-                                      SizedBox(height: 20),
-                                      Text('${controller.logData[index]}\r\n'),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                      );
-                    },
-                  ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            )
+                          : Row(
+                              children: [
+                                Text('${screenTime()}'),
+                                VerticalDivider(
+                                  color: Colors.black,
+                                ),
+                                Column(
+                                  children: [
+                                    SizedBox(height: 20),
+                                    Text('${controller.logData[index]}\r\n'),
+                                  ],
+                                ),
+                              ],
+                            ),
+                    );
+                  },
                 ),
               ),
-              //),
-            );
-          }
-        }));
+            ),
+            //),
+          );
+        }
+            // }
+            ));
   }
 }

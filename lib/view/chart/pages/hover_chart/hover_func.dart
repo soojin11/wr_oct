@@ -208,7 +208,7 @@ class HoverCtrl extends GetxController {
                                 ),
                                 Column(
                                   children: [
-                                    Text('P_div'),
+                                    Text('P_dlv'),
                                     Obx(
                                       () => Switch(
                                         value: VizCtrl.to.vizSeriesList[1],

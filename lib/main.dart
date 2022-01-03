@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wr_ui/controller/drop_down_controller.dart';
 import 'package:wr_ui/controller/home_controller.dart';
+import 'package:wr_ui/model/viz_data.dart';
 import 'package:wr_ui/service/dark_white_mode/mode.dart';
 import 'package:wr_ui/service/routes/app_pages.dart';
 import 'package:wr_ui/view/appbar/actions/minimize/window_btn.dart';
@@ -77,10 +78,26 @@ Future main() async {
   ///시리얼 포트///
   VizCtrl.to.init();
   /////////////////////
+  VizCtrl.to.vizList.assignAll([]);
+  VizCtrl.to.vizPoints.assignAll([]);
+  for (var i = 0; i < 5; i++) {
+    VizCtrl.to.vizPoints.add(RxList.empty());
+    VizCtrl.to.vizList.add(VizData.init().obs);
+    for (var ii = 0; ii < 7; ii++) {
+      VizCtrl.to.vizPoints[i].add(RxList.empty());
+    }
+  }
 
   for (var i = 0; i < Get.find<iniController>().OES_Count.value; i++) {
     Get.find<OesController>().oesData.add([]);
   }
+  //12.30
+  // VizCtrl.to.viz.assignAll([]);
+  // VizCtrl.to.vizChart.assignAll([]);
+  // for (var i = 0; i < 5; i++) {
+  //   VizCtrl.to.viz.add(VizData.init().obs);
+  // }
+  ///////////////////////////////////
   for (var i = 0; i < 7; i++) {
     VizCtrl.to.vizVal1.add([]);
     VizCtrl.to.vizVal2.add([]);
@@ -108,7 +125,9 @@ Future main() async {
   print(
       'channel move t in parse : ${Get.find<iniController>().channelMovingTime.value}');
   //메시지박스
-  oesInit();
+  if (Get.find<iniController>().sim.value == 0) {
+    oesInit();
+  }
 }
 
 class MyApp extends StatelessWidget {
@@ -251,87 +270,41 @@ class WRappbar extends StatelessWidget implements PreferredSizeWidget {
                       color: Colors.white,
                     ),
                     message: 'Change settings',
-                    child: appContainer(
-                      child: SetBtn(),
+                    child: Container(
                       width: 180,
+                      height: 35,
+                      child: SetBtn(),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: Colors.blueGrey[300]),
                     ),
                   ),
                   SizedBox(width: 60),
-                  Obx(() => DropdownButton(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        onChanged: (v) {
-                          VizCtrl.to.setSelected(v);
-                        },
-                        style: TextStyle(fontSize: 20, color: Colors.black),
-                        value: VizCtrl.to.selected.value,
-                        items: VizCtrl.to.dropItem
-                            .map((e) =>
-                                DropdownMenuItem(value: e, child: Text(e)))
-                            .toList(),
-                      )),
-
-                  // Tooltip(
-                  //   height: 50,
-                  //   textStyle: TextStyle(
-                  //     fontSize: 15,
-                  //     color: Colors.white,
-                  //   ),
-                  //   message: 'OES & VIZ',
-                  //   child: ElevatedButton(
-                  //     style: ElevatedButton.styleFrom(
-                  //         fixedSize: Size(100, 50),
-                  //         primary: Colors.blueGrey[600]),
-                  //     child: Text('OES & VIZ'),
-                  //     onPressed: () {},
-                  //   ),
-                  // ),
-
-                  // Tooltip(
-                  //     height: 50,
-                  //     textStyle: TextStyle(
-                  //       fontSize: 15,
-                  //       color: Colors.white,
-                  //     ),
-                  //     message: 'OES Chart',
-                  //     child: Obx(
-                  //       () => IgnorePointer(
-                  //           ignoring:
-                  //               Get.find<OesController>().isOes.value == true,
-                  //           child: ElevatedButton(
-                  //               style: ElevatedButton.styleFrom(
-                  //                   fixedSize: Size(80, 50),
-                  //                   primary:
-                  //                       Get.find<OesController>().isOes.value
-                  //                           ? Colors.green
-                  //                           : Colors.blueGrey[600]),
-                  //               onPressed: () {
-                  //                 Get.find<OesController>().isOes.value = true;
-                  //               },
-                  //               child: Text('OES'))),
-                  //     )),
-                  // Tooltip(
-                  //     height: 50,
-                  //     textStyle: TextStyle(
-                  //       fontSize: 15,
-                  //       color: Colors.white,
-                  //     ),
-                  //     message: 'VIZ Chart',
-                  //     child: Obx(
-                  //       () => IgnorePointer(
-                  //           ignoring:
-                  //               Get.find<OesController>().isOes.value == false,
-                  //           child: ElevatedButton(
-                  //               style: ElevatedButton.styleFrom(
-                  //                   fixedSize: Size(80, 50),
-                  //                   primary:
-                  //                       Get.find<OesController>().isOes.value
-                  //                           ? Colors.blueGrey[600]
-                  //                           : Colors.green),
-                  //               onPressed: () {
-                  //                 Get.find<OesController>().isOes.value = false;
-                  //               },
-                  //               child: Text('VIZ'))),
-                  //     )),
+                  Container(
+                    padding: EdgeInsets.only(left: 20),
+                    height: 35,
+                    width: 100,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        color: Colors.blueGrey[50]),
+                    child: Obx(() => DropdownButton(
+                          underline:
+                              DropdownButtonHideUnderline(child: Container()),
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          onChanged: (v) {
+                            VizCtrl.to.setSelected(v);
+                          },
+                          style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.grey[800],
+                              fontWeight: FontWeight.bold),
+                          value: VizCtrl.to.selected.value,
+                          items: VizCtrl.to.dropItem
+                              .map((e) =>
+                                  DropdownMenuItem(value: e, child: Text(e)))
+                              .toList(),
+                        )),
+                  ),
                 ],
               ),
             ),
@@ -354,7 +327,7 @@ class WRappbar extends StatelessWidget implements PreferredSizeWidget {
                 Get.isDarkMode
                     ? Icons.toggle_on_outlined
                     : Icons.toggle_off_outlined,
-                size: 38,
+                size: 45,
                 color: Get.isDarkMode ? Colors.white : Colors.black,
               ),
             ),
@@ -626,126 +599,122 @@ appContainer({required double width, required Widget child}) {
 }
 
 Future<void> oesInit() async {
-  if (Get.find<iniController>().sim.value == 1) {
-    print('in oesInit');
-    ocrStart = wgsFunction
-        .lookup<NativeFunction<Int8 Function()>>('OCR_Start')
-        .asFunction();
-    if (ocrStart == 0) {
-      saveLog();
-      Get.find<LogController>()
-          .loglist
-          .add('${logfileTime()} ocrstart 1 $ocrStart' + '\n');
-    }
-
-    final int ocrs = ocrStart();
-    if (ocrs == 0) {
-      Get.find<LogController>()
-          .loglist
-          .add('${logfileTime()} ocrstart 2 $ocrs' + '\n');
-    }
-    print('ocrStart??' + ' ${ocrs}');
-
-    mpmStart = wgsFunction
-        .lookup<NativeFunction<Void Function(Int32)>>('MPMStart')
-        .asFunction();
-//포트 번호
-    mpmStart(3);
-
-    print('mpmstart?? $mpmStart');
-
-    mpmClose = wgsFunction
-        .lookup<NativeFunction<Void Function()>>('MPMClose')
-        .asFunction();
-
-    mpmClose();
-
-    mpmOpen = wgsFunction
-        .lookup<NativeFunction<Int8 Function()>>('MPMOpen')
-        .asFunction();
-
-    int intMpmOpen = mpmOpen();
-
-    closeAll = wgsFunction
-        .lookup<NativeFunction<Void Function()>>('CloseAll')
-        .asFunction();
-    // closeAll();
-    openAllSpectrometers = wgsFunction
-        .lookup<NativeFunction<Int32 Function()>>('OpenAllSpectrometers')
-        .asFunction();
-
-    int bb = openAllSpectrometers();
-
-    setIntegrationTime = wgsFunction
-        .lookup<NativeFunction<Int32 Function(Int32, Int32)>>(
-            'SetIntegrationTime')
-        .asFunction();
-
-    int cc =
-        setIntegrationTime(0, Get.find<iniController>().integrationTime.value);
-
-    print('intgration???  ${Get.find<iniController>().integrationTime.value}');
-    print('plusTime???  ${Get.find<iniController>().plusTime.value}');
-    setScansToAverage = wgsFunction
-        .lookup<NativeFunction<Int32 Function(Int32, Int32)>>(
-            'SetScansToAverage')
-        .asFunction();
-
-    int dd = setScansToAverage(0, 1);
-
-    print('setScansToAverage?? ' + ' $dd');
-    setBoxcarWidth = wgsFunction
-        .lookup<NativeFunction<Int32 Function(Int32, Int32)>>('SetBoxcarWidth')
-        .asFunction();
-
-    int ss = setBoxcarWidth(0, 0);
-
-    print('setBoxCarWidth?? ' + '$ss');
-    setElectricDarkEnable = wgsFunction
-        .lookup<NativeFunction<Int32 Function(Int32, Int32)>>(
-            'SetElectricDarkEnable')
-        .asFunction();
-
-    int rr = setElectricDarkEnable(0, 0);
-
-    print('setElectricDarkEnable?? ' + '$rr');
-    setNonlinearityCorrectionEnabled = wgsFunction
-        .lookup<NativeFunction<Int32 Function(Int32, Int32)>>(
-            'SetNonlinearityCorrectionEnabled')
-        .asFunction();
-
-    int ee = setNonlinearityCorrectionEnabled(0, 0);
-
-    print('setNonlinearityCorrectionEnabled?? ' + ' $ee');
-    setTriggerMode = wgsFunction
-        .lookup<NativeFunction<Int32 Function(Int32, Int32)>>('SetTriggerMode')
-        .asFunction();
-
-    int gg = setTriggerMode(0, 0);
-
-    print('setTriggerMode?? ' + ' $gg');
-
-    getWavelength = wgsFunction
-        .lookup<NativeFunction<Pointer<Double> Function(Int32)>>(
-            'GetWavelength')
-        .asFunction();
-    Pointer<Double> pdwaveLength = getWavelength(0);
-    for (var i = 0; i < 2048; i++) {
-      listWavelength.add(pdwaveLength[i]);
-    }
-
-    print('getWavelength?? ' + ' $getWavelength');
-
-    mpmSetChannel = wgsFunction
-        .lookup<NativeFunction<Int32 Function(Int32)>>('MPMSetChannel')
-        .asFunction();
-
-    int rrr = mpmSetChannel(0);
-
-    print('mpmsetChannel?? ' + ' $rrr');
-    mpmIsSwitching = wgsFunction
-        .lookup<NativeFunction<Int32 Function()>>('MPMIsSwitching')
-        .asFunction();
-    // return true;
+  print('in oesInit');
+  ocrStart = wgsFunction
+      .lookup<NativeFunction<Int8 Function()>>('OCR_Start')
+      .asFunction();
+  if (ocrStart == 0) {
+    saveLog();
+    Get.find<LogController>()
+        .loglist
+        .add('${logfileTime()} ocrstart 1 $ocrStart' + '\n');
   }
+
+  final int ocrs = ocrStart();
+  if (ocrs == 0) {
+    Get.find<LogController>()
+        .loglist
+        .add('${logfileTime()} ocrstart 2 $ocrs' + '\n');
+  }
+  print('ocrStart??' + ' ${ocrs}');
+
+  mpmStart = wgsFunction
+      .lookup<NativeFunction<Void Function(Int32)>>('MPMStart')
+      .asFunction();
+//포트 번호
+  mpmStart(3);
+
+  print('mpmstart?? $mpmStart');
+
+  mpmClose = wgsFunction
+      .lookup<NativeFunction<Void Function()>>('MPMClose')
+      .asFunction();
+
+  mpmClose();
+
+  mpmOpen = wgsFunction
+      .lookup<NativeFunction<Int8 Function()>>('MPMOpen')
+      .asFunction();
+
+  int intMpmOpen = mpmOpen();
+
+  closeAll = wgsFunction
+      .lookup<NativeFunction<Void Function()>>('CloseAll')
+      .asFunction();
+  // closeAll();
+  openAllSpectrometers = wgsFunction
+      .lookup<NativeFunction<Int32 Function()>>('OpenAllSpectrometers')
+      .asFunction();
+
+  int bb = openAllSpectrometers();
+
+  setIntegrationTime = wgsFunction
+      .lookup<NativeFunction<Int32 Function(Int32, Int32)>>(
+          'SetIntegrationTime')
+      .asFunction();
+
+  int cc =
+      setIntegrationTime(0, Get.find<iniController>().integrationTime.value);
+
+  print('intgration???  ${Get.find<iniController>().integrationTime.value}');
+  print('plusTime???  ${Get.find<iniController>().plusTime.value}');
+  setScansToAverage = wgsFunction
+      .lookup<NativeFunction<Int32 Function(Int32, Int32)>>('SetScansToAverage')
+      .asFunction();
+
+  int dd = setScansToAverage(0, 1);
+
+  print('setScansToAverage?? ' + ' $dd');
+  setBoxcarWidth = wgsFunction
+      .lookup<NativeFunction<Int32 Function(Int32, Int32)>>('SetBoxcarWidth')
+      .asFunction();
+
+  int ss = setBoxcarWidth(0, 0);
+
+  print('setBoxCarWidth?? ' + '$ss');
+  setElectricDarkEnable = wgsFunction
+      .lookup<NativeFunction<Int32 Function(Int32, Int32)>>(
+          'SetElectricDarkEnable')
+      .asFunction();
+
+  int rr = setElectricDarkEnable(0, 0);
+
+  print('setElectricDarkEnable?? ' + '$rr');
+  setNonlinearityCorrectionEnabled = wgsFunction
+      .lookup<NativeFunction<Int32 Function(Int32, Int32)>>(
+          'SetNonlinearityCorrectionEnabled')
+      .asFunction();
+
+  int ee = setNonlinearityCorrectionEnabled(0, 0);
+
+  print('setNonlinearityCorrectionEnabled?? ' + ' $ee');
+  setTriggerMode = wgsFunction
+      .lookup<NativeFunction<Int32 Function(Int32, Int32)>>('SetTriggerMode')
+      .asFunction();
+
+  int gg = setTriggerMode(0, 0);
+
+  print('setTriggerMode?? ' + ' $gg');
+
+  getWavelength = wgsFunction
+      .lookup<NativeFunction<Pointer<Double> Function(Int32)>>('GetWavelength')
+      .asFunction();
+  Pointer<Double> pdwaveLength = getWavelength(0);
+  for (var i = 0; i < 2048; i++) {
+    listWavelength.add(pdwaveLength[i]);
+  }
+
+  print('getWavelength?? ' + ' $getWavelength');
+
+  mpmSetChannel = wgsFunction
+      .lookup<NativeFunction<Int32 Function(Int32)>>('MPMSetChannel')
+      .asFunction();
+
+  int rrr = mpmSetChannel(0);
+
+  print('mpmsetChannel?? ' + ' $rrr');
+  mpmIsSwitching = wgsFunction
+      .lookup<NativeFunction<Int32 Function()>>('MPMIsSwitching')
+      .asFunction();
+  // return true;
 }

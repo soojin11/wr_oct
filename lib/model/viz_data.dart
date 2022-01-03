@@ -23,19 +23,6 @@ class VizData // Channel1개에서 나오는 Data
     return VizData(
         rf_freq: 0.0, p_del: 0.0, v: 0.0, i: 0.0, r: 0.0, x: 0.0, phase: 0.0);
   }
-  // factory VizData.fromMap(Map<String, dynamic>? map) {
-  //     return VizData(
-  //       rf_freq: map['rf_freq'],
-  //       p_del: map['rf_freq'] ?? 0.0,
-  //     );
-  //   }
-  // }
-
-  //생성자
-  //tojson
-  //tomap
-  //frommap
-
 }
 
 class VizChannel // Viz 정보들
@@ -46,12 +33,4 @@ class VizChannel // Viz 정보들
   });
   VizData vizData;
   SerialPort port;
-  // factory VizChannel.init() {
-  //   return VizChannel(vizData: VizData.init(), port: 'COM1');
-  // }
-  //생성자
-  //tojson
-  //tomap
-  //frommap
-
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 import 'package:get/get.dart';
+import 'package:wr_ui/controller/setting.dart';
 import 'package:wr_ui/main.dart';
 import 'dart:async';
 import 'package:wr_ui/model/const/style/pallette.dart';
@@ -58,7 +59,10 @@ Future<void> _showDialog(context) async {
                     insetPadding: EdgeInsets.zero,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8.0)),
-                    title: Text("setting"),
+                    // title: Text(
+                    //   "Setting",
+                    //   style: TextStyle(fontWeight: FontWeight.bold),
+                    // ),
                     content: Container(
                       height: 850,
                       width: 550,
@@ -75,579 +79,269 @@ Future<void> _showDialog(context) async {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
+                                    Text('Comport Setting',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold)),
+                                    SizedBox(height: 20),
                                     Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceEvenly,
                                       children: [
-                                        Container(
-                                          height: 40,
-                                          width: 80,
-                                          child: TextFormField(
-                                            initialValue: 'COM3',
-                                            decoration: InputDecoration(
-                                              fillColor: Colors.red,
-                                              border: OutlineInputBorder(),
-                                              labelText: 'OES',
-                                              hintText: 'COM',
-                                            ),
+                                        ComSet(
                                             onSaved: (v) {
                                               Get.find<iniController>()
-                                                      .oes_comport =
-                                                  v.toString() as RxInt;
+                                                      .oes_comport
+                                                      .value =
+                                                  int.parse(v.toString());
                                             },
-                                          ),
-                                        ),
-                                        Container(
-                                          height: 40,
-                                          width: 80,
-                                          child: TextFormField(
-                                            initialValue: 'COM4',
-                                            decoration: InputDecoration(
-                                              border: OutlineInputBorder(),
-                                              labelText: 'VIZ1',
-                                              hintText: 'COM',
-                                            ),
+                                            initVal: '3',
+                                            label: 'OES'),
+                                        ComSet(
                                             onSaved: (v) {
                                               Get.find<iniController>()
-                                                      .viz_comport[0] =
-                                                  v.toString();
+                                                      .vizComport[0] =
+                                                  int.parse(v.toString());
                                             },
-                                          ),
-                                        ),
-                                        Container(
-                                          height: 40,
-                                          width: 80,
-                                          child: TextFormField(
-                                            initialValue: 'COM1',
-                                            decoration: InputDecoration(
-                                              border: OutlineInputBorder(),
-                                              labelText: 'VIZ2',
-                                              hintText: 'COM',
-                                            ),
+                                            initVal: '4',
+                                            label: 'VIZ 1'),
+                                        ComSet(
                                             onSaved: (v) {
                                               Get.find<iniController>()
-                                                      .viz_comport[1] =
-                                                  v.toString();
+                                                      .vizComport[1] =
+                                                  int.parse(v.toString());
                                             },
-                                          ),
-                                        ),
-                                        Container(
-                                            height: 40,
-                                            width: 80,
-                                            child: TextFormField(
-                                              initialValue: 'COM2',
-                                              decoration: InputDecoration(
-                                                border: OutlineInputBorder(),
-                                                labelText: 'VIZ3',
-                                                hintText: 'COM',
-                                              ),
-                                              onSaved: (v) {
-                                                Get.find<iniController>()
-                                                        .viz_comport[2] =
-                                                    v.toString();
-                                              },
-                                            )),
-                                        Container(
-                                            height: 40,
-                                            width: 80,
-                                            child: TextFormField(
-                                              initialValue: 'COM6',
-                                              decoration: InputDecoration(
-                                                border: OutlineInputBorder(),
-                                                labelText: 'VIZ4',
-                                                hintText: 'COM',
-                                              ),
-                                              onSaved: (v) {
-                                                Get.find<iniController>()
-                                                        .viz_comport[3] =
-                                                    v.toString();
-                                              },
-                                            )),
-                                        Container(
-                                            height: 40,
-                                            width: 80,
-                                            child: TextFormField(
-                                              initialValue: 'COM5',
-                                              decoration: InputDecoration(
-                                                border: OutlineInputBorder(),
-                                                labelText: 'VIZ5',
-                                                hintText: 'COM',
-                                              ),
-                                              onSaved: (v) {
-                                                Get.find<iniController>()
-                                                        .viz_comport[4] =
-                                                    v.toString();
-                                              },
-                                            )),
+                                            initVal: '1',
+                                            label: 'VIZ 2'),
+                                        ComSet(
+                                            onSaved: (v) {
+                                              Get.find<iniController>()
+                                                      .vizComport[2] =
+                                                  int.parse(v.toString());
+                                            },
+                                            initVal: '2',
+                                            label: 'VIZ 3'),
+                                        ComSet(
+                                            onSaved: (v) {
+                                              Get.find<iniController>()
+                                                      .vizComport[3] =
+                                                  int.parse(v.toString());
+                                            },
+                                            initVal: '6',
+                                            label: 'VIZ 4'),
+                                        ComSet(
+                                            onSaved: (v) {
+                                              Get.find<iniController>()
+                                                      .vizComport[4] =
+                                                  int.parse(v.toString());
+                                            },
+                                            initVal: '5',
+                                            label: 'VIZ 5'),
                                       ],
                                     ),
-                                    TextFormField(
-                                      initialValue: '2300',
-                                      decoration: InputDecoration(
-                                        labelText: 'Auto Save',
-                                        hintText: 'Value',
-                                      ),
-                                      onSaved: (v) {
-                                        Get.find<iniController>()
-                                            .oesMaxValue
-                                            .value = double.parse(v.toString());
-                                      },
+                                    Divider(height: 30, thickness: 2),
+                                    Text(
+                                      'OES Setting',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
                                     ),
-                                    TextFormField(
-                                      initialValue: '100',
-                                      decoration: InputDecoration(
-                                        labelText: 'Viz Interval',
-                                        hintText: 'milliseconds',
-                                      ),
-                                      onSaved: (v) {
-                                        Get.find<iniController>()
-                                            .viz_Interval
-                                            .value = v.toString();
-                                      },
-                                    ),
-                                    TextFormField(
-                                      initialValue: '100',
-                                      decoration: InputDecoration(
-                                        labelText: 'Exposure Time',
-                                        hintText: 'milliseconds',
-                                      ),
-                                      onSaved: (v) {
-                                        Get.find<iniController>()
-                                            .exposureTime
-                                            .value = v.toString();
-                                      },
-                                    ),
-                                    TextFormField(
-                                      initialValue: (Get.find<iniController>()
-                                                  .integrationTime
-                                                  .value ~/
-                                              1000)
-                                          .toString(),
-                                      decoration: InputDecoration(
-                                        labelText: 'Integration Time',
-                                        hintText: 'milliseconds',
-                                      ),
-                                      onSaved: (v) {
-                                        Get.find<iniController>()
-                                                .integrationTime
-                                                .value =
-                                            int.parse(v.toString()) * 1000;
-                                      },
-                                    ),
-
-                                    TextFormField(
-                                      initialValue: Get.find<iniController>()
-                                          .waitSwitchingTime
-                                          .value
-                                          .toString(),
-                                      decoration: InputDecoration(
-                                        labelText: 'Wait Switching Time',
-                                        hintText: 'milliseconds',
-                                      ),
-                                      onSaved: (v) {
-                                        Get.find<iniController>()
-                                            .waitSwitchingTime
-                                            .value = int.parse(v.toString());
-                                      },
-                                    ),
-
-                                    /////delay time 필요 없어져서 지움
-                                    // SizedBox(
-                                    //   height: 30,
-                                    // ),
-                                    // TextFormField(
-                                    //   initialValue: '100',
-                                    //   decoration: InputDecoration(
-                                    //     labelText: 'Delay Time',
-                                    //     hintText: 'milliseconds',
-                                    //   ),
-                                    //   onSaved: (v) {
-                                    //     Get.find<SettingController>()
-                                    //         .delayTime
-                                    //         .value = v.toString();
-                                    //     print(
-                                    //         'Delay time has been changed to $v');
-                                    //   },
-                                    // ),
-
-                                    SizedBox(
-                                      height: 30,
-                                    ),
-                                    // TextFormField(
-                                    //   initialValue: '100',
-                                    //   decoration: InputDecoration(
-                                    //     labelText: 'Integration Time',
-                                    //     hintText: 'milliseconds',
-                                    //   ),
-                                    //   onSaved: (v) {
-                                    //     Get.find<iniControllerWithReactive>()
-                                    //         .IntegrationTime
-                                    //         .value = v.toString();
-                                    //     Get.find<SettingController>()
-                                    //         .integrationTime
-                                    //         .value = Get.find<
-                                    //             iniControllerWithReactive>()
-                                    //         .IntegrationTime
-                                    //         .value;
-                                    //     var integrationTimetoInt = int.parse(
-                                    //         Get.find<SettingController>()
-                                    //             .integrationTime
-                                    //             .value);
-                                    //     assert(integrationTimetoInt is int);
-                                    //     setIntegrationTime(
-                                    //         0, integrationTimetoInt - 1);
-                                    //     //////////////
-
-                                    //     print(
-                                    //         'Integration time has been changed to $v');
-                                    //   },
-                                    // ),
-                                    // SizedBox(
-                                    //   height: 30,
-                                    // ),
-                                    // TextFormField(
-                                    //   initialValue:
-                                    //       Get.find<SettingController>()
-                                    //           .mosChannel
-                                    //           .value
-                                    //           .toString(),
-                                    //   decoration: InputDecoration(
-                                    //     labelText: 'MOS Channel',
-                                    //     hintText: '0~7',
-                                    //   ),
-                                    //   onSaved: (v) {
-                                    //     Get.find<iniControllerWithReactive>()
-                                    //         .MOSChannel
-                                    //         .value = v.toString();
-                                    //     Get.find<SettingController>()
-                                    //         .mosChannel
-                                    //         .value = Get.find<
-                                    //             iniControllerWithReactive>()
-                                    //         .MOSChannel
-                                    //         .value;
-                                    //     var mosChanneltoInt = int.parse(
-                                    //         Get.find<SettingController>()
-                                    //             .mosChannel
-                                    //             .value);
-                                    //     assert(mosChanneltoInt is int);
-                                    //     mpmSetChannel(mosChanneltoInt);
-                                    //     print(
-                                    //         'mosChannel has been changed to $v');
-                                    //   },
-                                    // ),
-                                    SizedBox(
-                                      height: 50,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            'series color 1',
-                                            style: TextStyle(fontSize: 10),
+                                    Row(children: [
+                                      Container(
+                                        width: 100,
+                                        child: TextFormField(
+                                          initialValue:
+                                              (Get.find<iniController>()
+                                                          .integrationTime
+                                                          .value ~/
+                                                      1000)
+                                                  .toString(),
+                                          decoration: InputDecoration(
+                                            labelText: 'Integration Time',
+                                            hintText: 'milliseconds',
                                           ),
-                                          Divider(
-                                            indent: 400,
-                                            endIndent: 400,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Container(
-                                      height: 65,
-                                      child: Center(
-                                        child: MaterialColorPicker(
-                                          circleSize: 100,
-                                          onColorChange: (Color color) {
-                                            print('series color 1 hexcode=>' +
-                                                '${color}');
+                                          onSaved: (v) {
                                             Get.find<iniController>()
-                                                .Series_Color_001
-                                                .value = color;
-                                            // setState(() {
-                                            //   pickedColor1 = color;
-                                            // });
-
-                                            // Get.find<DialogStorageCtrl>()
-                                            //     .Series_Color_001
-                                            //     .value = color.toString();
+                                                    .integrationTime
+                                                    .value =
+                                                int.parse(v.toString()) * 1000;
                                           },
-                                          selectedColor: Colors.red,
-                                          colors: [
-                                            Colors.red,
-                                            Colors.deepOrange,
-                                            Colors.yellow,
-                                            Colors.lightGreen
-                                          ],
                                         ),
                                       ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            'series color 2',
-                                            style: TextStyle(fontSize: 10),
+                                      SizedBox(width: 20),
+                                      Container(
+                                        width: 120,
+                                        child: TextFormField(
+                                          initialValue:
+                                              Get.find<iniController>()
+                                                  .waitSwitchingTime
+                                                  .value
+                                                  .toString(),
+                                          decoration: InputDecoration(
+                                            labelText: 'Wait Switching Time',
+                                            hintText: 'milliseconds',
                                           ),
-                                          Divider(
-                                            indent: 400,
-                                            endIndent: 400,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Container(
-                                      height: 65,
-                                      child: Center(
-                                        child: MaterialColorPicker(
-                                          circleSize: 100,
-                                          // circleSize: 100,
-                                          onColorChange: (Color color) {
-                                            // Handle color changes
-                                            print('series color 2 hexcode=>' +
-                                                '$color');
+                                          onSaved: (v) {
                                             Get.find<iniController>()
-                                                .Series_Color_002
-                                                .value = color;
+                                                    .waitSwitchingTime
+                                                    .value =
+                                                int.parse(v.toString());
                                           },
-                                          selectedColor: Colors.red,
-                                          colors: [
-                                            Colors.red,
-                                            Colors.deepOrange,
-                                            Colors.yellow,
-                                            Colors.lightGreen
-                                          ],
                                         ),
                                       ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            'series color 3',
-                                            style: TextStyle(fontSize: 10),
+                                    ]),
+                                    Divider(height: 30, thickness: 2),
+                                    Text('VIZ Setting',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold)),
+                                    Row(children: [
+                                      Container(
+                                        width: 80,
+                                        child: TextFormField(
+                                          initialValue: '2300',
+                                          decoration: InputDecoration(
+                                            labelText: 'Auto Save',
+                                            hintText: 'Value',
                                           ),
-                                          Divider(
-                                            indent: 400,
-                                            endIndent: 400,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Container(
-                                      height: 65,
-                                      child: Center(
-                                        child: MaterialColorPicker(
-                                          circleSize: 100,
-                                          onColorChange: (Color color) {
-                                            // Handle color changes
-                                            print('series color 3 hexcode=>' +
-                                                '$color');
+                                          onSaved: (v) {
                                             Get.find<iniController>()
-                                                .Series_Color_003
-                                                .value = color;
+                                                    .oesAutoSave
+                                                    .value =
+                                                double.parse(v.toString());
                                           },
-                                          selectedColor: Colors.red,
-                                          colors: [
-                                            Colors.red,
-                                            Colors.deepOrange,
-                                            Colors.yellow,
-                                            Colors.lightGreen
-                                          ],
                                         ),
                                       ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            'series color 4',
-                                            style: TextStyle(fontSize: 10),
+                                      SizedBox(width: 20),
+                                      Container(
+                                        width: 80,
+                                        child: TextFormField(
+                                          initialValue: '100',
+                                          decoration: InputDecoration(
+                                            labelText: 'Viz Interval',
+                                            hintText: 'milliseconds',
                                           ),
-                                          Divider(
-                                            indent: 400,
-                                            endIndent: 400,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Container(
-                                      height: 65,
-                                      child: Center(
-                                        child: MaterialColorPicker(
-                                          circleSize: 100,
-                                          onColorChange: (Color color) {
-                                            // Handle color changes
-                                            print('series color 4 hexcode=>' +
-                                                '$color');
+                                          onSaved: (v) {
                                             Get.find<iniController>()
-                                                .Series_Color_004
-                                                .value = color;
+                                                .viz_Interval
+                                                .value = v.toString();
                                           },
-                                          selectedColor: Colors.red,
-                                          colors: [
-                                            Colors.red,
-                                            Colors.deepOrange,
-                                            Colors.yellow,
-                                            Colors.lightGreen
-                                          ],
                                         ),
                                       ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            'series color 5',
-                                            style: TextStyle(fontSize: 10),
-                                          ),
-                                          Divider(
-                                            indent: 400,
-                                            endIndent: 400,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Container(
-                                      height: 65,
-                                      child: Center(
-                                        child: MaterialColorPicker(
-                                          circleSize: 100,
-                                          onColorChange: (Color color) {
-                                            // Handle color changes
-                                            print('series color 5 hexcode=>' +
-                                                '$color');
-                                            Get.find<iniController>()
-                                                .Series_Color_005
-                                                .value = color;
-                                          },
-                                          selectedColor: Colors.red,
-                                          colors: [
-                                            Colors.red,
-                                            Colors.deepOrange,
-                                            Colors.yellow,
-                                            Colors.lightGreen
+                                    ]),
+                                    Divider(height: 30, thickness: 2),
+                                    Text('Color Setting',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold)),
+                                    SizedBox(height: 20),
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Column(
+                                          children: [
+                                            ColorSet(
+                                                text: 'OES 1',
+                                                onColorChanage: (Color color) {
+                                                  Get.find<iniController>()
+                                                      .Series_Color_001
+                                                      .value = color;
+                                                }),
+                                            ColorSet(
+                                                text: 'OES 2',
+                                                onColorChanage: (Color color) {
+                                                  Get.find<iniController>()
+                                                      .Series_Color_002
+                                                      .value = color;
+                                                }),
+                                            ColorSet(
+                                                text: 'OES 3',
+                                                onColorChanage: (Color color) {
+                                                  Get.find<iniController>()
+                                                      .Series_Color_003
+                                                      .value = color;
+                                                }),
+                                            ColorSet(
+                                                text: 'OES 4',
+                                                onColorChanage: (Color color) {
+                                                  Get.find<iniController>()
+                                                      .Series_Color_004
+                                                      .value = color;
+                                                }),
+                                            ColorSet(
+                                                text: 'OES 5',
+                                                onColorChanage: (Color color) {
+                                                  Get.find<iniController>()
+                                                      .Series_Color_005
+                                                      .value = color;
+                                                }),
+                                            ColorSet(
+                                                text: 'OES 6',
+                                                onColorChanage: (Color color) {
+                                                  Get.find<iniController>()
+                                                      .Series_Color_006
+                                                      .value = color;
+                                                }),
+                                            ColorSet(
+                                                text: 'OES 7',
+                                                onColorChanage: (Color color) {
+                                                  Get.find<iniController>()
+                                                      .Series_Color_007
+                                                      .value = color;
+                                                }),
+                                            ColorSet(
+                                                text: 'OES 8',
+                                                onColorChanage: (Color color) {
+                                                  Get.find<iniController>()
+                                                      .Series_Color_008
+                                                      .value = color;
+                                                }),
                                           ],
                                         ),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            'series color 6',
-                                            style: TextStyle(fontSize: 10),
-                                          ),
-                                          Divider(
-                                            indent: 400,
-                                            endIndent: 400,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Container(
-                                      height: 65,
-                                      child: Center(
-                                        child: MaterialColorPicker(
-                                          circleSize: 100,
-                                          onColorChange: (Color color) {
-                                            // Handle color changes
-                                            print('series color 6 hexcode=>' +
-                                                '$color');
-                                            Get.find<iniController>()
-                                                .Series_Color_006
-                                                .value = color;
-                                          },
-                                          selectedColor: Colors.red,
-                                          colors: [
-                                            Colors.red,
-                                            Colors.deepOrange,
-                                            Colors.yellow,
-                                            Colors.lightGreen
+                                        Column(
+                                          children: [
+                                            ColorSet(
+                                                text: 'Frequency',
+                                                onColorChanage: (Color color) {
+                                                  Get.find<iniController>()
+                                                      .vizColor[0] = color;
+                                                }),
+                                            ColorSet(
+                                                text: 'P dlv',
+                                                onColorChanage: (Color color) {
+                                                  Get.find<iniController>()
+                                                      .vizColor[1] = color;
+                                                }),
+                                            ColorSet(
+                                                text: 'Phase',
+                                                onColorChanage: (Color color) {
+                                                  Get.find<iniController>()
+                                                      .vizColor[2] = color;
+                                                }),
+                                            ColorSet(
+                                                text: 'V',
+                                                onColorChanage: (Color color) {
+                                                  Get.find<iniController>()
+                                                      .vizColor[3] = color;
+                                                }),
+                                            ColorSet(
+                                                text: 'I',
+                                                onColorChanage: (Color color) {
+                                                  Get.find<iniController>()
+                                                      .vizColor[4] = color;
+                                                }),
+                                            ColorSet(
+                                                text: 'R',
+                                                onColorChanage: (Color color) {
+                                                  Get.find<iniController>()
+                                                      .vizColor[5] = color;
+                                                }),
+                                            ColorSet(
+                                                text: 'X',
+                                                onColorChanage: (Color color) {
+                                                  Get.find<iniController>()
+                                                      .vizColor[6] = color;
+                                                }),
                                           ],
-                                        ),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            'series color 7',
-                                            style: TextStyle(fontSize: 10),
-                                          ),
-                                          Divider(
-                                            indent: 400,
-                                            endIndent: 400,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Container(
-                                      height: 65,
-                                      child: Center(
-                                        child: MaterialColorPicker(
-                                          circleSize: 100,
-                                          onColorChange: (Color color) {
-                                            // Handle color changes
-                                            print('series color 7 hexcode=>' +
-                                                '$color');
-                                            Get.find<iniController>()
-                                                .Series_Color_007
-                                                .value = color;
-                                          },
-                                          selectedColor: Colors.red,
-                                          colors: [
-                                            Colors.red,
-                                            Colors.deepOrange,
-                                            Colors.yellow,
-                                            Colors.lightGreen
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            'series color 8',
-                                            style: TextStyle(fontSize: 10),
-                                          ),
-                                          Divider(
-                                            indent: 400,
-                                            endIndent: 400,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Container(
-                                      height: 65,
-                                      child: Center(
-                                        child: MaterialColorPicker(
-                                          circleSize: 100,
-                                          onColorChange: (Color color) {
-                                            // Handle color changes
-                                            print('series color 8 hexcode=>' +
-                                                '$color');
-                                            Get.find<iniController>()
-                                                .Series_Color_008
-                                                .value = color;
-                                          },
-                                          selectedColor: Colors.red,
-                                          colors: [
-                                            Colors.red,
-                                            Colors.deepOrange,
-                                            Colors.yellow,
-                                            Colors.lightGreen
-                                          ],
-                                        ),
-                                      ),
+                                        )
+                                      ],
                                     ),
                                   ],
                                 ),
@@ -675,13 +369,6 @@ Future<void> _showDialog(context) async {
                           Navigator.pop(context);
                         },
                       ),
-                      // ElevatedButton(
-                      //   child: Text("close"),
-                      //   onPressed: () {},
-                      //   style: ElevatedButton.styleFrom(
-                      //     primary: wrColors.wrPrimary,
-                      //   ),
-                      // ),
                     ],
                   ),
                 ),
@@ -712,7 +399,9 @@ Future<String?> runningSet(BuildContext context) {
             // Get.find<CsvController>().inactiveBtn.value = false;
             Get.find<OesController>().timer?.cancel();
             Get.find<LogListController>().clickedStop();
-            Get.find<CsvController>().fileSave.value = false;
+            Get.find<CsvController>().csvSaveInit.value = false;
+            Get.find<CsvController>().csvSaveData.value = false;
+            // Get.find<CsvController>().fileSave.value = false;
             Get.find<runErrorStatusController>().connect.value = false;
             Get.find<runErrorStatusController>().textmsg.value = 'STOP';
             Get.offAll(Home(), transition: Transition.noTransition);

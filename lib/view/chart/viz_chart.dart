@@ -23,148 +23,148 @@ class VizChart extends GetView<VizCtrl> {
                 lineBarsData: [
                   if (VizCtrl.to.vizSeriesList[0] &&
                       VizCtrl.to.vizCheck1.value == true)
-                    lineChartBarData(VizCtrl.to.vizVal1[0],
-                        Get.find<iniController>().Series_Color_001.value),
+                    lineChartBarData(VizCtrl.to.vizPoints[0][0],
+                        Get.find<iniController>().vizColor[0]),
                   if (VizCtrl.to.vizSeriesList[1] &&
                       VizCtrl.to.vizCheck1.value == true)
-                    lineChartBarData(VizCtrl.to.vizVal1[1],
-                        Get.find<iniController>().Series_Color_002.value),
+                    lineChartBarData(VizCtrl.to.vizPoints[0][1],
+                        Get.find<iniController>().vizColor[1]),
                   if (VizCtrl.to.vizSeriesList[2] &&
                       VizCtrl.to.vizCheck1.value == true)
-                    lineChartBarData(VizCtrl.to.vizVal1[2],
-                        Get.find<iniController>().Series_Color_007.value),
+                    lineChartBarData(VizCtrl.to.vizPoints[0][2],
+                        Get.find<iniController>().vizColor[2]),
                   if (VizCtrl.to.vizSeriesList[3] &&
                       VizCtrl.to.vizCheck1.value == true)
-                    lineChartBarData(VizCtrl.to.vizVal1[3],
-                        Get.find<iniController>().Series_Color_004.value),
+                    lineChartBarData(VizCtrl.to.vizPoints[0][3],
+                        Get.find<iniController>().vizColor[3]),
                   if (VizCtrl.to.vizSeriesList[4] &&
                       VizCtrl.to.vizCheck1.value == true)
-                    lineChartBarData(VizCtrl.to.vizVal1[4],
-                        Get.find<iniController>().Series_Color_005.value),
+                    lineChartBarData(VizCtrl.to.vizPoints[0][4],
+                        Get.find<iniController>().vizColor[4]),
                   if (VizCtrl.to.vizSeriesList[5] &&
                       VizCtrl.to.vizCheck1.value == true)
-                    lineChartBarData(VizCtrl.to.vizVal1[5],
-                        Get.find<iniController>().Series_Color_006.value),
+                    lineChartBarData(VizCtrl.to.vizPoints[0][5],
+                        Get.find<iniController>().vizColor[5]),
                   if (VizCtrl.to.vizSeriesList[6] &&
                       VizCtrl.to.vizCheck1.value == true)
-                    lineChartBarData(VizCtrl.to.vizVal1[6],
-                        Get.find<iniController>().Series_Color_008.value),
-                  //2
+                    lineChartBarData(VizCtrl.to.vizPoints[0][6],
+                        Get.find<iniController>().vizColor[6]),
+                  //
                   if (VizCtrl.to.vizSeriesList[0] &&
                       VizCtrl.to.vizCheck2.value == true)
-                    lineChartBarData(VizCtrl.to.vizVal2[0],
-                        Get.find<iniController>().Series_Color_001.value),
+                    lineChartBarData(VizCtrl.to.vizPoints[1][0],
+                        Get.find<iniController>().vizColor[0]),
                   if (VizCtrl.to.vizSeriesList[1] &&
                       VizCtrl.to.vizCheck2.value == true)
-                    lineChartBarData(VizCtrl.to.vizVal2[1],
-                        Get.find<iniController>().Series_Color_002.value),
+                    lineChartBarData(VizCtrl.to.vizPoints[1][1],
+                        Get.find<iniController>().vizColor[1]),
                   if (VizCtrl.to.vizSeriesList[2] &&
                       VizCtrl.to.vizCheck2.value == true)
-                    lineChartBarData(VizCtrl.to.vizVal2[2],
-                        Get.find<iniController>().Series_Color_007.value),
+                    lineChartBarData(VizCtrl.to.vizPoints[1][2],
+                        Get.find<iniController>().vizColor[2]),
                   if (VizCtrl.to.vizSeriesList[3] &&
                       VizCtrl.to.vizCheck2.value == true)
-                    lineChartBarData(VizCtrl.to.vizVal2[3],
-                        Get.find<iniController>().Series_Color_004.value),
+                    lineChartBarData(VizCtrl.to.vizPoints[1][3],
+                        Get.find<iniController>().vizColor[3]),
                   if (VizCtrl.to.vizSeriesList[4] &&
                       VizCtrl.to.vizCheck2.value == true)
-                    lineChartBarData(VizCtrl.to.vizVal2[4],
-                        Get.find<iniController>().Series_Color_005.value),
+                    lineChartBarData(VizCtrl.to.vizPoints[1][4],
+                        Get.find<iniController>().vizColor[4]),
                   if (VizCtrl.to.vizSeriesList[5] &&
                       VizCtrl.to.vizCheck2.value == true)
-                    lineChartBarData(VizCtrl.to.vizVal2[5],
-                        Get.find<iniController>().Series_Color_006.value),
+                    lineChartBarData(VizCtrl.to.vizPoints[1][5],
+                        Get.find<iniController>().vizColor[5]),
                   if (VizCtrl.to.vizSeriesList[6] &&
                       VizCtrl.to.vizCheck2.value == true)
-                    lineChartBarData(VizCtrl.to.vizVal2[6],
-                        Get.find<iniController>().Series_Color_008.value),
-                  //3
+                    lineChartBarData(VizCtrl.to.vizPoints[1][6],
+                        Get.find<iniController>().vizColor[6]),
+                  //
                   if (VizCtrl.to.vizSeriesList[0] &&
                       VizCtrl.to.vizCheck3.value == true)
-                    lineChartBarData(VizCtrl.to.vizVal3[0],
-                        Get.find<iniController>().Series_Color_001.value),
+                    lineChartBarData(VizCtrl.to.vizPoints[2][0],
+                        Get.find<iniController>().vizColor[0]),
                   if (VizCtrl.to.vizSeriesList[1] &&
                       VizCtrl.to.vizCheck3.value == true)
-                    lineChartBarData(VizCtrl.to.vizVal3[1],
-                        Get.find<iniController>().Series_Color_002.value),
+                    lineChartBarData(VizCtrl.to.vizPoints[2][1],
+                        Get.find<iniController>().vizColor[1]),
                   if (VizCtrl.to.vizSeriesList[2] &&
                       VizCtrl.to.vizCheck3.value == true)
-                    lineChartBarData(VizCtrl.to.vizVal3[2],
-                        Get.find<iniController>().Series_Color_007.value),
+                    lineChartBarData(VizCtrl.to.vizPoints[2][2],
+                        Get.find<iniController>().vizColor[2]),
                   if (VizCtrl.to.vizSeriesList[3] &&
                       VizCtrl.to.vizCheck3.value == true)
-                    lineChartBarData(VizCtrl.to.vizVal3[3],
-                        Get.find<iniController>().Series_Color_004.value),
+                    lineChartBarData(VizCtrl.to.vizPoints[2][3],
+                        Get.find<iniController>().vizColor[3]),
                   if (VizCtrl.to.vizSeriesList[4] &&
                       VizCtrl.to.vizCheck3.value == true)
-                    lineChartBarData(VizCtrl.to.vizVal3[4],
-                        Get.find<iniController>().Series_Color_005.value),
+                    lineChartBarData(VizCtrl.to.vizPoints[2][4],
+                        Get.find<iniController>().vizColor[4]),
                   if (VizCtrl.to.vizSeriesList[5] &&
                       VizCtrl.to.vizCheck3.value == true)
-                    lineChartBarData(VizCtrl.to.vizVal3[5],
-                        Get.find<iniController>().Series_Color_006.value),
+                    lineChartBarData(VizCtrl.to.vizPoints[2][5],
+                        Get.find<iniController>().vizColor[5]),
                   if (VizCtrl.to.vizSeriesList[6] &&
                       VizCtrl.to.vizCheck3.value == true)
-                    lineChartBarData(VizCtrl.to.vizVal3[6],
-                        Get.find<iniController>().Series_Color_008.value),
-                  //4
+                    lineChartBarData(VizCtrl.to.vizPoints[2][6],
+                        Get.find<iniController>().vizColor[6]),
+                  //
                   if (VizCtrl.to.vizSeriesList[0] &&
                       VizCtrl.to.vizCheck4.value == true)
-                    lineChartBarData(VizCtrl.to.vizVal4[0],
-                        Get.find<iniController>().Series_Color_001.value),
+                    lineChartBarData(VizCtrl.to.vizPoints[3][0],
+                        Get.find<iniController>().vizColor[0]),
                   if (VizCtrl.to.vizSeriesList[1] &&
                       VizCtrl.to.vizCheck4.value == true)
-                    lineChartBarData(VizCtrl.to.vizVal4[1],
-                        Get.find<iniController>().Series_Color_002.value),
+                    lineChartBarData(VizCtrl.to.vizPoints[3][1],
+                        Get.find<iniController>().vizColor[1]),
                   if (VizCtrl.to.vizSeriesList[2] &&
                       VizCtrl.to.vizCheck4.value == true)
-                    lineChartBarData(VizCtrl.to.vizVal4[2],
-                        Get.find<iniController>().Series_Color_007.value),
+                    lineChartBarData(VizCtrl.to.vizPoints[3][2],
+                        Get.find<iniController>().vizColor[2]),
                   if (VizCtrl.to.vizSeriesList[3] &&
                       VizCtrl.to.vizCheck4.value == true)
-                    lineChartBarData(VizCtrl.to.vizVal4[3],
-                        Get.find<iniController>().Series_Color_004.value),
+                    lineChartBarData(VizCtrl.to.vizPoints[3][3],
+                        Get.find<iniController>().vizColor[3]),
                   if (VizCtrl.to.vizSeriesList[4] &&
                       VizCtrl.to.vizCheck4.value == true)
-                    lineChartBarData(VizCtrl.to.vizVal4[4],
-                        Get.find<iniController>().Series_Color_005.value),
+                    lineChartBarData(VizCtrl.to.vizPoints[3][4],
+                        Get.find<iniController>().vizColor[4]),
                   if (VizCtrl.to.vizSeriesList[5] &&
                       VizCtrl.to.vizCheck4.value == true)
-                    lineChartBarData(VizCtrl.to.vizVal4[5],
-                        Get.find<iniController>().Series_Color_006.value),
+                    lineChartBarData(VizCtrl.to.vizPoints[3][5],
+                        Get.find<iniController>().vizColor[5]),
                   if (VizCtrl.to.vizSeriesList[6] &&
                       VizCtrl.to.vizCheck4.value == true)
-                    lineChartBarData(VizCtrl.to.vizVal4[6],
-                        Get.find<iniController>().Series_Color_008.value),
-                  //5
+                    lineChartBarData(VizCtrl.to.vizPoints[3][6],
+                        Get.find<iniController>().vizColor[6]),
+                  //
                   if (VizCtrl.to.vizSeriesList[0] &&
                       VizCtrl.to.vizCheck5.value == true)
-                    lineChartBarData(VizCtrl.to.vizVal5[0],
-                        Get.find<iniController>().Series_Color_001.value),
+                    lineChartBarData(VizCtrl.to.vizPoints[4][0],
+                        Get.find<iniController>().vizColor[0]),
                   if (VizCtrl.to.vizSeriesList[1] &&
                       VizCtrl.to.vizCheck5.value == true)
-                    lineChartBarData(VizCtrl.to.vizVal5[1],
-                        Get.find<iniController>().Series_Color_002.value),
+                    lineChartBarData(VizCtrl.to.vizPoints[4][1],
+                        Get.find<iniController>().vizColor[1]),
                   if (VizCtrl.to.vizSeriesList[2] &&
                       VizCtrl.to.vizCheck5.value == true)
-                    lineChartBarData(VizCtrl.to.vizVal5[2],
-                        Get.find<iniController>().Series_Color_007.value),
+                    lineChartBarData(VizCtrl.to.vizPoints[4][2],
+                        Get.find<iniController>().vizColor[2]),
                   if (VizCtrl.to.vizSeriesList[3] &&
                       VizCtrl.to.vizCheck5.value == true)
-                    lineChartBarData(VizCtrl.to.vizVal5[3],
-                        Get.find<iniController>().Series_Color_004.value),
+                    lineChartBarData(VizCtrl.to.vizPoints[4][3],
+                        Get.find<iniController>().vizColor[3]),
                   if (VizCtrl.to.vizSeriesList[4] &&
                       VizCtrl.to.vizCheck5.value == true)
-                    lineChartBarData(VizCtrl.to.vizVal5[4],
-                        Get.find<iniController>().Series_Color_005.value),
+                    lineChartBarData(VizCtrl.to.vizPoints[4][4],
+                        Get.find<iniController>().vizColor[4]),
                   if (VizCtrl.to.vizSeriesList[5] &&
                       VizCtrl.to.vizCheck5.value == true)
-                    lineChartBarData(VizCtrl.to.vizVal5[5],
-                        Get.find<iniController>().Series_Color_006.value),
+                    lineChartBarData(VizCtrl.to.vizPoints[4][5],
+                        Get.find<iniController>().vizColor[5]),
                   if (VizCtrl.to.vizSeriesList[6] &&
                       VizCtrl.to.vizCheck5.value == true)
-                    lineChartBarData(VizCtrl.to.vizVal5[6],
-                        Get.find<iniController>().Series_Color_008.value),
+                    lineChartBarData(VizCtrl.to.vizPoints[4][6],
+                        Get.find<iniController>().vizColor[6]),
                 ],
                 bottomTitles: SideTitles(
                   interval: 100,
@@ -174,7 +174,7 @@ class VizChart extends GetView<VizCtrl> {
                   },
                 ),
                 leftTitles: SideTitles(
-                  showTitles: true, reservedSize: 30, margin: 10,
+                  showTitles: true, reservedSize: 40, margin: 10,
 
                   // getTitles: (value) {
                   //   String yVal = '';
@@ -200,9 +200,44 @@ class VizChart extends GetView<VizCtrl> {
           // maxY: 1000,
           lineTouchData: LineTouchData(
               touchTooltipData: LineTouchTooltipData(
-            fitInsideHorizontally: true,
-            fitInsideVertically: true,
-          )),
+                  fitInsideHorizontally: true,
+                  fitInsideVertically: true,
+                  getTooltipItems: (List<LineBarSpot> touchedBarSpots) {
+                    List<LineTooltipItem?> aa = [];
+                    for (var i = 0; i < touchedBarSpots.length; i++) {
+                      final textstyle = TextStyle(
+                        color: touchedBarSpots[i].bar.colors[0],
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                      );
+                      String str = '';
+                      String y;
+                      if (touchedBarSpots[i].barIndex == 0)
+                        y = ('Freq : ${(touchedBarSpots[i].y * 100000).toStringAsFixed(2)}');
+                      else if (touchedBarSpots[i].barIndex == 1)
+                        y = ('P dlv : ${(touchedBarSpots[i].y / 2).toStringAsFixed(2)}');
+                      else if (touchedBarSpots[i].barIndex == 2)
+                        y = ('Vrms : ${(touchedBarSpots[i].y / 10).toStringAsFixed(2)}');
+                      else if (touchedBarSpots[i].barIndex == 3)
+                        y = ('Irms : ${(touchedBarSpots[i].y / 10).toStringAsFixed(2)}');
+                      else if (touchedBarSpots[i].barIndex == 4)
+                        y = ('R : ${(touchedBarSpots[i].y / 10).toStringAsFixed(2)}');
+                      else if (touchedBarSpots[i].barIndex == 5)
+                        y = ('X : ${(touchedBarSpots[i].y / 10).toStringAsFixed(2)}');
+                      else
+                        y = ('Phase : ${(touchedBarSpots[i].y * 360 / 1000).toStringAsFixed(2)}');
+                      str = y;
+
+                      // if (i == 0)
+                      //   str =
+                      //       '${touchedBarSpots[i].x.toStringAsFixed(1)}s \n $y';
+                      // else
+                      //   str = y;
+
+                      aa.add(LineTooltipItem(str, textstyle));
+                    }
+                    return aa;
+                  })),
           clipData: FlClipData.all(),
           titlesData: FlTitlesData(
               show: true,

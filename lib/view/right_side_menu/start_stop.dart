@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:wr_ui/controller/button.dart';
 import 'package:wr_ui/main.dart';
 import 'package:wr_ui/view/appbar/leading/run_error_status_mark.dart';
 import 'package:wr_ui/view/chart/oes_chart.dart';
@@ -25,159 +26,114 @@ class StartStop extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         SizedBox(height: 30),
-        // Obx(() => Row(
-        //       children: [
-        //         SizedBox(width: 23),
-        //         Checkbox(
-        //             value: VizCtrl.to.sim.value,
-        //             onChanged: (e) {
-        //               VizCtrl.to.sim.value = e!;
-        //             }),
-        Obx(
-          () => IgnorePointer(
+        Obx(() => IgnorePointer(
             ignoring: Get.find<OesController>().inactiveBtn.value,
-            child: ElevatedButton(
-              child: Container(
-                width: 200,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Text('Start'),
-                    Icon(
-                      Icons.play_arrow,
-                      size: 16,
-                    )
-                  ],
-                ),
-              ),
-              style: ElevatedButton.styleFrom(
+            child: RightButton(
+                text: 'Start',
+                icon: Icons.play_arrow,
                 primary: Get.find<OesController>().inactiveBtn.value
                     ? Colors.grey
-                    : Colors.greenAccent[700],
-                textStyle: TextStyle(fontSize: 16),
-              ),
-              onPressed: () async {
-                DataStartBtn();
-              },
-            ),
-          ),
-        ),
-        //   ],
-        // )),
+                    : Colors.green,
+                onPressed: () {
+                  DataStartBtn();
+                  VizCtrl.to.startSerial();
+                }))),
         SizedBox(height: 30),
         Obx(
           () => IgnorePointer(
-            ignoring: !Get.find<OesController>().inactiveBtn.value,
-            child: ElevatedButton(
-                child: Container(
-                  width: 200,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Text('Stop'),
-                      Icon(
-                        Icons.pause,
-                        size: 16,
-                      )
-                    ],
-                  ),
-                ),
-                style: ElevatedButton.styleFrom(
-                    primary: Get.find<OesController>().inactiveBtn.value
-                        ? Colors.red
-                        : Colors.grey,
-                    textStyle: TextStyle(fontSize: 16)),
-                onPressed: () {
-                  Get.find<OesController>().timer?.cancel();
-                  VizCtrl.to.vizChartTimer?.cancel();
-                  Get.find<runErrorStatusController>().statusColor.value =
-                      Colors.red;
-                  Get.find<OesController>().inactiveBtn.value = false;
-                  Get.find<CsvController>().fileSave.value == false;
-                  // Get.find<CsvController>().inactiveBtn.value = false;
-                  if (Get.find<iniController>().sim.value == 1) {
-                    mpmSetChannel(0);
-                  }
-                  Get.find<LogListController>().clickedStop();
-                  Get.find<CsvController>().fileSave.value = false;
-                  Get.find<runErrorStatusController>().connect.value = false;
-                  Get.find<runErrorStatusController>().textmsg.value =
-                      'S T O P';
-                  // Get.find<iniControllerWithReactive>()
-                  //     .measureStartAtProgStart
-                  //     .value = '';
-                  // Get.find<iniControllerWithReactive>().writeIni();
-                }),
-          ),
+              ignoring: !Get.find<OesController>().inactiveBtn.value,
+              child: RightButton(
+                  text: 'Stop',
+                  primary: Get.find<OesController>().inactiveBtn.value
+                      ? Colors.red
+                      : Colors.grey,
+                  icon: Icons.pause,
+                  onPressed: () {
+                    Get.find<OesController>().timer?.cancel();
+                    VizCtrl.to.timer.cancel();
+                    Get.find<runErrorStatusController>().statusColor.value =
+                        Colors.red;
+                    Get.find<OesController>().inactiveBtn.value = false;
+                    Get.find<CsvController>().csvSaveInit.value = false;
+                    Get.find<CsvController>().csvSaveData.value = false;
+                    if (Get.find<iniController>().sim.value == 0) {
+                      mpmSetChannel(0);
+                    }
+                    Get.find<LogListController>().clickedStop();
+                    Get.find<runErrorStatusController>().connect.value = false;
+                    Get.find<runErrorStatusController>().textmsg.value =
+                        'S T O P';
+                  })),
         ),
-        Row(
-          children: [
-            ElevatedButton(
-              child: Text('open'),
-              onPressed: () {
-                VizCtrl.to.startSerial();
-                // VizCtrl.to.readSerial;
-              },
-            ),
-            ElevatedButton(
-              child: Text('close'),
-              onPressed: () {
-                VizCtrl.to.vizChannel[0].port.close();
-                print('열렸나? ${VizCtrl.to.vizChannel[0].port.isOpen}');
-              },
-            ),
-            ElevatedButton(
-              child: Text('시작'),
-              onPressed: () async {
-                await VizCtrl.to.sendStart(); //측정 시작
-                VizCtrl.to.buffer.clear();
-                VizCtrl.to.timer = Timer.periodic(
-                  Duration(milliseconds: 100),
-                  VizCtrl.to.readSerial,
-                );
-                VizCtrl.to.vizChartTimer = Timer.periodic(
-                    Duration(milliseconds: 100), VizCtrl.to.vizUpdate);
-                // VizCtrl.to.readSerial();
-              },
-            ),
-            ElevatedButton(
-              child: Text('멈춤'),
-              onPressed: () async {
-                VizCtrl.to.timer?.cancel();
-                VizCtrl.to.vizChartTimer?.cancel();
-              },
-            )
-          ],
-        ),
-        Row(
-          children: [
-            ElevatedButton(
-              child: Text('증가'),
-              onPressed: () {
-                // Get.find<OesController>().fmtSpec[300] + 200;
-                // Get.find<OesController>().addYvalue.value = 500;
-                // VizCtrl.to.vizChartTimer = Timer.periodic(
-                //     Duration(milliseconds: 100), VizCtrl.to.vizSimUpdate);
-                // VizCtrl.to.vizChartTimer = Timer.periodic(
-                //     Duration(milliseconds: 100), VizCtrl.to.vizUpdate);
-              },
-            ),
-            ElevatedButton(
-              child: Text('감소'),
-              onPressed: () {
-                Get.find<OesController>().addYvalue.value = 0;
-                // VizCtrl.to.vizChartTimer.cancel();
-              },
-            ),
-            ElevatedButton(
-              child: Text('줌리셋'),
-              onPressed: () {
-                Get.find<OesController>().minX.value = 0;
-                Get.find<OesController>().maxX.value = 2048;
-              },
-            )
-          ],
-        )
+        //   Row(
+        //     children: [
+        //       ElevatedButton(
+        //         child: Text('open'),
+        //         onPressed: () {
+        //           VizCtrl.to.startSerial();
+        //           // VizCtrl.to.readSerial;
+        //         },
+        //       ),
+        //       ElevatedButton(
+        //         child: Text('close'),
+        //         onPressed: () {
+        //           VizCtrl.to.vizChannel[0].port.close();
+        //           print('열렸나? ${VizCtrl.to.vizChannel[0].port.isOpen}');
+        //         },
+        //       ),
+        //       ElevatedButton(
+        //         child: Text('시작'),
+        //         onPressed: () async {
+        //           await VizCtrl.to.sendStart(); //측정 시작
+        //           VizCtrl.to.buffer.clear();
+        //           VizCtrl.to.timer = Timer.periodic(
+        //             Duration(
+        //                 milliseconds: int.parse(
+        //                     Get.find<iniController>().viz_Interval.value)),
+        //             VizCtrl.to.readSerial,
+        //           );
+        //           // VizCtrl.to.vizChartTimer = Timer.periodic(
+        //           //     Duration(milliseconds: 100), VizCtrl.to.vizUpdate);
+        //         },
+        //       ),
+        //       ElevatedButton(
+        //         child: Text('멈춤'),
+        //         onPressed: () async {
+        //           VizCtrl.to.timer?.cancel();
+        //           VizCtrl.to.vizChartTimer?.cancel();
+        //         },
+        //       )
+        //     ],
+        //   ),
+        //   Row(
+        //     children: [
+        //       ElevatedButton(
+        //         child: Text('증가'),
+        //         onPressed: () {
+        //           // Get.find<OesController>().fmtSpec[300] + 200;
+        //           // Get.find<OesController>().addYvalue.value = 500;
+        //           // VizCtrl.to.vizChartTimer = Timer.periodic(
+        //           //     Duration(milliseconds: 100), VizCtrl.to.vizSimUpdate);
+        //           // VizCtrl.to.vizChartTimer = Timer.periodic(
+        //           //     Duration(milliseconds: 100), VizCtrl.to.vizUpdate);
+        //         },
+        //       ),
+        //       ElevatedButton(
+        //         child: Text('감소'),
+        //         onPressed: () {
+        //           Get.find<OesController>().addYvalue.value = 0;
+        //           // VizCtrl.to.vizChartTimer.cancel();
+        //         },
+        //       ),
+        //       ElevatedButton(
+        //         child: Text('줌리셋'),
+        //         onPressed: () {
+        //           Get.find<OesController>().minX.value = 0;
+        //           Get.find<OesController>().maxX.value = 2048;
+        //         },
+        //       ),
+        //     ],
+        //   )
       ],
     );
   }
@@ -187,11 +143,14 @@ DataStartBtn() {
   DateTime current = DateTime.now();
   Get.find<CsvController>().saveFileName.value =
       DateFormat('yyyyMMdd-HHmmss').format(current);
+  String ms = DateTime.now().millisecondsSinceEpoch.toString();
+  int msLength = ms.length;
+  int third = int.parse(ms.substring(msLength - 3, msLength));
+  Get.find<CsvController>().startTime.value =
+      '${DateFormat('HH:mm:ss').format(current)}.$third';
   Get.find<runErrorStatusController>().connect.value = true;
   Get.find<LogListController>().clickedStart();
   Get.find<OesController>().inactiveBtn.value = true;
-  // if (Get.find<iniController>().sim.value == 1) {
-
   try {
     int time1 = Get.find<iniController>().channelMovingTime.value.toInt();
     double doubletime2 = Get.find<iniController>().integrationTime.value / 1000;
@@ -209,9 +168,9 @@ DataStartBtn() {
     print('time2?? $inttime2');
     print('time3?? $time3');
     print('allTime??? $allTime');
-    Get.find<LogListController>().logData.add(
-        'all/wait time : $allTime ${Get.find<iniController>().waitSwitchingTime.value}');
-    if (Get.find<iniController>().sim == 1) {
+    // Get.find<LogListController>().logData.add(
+    //     'all/wait time : $allTime ${Get.find<iniController>().waitSwitchingTime.value}');
+    if (Get.find<iniController>().sim == 0) {
       setIntegrationTime(0, Get.find<iniController>().integrationTime.value);
       Get.find<runErrorStatusController>().statusColor.value =
           Color(0xFF2CA732);
@@ -228,38 +187,29 @@ DataStartBtn() {
       Duration(milliseconds: allTime),
       Get.find<OesController>().updateDataSource,
     );
-    VizCtrl.to.vizChartTimer = Timer.periodic(
-        Duration(
-            milliseconds:
-                int.parse(Get.find<iniController>().viz_Interval.value)),
-        VizCtrl.to.vizSimUpdate);
-    Get.find<LogListController>().logData.add(
-          'channle moving t $time1',
-        );
+    // VizCtrl.to.vizChartTimer = Timer.periodic(
+    //     Duration(
+    //         milliseconds:
+    //             int.parse(Get.find<iniController>().viz_Interval.value)),
+    //     VizCtrl.to.vizSimUpdate);
+    VizCtrl.to.timer = Timer.periodic(
+      Duration(
+          milliseconds:
+              int.parse(Get.find<iniController>().viz_Interval.value)),
+      VizCtrl.to.readSerial,
+    );
+    // Get.find<LogListController>().logData.add(
+    //       'channle moving time $time1',
+    //     );
     Get.find<LogController>()
         .loglist
         .add('${logfileTime()} channle moving t $time1');
-    Get.find<LogListController>().logData.add(
-          'all time $allTime',
-        );
+    // Get.find<LogListController>().logData.add(
+    //       'all time $allTime',
+    //     );
     Get.find<LogController>().loglist.add('${logfileTime()} all t $allTime');
   } on FormatException {
     print('format error');
   }
   Get.find<OesController>().oesData[0];
-
-  // }
-  // else if (Get.find<iniController>().sim.value == 0) {
-  //   Get.find<OesController>().timer = Timer.periodic(
-  //     Duration(milliseconds: 100),
-  //     Get.find<OesController>().updateDataSource,
-  //   );
-  //   VizCtrl.to.vizChartTimer = Timer.periodic(
-  //       Duration(
-  //           milliseconds:
-  //               int.parse(Get.find<iniController>().viz_Interval.value)),
-  //       VizCtrl.to.vizSimUpdate);
-  //   Get.find<runErrorStatusController>().textmsg.value = 'S I M U L A T I O N';
-  //   Get.find<runErrorStatusController>().statusColor.value = Color(0xFFE9DF50);
-  // }
 }

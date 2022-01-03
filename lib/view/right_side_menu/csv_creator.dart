@@ -9,7 +9,8 @@ import 'package:wr_ui/view/right_side_menu/save_ini.dart';
 import 'log_screen.dart';
 
 startSaveBtn() async {
-  if (Get.find<CsvController>().fileSave.value) {
+  if (Get.find<CsvController>().csvSaveInit.value) {
+    Get.find<CsvController>().csvSaveData.value = true;
     for (var i = 0; i < Get.find<iniController>().OES_Count.value; i++) {
       Get.find<CsvController>().csvFormInit(
           path: "_${i + 1}.csv", channelNum: 'channelNum : ${i + 1}');
@@ -25,12 +26,13 @@ class CSVButton extends GetView<CsvController> {
       children: [
         SizedBox(height: 30),
         Obx(() => IgnorePointer(
-            ignoring: controller.fileSave.value,
+            ignoring: controller.csvSaveData.value,
             child: ElevatedButton(
               onPressed: () async {
-                Get.find<CsvController>().fileSave.value = true;
+                Get.find<CsvController>().csvSaveInit.value = true;
+                // Get.find<CsvController>().fileSave.value = true;
                 Get.find<LogListController>().startCsv();
-                startSaveBtn();
+                // startSaveBtn();
               },
               child: Container(
                 width: 200,
@@ -40,7 +42,7 @@ class CSVButton extends GetView<CsvController> {
                         padding: EdgeInsets.only(left: 30),
                         width: 65,
                         child: Obx(() => Visibility(
-                              visible: controller.fileSave.value,
+                              visible: controller.csvSaveData.value,
                               child: Row(
                                 children: [
                                   FadeTransition(
@@ -57,18 +59,19 @@ class CSVButton extends GetView<CsvController> {
                 ),
               ),
               style: ElevatedButton.styleFrom(
-                primary: controller.fileSave.value
-                    ? Colors.grey
-                    : Colors.greenAccent[700],
+                primary:
+                    controller.csvSaveData.value ? Colors.grey : Colors.green,
                 textStyle: TextStyle(fontSize: 16),
               ),
             ))),
         SizedBox(height: 30),
         Obx(() => IgnorePointer(
-              ignoring: !controller.fileSave.value,
+              ignoring: !controller.csvSaveData.value,
               child: ElevatedButton(
                 onPressed: () async {
-                  controller.fileSave.value = false;
+                  Get.find<CsvController>().csvSaveInit.value = false;
+                  Get.find<CsvController>().csvSaveData.value = false;
+                  // controller.fileSave.value = false;
                   Get.find<LogListController>().stopCsv();
                   // controller.inactiveBtn.value = false;
                 },
@@ -82,7 +85,7 @@ class CSVButton extends GetView<CsvController> {
                 ),
                 style: ElevatedButton.styleFrom(
                     primary:
-                        controller.fileSave.value ? Colors.red : Colors.grey,
+                        controller.csvSaveData.value ? Colors.red : Colors.grey,
                     textStyle: TextStyle(fontSize: 16)),
               ),
             ))
@@ -97,10 +100,13 @@ class CsvController extends GetxController with SingleGetTickerProviderMixin {
         ..repeat();
   late Animation<double> animation =
       CurvedAnimation(parent: animationCtrl, curve: Curves.ease);
-  RxBool fileSave = false.obs;
+  // RxBool fileSave = false.obs;
+  RxBool csvSaveInit = false.obs;
+  RxBool csvSaveData = false.obs;
   // RxBool inactiveBtn = false.obs;
   RxList<String> path = RxList.empty();
   RxString saveFileName = ''.obs;
+  RxString startTime = ''.obs;
   String fileName() {
     DateTime current = DateTime.now();
     String fileName = DateFormat('yyyyMMdd-HHmmss').format(current).toString();
@@ -122,16 +128,18 @@ class CsvController extends GetxController with SingleGetTickerProviderMixin {
     Directory('datafiles').create();
     File file = File("./datafiles/${saveFileName.value}\_$path");
     String csv = timeVal() + ',' + data.join(',') + '\n';
+
     await file.writeAsString(csv, mode: FileMode.append);
   }
 
-  Future<void> csvFormInit({required String path, required String channelNum}) {
+  void csvFormInit({required String path, required String channelNum}) async {
     Directory('datafiles').create(recursive: true);
     File file = File("./datafiles/${saveFileName.value}\_$path");
+
     List<dynamic> initData = [
       "FileFormat : 1",
       "HWType : OCR",
-      "Start Time : ${saveFileName.value}",
+      "Start Time : ${startTime.value}",
       "Intergration Time : ${Get.find<iniController>().integrationTime.value}",
       "Interval : 0"
     ];
@@ -145,7 +153,9 @@ class CsvController extends GetxController with SingleGetTickerProviderMixin {
         listWavelength.join(',') +
         '\n';
 
-    return file.writeAsString(intergrationColumn);
+    if (!file.existsSync()) {
+      await file.writeAsString(intergrationColumn);
+    }
   }
 
   void vizDataSave() async {
@@ -161,7 +171,7 @@ class CsvController extends GetxController with SingleGetTickerProviderMixin {
     List<dynamic> initData = [
       "FileFormat : 2",
       "HWType : VIZ",
-      "Start Time : ${saveFileName.value}",
+      "Start Time : ${startTime.value}",
       "Interval : ${Get.find<iniController>().viz_Interval.value}",
     ];
     List<String> init = [
