@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:wr_ui/controller/button.dart';
 import 'package:wr_ui/controller/viz_ctrl.dart';
 import 'package:wr_ui/main.dart';
 import 'package:wr_ui/view/right_side_menu/save_ini.dart';
@@ -22,75 +23,34 @@ startSaveBtn() async {
 class CSVButton extends GetView<CsvController> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox(height: 30),
-        Obx(() => IgnorePointer(
-            ignoring: controller.csvSaveData.value,
-            child: ElevatedButton(
-              onPressed: () async {
+    return Column(children: [
+      SizedBox(height: 30),
+      Obx(() => IgnorePointer(
+          ignoring: controller.csvSaveData.value,
+          child: RightButton(
+              text: 'Save Start',
+              icon: Icons.circle,
+              color: controller.csvSaveData.value ? Colors.red : Colors.white,
+              primary:
+                  controller.csvSaveData.value ? Colors.grey : Colors.green,
+              onPressed: () {
                 Get.find<CsvController>().csvSaveInit.value = true;
-                // Get.find<CsvController>().fileSave.value = true;
+                Get.find<CsvController>().vizSaveInit();
                 Get.find<LogListController>().startCsv();
-                // startSaveBtn();
-              },
-              child: Container(
-                width: 200,
-                child: Row(
-                  children: [
-                    Container(
-                        padding: EdgeInsets.only(left: 30),
-                        width: 65,
-                        child: Obx(() => Visibility(
-                              visible: controller.csvSaveData.value,
-                              child: Row(
-                                children: [
-                                  FadeTransition(
-                                      opacity: controller.animation,
-                                      child: Icon(Icons.circle,
-                                          size: 17, color: Colors.red)),
-                                ],
-                              ),
-                            ))),
-                    Text(
-                      "Save Start",
-                    ),
-                  ],
-                ),
-              ),
-              style: ElevatedButton.styleFrom(
-                primary:
-                    controller.csvSaveData.value ? Colors.grey : Colors.green,
-                textStyle: TextStyle(fontSize: 16),
-              ),
-            ))),
-        SizedBox(height: 30),
-        Obx(() => IgnorePointer(
-              ignoring: !controller.csvSaveData.value,
-              child: ElevatedButton(
-                onPressed: () async {
-                  Get.find<CsvController>().csvSaveInit.value = false;
-                  Get.find<CsvController>().csvSaveData.value = false;
-                  // controller.fileSave.value = false;
-                  Get.find<LogListController>().stopCsv();
-                  // controller.inactiveBtn.value = false;
-                },
-                child: Container(
-                  width: 200,
-                  child: Center(
-                    child: Text(
-                      "Save Stop",
-                    ),
-                  ),
-                ),
-                style: ElevatedButton.styleFrom(
-                    primary:
-                        controller.csvSaveData.value ? Colors.red : Colors.grey,
-                    textStyle: TextStyle(fontSize: 16)),
-              ),
-            ))
-      ],
-    );
+              }))),
+      SizedBox(height: 30),
+      Obx(() => IgnorePointer(
+          ignoring: !controller.csvSaveData.value,
+          child: RightButton(
+              text: 'Save Stop',
+              icon: Icons.pause,
+              primary: controller.csvSaveData.value ? Colors.red : Colors.grey,
+              onPressed: () {
+                Get.find<CsvController>().csvSaveInit.value = false;
+                Get.find<CsvController>().csvSaveData.value = false;
+                Get.find<LogListController>().stopCsv();
+              })))
+    ]);
   }
 }
 
@@ -144,9 +104,9 @@ class CsvController extends GetxController with SingleGetTickerProviderMixin {
       "Interval : 0"
     ];
 
-    String intergrationColumn = channelNum +
+    String intergrationColumn = initData.join('\n') +
         '\n' +
-        initData.join('\n') +
+        channelNum +
         '\n' +
         "Time" +
         ',' +
@@ -158,14 +118,14 @@ class CsvController extends GetxController with SingleGetTickerProviderMixin {
     }
   }
 
-  void vizDataSave() async {
+  void vizDataSave({required List<dynamic> data}) async {
     Directory('datafiles').create(recursive: true);
     File file = File("./datafiles/WR_VIZ_${saveFileName.value}.csv");
-    String csv = timeVal() + ',' + VizCtrl.to.vizYValue.join(',') + '\n';
+    String csv = timeVal() + ',' + data.join(',') + '\n';
     await file.writeAsString(csv, mode: FileMode.append);
   }
 
-  Future<void> vizSaveInit() {
+  void vizSaveInit() async {
     Directory('datafiles').create(recursive: true);
     File file = File("./datafiles/WR_VIZ_${saveFileName.value}.csv");
     List<dynamic> initData = [
@@ -184,7 +144,16 @@ class CsvController extends GetxController with SingleGetTickerProviderMixin {
       'X',
       'Phase'
     ];
-    String all = initData.join('\n') + '\n' + init.join(',') + '\n';
-    return file.writeAsString(all);
+    String all = initData.join('\n') +
+        '\n' +
+        init.join(',') +
+        init.join(',') +
+        init.join(',') +
+        init.join(',') +
+        init.join(',') +
+        '\n';
+    if (!file.existsSync()) {
+      await file.writeAsString(all);
+    }
   }
 }

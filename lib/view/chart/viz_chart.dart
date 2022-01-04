@@ -198,46 +198,47 @@ class VizChart extends GetView<VizCtrl> {
           maxX: VizCtrl.to.chartMaxX.value,
           minX: VizCtrl.to.chartMinX.value,
           // maxY: 1000,
-          lineTouchData: LineTouchData(
-              touchTooltipData: LineTouchTooltipData(
-                  fitInsideHorizontally: true,
-                  fitInsideVertically: true,
-                  getTooltipItems: (List<LineBarSpot> touchedBarSpots) {
-                    List<LineTooltipItem?> aa = [];
-                    for (var i = 0; i < touchedBarSpots.length; i++) {
-                      final textstyle = TextStyle(
-                        color: touchedBarSpots[i].bar.colors[0],
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14,
-                      );
-                      String str = '';
-                      String y;
-                      if (touchedBarSpots[i].barIndex == 0)
-                        y = ('Freq : ${(touchedBarSpots[i].y * 100000).toStringAsFixed(2)}');
-                      else if (touchedBarSpots[i].barIndex == 1)
-                        y = ('P dlv : ${(touchedBarSpots[i].y / 2).toStringAsFixed(2)}');
-                      else if (touchedBarSpots[i].barIndex == 2)
-                        y = ('Vrms : ${(touchedBarSpots[i].y / 10).toStringAsFixed(2)}');
-                      else if (touchedBarSpots[i].barIndex == 3)
-                        y = ('Irms : ${(touchedBarSpots[i].y / 10).toStringAsFixed(2)}');
-                      else if (touchedBarSpots[i].barIndex == 4)
-                        y = ('R : ${(touchedBarSpots[i].y / 10).toStringAsFixed(2)}');
-                      else if (touchedBarSpots[i].barIndex == 5)
-                        y = ('X : ${(touchedBarSpots[i].y / 10).toStringAsFixed(2)}');
-                      else
-                        y = ('Phase : ${(touchedBarSpots[i].y * 360 / 1000).toStringAsFixed(2)}');
-                      str = y;
 
-                      // if (i == 0)
-                      //   str =
-                      //       '${touchedBarSpots[i].x.toStringAsFixed(1)}s \n $y';
-                      // else
-                      //   str = y;
+          // lineTouchData: LineTouchData(
+          //     touchTooltipData: LineTouchTooltipData(
+          //         fitInsideHorizontally: true,
+          //         fitInsideVertically: true,
+          //         getTooltipItems: (List<LineBarSpot> touchedBarSpots) {
+          //           List<LineTooltipItem?> aa = [];
+          //           for (var i = 0; i < touchedBarSpots.length; i++) {
+          //             final textstyle = TextStyle(
+          //               color: touchedBarSpots[i].bar.colors[0],
+          //               fontWeight: FontWeight.bold,
+          //               fontSize: 14,
+          //             );
+          //             String str = '';
+          //             String y;
+          //             if (touchedBarSpots[i].barIndex == 0)
+          //               y = ('Freq : ${(touchedBarSpots[i].y * 100000).toStringAsFixed(2)}');
+          //             else if (touchedBarSpots[i].barIndex == 1)
+          //               y = ('P dlv : ${(touchedBarSpots[i].y / 2).toStringAsFixed(2)}');
+          //             else if (touchedBarSpots[i].barIndex == 2)
+          //               y = ('Vrms : ${(touchedBarSpots[i].y / 10).toStringAsFixed(2)}');
+          //             else if (touchedBarSpots[i].barIndex == 3)
+          //               y = ('Irms : ${(touchedBarSpots[i].y / 10).toStringAsFixed(2)}');
+          //             else if (touchedBarSpots[i].barIndex == 4)
+          //               y = ('R : ${(touchedBarSpots[i].y / 10).toStringAsFixed(2)}');
+          //             else if (touchedBarSpots[i].barIndex == 5)
+          //               y = ('X : ${(touchedBarSpots[i].y / 10).toStringAsFixed(2)}');
+          //             else
+          //               y = ('Phase : ${(touchedBarSpots[i].y * 360 / 1000).toStringAsFixed(2)}');
+          //             str = y;
 
-                      aa.add(LineTooltipItem(str, textstyle));
-                    }
-                    return aa;
-                  })),
+          //             // if (i == 0)
+          //             //   str =
+          //             //       '${touchedBarSpots[i].x.toStringAsFixed(1)}s \n $y';
+          //             // else
+          //             //   str = y;
+
+          //             aa.add(LineTooltipItem(str, textstyle));
+          //           }
+          //           return aa;
+          //         })),
           clipData: FlClipData.all(),
           titlesData: FlTitlesData(
               show: true,

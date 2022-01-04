@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:wr_ui/controller/button.dart';
 import 'package:wr_ui/main.dart';
 import 'package:wr_ui/model/const/style/pallette.dart';
 import 'package:wr_ui/view/appbar/leading/run_error_status_mark.dart';
@@ -16,23 +17,10 @@ class ExitBtn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      child: Container(
-        width: 200,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Text('Exit'),
-            Icon(
-              Icons.exit_to_app,
-              size: 16,
-            )
-          ],
-        ),
-      ),
-      style: ElevatedButton.styleFrom(
-        primary: wrColors.wrPrimary,
-      ),
+    return RightButton(
+      text: 'Exit',
+      icon: Icons.exit_to_app,
+      primary: wrColors.wrPrimary,
       onPressed: () {
         Get.find<runErrorStatusController>().connect.value
             ?

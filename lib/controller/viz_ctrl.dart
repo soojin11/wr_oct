@@ -7,6 +7,7 @@ import 'package:wr_ui/model/viz_data.dart';
 import 'dart:math' as math;
 import 'package:wr_ui/view/chart/pages/hover_chart/hover.dart';
 import 'package:wr_ui/view/chart/viz_chart.dart';
+import 'package:wr_ui/view/right_side_menu/csv_creator.dart';
 import 'package:wr_ui/view/right_side_menu/log_screen.dart';
 import 'package:wr_ui/view/right_side_menu/save_ini.dart';
 
@@ -32,11 +33,6 @@ class VizCtrl extends GetxController {
   //////////////차트ctrl///////////////
   RxList<Rx<VizData>> vizList = RxList.empty();
   RxList<RxList<RxList<FlSpot>>> vizPoints = RxList.empty();
-  RxList<List<FlSpot>> vizVal1 = RxList.empty();
-  RxList<List<FlSpot>> vizVal2 = RxList.empty();
-  RxList<List<FlSpot>> vizVal3 = RxList.empty();
-  RxList<List<FlSpot>> vizVal4 = RxList.empty();
-  RxList<List<FlSpot>> vizVal5 = RxList.empty();
   RxList<List<List<FlSpot>>> vizVal = RxList.empty();
   //12.30
   RxList<Rx<VizData>> viz = RxList.empty();
@@ -54,7 +50,7 @@ class VizCtrl extends GetxController {
   // Timer? vizChartTimer;
 
   double setRandom() {
-    double yValue = math.Random().nextInt(1000).toDouble();
+    double yValue = 10 + math.Random().nextInt(10).toDouble();
     return yValue;
   }
 
@@ -72,14 +68,28 @@ class VizCtrl extends GetxController {
   }
 
   Future<void> vizUpdate() async {
+    List aaa = [];
     for (var i = 0; i < 5; i++) {
-      vizPoints[i][0].add(FlSpot(xValue.value, vizList[i].value.rf_freq));
-      vizPoints[i][1].add(FlSpot(xValue.value, vizList[i].value.p_del));
+      vizPoints[i][0]
+          .add(FlSpot(xValue.value, vizList[i].value.rf_freq / 100000));
+      vizPoints[i][1].add(FlSpot(xValue.value, vizList[i].value.p_del * 2));
       vizPoints[i][2].add(FlSpot(xValue.value, vizList[i].value.v));
-      vizPoints[i][3].add(FlSpot(xValue.value, vizList[i].value.i));
-      vizPoints[i][4].add(FlSpot(xValue.value, vizList[i].value.r));
-      vizPoints[i][5].add(FlSpot(xValue.value, vizList[i].value.x));
-      vizPoints[i][6].add(FlSpot(xValue.value, vizList[i].value.phase));
+      vizPoints[i][3].add(FlSpot(xValue.value, vizList[i].value.i * 10));
+      vizPoints[i][4].add(FlSpot(xValue.value, vizList[i].value.r * 10));
+      vizPoints[i][5].add(FlSpot(xValue.value, vizList[i].value.x * 10));
+      vizPoints[i][6]
+          .add(FlSpot(xValue.value, vizList[i].value.phase * 1000 / 360));
+      aaa.add(vizList[i].value.rf_freq);
+      aaa.add(vizList[i].value.p_del);
+      aaa.add(vizList[i].value.v);
+      aaa.add(vizList[i].value.i);
+      aaa.add(vizList[i].value.r);
+      aaa.add(vizList[i].value.x);
+      aaa.add(vizList[i].value.phase);
+      // print('asdf${aaa}');
+    }
+    if (Get.find<CsvController>().csvSaveInit.value) {
+      Get.find<CsvController>().vizDataSave(data: aaa);
     }
 
     // vizVal1[0].add(FlSpot(xValue.value, vizYValue[0] / 100000)); //freq
@@ -95,6 +105,7 @@ class VizCtrl extends GetxController {
       chartMaxX.value += step.value;
     }
     xValue.value += step.value;
+
     update();
   }
 
@@ -232,13 +243,13 @@ class VizCtrl extends GetxController {
       //   vizYValue[i] = (math.Random().nextInt(1000).toDouble());
       // }
       for (var i = 0; i < 5; i++) {
-        vizList[i].value.rf_freq = setRandom();
-        vizList[i].value.p_del = setRandom();
-        vizList[i].value.v = setRandom();
-        vizList[i].value.i = setRandom();
-        vizList[i].value.r = setRandom();
-        vizList[i].value.x = setRandom();
-        vizList[i].value.phase = setRandom();
+        vizList[i].value.rf_freq = setRandom() + 1405900;
+        vizList[i].value.p_del = setRandom() + 40;
+        vizList[i].value.v = setRandom() + 120;
+        vizList[i].value.i = setRandom() - 10;
+        vizList[i].value.r = setRandom() - 10;
+        vizList[i].value.x = setRandom() - 10;
+        vizList[i].value.phase = setRandom() + 30;
       }
     }
     // 측정한 data 값 요구

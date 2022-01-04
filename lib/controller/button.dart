@@ -7,14 +7,14 @@ class RightButton extends StatelessWidget {
       required this.text,
       required this.primary,
       this.icon,
-      container,
+      this.color,
       required this.onPressed})
       : super(key: key);
   String text;
   Color primary;
   IconData? icon;
   VoidCallback onPressed;
-  Container? container;
+  Color? color;
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +28,7 @@ class RightButton extends StatelessWidget {
               Icon(
                 icon,
                 size: 16,
+                color: color,
               ),
             ],
           ),

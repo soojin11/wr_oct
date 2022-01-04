@@ -98,13 +98,6 @@ Future main() async {
   //   VizCtrl.to.viz.add(VizData.init().obs);
   // }
   ///////////////////////////////////
-  for (var i = 0; i < 7; i++) {
-    VizCtrl.to.vizVal1.add([]);
-    VizCtrl.to.vizVal2.add([]);
-    VizCtrl.to.vizVal3.add([]);
-    VizCtrl.to.vizVal4.add([]);
-    VizCtrl.to.vizVal5.add([]);
-  }
 
   runApp(MyApp());
 
