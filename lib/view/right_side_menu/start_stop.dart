@@ -34,9 +34,10 @@ class StartStop extends StatelessWidget {
                 primary: Get.find<OesController>().inactiveBtn.value
                     ? Colors.grey
                     : Colors.green,
-                onPressed: () {
+                onPressed: () async {
+                  await VizCtrl.to.sendStart(); //측정 시작
+                  VizCtrl.to.buffer.clear();
                   DataStartBtn();
-                  VizCtrl.to.startSerial();
                 }))),
         SizedBox(height: 30),
         Obx(

@@ -36,23 +36,19 @@ class OesController extends GetxController {
   Timer? timer;
   //RxBool bRunning = false.obs;
   //zoom  controller
-  late RxDouble minX;
-  late RxDouble maxX;
+  RxDouble minX = 0.0.obs;
+  RxDouble maxX = 0.0.obs;
+  RxDouble minY = 0.0.obs;
+  RxDouble maxY = 0.0.obs;
   RxDouble yValue = 0.0.obs;
   RxDouble yMax = 0.0.obs;
   RxBool autoSave = false.obs;
 
   @override
   void onInit() {
-    minX = 0.0.obs;
-    maxX = 2048.0.obs;
+    // minX = 0.0.obs;
+    // maxX = listWavelength.length.toDouble().obs;
     super.onInit();
-  }
-
-  double setRandom() {
-    yValue.value =
-        1800 + math.Random().nextInt(100).toDouble() + addYvalue.value;
-    return yValue.value;
   }
 
   Future<bool> waitSwitching() async {
@@ -89,18 +85,20 @@ class OesController extends GetxController {
         .loglist
         .add('${logfileTime()} End waitSwitching\n');
     //21.12.29추가
-    for (var i = 0; i < 8; i++) {
-      if (listWavelength.isNotEmpty) {
-        listWavelength.clear();
+    if (Get.find<iniController>().sim == 1) {
+      for (var i = 0; i < 8; i++) {
+        if (listWavelength.isNotEmpty) {
+          listWavelength.clear();
+        }
+      }
+      for (var i = 0; i < 2048; i++) {
+        listWavelength.add(i.toDouble());
+        Get.find<OesController>().maxX.value = listWavelength.length.toDouble();
       }
     }
 
-    if (Get.find<iniController>().sim == 1) {
-      for (var i = 0; i < 2048; i++) {
-        listWavelength.add(i.toDouble());
-      }
-    }
-    List<double> fmtSpec = await readData(0);
+    List<double> fmtSpec = await readData(ArgReadData(
+        spectrometerIndex: 0, sim: Get.find<iniController>().sim.value));
 
     Get.find<LogController>().loglist.add('${logfileTime()} End readData\n');
     oesData[nCurrentChannel].clear();
@@ -164,47 +162,52 @@ class OesController extends GetxController {
     return Listener(
         onPointerSignal: (signal) {
           if (signal is PointerScrollEvent) {
+            //확대
             if (signal.scrollDelta.dy.isNegative) {
-              if (maxX.value > minX.value + 50) {
+              if (maxX.value - 100 > minX.value &&
+                  yMax.value - 100 > minY.value) {
                 minX.value += 50;
                 maxX.value -= 50;
-              } else {
-                minX.value = minX.value;
-                maxX.value = maxX.value;
+                minY.value += 50;
+                yMax.value -= 50;
+                print('확대minxxxxxxxxxx : $minX max: $maxX');
+                print('확대 min : $minY max: $yMax');
               }
-            } else {
-              if (maxX.value - maxX * 0.1 <= 2048 && minX - maxX * 0.1 >= 0) {
-                minX.value -= maxX * 0.1;
-                maxX.value += maxX * 0.1;
-              } else {
-                minX.value = 0;
-                maxX.value = 2048;
+              // else {
+              //   minX.value = minX.value;
+              //   maxX.value = maxX.value;
+              //   minY.value = minY.value;
+              //   maxY.value = yMax.value;
+              //   print('확멈minxxxxxxx : $minX max: $maxX');
+              //   print('확멈min : $minY max: $maxY');
+              // }
+            }
+            //축소
+            else {
+              if (maxX.value + 100 > minX.value &&
+                  yMax.value + 100 > minY.value &&
+                  minY > 0 &&
+                  minX > 0 &&
+                  maxX <= listWavelength.length) {
+                minX.value -= 50;
+                maxX.value += 50;
+                minY.value -= 50;
+                yMax.value += 50;
+                print('축소 minxxxxxxxx : $minX max: $maxX');
+                print('축소 min : $minY max: $yMax');
               }
+              // else {
+              //   minX.value = 0;
+              //   maxX.value = maxX.value;
+              //   minY.value = 0;
+              //   maxY.value = maxY.value;
+              //   print('축멈 minxxxx : $minX max: $maxX');
+              //   print('축멈 min : $minY max: $maxY');
+              // }
             }
           }
         },
-        child: child
-        // child: GestureDetector(
-        //   onDoubleTap: () {
-        //     minX.value = 0;
-        //     maxX.value = oesData.length.toDouble();
-        //   },
-        //   onHorizontalDragUpdate: (dragUpdate) {
-        //     double primeDelta = dragUpdate.primaryDelta ?? 0.0;
-        //     if (primeDelta != 0) {
-        //       if (primeDelta.isNegative) {
-        //         minX.value += maxX * 0.005;
-        //         maxX.value += maxX * 0.005;
-        //       } else {
-        //         // minX -= maxX * 0.005;
-        //         maxX.value -= maxX * 0.005;
-        //       }
-        //     }
-        //     update();
-        //   },
-        //   child: child,
-        // )
-        );
+        child: child);
   }
 }
 
@@ -298,8 +301,8 @@ class OesChart extends GetView<OesController> {
       LineChartData(
           minX: controller.minX.value,
           maxX: controller.maxX.value,
-          minY: 1800,
-          maxY: 2200,
+          minY: controller.minY.value,
+          maxY: controller.yMax.value,
           lineTouchData: LineTouchData(
               touchTooltipData: LineTouchTooltipData(
             fitInsideHorizontally: true,

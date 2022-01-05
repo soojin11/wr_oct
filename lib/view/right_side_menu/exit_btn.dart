@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wr_ui/controller/button.dart';
+import 'package:wr_ui/controller/viz_ctrl.dart';
 import 'package:wr_ui/main.dart';
 import 'package:wr_ui/model/const/style/pallette.dart';
 import 'package:wr_ui/view/appbar/leading/run_error_status_mark.dart';
@@ -86,11 +87,12 @@ Future<String?> completelyExit(BuildContext context) {
                 closeAll();
               }
               Get.find<LogListController>().cExit();
+              VizCtrl.to.vizChannel[0].port.close();
               showDialog(
                   context: context,
                   builder: (context) {
                     //종료시간 짧게 넣음
-                    Future.delayed(Duration(milliseconds: 100), () {
+                    Future.delayed(Duration(milliseconds: 300), () {
                       exit(0);
                     });
                     return AlertDialog(

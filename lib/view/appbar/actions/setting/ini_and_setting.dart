@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 import 'package:get/get.dart';
 import 'package:wr_ui/controller/setting.dart';
+import 'package:wr_ui/controller/viz_ctrl.dart';
 import 'package:wr_ui/main.dart';
 import 'dart:async';
 import 'package:wr_ui/model/const/style/pallette.dart';
@@ -146,6 +147,23 @@ Future<void> _showDialog(context) async {
                                     ),
                                     Row(children: [
                                       Container(
+                                        width: 80,
+                                        child: TextFormField(
+                                          initialValue: '2300',
+                                          decoration: InputDecoration(
+                                            labelText: 'Auto Save',
+                                            hintText: 'Value',
+                                          ),
+                                          onSaved: (v) {
+                                            Get.find<iniController>()
+                                                    .oesAutoSave
+                                                    .value =
+                                                double.parse(v.toString());
+                                          },
+                                        ),
+                                      ),
+                                      SizedBox(width: 20),
+                                      Container(
                                         width: 100,
                                         child: TextFormField(
                                           initialValue:
@@ -196,23 +214,6 @@ Future<void> _showDialog(context) async {
                                       Container(
                                         width: 80,
                                         child: TextFormField(
-                                          initialValue: '2300',
-                                          decoration: InputDecoration(
-                                            labelText: 'Auto Save',
-                                            hintText: 'Value',
-                                          ),
-                                          onSaved: (v) {
-                                            Get.find<iniController>()
-                                                    .oesAutoSave
-                                                    .value =
-                                                double.parse(v.toString());
-                                          },
-                                        ),
-                                      ),
-                                      SizedBox(width: 20),
-                                      Container(
-                                        width: 80,
-                                        child: TextFormField(
                                           initialValue: '100',
                                           decoration: InputDecoration(
                                             labelText: 'Viz Interval',
@@ -225,6 +226,27 @@ Future<void> _showDialog(context) async {
                                           },
                                         ),
                                       ),
+                                      SizedBox(width: 50),
+                                      Column(
+                                        children: [
+                                          ElevatedButton(
+                                              style: ElevatedButton.styleFrom(
+                                                  primary: Colors.grey[700]),
+                                              onPressed: () {
+                                                VizCtrl.to.startSerial();
+                                              },
+                                              child: Text("Comport Open")),
+                                          SizedBox(height: 20),
+                                          ElevatedButton(
+                                              style: ElevatedButton.styleFrom(
+                                                  primary: Colors.grey[700]),
+                                              onPressed: () {
+                                                VizCtrl.to.vizChannel[0].port
+                                                    .close();
+                                              },
+                                              child: Text("Comport Close")),
+                                        ],
+                                      ),
                                     ]),
                                     Divider(height: 30, thickness: 2),
                                     Text('Color Setting',
@@ -236,7 +258,19 @@ Future<void> _showDialog(context) async {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
+                                            Container(
+                                              child: Text('OES Series Color'),
+                                              padding: EdgeInsets.all(10),
+                                              decoration: BoxDecoration(
+                                                  color: Colors.grey[300],
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(10))),
+                                            ),
+                                            SizedBox(height: 20),
                                             ColorSet(
                                                 text: 'OES 1',
                                                 onColorChanage: (Color color) {
@@ -296,7 +330,19 @@ Future<void> _showDialog(context) async {
                                           ],
                                         ),
                                         Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
+                                            Container(
+                                              child: Text('VIZ Series Color'),
+                                              padding: EdgeInsets.all(10),
+                                              decoration: BoxDecoration(
+                                                  color: Colors.grey[300],
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(10))),
+                                            ),
+                                            SizedBox(height: 20),
                                             ColorSet(
                                                 text: 'Frequency',
                                                 onColorChanage: (Color color) {
@@ -364,7 +410,7 @@ Future<void> _showDialog(context) async {
                         ),
                         onPressed: () {
                           Get.find<iniController>().key.currentState!.save();
-                          writeConfig2();
+                          Get.find<iniController>().writeConfig2();
                           Get.find<LogListController>().cConfigSave();
                           Navigator.pop(context);
                         },

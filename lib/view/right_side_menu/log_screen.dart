@@ -150,7 +150,7 @@ class LogList extends GetView<LogListController> {
   Widget build(BuildContext context) {
     return Container(
         width: 350,
-        height: 395,
+        height: 400,
         child: Obx(() {
           // if (controller.logData.length == 0) {
           //   return Center(child: Text('log does not exist.'));
@@ -160,6 +160,7 @@ class LogList extends GetView<LogListController> {
               //isAlwaysShown: true,
               child: SingleChildScrollView(
                 child: ListView.builder(
+                  itemExtent: 50.0,
                   reverse: true,
                   controller: scrollCtrl,
                   addAutomaticKeepAlives: false,
@@ -172,6 +173,7 @@ class LogList extends GetView<LogListController> {
                       //최신 인덱스이면 글자 강조되게
                       title: index == controller.logData.length - 1
                           ? Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
                                   '${screenTime()}',
@@ -180,32 +182,23 @@ class LogList extends GetView<LogListController> {
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                VerticalDivider(
-                                  color: Colors.black,
-                                ),
-                                Column(
-                                  children: [
-                                    SizedBox(height: 20),
-                                    Text(
-                                      '${controller.logData[index]}\r\n',
-                                      style: TextStyle(
-                                        color: Colors.blueGrey,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ],
+                                SizedBox(width: 13),
+                                Text(
+                                  '${controller.logData[index]}\r\n',
+                                  style: TextStyle(
+                                    color: Colors.blueGrey,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ],
                             )
                           : Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text('${screenTime()}'),
-                                VerticalDivider(
-                                  color: Colors.black,
-                                ),
+                                SizedBox(width: 17),
                                 Column(
                                   children: [
-                                    SizedBox(height: 20),
                                     Text('${controller.logData[index]}\r\n'),
                                   ],
                                 ),

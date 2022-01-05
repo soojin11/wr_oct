@@ -81,6 +81,8 @@ Future main() async {
   VizCtrl.to.vizList.assignAll([]);
   VizCtrl.to.vizPoints.assignAll([]);
   for (var i = 0; i < 5; i++) {
+    VizCtrl.to.vizChannel[i];
+
     VizCtrl.to.vizPoints.add(RxList.empty());
     VizCtrl.to.vizList.add(VizData.init().obs);
     for (var ii = 0; ii < 7; ii++) {
@@ -98,6 +100,10 @@ Future main() async {
   //   VizCtrl.to.viz.add(VizData.init().obs);
   // }
   ///////////////////////////////////
+  VizCtrl.to.startSerial();
+  for (var i = 0; i < 5; i++) {
+    print('열렸나? ${VizCtrl.to.vizChannel[i].port.isOpen}');
+  }
 
   runApp(MyApp());
 
@@ -113,7 +119,7 @@ Future main() async {
   });
   //메시지박스
 
-  await writeConfig();
+  await Get.find<iniController>().writeConfig();
 
   print(
       'channel move t in parse : ${Get.find<iniController>().channelMovingTime.value}');
@@ -265,11 +271,11 @@ class WRappbar extends StatelessWidget implements PreferredSizeWidget {
                     message: 'Change settings',
                     child: Container(
                       width: 180,
-                      height: 35,
+                      height: 37,
                       child: SetBtn(),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8),
-                          color: Colors.blueGrey[300]),
+                          color: Colors.blueGrey[400]),
                     ),
                   ),
                   SizedBox(width: 60),
@@ -409,7 +415,7 @@ class _WRbodyState extends State<WRbody> {
                   //////////로그
 
                   Container(
-                    height: 450,
+                    height: 510,
                     child: Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: Column(
@@ -428,7 +434,7 @@ class _WRbodyState extends State<WRbody> {
                             endIndent: 10,
                           ),
                           Container(
-                            height: 395,
+                            height: 430,
                             child: LogList(),
                           )
                         ],
@@ -695,6 +701,7 @@ Future<void> oesInit() async {
   Pointer<Double> pdwaveLength = getWavelength(0);
   for (var i = 0; i < 2048; i++) {
     listWavelength.add(pdwaveLength[i]);
+    Get.find<OesController>().maxX.value = listWavelength.length.toDouble();
   }
 
   print('getWavelength?? ' + ' $getWavelength');

@@ -59,12 +59,14 @@ class VizCtrl extends GetxController {
   }
 
   ///////////////////////////////////////
-
+//1/5
   Future<void> init() async {
     vizChannel.clear();
-    vizChannel.add(VizChannel(
-        vizData: VizData.init(),
-        port: SerialPort('COM${Get.find<iniController>().vizComport[0]}')));
+    for (var i = 0; i < 5; i++) {
+      vizChannel.add(VizChannel(
+          vizData: VizData.init(),
+          port: SerialPort('COM${Get.find<iniController>().vizComport[i]}')));
+    }
   }
 
   Future<void> vizUpdate() async {
@@ -105,13 +107,21 @@ class VizCtrl extends GetxController {
       chartMaxX.value += step.value;
     }
     xValue.value += step.value;
+    vizPoints.remove(0);
 
     update();
   }
 
 //open/listen
   Future<int> startSerial() async {
-    vizChannel[0].port.config.baudRate = 115200;
+    for (var i = 0; i < 5; i++) {
+      vizChannel[i].port.config.baudRate = 115200;
+      if (!VizCtrl.to.vizChannel[i].port.isOpen) {
+        Get.find<LogListController>().logData.add('Check VIZ${i + 1} port');
+      }
+    }
+
+    // vizChannel[0].port.config.baudRate = 115200;
     if (vizChannel[0].port.openReadWrite()) {
       print('오픈 성공');
       final reader = SerialPortReader(vizChannel[0].port);
@@ -206,12 +216,13 @@ class VizCtrl extends GetxController {
     //length == 87
     //freq = qwre
     //v = fwe
+
     for (var i = 0; i < numOfViz; i++) {
-      vizYValue.add((Uint8List.fromList(_b)
+      vizYValue.add(Uint8List.fromList(_b)
           .sublist(startDataIdx, startDataIdx += 4)
           .buffer
           .asByteData()
-          .getFloat32(0, Endian.little)));
+          .getFloat32(0, Endian.little));
     }
 
     print('=================================================시작===');
@@ -233,15 +244,20 @@ class VizCtrl extends GetxController {
     print('$receiveLength자와 같아 $_b');
 
     buffer = _bb;
+
+    vizList[0].value.rf_freq = vizYValue[0];
+    vizList[0].value.p_del = vizYValue[1];
+    vizList[0].value.v = vizYValue[2];
+    vizList[0].value.i = vizYValue[3];
+    vizList[0].value.r = vizYValue[4];
+    vizList[0].value.x = vizYValue[5];
+    vizList[0].value.phase = vizYValue[6];
   }
 
   Future<void> readSerial(Timer timer) async {
     if (vizChannel[0].port.isOpen) {
       await sendRead();
     } else {
-      // for (var i = 0; i < numOfViz; i++) {
-      //   vizYValue[i] = (math.Random().nextInt(1000).toDouble());
-      // }
       for (var i = 0; i < 5; i++) {
         vizList[i].value.rf_freq = setRandom() + 1405900;
         vizList[i].value.p_del = setRandom() + 40;
