@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:ffi';
+import 'dart:io';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -114,13 +115,22 @@ Future main() async {
   //메시지박스
 
   await writeConfig();
+  log('하하하');
 
-  print(
-      'channel move t in parse : ${Get.find<iniController>().channelMovingTime.value}');
   //메시지박스
   if (Get.find<iniController>().sim.value == 0) {
     oesInit();
   }
+}
+
+void log(String str) {
+  final String path = "./test.txt";
+  File file = File(path);
+  String data = '$str \n';
+  if (file.existsSync())
+    file.writeAsStringSync(data, mode: FileMode.append);
+  else
+    file.writeAsStringSync(data, mode: FileMode.write);
 }
 
 class MyApp extends StatelessWidget {
@@ -593,68 +603,75 @@ appContainer({required double width, required Widget child}) {
 
 Future<void> oesInit() async {
   print('in oesInit');
+  log('1');
   ocrStart = wgsFunction
       .lookup<NativeFunction<Int8 Function()>>('OCR_Start')
       .asFunction();
+  log('2 $ocrStart');
   if (ocrStart == 0) {
     saveLog();
     Get.find<LogController>()
         .loglist
         .add('${logfileTime()} ocrstart 1 $ocrStart' + '\n');
   }
-
+  log('3');
   final int ocrs = ocrStart();
+  log('4 $ocrs');
   if (ocrs == 0) {
     Get.find<LogController>()
         .loglist
         .add('${logfileTime()} ocrstart 2 $ocrs' + '\n');
   }
   print('ocrStart??' + ' ${ocrs}');
-
+  log('5');
   mpmStart = wgsFunction
       .lookup<NativeFunction<Void Function(Int32)>>('MPMStart')
       .asFunction();
 //포트 번호
   mpmStart(3);
-
+  log('6');
   print('mpmstart?? $mpmStart');
 
   mpmClose = wgsFunction
       .lookup<NativeFunction<Void Function()>>('MPMClose')
       .asFunction();
-
+  log('7');
   mpmClose();
-
+  print('mpmClose??');
   mpmOpen = wgsFunction
       .lookup<NativeFunction<Int8 Function()>>('MPMOpen')
       .asFunction();
-
+  print('mpmOpen??');
   int intMpmOpen = mpmOpen();
-
+  print('intMpmOpen??');
   closeAll = wgsFunction
       .lookup<NativeFunction<Void Function()>>('CloseAll')
       .asFunction();
   // closeAll();
+  print('closeAll??');
+  log('8');
   openAllSpectrometers = wgsFunction
       .lookup<NativeFunction<Int32 Function()>>('OpenAllSpectrometers')
       .asFunction();
-
+  print('openAllSpectrometers??');
   int bb = openAllSpectrometers();
-
+  print('bb??');
   setIntegrationTime = wgsFunction
       .lookup<NativeFunction<Int32 Function(Int32, Int32)>>(
           'SetIntegrationTime')
       .asFunction();
-
-  int cc =
-      setIntegrationTime(0, Get.find<iniController>().integrationTime.value);
-
+  log('9');
+  print(
+      'setIntegrationTime?? ${Get.find<iniController>().integrationTime.value}');
+  int cc = setIntegrationTime(
+      0, Get.find<iniController>().integrationTime.value * 1000);
+  log('10');
   print('intgration???  ${Get.find<iniController>().integrationTime.value}');
   print('plusTime???  ${Get.find<iniController>().plusTime.value}');
   setScansToAverage = wgsFunction
       .lookup<NativeFunction<Int32 Function(Int32, Int32)>>('SetScansToAverage')
       .asFunction();
-
+  log('11');
   int dd = setScansToAverage(0, 1);
 
   print('setScansToAverage?? ' + ' $dd');
@@ -695,9 +712,10 @@ Future<void> oesInit() async {
   Pointer<Double> pdwaveLength = getWavelength(0);
   for (var i = 0; i < 2048; i++) {
     listWavelength.add(pdwaveLength[i]);
+    print('listWavelength?? ' + ' ${listWavelength[i]}');
   }
 
-  print('getWavelength?? ' + ' $getWavelength');
+  print('getWavelength?? ' + ' ${listWavelength.length}');
 
   mpmSetChannel = wgsFunction
       .lookup<NativeFunction<Int32 Function(Int32)>>('MPMSetChannel')
