@@ -56,9 +56,14 @@ Future<String?> runningExit(BuildContext context) {
           ),
           onPressed: () {
             Get.find<OesController>().timer?.cancel();
+            VizCtrl.to.timer.cancel();
+            Get.find<runErrorStatusController>().statusColor.value = Colors.red;
             Get.find<OesController>().inactiveBtn.value = false;
             Get.find<CsvController>().csvSaveInit.value = false;
             Get.find<CsvController>().csvSaveData.value = false;
+            if (Get.find<iniController>().sim.value == 0) {
+              mpmSetChannel(0);
+            }
             // Get.find<CsvController>().fileSave.value == false;
             // Get.find<CsvController>().inactiveBtn.value = false;
             completelyExit(context);

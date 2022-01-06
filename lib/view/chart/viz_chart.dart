@@ -49,7 +49,7 @@ class VizChart extends GetView<VizCtrl> {
                       VizCtrl.to.vizCheck1.value == true)
                     lineChartBarData(VizCtrl.to.vizPoints[0][6],
                         Get.find<iniController>().vizColor[6]),
-                  //
+
                   if (VizCtrl.to.vizSeriesList[0] &&
                       VizCtrl.to.vizCheck2.value == true)
                     lineChartBarData(VizCtrl.to.vizPoints[1][0],

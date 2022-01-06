@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:wr_ui/controller/button.dart';
 import 'package:wr_ui/controller/viz_ctrl.dart';
 import 'package:wr_ui/main.dart';
+import 'package:wr_ui/view/chart/oes_chart.dart';
 import 'package:wr_ui/view/right_side_menu/save_ini.dart';
 import 'log_screen.dart';
 
@@ -35,7 +36,16 @@ class CSVButton extends GetView<CsvController> {
                   controller.csvSaveData.value ? Colors.grey : Colors.green,
               onPressed: () {
                 Get.find<CsvController>().csvSaveInit.value = true;
+                for (var i = 0;
+                    i < Get.find<iniController>().OES_Count.value;
+                    i++) {
+                  Get.find<CsvController>().csvFormInit(
+                      path: "_${i + 1}.csv",
+                      channelNum: 'channelNum : ${i + 1}');
+                }
                 Get.find<CsvController>().vizSaveInit();
+                Get.find<CsvController>().csvSaveData.value = true;
+                Get.find<OesController>().startBtn.value = true;
                 Get.find<LogListController>().startCsv();
               }))),
       SizedBox(height: 30),
@@ -48,6 +58,7 @@ class CSVButton extends GetView<CsvController> {
               onPressed: () {
                 Get.find<CsvController>().csvSaveInit.value = false;
                 Get.find<CsvController>().csvSaveData.value = false;
+                Get.find<OesController>().startBtn.value = false;
                 Get.find<LogListController>().stopCsv();
               })))
     ]);
@@ -87,7 +98,14 @@ class CsvController extends GetxController with SingleGetTickerProviderMixin {
   void csvForm({required String path, required List<dynamic> data}) async {
     Directory('datafiles').create();
     File file = File("./datafiles/${saveFileName.value}\_$path");
-    String csv = timeVal() + ',' + data.join(',') + '\n';
+    // int a= 0;
+    // print('a $a');
+    // String s = a.toString().padLeft(4,'0');
+    // print('s $s');
+    String csv = DateFormat('yyyy-MM-dd HH:mm:ss.SSS').format(DateTime.now()) +
+        ',' +
+        data.join(',') +
+        '\n';
 
     await file.writeAsString(csv, mode: FileMode.append);
   }

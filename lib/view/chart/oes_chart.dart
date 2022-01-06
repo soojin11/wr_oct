@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:wr_ui/main.dart';
 import 'package:wr_ui/view/right_side_menu/csv_creator.dart';
 import 'package:wr_ui/view/right_side_menu/log_save.dart';
@@ -15,6 +16,7 @@ import 'package:wr_ui/view/right_side_menu/start_stop.dart';
 final channelNuminINI = Get.find<iniController>().channelFlow.value;
 
 class OesController extends GetxController {
+  static OesController get to => Get.find();
   RxList<List<FlSpot>> oesData = RxList.empty();
   RxBool inactiveBtn = false.obs;
   //microsecond
@@ -43,6 +45,10 @@ class OesController extends GetxController {
   RxDouble yValue = 0.0.obs;
   RxDouble yMax = 0.0.obs;
   RxBool autoSave = false.obs;
+  RxBool autoSaveBuffer = false.obs;
+  RxBool startBtn = true.obs;
+  RxList<bool> saveNum =
+      [false, false, false, false, false, false, false, false].obs;
 
   @override
   void onInit() {
@@ -102,6 +108,9 @@ class OesController extends GetxController {
 
     Get.find<LogController>().loglist.add('${logfileTime()} End readData\n');
     oesData[nCurrentChannel].clear();
+
+    ///////////////////////////////////////
+
     for (var x = 0; x < listWavelength.length; x++) {
       oesData[nCurrentChannel].add(FlSpot(listWavelength[x], fmtSpec[x]));
       // max값 찾기
@@ -112,33 +121,83 @@ class OesController extends GetxController {
 
     Get.find<LogController>().loglist.add('${logfileTime()} End Draw Chart\n');
     //csv 저장
+
+    // if (iniController.to.autoSave == 1)
+    print('제발${startBtn.value}');
+    if (iniController.to.checkAuto.value) {
+      if (yMax.value >= Get.find<iniController>().oesAutoSaveVal.value) {
+        saveNum[nCurrentChannel] = true;
+      } else
+        saveNum[nCurrentChannel] = false;
+      for (var i = 0; i < saveNum.length; i++) {
+        if (startBtn == false) {
+          Get.find<CsvController>().csvSaveData.value = false;
+          break;
+        }
+        if (saveNum[i] == true) {
+          //autoSave.value = true;
+          Get.find<CsvController>().csvSaveData.value = true;
+          break;
+        }
+        if (saveNum.length - 1 == i) {
+          //autoSave.value = false;
+          Get.find<CsvController>().csvSaveData.value = false;
+        }
+      }
+
+      if ((autoSaveBuffer.value == false) &&
+          (Get.find<CsvController>().csvSaveData.value == true)) {
+        DateTime current = DateTime.now();
+        Get.find<CsvController>().saveFileName.value =
+            DateFormat('yyyyMMdd-HHmmss').format(current);
+        String ms = DateTime.now().millisecondsSinceEpoch.toString();
+        int msLength = ms.length;
+        int third = int.parse(ms.substring(msLength - 3, msLength));
+        Get.find<CsvController>().startTime.value =
+            '${DateFormat('HH:mm:ss').format(current)}.$third';
+        for (var i = 0; i < Get.find<iniController>().OES_Count.value; i++) {
+          Get.find<CsvController>().csvFormInit(
+              path: "_${i + 1}.csv", channelNum: 'channelNum : ${i + 1}');
+        }
+      }
+    }
+
     if (Get.find<CsvController>().csvSaveData.value) {
       for (var i = 0; i < Get.find<iniController>().OES_Count.value; i++) {
-        Get.find<CsvController>().csvSaveInit.value = false;
         Get.find<CsvController>()
             .csvForm(path: "_${nCurrentChannel + 1}.csv", data: fmtSpec);
       }
     }
-    if (yMax.value >= Get.find<iniController>().oesAutoSave.value) {
-      Get.find<CsvController>().csvSaveInit.value = true;
-      autoSave.value = true;
-    }
 
-    if (Get.find<CsvController>().csvSaveInit.value) {
-      for (var i = 0; i < Get.find<iniController>().OES_Count.value; i++) {
-        Get.find<CsvController>().csvFormInit(
-            path: "_${i + 1}.csv", channelNum: 'channelNum : ${i + 1}');
-      }
-      Get.find<CsvController>().csvSaveData.value = true;
-    }
+    autoSaveBuffer.value = Get.find<CsvController>().csvSaveData.value;
 
-    if (yMax.value < Get.find<iniController>().oesAutoSave.value &&
-        autoSave.value) {
-      Get.find<CsvController>().csvSaveInit.value = false;
-      Get.find<CsvController>().csvSaveData.value = false;
-      // Get.find<CsvController>().fileSave.value = false;
-      autoSave.value = false;
-    }
+    ///////////////////////////////////////////
+    ///start
+    // if (Get.find<CsvController>().csvSaveInit.value) {
+    //   for (var i = 0; i < Get.find<iniController>().OES_Count.value; i++) {
+    //     Get.find<CsvController>().csvFormInit(
+    //         path: "_${i + 1}.csv", channelNum: 'channelNum : ${i + 1}');
+    //   }
+    //   Get.find<CsvController>().csvSaveData.value = true;
+    // }
+
+    // if (yMax.value < Get.find<iniController>().oesAutoSave.value &&
+    //     autoSave.value) {
+    //   Get.find<CsvController>().csvSaveInit.value = false;
+    //   Get.find<CsvController>().csvSaveData.value = false;
+    //   // Get.find<CsvController>().fileSave.value = false;
+    //   autoSave.value = false;
+    // }
+
+    // if (Get.find<CsvController>().csvSaveData.value) {
+    //   for (var i = 0; i < Get.find<iniController>().OES_Count.value; i++) {
+    //     Get.find<CsvController>()
+    //         .csvForm(path: "_${nCurrentChannel + 1}.csv", data: fmtSpec);
+    //   }
+    // }
+    //end
+    //////////////////////////////////////////////////////////
+
     // if (Get.find<CsvController>().csvSaveData.value) {
     //   Get.find<CsvController>().csvSaveInit.value = false;
     //   for (var i = 0; i < Get.find<iniController>().OES_Count.value; i++) {
@@ -301,8 +360,8 @@ class OesChart extends GetView<OesController> {
       LineChartData(
           minX: controller.minX.value,
           maxX: controller.maxX.value,
-          minY: controller.minY.value,
-          maxY: controller.yMax.value,
+          // minY: controller.minY.value,
+          // maxY: controller.yMax.value,
           lineTouchData: LineTouchData(
               touchTooltipData: LineTouchTooltipData(
             fitInsideHorizontally: true,

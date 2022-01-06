@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:typed_data';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -36,7 +37,14 @@ class StartStop extends StatelessWidget {
                     : Colors.green,
                 onPressed: () async {
                   await VizCtrl.to.sendStart(); //측정 시작
-                  VizCtrl.to.buffer.clear();
+
+                  // Timer.periodic(Duration(milliseconds: 100), (timer) {
+                  //   Uint8List aa = VizCtrl.to.vizChannel[1].port.read(100);
+                  //   print('uint8list viz read $aa');
+                  // });
+                  for (var item in VizCtrl.to.buffer) {
+                    item.clear();
+                  }
                   DataStartBtn();
                 }))),
         SizedBox(height: 30),
@@ -57,6 +65,7 @@ class StartStop extends StatelessWidget {
                     Get.find<OesController>().inactiveBtn.value = false;
                     Get.find<CsvController>().csvSaveInit.value = false;
                     Get.find<CsvController>().csvSaveData.value = false;
+                    Get.find<OesController>().startBtn.value = false;
                     if (Get.find<iniController>().sim.value == 0) {
                       mpmSetChannel(0);
                     }
@@ -158,6 +167,7 @@ DataStartBtn() {
     int inttime2 = doubletime2.toInt();
     int time3 = Get.find<iniController>().plusTime.value;
     time3 = 150;
+    Get.find<iniController>().waitSwitchingTime.value = 400;
     int allTime =
         inttime2 + Get.find<iniController>().waitSwitchingTime.value + time3;
     if (doubletime2 <= Get.find<iniController>().waitSwitchingTime.value) {
@@ -171,6 +181,7 @@ DataStartBtn() {
     print('allTime??? $allTime');
     // Get.find<LogListController>().logData.add(
     //     'all/wait time : $allTime ${Get.find<iniController>().waitSwitchingTime.value}');
+    Get.find<OesController>().startBtn.value = true;
     if (Get.find<iniController>().sim == 0) {
       setIntegrationTime(0, Get.find<iniController>().integrationTime.value);
       Get.find<runErrorStatusController>().statusColor.value =
@@ -184,10 +195,12 @@ DataStartBtn() {
     }
 
     nChannelIdx = 0;
+
     Get.find<OesController>().timer = Timer.periodic(
       Duration(milliseconds: allTime),
       Get.find<OesController>().updateDataSource,
     );
+
     // VizCtrl.to.vizChartTimer = Timer.periodic(
     //     Duration(
     //         milliseconds:

@@ -1,8 +1,10 @@
 import 'dart:async';
+import 'dart:ffi';
 import 'dart:typed_data';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:get/get.dart';
 import 'package:libserialport/libserialport.dart';
+import 'package:wr_ui/main.dart';
 import 'package:wr_ui/model/viz_data.dart';
 import 'dart:math' as math;
 import 'package:wr_ui/view/chart/pages/hover_chart/hover.dart';
@@ -24,8 +26,8 @@ class VizCtrl extends GetxController {
   RxBool isStart = false.obs;
   late Timer timer;
   int numOfViz = 7;
-  List<int> buffer = [];
-  List<double> vizYValue = RxList.empty();
+  List<List<int>> buffer = [];
+  //List<List<double>> vizYValue = RxList.empty();
   Rx<VizData> vizData = VizData.init().obs;
   RxString selected = "OES".obs;
   var dropItem = ['OES', 'VIZ'];
@@ -61,11 +63,20 @@ class VizCtrl extends GetxController {
   ///////////////////////////////////////
 //1/5
   Future<void> init() async {
+    serialConnect = wgsFunction
+        .lookup<NativeFunction<Int32 Function(Int32)>>("serialConnect")
+        .asFunction();
+
     vizChannel.clear();
+    print('init comport list: ${iniController.to.vizComport}');
     for (var i = 0; i < 5; i++) {
+      if (Get.find<iniController>().vizComport[i] > 0)
+        serialConnect(Get.find<iniController>().vizComport[i]);
+      buffer.add([]);
       vizChannel.add(VizChannel(
           vizData: VizData.init(),
           port: SerialPort('COM${Get.find<iniController>().vizComport[i]}')));
+      vizChannel[i].port.config.baudRate = 115200;
     }
   }
 
@@ -90,6 +101,7 @@ class VizCtrl extends GetxController {
       aaa.add(vizList[i].value.phase);
       // print('asdf${aaa}');
     }
+
     if (Get.find<CsvController>().csvSaveInit.value) {
       Get.find<CsvController>().vizDataSave(data: aaa);
     }
@@ -115,28 +127,32 @@ class VizCtrl extends GetxController {
 //open/listen
   Future<int> startSerial() async {
     for (var i = 0; i < 5; i++) {
-      vizChannel[i].port.config.baudRate = 115200;
+      print('startSerial i $i');
+
+      if (vizChannel[i].port.openReadWrite()) {
+        print('오픈 성공 ${vizChannel[i].port.name}');
+        //final reader = SerialPortReader(vizChannel[i].port);
+        //await reader.stream.listen((data) async {
+        await SerialPortReader(vizChannel[i].port).stream.listen((data) async {
+          print('listen $i');
+          // try {
+          //Future.delayed(Duration(milliseconds: 10000));
+          await validity(data, i);
+          // } catch (e) {
+          //   print(e);
+          // }
+        });
+      } else {
+        print('오픈 에러 ?? ${SerialPort.lastError}');
+        Get.find<LogListController>().logData.add('Viz Comport Error');
+      }
       if (!VizCtrl.to.vizChannel[i].port.isOpen) {
         Get.find<LogListController>().logData.add('Check VIZ${i + 1} port');
       }
     }
 
     // vizChannel[0].port.config.baudRate = 115200;
-    if (vizChannel[0].port.openReadWrite()) {
-      print('오픈 성공');
-      final reader = SerialPortReader(vizChannel[0].port);
-      await reader.stream.listen((data) async {
-        // try {
-        //Future.delayed(Duration(milliseconds: 10000));
-        await validity(data);
-        // } catch (e) {
-        //   print(e);
-        // }
-      });
-    } else {
-      print('오픈 에러 ?? ${SerialPort.lastError}');
-      Get.find<LogListController>().logData.add('Viz Comport Error');
-    }
+
     return 1;
   }
 
@@ -149,17 +165,14 @@ class VizCtrl extends GetxController {
     return sum & 0xff;
   }
 
-  validity(Uint8List data) async {
-    if (vizYValue.isNotEmpty) {
-      vizYValue.clear();
-    }
+  validity(Uint8List data, int portIdx) async {
     if (data.isEmpty) return;
     const int receiveLength = 79;
     int startDataIdx = 5 + 32;
     List<int> _b = [];
     List<int> _bb = [];
-    if (buffer.isNotEmpty) {
-      _b.addAll(buffer);
+    if (buffer[portIdx].isNotEmpty) {
+      _b.addAll(buffer[portIdx]);
       _b.addAll(data.toList());
     } else {
       _b = data.toList();
@@ -167,7 +180,7 @@ class VizCtrl extends GetxController {
     print('receivedata: $_b');
 
     if (_b[0] != 0x16) {
-      buffer = [];
+      buffer[portIdx] = [];
       // throw Failure('시작 0x16 아님');
       print('시작 0x16 아님');
       return;
@@ -175,14 +188,14 @@ class VizCtrl extends GetxController {
     if (_b.length < receiveLength) {
       if (_b.length >= 4) {
         if (_b[0] == 0x16 && _b[1] == 0x16 && _b[2] == 0x30 && _b[3] == 0x03) {
-          buffer.addAll(data.toList());
+          buffer[portIdx].addAll(data.toList());
           return;
         } else {
-          buffer = [];
+          buffer[portIdx] = [];
           return;
         }
       } else {
-        buffer.addAll(data.toList());
+        buffer[portIdx].addAll(data.toList());
         return;
       }
     } else if (_b.length > receiveLength) {
@@ -196,13 +209,13 @@ class VizCtrl extends GetxController {
     if (!(_b[0] == 0x16 && _b[1] == 0x16 && _b[2] == 0x30 && _b[3] == 0x03)) {
       //  throw Failure('헤더 이상');
       print('헤더가 이상있어요');
-      buffer = [];
+      buffer[portIdx] = [];
       return;
     }
     if (_b[receiveLength - 1] != 0x1a) {
       // throw Failure('마지막 이상');
       print('마지막이 이상있어요');
-      buffer = [];
+      buffer[portIdx] = [];
       return;
     }
     final int cs = calcCheckSum(_b.sublist(2, _b.length - 2));
@@ -210,55 +223,76 @@ class VizCtrl extends GetxController {
     if (cs != _b[receiveLength - 2]) {
       // throw Failure('체크섬 이상');
       print('체크섬이 이상있어요');
-      buffer = [];
+      buffer[portIdx] = [];
       return;
     }
     //length == 87
     //freq = qwre
     //v = fwe
 
-    for (var i = 0; i < numOfViz; i++) {
-      vizYValue.add(Uint8List.fromList(_b)
-          .sublist(startDataIdx, startDataIdx += 4)
-          .buffer
-          .asByteData()
-          .getFloat32(0, Endian.little));
-    }
+    vizList[portIdx].value.rf_freq = Uint8List.fromList(_b)
+        .sublist(startDataIdx, startDataIdx += 4)
+        .buffer
+        .asByteData()
+        .getFloat32(0, Endian.little);
+    vizList[portIdx].value.p_del = Uint8List.fromList(_b)
+        .sublist(startDataIdx, startDataIdx += 4)
+        .buffer
+        .asByteData()
+        .getFloat32(0, Endian.little);
+    vizList[portIdx].value.v = Uint8List.fromList(_b)
+        .sublist(startDataIdx, startDataIdx += 4)
+        .buffer
+        .asByteData()
+        .getFloat32(0, Endian.little);
+    vizList[portIdx].value.i = Uint8List.fromList(_b)
+        .sublist(startDataIdx, startDataIdx += 4)
+        .buffer
+        .asByteData()
+        .getFloat32(0, Endian.little);
+    vizList[portIdx].value.r = Uint8List.fromList(_b)
+        .sublist(startDataIdx, startDataIdx += 4)
+        .buffer
+        .asByteData()
+        .getFloat32(0, Endian.little);
+    vizList[portIdx].value.x = Uint8List.fromList(_b)
+        .sublist(startDataIdx, startDataIdx += 4)
+        .buffer
+        .asByteData()
+        .getFloat32(0, Endian.little);
+    vizList[portIdx].value.phase = Uint8List.fromList(_b)
+        .sublist(startDataIdx, startDataIdx += 4)
+        .buffer
+        .asByteData()
+        .getFloat32(0, Endian.little);
 
     print('=================================================시작===');
     print(
-        '=================================================Frequency : ${vizYValue[0]}');
+        '=================================================Frequency : ${vizList[portIdx].value.rf_freq}');
     print(
-        '=================================================P_div : ${vizYValue[1]}');
+        '=================================================P_div : ${vizList[portIdx].value.p_del}');
     print(
-        '=================================================V : ${vizYValue[2]}');
+        '=================================================V : ${vizList[portIdx].value.v}');
     print(
-        '=================================================I : ${vizYValue[3]}');
+        '=================================================I : ${vizList[portIdx].value.i}');
     print(
-        '=================================================R : ${vizYValue[4]}');
+        '=================================================R : ${vizList[portIdx].value.r}');
     print(
-        '=================================================X : ${vizYValue[5]}');
+        '=================================================X : ${vizList[portIdx].value.x}');
     print(
-        '=================================================Phase : ${vizYValue[6]}');
+        '=================================================Phase : ${vizList[portIdx].value.phase}');
     print('=================================================끝===');
     print('$receiveLength자와 같아 $_b');
 
-    buffer = _bb;
-
-    vizList[0].value.rf_freq = vizYValue[0];
-    vizList[0].value.p_del = vizYValue[1];
-    vizList[0].value.v = vizYValue[2];
-    vizList[0].value.i = vizYValue[3];
-    vizList[0].value.r = vizYValue[4];
-    vizList[0].value.x = vizYValue[5];
-    vizList[0].value.phase = vizYValue[6];
+    buffer[portIdx] = _bb;
   }
 
   Future<void> readSerial(Timer timer) async {
-    if (vizChannel[0].port.isOpen) {
-      await sendRead();
-    } else {
-      for (var i = 0; i < 5; i++) {
+    for (var i = 0; i < 5; i++) {
+      //if (vizChannel[i].port.isOpen) {
+      if (iniController.to.vizComport[i] != 0) {
+        await sendRead();
+      } else if (iniController.to.vizComport[i] == 0) {
         vizList[i].value.rf_freq = setRandom() + 1405900;
         vizList[i].value.p_del = setRandom() + 40;
         vizList[i].value.v = setRandom() + 120;
@@ -278,13 +312,15 @@ class VizCtrl extends GetxController {
   }
 
   Future readData(Timer timer) async {
-    List<int> data = vizChannel[0].port.read(87);
-    data.sublist(45, 49);
-    double dataVal = Uint8List.fromList(data)
-        .buffer
-        .asByteData()
-        .getFloat32(0, Endian.little);
-    print(dataVal);
+    for (var i = 0; i < 5; i++) {
+      List<int> data = vizChannel[i].port.read(87);
+      data.sublist(45, 49);
+      double dataVal = Uint8List.fromList(data)
+          .buffer
+          .asByteData()
+          .getFloat32(0, Endian.little);
+      print(dataVal);
+    }
   }
 
   Future sendStart() async {
@@ -298,7 +334,9 @@ class VizCtrl extends GetxController {
     adfasdasf.add(0x36);
     adfasdasf.add(0x1a); //이미 컴퓨터 언어니까  encoding 할 필요 없는거넹
     final bytes = Uint8List.fromList(adfasdasf);
-    vizChannel[0].port.write(bytes);
+    for (var i = 0; i < 5; i++) {
+      if (vizChannel[i].port.isOpen) vizChannel[i].port.write(bytes);
+    }
   }
 
   Future sendRead() async {
@@ -311,7 +349,9 @@ class VizCtrl extends GetxController {
     adfasdasf.add(0x33);
     adfasdasf.add(0x1a);
     final bytes = Uint8List.fromList(adfasdasf);
-    vizChannel[0].port.write(bytes);
+    for (var i = 0; i < 5; i++) {
+      if (vizChannel[i].port.isOpen) vizChannel[i].port.write(bytes);
+    }
   }
 
   vizFirst() {
@@ -364,7 +404,7 @@ class VizCtrl extends GetxController {
             VizCtrl.to.vizPoints[1][5], Get.find<iniController>().vizColor[5]),
       if (VizCtrl.to.vizSeriesList[6])
         VizChart().lineChartBarData(
-            VizCtrl.to.vizPoints[0][6], Get.find<iniController>().vizColor[6])
+            VizCtrl.to.vizPoints[1][6], Get.find<iniController>().vizColor[6])
     ]);
   }
 

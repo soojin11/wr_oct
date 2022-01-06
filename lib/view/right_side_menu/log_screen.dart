@@ -78,7 +78,8 @@ class LogListController extends GetxController {
       logData.add(
           'VIZ${i + 1} Comport : COM${Get.find<iniController>().vizComport[i]}');
     }
-    logData.add('Auto Save : ${Get.find<iniController>().oesAutoSave.value}');
+    logData
+        .add('Auto Save : ${Get.find<iniController>().oesAutoSaveVal.value}');
     logData
         .add('Viz Interval : ${Get.find<iniController>().viz_Interval.value}');
     logData
@@ -93,7 +94,7 @@ class LogListController extends GetxController {
             '\n');
 
     Get.find<LogController>().loglist.add(
-        '${logfileTime()} [Event Trigger] Auto Save : ${Get.find<iniController>().oesAutoSave.value}\n${logfileTime()} [Event Trigger] Save setting $btnPress\n');
+        '${logfileTime()} [Event Trigger] Auto Save : ${Get.find<iniController>().oesAutoSaveVal.value}\n${logfileTime()} [Event Trigger] Save setting $btnPress\n');
   }
 
   void cModeChage() async {
@@ -160,7 +161,7 @@ class LogList extends GetView<LogListController> {
               //isAlwaysShown: true,
               child: SingleChildScrollView(
                 child: ListView.builder(
-                  itemExtent: 50.0,
+                  itemExtent: 34.0,
                   reverse: true,
                   controller: scrollCtrl,
                   addAutomaticKeepAlives: false,
@@ -170,6 +171,7 @@ class LogList extends GetView<LogListController> {
                   itemCount: controller.logData.length,
                   itemBuilder: (BuildContext context, int index) {
                     return ListTile(
+                      dense: true,
                       //최신 인덱스이면 글자 강조되게
                       title: index == controller.logData.length - 1
                           ? Row(
@@ -178,28 +180,32 @@ class LogList extends GetView<LogListController> {
                                 Text(
                                   '${screenTime()}',
                                   style: TextStyle(
-                                    color: Colors.blueGrey,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                      color: Colors.blueGrey,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 13),
                                 ),
-                                SizedBox(width: 13),
+                                SizedBox(width: 10),
                                 Text(
                                   '${controller.logData[index]}\r\n',
                                   style: TextStyle(
-                                    color: Colors.blueGrey,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                      color: Colors.blueGrey,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 13),
                                 ),
                               ],
                             )
                           : Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('${screenTime()}'),
-                                SizedBox(width: 17),
+                                Text(
+                                  '${screenTime()}',
+                                  style: TextStyle(fontSize: 13),
+                                ),
+                                SizedBox(width: 13),
                                 Column(
                                   children: [
-                                    Text('${controller.logData[index]}\r\n'),
+                                    Text('${controller.logData[index]}\r\n',
+                                        style: TextStyle(fontSize: 13)),
                                   ],
                                 ),
                               ],

@@ -95,7 +95,9 @@ Future<void> _showDialog(context) async {
                                                       .value =
                                                   int.parse(v.toString());
                                             },
-                                            initVal: '3',
+                                            initVal: iniController
+                                                .to.oes_comport
+                                                .toString(),
                                             label: 'OES'),
                                         ComSet(
                                             onSaved: (v) {
@@ -103,7 +105,9 @@ Future<void> _showDialog(context) async {
                                                       .vizComport[0] =
                                                   int.parse(v.toString());
                                             },
-                                            initVal: '4',
+                                            initVal: iniController
+                                                .to.vizComport[0]
+                                                .toString(),
                                             label: 'VIZ 1'),
                                         ComSet(
                                             onSaved: (v) {
@@ -111,7 +115,9 @@ Future<void> _showDialog(context) async {
                                                       .vizComport[1] =
                                                   int.parse(v.toString());
                                             },
-                                            initVal: '1',
+                                            initVal: iniController
+                                                .to.vizComport[1]
+                                                .toString(),
                                             label: 'VIZ 2'),
                                         ComSet(
                                             onSaved: (v) {
@@ -119,7 +125,9 @@ Future<void> _showDialog(context) async {
                                                       .vizComport[2] =
                                                   int.parse(v.toString());
                                             },
-                                            initVal: '2',
+                                            initVal: iniController
+                                                .to.vizComport[2]
+                                                .toString(),
                                             label: 'VIZ 3'),
                                         ComSet(
                                             onSaved: (v) {
@@ -127,7 +135,9 @@ Future<void> _showDialog(context) async {
                                                       .vizComport[3] =
                                                   int.parse(v.toString());
                                             },
-                                            initVal: '6',
+                                            initVal: iniController
+                                                .to.vizComport[3]
+                                                .toString(),
                                             label: 'VIZ 4'),
                                         ComSet(
                                             onSaved: (v) {
@@ -135,7 +145,9 @@ Future<void> _showDialog(context) async {
                                                       .vizComport[4] =
                                                   int.parse(v.toString());
                                             },
-                                            initVal: '5',
+                                            initVal: iniController
+                                                .to.vizComport[4]
+                                                .toString(),
                                             label: 'VIZ 5'),
                                       ],
                                     ),
@@ -145,67 +157,84 @@ Future<void> _showDialog(context) async {
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold),
                                     ),
-                                    Row(children: [
-                                      Container(
-                                        width: 80,
-                                        child: TextFormField(
-                                          initialValue: '2300',
-                                          decoration: InputDecoration(
-                                            labelText: 'Auto Save',
-                                            hintText: 'Value',
+                                    Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                            width: 100,
+                                            child: TextFormField(
+                                              initialValue:
+                                                  (Get.find<iniController>()
+                                                              .integrationTime
+                                                              .value ~/
+                                                          1000)
+                                                      .toString(),
+                                              decoration: InputDecoration(
+                                                labelText: 'Integration Time',
+                                                hintText: 'milliseconds',
+                                              ),
+                                              onSaved: (v) {
+                                                Get.find<iniController>()
+                                                        .integrationTime
+                                                        .value =
+                                                    int.parse(v.toString()) *
+                                                        1000;
+                                              },
+                                            ),
                                           ),
-                                          onSaved: (v) {
-                                            Get.find<iniController>()
-                                                    .oesAutoSave
-                                                    .value =
-                                                double.parse(v.toString());
-                                          },
-                                        ),
-                                      ),
-                                      SizedBox(width: 20),
-                                      Container(
-                                        width: 100,
-                                        child: TextFormField(
-                                          initialValue:
-                                              (Get.find<iniController>()
-                                                          .integrationTime
-                                                          .value ~/
-                                                      1000)
-                                                  .toString(),
-                                          decoration: InputDecoration(
-                                            labelText: 'Integration Time',
-                                            hintText: 'milliseconds',
+                                          SizedBox(height: 20),
+                                          Row(
+                                            children: [
+                                              Obx(
+                                                () => SizedBox(
+                                                    height: 55,
+                                                    child: Row(children: [
+                                                      Text("Auto Save"),
+                                                      Checkbox(
+                                                          value: iniController
+                                                              .to
+                                                              .checkAuto
+                                                              .value,
+                                                          onChanged: (e) {
+                                                            iniController
+                                                                .to
+                                                                .checkAuto
+                                                                .value = e!;
+                                                          }),
+                                                    ])),
+                                              ),
+                                              SizedBox(width: 20),
+                                              Container(
+                                                  width: 100,
+                                                  child: Obx(
+                                                    () => Visibility(
+                                                      visible: iniController
+                                                          .to.checkAuto.value,
+                                                      child: TextFormField(
+                                                        initialValue:
+                                                            iniController.to
+                                                                .oesAutoSaveVal
+                                                                .toString(),
+                                                        decoration:
+                                                            InputDecoration(
+                                                          labelText:
+                                                              'Auto Save Value',
+                                                          hintText: 'Value',
+                                                        ),
+                                                        onSaved: (v) {
+                                                          Get.find<iniController>()
+                                                                  .oesAutoSaveVal
+                                                                  .value =
+                                                              double.parse(
+                                                                  v.toString());
+                                                        },
+                                                      ),
+                                                    ),
+                                                  )),
+                                            ],
                                           ),
-                                          onSaved: (v) {
-                                            Get.find<iniController>()
-                                                    .integrationTime
-                                                    .value =
-                                                int.parse(v.toString()) * 1000;
-                                          },
-                                        ),
-                                      ),
-                                      SizedBox(width: 20),
-                                      Container(
-                                        width: 120,
-                                        child: TextFormField(
-                                          initialValue:
-                                              Get.find<iniController>()
-                                                  .waitSwitchingTime
-                                                  .value
-                                                  .toString(),
-                                          decoration: InputDecoration(
-                                            labelText: 'Wait Switching Time',
-                                            hintText: 'milliseconds',
-                                          ),
-                                          onSaved: (v) {
-                                            Get.find<iniController>()
-                                                    .waitSwitchingTime
-                                                    .value =
-                                                int.parse(v.toString());
-                                          },
-                                        ),
-                                      ),
-                                    ]),
+                                        ]),
                                     Divider(height: 30, thickness: 2),
                                     Text('VIZ Setting',
                                         style: TextStyle(
@@ -443,6 +472,7 @@ Future<String?> runningSet(BuildContext context) {
           onPressed: () {
             Get.find<OesController>().inactiveBtn.value = false;
             // Get.find<CsvController>().inactiveBtn.value = false;
+            VizCtrl.to.timer.cancel();
             Get.find<OesController>().timer?.cancel();
             Get.find<LogListController>().clickedStop();
             Get.find<CsvController>().csvSaveInit.value = false;

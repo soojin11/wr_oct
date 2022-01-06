@@ -53,6 +53,7 @@ List<double> dllReadData(ArgReadData a) {
 // 230*8->
 
 class iniController extends GetxController {
+  static iniController get to => Get.find();
   final GlobalKey<FormState> key = GlobalKey<FormState>();
   Rx<Color> Series_Color_001 = Color(0xFFEF5350).obs;
   Rx<Color> Series_Color_002 = Color(0xFFFFA726).obs;
@@ -85,7 +86,7 @@ class iniController extends GetxController {
   RxString delayTime = '100'.obs;
   RxInt channelMovingTime = 2000.obs;
   RxInt integrationTime = 1000.obs;
-  RxInt waitSwitchingTime = 1000.obs;
+  RxInt waitSwitchingTime = 400.obs;
   RxInt plusTime = 100.obs;
   RxString deviceSimul = ''.obs;
   RxString mosChannel = '0'.obs;
@@ -97,7 +98,9 @@ class iniController extends GetxController {
   RxInt oes_comport = 3.obs;
   RxString viz_Interval = '100'.obs;
   RxList<int> vizComport = [4, 1, 2, 6, 5].obs;
-  RxDouble oesAutoSave = 2300.0.obs;
+  RxDouble oesAutoSaveVal = 3000.0.obs;
+  // RxInt autoSave = 1.obs;
+  RxBool checkAuto = true.obs;
   //디바이스데이터 채널 변경때문에 임시추가-원희-21/12/08
   RxList<String> chflow = ['1', '3', '5', '7', '8', '6', '4', '2'].obs;
   //디바이스데이터 채널 변경때문에 임시추가-원희-21/12/08
@@ -120,7 +123,14 @@ class iniController extends GetxController {
       var file = await _localFile;
       Config config = Config.fromStrings(file.readAsLinesSync());
       result = config;
+      for (var i = 0; i < 5; i++) {
+        Get.find<iniController>().vizComport[i] = int.parse(
+            config.get("VI_Setting", 'VIZ_${i + 1}_COM_PORT').toString());
+      }
+      Get.find<iniController>().oesAutoSaveVal.value =
+          double.parse(config.get("OES_Setting", 'AutoSave_Value').toString());
 
+      print('readConfig comport list: ${iniController.to.vizComport}');
       if (int.parse(config.get("Common", "OES_Simulation").toString()) == 1) {
         //시뮬레이터 작동
         Get.find<iniController>().sim.value = 1;
@@ -174,6 +184,7 @@ class iniController extends GetxController {
     if (!config.hasSection("Common")) {
       config.addSection("Common");
       config.set("Common", "OES_Comport", "3");
+
       config.set("Common", "IntegrationTime", "1000");
       config.set("Common", "Channel_Moving_Time", "1500");
       config.set("Common", "PlusTime", "100");
@@ -196,14 +207,17 @@ class iniController extends GetxController {
     if (!config.hasSection("OES_Setting")) {
       config.addSection("OES_Setting");
       config.set("OES_Setting", "ExposureTime", "100");
-
       config.set("OES_Setting", 'DelayTime', "100");
+      // config.set("OES_Setting", "AutoSave", "1");
+      config.set("OES_Setting", "AutoSave_Value", "3000");
+      config.set("OES_Setting", "AutoSave", "true");
       writeToConf(config);
     }
     if (!config.hasSection("VI_Setting")) {
       config.addSection("VI_Setting");
-      config.set("VI_Setting", "a", "0");
-      config.set("VI_Setting", 'b', "2");
+      for (var i = 0; i < 5; i++) {
+        config.set("VI_Setting", 'VIZ_${i + 1}_COM_PORT', '${i + 1}');
+      }
       writeToConf(config);
     }
     if (!config.hasSection("OES_Chart_Setting")) {
@@ -233,6 +247,7 @@ class iniController extends GetxController {
 
     config.addSection("Common");
     config.set("Common", "OES_Comport", "3");
+
     config.set("Common", "IntegrationTime",
         (Get.find<iniController>().integrationTime.value ~/ 1000).toString());
     config.set("Common", "Channel_Moving_Time", "1500");
@@ -255,12 +270,22 @@ class iniController extends GetxController {
     writeToConf(config);
     config.addSection("OES_Setting");
     config.set("OES_Setting", "ExposureTime", "100");
-
+    // config.set("OES_Setting", "AutoSave",
+    //     Get.find<iniController>().autoSave.toString());
+    config.set("OES_Setting", "AutoSave_Value",
+        Get.find<iniController>().oesAutoSaveVal.toString());
+    config.set(
+        "OES_Setting", "AutoSave", iniController.to.checkAuto.toString());
     config.set("OES_Setting", 'DelayTime', "100");
     writeToConf(config);
     config.addSection("VI_Setting");
-    config.set("VI_Setting", "a", "0");
-    config.set("VI_Setting", 'b', "2");
+    config.set(
+        "VI_Setting", "VIZ_INTERVAL", iniController.to.viz_Interval.toString());
+    for (var i = 0; i < 5; i++) {
+      config.set("VI_Setting", 'VIZ_${i + 1}_COM_PORT',
+          iniController.to.vizComport[i].toString());
+    }
+
     writeToConf(config);
     config.addSection("OES_Chart_Setting");
     config.set("OES_Chart_Setting", "Series_Color_001",
