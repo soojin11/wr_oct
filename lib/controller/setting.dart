@@ -25,6 +25,7 @@ class ColorSet extends StatelessWidget {
           width: 260,
           child: Center(
             child: MaterialColorPicker(
+              iconSelected: IconData(0),
               circleSize: 190,
               onColorChange: onColorChanage,
               colors: [

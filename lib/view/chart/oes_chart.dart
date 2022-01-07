@@ -156,8 +156,9 @@ class OesController extends GetxController {
         Get.find<CsvController>().startTime.value =
             '${DateFormat('HH:mm:ss').format(current)}.$third';
         for (var i = 0; i < Get.find<iniController>().OES_Count.value; i++) {
-          Get.find<CsvController>().csvFormInit(
+          await Get.find<CsvController>().csvFormInit(
               path: "_${i + 1}.csv", channelNum: 'channelNum : ${i + 1}');
+          print("1번 왜 안돼 $i");
         }
       }
     }
@@ -166,45 +167,12 @@ class OesController extends GetxController {
       for (var i = 0; i < Get.find<iniController>().OES_Count.value; i++) {
         Get.find<CsvController>()
             .csvForm(path: "_${nCurrentChannel + 1}.csv", data: fmtSpec);
+        print("왜 안될까 $i");
       }
     }
 
     autoSaveBuffer.value = Get.find<CsvController>().csvSaveData.value;
 
-    ///////////////////////////////////////////
-    ///start
-    // if (Get.find<CsvController>().csvSaveInit.value) {
-    //   for (var i = 0; i < Get.find<iniController>().OES_Count.value; i++) {
-    //     Get.find<CsvController>().csvFormInit(
-    //         path: "_${i + 1}.csv", channelNum: 'channelNum : ${i + 1}');
-    //   }
-    //   Get.find<CsvController>().csvSaveData.value = true;
-    // }
-
-    // if (yMax.value < Get.find<iniController>().oesAutoSave.value &&
-    //     autoSave.value) {
-    //   Get.find<CsvController>().csvSaveInit.value = false;
-    //   Get.find<CsvController>().csvSaveData.value = false;
-    //   // Get.find<CsvController>().fileSave.value = false;
-    //   autoSave.value = false;
-    // }
-
-    // if (Get.find<CsvController>().csvSaveData.value) {
-    //   for (var i = 0; i < Get.find<iniController>().OES_Count.value; i++) {
-    //     Get.find<CsvController>()
-    //         .csvForm(path: "_${nCurrentChannel + 1}.csv", data: fmtSpec);
-    //   }
-    // }
-    //end
-    //////////////////////////////////////////////////////////
-
-    // if (Get.find<CsvController>().csvSaveData.value) {
-    //   Get.find<CsvController>().csvSaveInit.value = false;
-    //   for (var i = 0; i < Get.find<iniController>().OES_Count.value; i++) {
-    //     Get.find<CsvController>()
-    //         .csvForm(path: "_${nCurrentChannel + 1}.csv", data: fmtSpec);
-    //   }
-    // }
     Get.find<LogController>().loglist.add('${logfileTime()} End csv save\n');
     if (nChannelIdx > channelNuminINI.length - 1) {
       nChannelIdx = 0;

@@ -19,7 +19,6 @@ import 'package:wr_ui/view/appbar/leading/run_error_status_mark.dart';
 import 'package:wr_ui/view/chart/chart_tabbar.dart';
 import 'package:wr_ui/view/chart/oes_chart.dart';
 import 'package:wr_ui/view/chart/pages/hover_chart/hover_func.dart';
-import 'package:wr_ui/view/chart/pages/hover_chart/hover_row.dart';
 import 'package:wr_ui/view/chart/switch_chart.dart';
 import 'package:wr_ui/view/chart/viz_chart.dart';
 import 'package:wr_ui/controller/viz_ctrl.dart';
@@ -73,7 +72,7 @@ Future main() async {
   Get.put(CsvController());
   Get.put(LogListController());
   Get.put(LogController());
-  // Get.put(HoverCtrl());
+  Get.put(HoverCtrl());
   Get.put(chooseChart());
   Get.find<LogListController>().programStart();
 

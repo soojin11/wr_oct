@@ -106,11 +106,12 @@ class CsvController extends GetxController with SingleGetTickerProviderMixin {
         ',' +
         data.join(',') +
         '\n';
-
+    print("2번");
     await file.writeAsString(csv, mode: FileMode.append);
   }
 
-  void csvFormInit({required String path, required String channelNum}) async {
+  Future<bool> csvFormInit(
+      {required String path, required String channelNum}) async {
     Directory('datafiles').create(recursive: true);
     File file = File("./datafiles/${saveFileName.value}\_$path");
 
@@ -130,10 +131,11 @@ class CsvController extends GetxController with SingleGetTickerProviderMixin {
         ',' +
         listWavelength.join(',') +
         '\n';
-
-    if (!file.existsSync()) {
-      await file.writeAsString(intergrationColumn);
-    }
+    print("1번${saveFileName.value}\_$path}");
+    // if (!file.existsSync()) {
+    await file.writeAsString(intergrationColumn);
+    // }
+    return true;
   }
 
   void vizDataSave({required List<dynamic> data}) async {
