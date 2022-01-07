@@ -110,7 +110,7 @@ class OesController extends GetxController {
     oesData[nCurrentChannel].clear();
 
     ///////////////////////////////////////
-
+    if (startBtn == false) return;
     for (var x = 0; x < listWavelength.length; x++) {
       oesData[nCurrentChannel].add(FlSpot(listWavelength[x], fmtSpec[x]));
       // max값 찾기
@@ -123,7 +123,7 @@ class OesController extends GetxController {
     //csv 저장
 
     // if (iniController.to.autoSave == 1)
-    print('제발${startBtn.value}');
+
     if (iniController.to.checkAuto.value) {
       if (yMax.value >= Get.find<iniController>().oesAutoSaveVal.value) {
         saveNum[nCurrentChannel] = true;
@@ -336,7 +336,7 @@ class OesChart extends GetView<OesController> {
                         bottomTitles: SideTitles(
                           interval: 100,
                           showTitles: true,
-                          reservedSize: 20,
+                          reservedSize: 30,
                           margin: 8,
                         ),
                         leftTitles: SideTitles(

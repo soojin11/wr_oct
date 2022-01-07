@@ -41,7 +41,7 @@ class VizCtrl extends GetxController {
   RxList<RxList<FlSpot>> vizChart = RxList.empty();
   //
   RxDouble step = 1.0.obs;
-  RxDouble chartMaxX = 800.0.obs;
+  RxDouble chartMaxX = 400.0.obs;
   RxDouble chartMinX = 0.0.obs;
   late RxDouble minX;
   late RxDouble maxX;
@@ -81,10 +81,20 @@ class VizCtrl extends GetxController {
   }
 
   Future<void> vizUpdate() async {
+    int length = 400;
+    // (chartMaxX.value - chartMinX.value).toInt();
+    while (vizPoints[0][0].length > length) {
+      //limitlistBuffer.value) {
+      for (var i = 0; i < 5; i++) {
+        for (var ii = 0; ii < 7; ii++) {
+          vizPoints[i][ii].removeAt(0);
+        }
+      }
+    }
     List aaa = [];
     for (var i = 0; i < 5; i++) {
       vizPoints[i][0]
-          .add(FlSpot(xValue.value, vizList[i].value.rf_freq / 100000));
+          .add(FlSpot(xValue.value, vizList[i].value.rf_freq / 1000000));
       vizPoints[i][1].add(FlSpot(xValue.value, vizList[i].value.p_del * 2));
       vizPoints[i][2].add(FlSpot(xValue.value, vizList[i].value.v));
       vizPoints[i][3].add(FlSpot(xValue.value, vizList[i].value.i * 10));
@@ -119,7 +129,6 @@ class VizCtrl extends GetxController {
       chartMaxX.value += step.value;
     }
     xValue.value += step.value;
-    vizPoints.remove(0);
 
     update();
   }

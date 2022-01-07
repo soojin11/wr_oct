@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 import 'package:get/get.dart';
 import 'package:wr_ui/controller/setting.dart';
@@ -76,6 +77,7 @@ Future<void> _showDialog(context) async {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Form(
+                                autovalidateMode: AutovalidateMode.always,
                                 key: Get.find<iniController>().key,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -181,6 +183,10 @@ Future<void> _showDialog(context) async {
                                                     int.parse(v.toString()) *
                                                         1000;
                                               },
+                                              inputFormatters: [
+                                                FilteringTextInputFormatter
+                                                    .digitsOnly
+                                              ],
                                             ),
                                           ),
                                           SizedBox(height: 20),
@@ -229,6 +235,10 @@ Future<void> _showDialog(context) async {
                                                               double.parse(
                                                                   v.toString());
                                                         },
+                                                        inputFormatters: [
+                                                          FilteringTextInputFormatter
+                                                              .digitsOnly
+                                                        ],
                                                       ),
                                                     ),
                                                   )),
@@ -241,9 +251,11 @@ Future<void> _showDialog(context) async {
                                             fontWeight: FontWeight.bold)),
                                     Row(children: [
                                       Container(
-                                        width: 80,
+                                        width: 100,
                                         child: TextFormField(
-                                          initialValue: '100',
+                                          initialValue: iniController
+                                              .to.viz_Interval
+                                              .toString(),
                                           decoration: InputDecoration(
                                             labelText: 'Viz Interval',
                                             hintText: 'milliseconds',
@@ -253,6 +265,20 @@ Future<void> _showDialog(context) async {
                                                 .viz_Interval
                                                 .value = v.toString();
                                           },
+                                          validator: (String? v) {
+                                            if (v!.isNotEmpty) {
+                                              if (double.parse(v.toString()) <=
+                                                  50) {
+                                                return "Over 50";
+                                              }
+                                            }
+
+                                            return null;
+                                          },
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter
+                                                .digitsOnly
+                                          ],
                                         ),
                                       ),
                                       SizedBox(width: 50),

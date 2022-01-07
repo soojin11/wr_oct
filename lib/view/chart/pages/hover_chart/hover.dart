@@ -14,9 +14,10 @@ class HoverChart extends GetView<VizCtrl> {
         padding: EdgeInsets.all(20),
         child: GetBuilder<VizCtrl>(
             builder: (controller) => Obx(() => VizChart().LineChartForm(
-                controller: controller,
-                lineBarsData: chart,
-                leftTitles: SideTitles(showTitles: false),
-                bottomTitles: SideTitles(showTitles: false)))));
+                  controller: controller,
+                  lineBarsData: chart,
+                  leftTitles: SideTitles(showTitles: false),
+                  bottomTitles: SideTitles(showTitles: false),
+                ))));
   }
 }

@@ -215,6 +215,7 @@ class iniController extends GetxController {
     }
     if (!config.hasSection("VI_Setting")) {
       config.addSection("VI_Setting");
+      config.set("VI_Setting", "VIZ_INTERVAL", "100");
       for (var i = 0; i < 5; i++) {
         config.set("VI_Setting", 'VIZ_${i + 1}_COM_PORT', '${i + 1}');
       }
@@ -272,11 +273,11 @@ class iniController extends GetxController {
     config.set("OES_Setting", "ExposureTime", "100");
     // config.set("OES_Setting", "AutoSave",
     //     Get.find<iniController>().autoSave.toString());
+    config.set("OES_Setting", 'DelayTime', "100");
     config.set("OES_Setting", "AutoSave_Value",
         Get.find<iniController>().oesAutoSaveVal.toString());
     config.set(
         "OES_Setting", "AutoSave", iniController.to.checkAuto.toString());
-    config.set("OES_Setting", 'DelayTime', "100");
     writeToConf(config);
     config.addSection("VI_Setting");
     config.set(

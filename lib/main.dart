@@ -404,12 +404,12 @@ class _WRbodyState extends State<WRbody> {
                     ),
                   ),
                 )),
-            Expanded(
-                flex: 1,
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: ArrangeHover(),
-                ))
+            // Expanded(
+            //     flex: 1,
+            //     child: Padding(
+            //       padding: const EdgeInsets.all(10.0),
+            //       child: ArrangeHover(),
+            //     ))
           ],
         ),
       ),
