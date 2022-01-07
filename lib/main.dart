@@ -73,7 +73,7 @@ Future main() async {
   Get.put(CsvController());
   Get.put(LogListController());
   Get.put(LogController());
-  Get.put(HoverCtrl());
+  // Get.put(HoverCtrl());
   Get.put(chooseChart());
   Get.find<LogListController>().programStart();
 

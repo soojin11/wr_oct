@@ -168,11 +168,15 @@ class VizChart extends GetView<VizCtrl> {
                 ],
                 bottomTitles: SideTitles(
                   interval: 100,
-                  reservedSize: 30,
+                  reservedSize: 50,
                   margin: 8,
                   showTitles: true,
                   getTitles: (value) {
-                    return '${value.round()}';
+                    String rt;
+
+                    rt =
+                        '${(value.round() / 1000) * int.parse(iniController.to.viz_Interval.value)}s';
+                    return rt;
                   },
                 ),
                 leftTitles: SideTitles(

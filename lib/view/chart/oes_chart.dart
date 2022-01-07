@@ -336,7 +336,7 @@ class OesChart extends GetView<OesController> {
                         bottomTitles: SideTitles(
                           interval: 100,
                           showTitles: true,
-                          reservedSize: 30,
+                          reservedSize: 50,
                           margin: 8,
                         ),
                         leftTitles: SideTitles(
