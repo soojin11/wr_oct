@@ -2,13 +2,11 @@ import 'dart:async';
 import 'dart:ffi';
 import 'dart:io';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wr_ui/controller/drop_down_controller.dart';
 import 'package:wr_ui/controller/home_controller.dart';
-import 'package:wr_ui/model/viz_data.dart';
+import 'package:wr_ui/model/config/config.dart';
 import 'package:wr_ui/service/dark_white_mode/mode.dart';
 import 'package:wr_ui/service/routes/app_pages.dart';
 import 'package:wr_ui/view/appbar/actions/minimize/window_btn.dart';
@@ -29,6 +27,7 @@ import 'package:wr_ui/view/right_side_menu/log_screen.dart';
 import 'package:wr_ui/view/right_side_menu/save_ini.dart';
 import 'package:wr_ui/view/right_side_menu/start_stop.dart';
 import 'model/const/style/text.dart';
+import 'model/viz/viz_data.dart';
 
 final DynamicLibrary wgsFunction = DynamicLibrary.open("WGSFunction.dll");
 late int Function() ocrStart;
@@ -60,6 +59,9 @@ late int Function() mpmIsSwitching;
 List<double> listWavelength = [];
 bool runningSignal = false;
 RxDouble addVal = 0.0.obs;
+File file = File("./setting.json");
+String data = file.readAsStringSync();
+ConfigWR loadConfig = ConfigWR.fromJson(data);
 
 late int Function(int a) serialConnect;
 
@@ -99,6 +101,8 @@ Future main() async {
   // }
   ///////////////////////////////////
 
+  debugPrint('ConfigWR $loadConfig');
+
   runApp(MyApp());
 
   doWhenWindowReady(() {
@@ -113,7 +117,7 @@ Future main() async {
   });
   //메시지박스
 
-  await Get.find<iniController>().writeConfig();
+  // await Get.find<iniController>().writeConfig();
 
   //메시지박스
   if (Get.find<iniController>().sim.value == 0) {

@@ -23,8 +23,6 @@ class OesController extends GetxController {
   RxInt channelMovingTime = 270.obs;
 
   // RxInt plusTime = 30.obs;
-  //여유시간
-  RxDouble addYvalue = 0.0.obs;
   RxBool checkVal1 = true.obs;
   RxBool checkVal2 = true.obs;
   RxBool checkVal3 = true.obs;
@@ -49,13 +47,6 @@ class OesController extends GetxController {
   RxBool startBtn = true.obs;
   RxList<bool> saveNum =
       [false, false, false, false, false, false, false, false].obs;
-
-  @override
-  void onInit() {
-    // minX = 0.0.obs;
-    // maxX = listWavelength.length.toDouble().obs;
-    super.onInit();
-  }
 
   Future<bool> waitSwitching() async {
     var isSwitchingCorectionTime =

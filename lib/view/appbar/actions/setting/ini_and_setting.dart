@@ -1,10 +1,13 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 import 'package:get/get.dart';
 import 'package:wr_ui/controller/setting.dart';
 import 'package:wr_ui/controller/viz_ctrl.dart';
 import 'package:wr_ui/main.dart';
+import 'package:wr_ui/model/config/config.dart';
 import 'dart:async';
 import 'package:wr_ui/model/const/style/pallette.dart';
 import 'package:wr_ui/model/const/style/text.dart';
@@ -107,9 +110,12 @@ Future<void> _showDialog(context) async {
                                                       .vizComport[0] =
                                                   int.parse(v.toString());
                                             },
-                                            initVal: iniController
-                                                .to.vizComport[0]
-                                                .toString(),
+                                            initVal:
+                                                // loadConfig
+                                                //     .vizConfig.VizComPort[0]
+                                                //     .toString(),
+                                                iniController.to.vizComport[0]
+                                                    .toString(),
                                             label: 'VIZ 1'),
                                         ComSet(
                                             onSaved: (v) {
@@ -117,9 +123,12 @@ Future<void> _showDialog(context) async {
                                                       .vizComport[1] =
                                                   int.parse(v.toString());
                                             },
-                                            initVal: iniController
-                                                .to.vizComport[1]
-                                                .toString(),
+                                            initVal:
+                                                //  loadConfig
+                                                //     .vizConfig.VizComPort[1]
+                                                //     .toString(),
+                                                iniController.to.vizComport[1]
+                                                    .toString(),
                                             label: 'VIZ 2'),
                                         ComSet(
                                             onSaved: (v) {
@@ -127,9 +136,12 @@ Future<void> _showDialog(context) async {
                                                       .vizComport[2] =
                                                   int.parse(v.toString());
                                             },
-                                            initVal: iniController
-                                                .to.vizComport[2]
-                                                .toString(),
+                                            initVal:
+                                                // loadConfig
+                                                //     .vizConfig.VizComPort[2]
+                                                //     .toString(),
+                                                iniController.to.vizComport[2]
+                                                    .toString(),
                                             label: 'VIZ 3'),
                                         ComSet(
                                             onSaved: (v) {
@@ -137,9 +149,12 @@ Future<void> _showDialog(context) async {
                                                       .vizComport[3] =
                                                   int.parse(v.toString());
                                             },
-                                            initVal: iniController
-                                                .to.vizComport[3]
-                                                .toString(),
+                                            initVal:
+                                                // loadConfig
+                                                //     .vizConfig.VizComPort[3]
+                                                //     .toString(),
+                                                iniController.to.vizComport[3]
+                                                    .toString(),
                                             label: 'VIZ 4'),
                                         ComSet(
                                             onSaved: (v) {
@@ -147,9 +162,12 @@ Future<void> _showDialog(context) async {
                                                       .vizComport[4] =
                                                   int.parse(v.toString());
                                             },
-                                            initVal: iniController
-                                                .to.vizComport[4]
-                                                .toString(),
+                                            initVal:
+                                                // loadConfig
+                                                //     .vizConfig.VizComPort[4]
+                                                //     .toString(),
+                                                iniController.to.vizComport[4]
+                                                    .toString(),
                                             label: 'VIZ 5'),
                                       ],
                                     ),
@@ -167,6 +185,12 @@ Future<void> _showDialog(context) async {
                                             width: 100,
                                             child: TextFormField(
                                               initialValue:
+                                                  // ((loadConfig
+                                                  //             .oesConfig
+                                                  //             .integrationTime ~/
+                                                  //         1000)
+                                                  //     .toString()),
+
                                                   (Get.find<iniController>()
                                                               .integrationTime
                                                               .value ~/
@@ -232,7 +256,7 @@ Future<void> _showDialog(context) async {
                                                           Get.find<iniController>()
                                                                   .oesAutoSaveVal
                                                                   .value =
-                                                              double.parse(
+                                                              int.parse(
                                                                   v.toString());
                                                         },
                                                         inputFormatters: [
@@ -254,7 +278,7 @@ Future<void> _showDialog(context) async {
                                         width: 100,
                                         child: TextFormField(
                                           initialValue: iniController
-                                              .to.viz_Interval
+                                              .to.viz_Interval.value
                                               .toString(),
                                           decoration: InputDecoration(
                                             labelText: 'Viz Interval',
@@ -262,8 +286,9 @@ Future<void> _showDialog(context) async {
                                           ),
                                           onSaved: (v) {
                                             Get.find<iniController>()
-                                                .viz_Interval
-                                                .value = v.toString();
+                                                    .viz_Interval
+                                                    .value =
+                                                int.parse(v.toString());
                                           },
                                           validator: (String? v) {
                                             if (v!.isNotEmpty) {
@@ -463,10 +488,17 @@ Future<void> _showDialog(context) async {
                             style: TextStyle(fontSize: 20),
                           ),
                         ),
-                        onPressed: () {
+                        onPressed: () async {
                           Get.find<iniController>().key.currentState!.save();
-                          Get.find<iniController>().writeConfig2();
+                          // Get.find<iniController>().writeConfig2();
                           Get.find<LogListController>().cConfigSave();
+                          //json 연습
+                          ConfigWR writeConfig = ConfigWR.init();
+                          File file = File("./setting.json");
+                          debugPrint('writeConfig ${writeConfig.toJson()}');
+                          await file.writeAsString(writeConfig.toJson(),
+                              mode: FileMode.write);
+                          debugPrint('');
                           Navigator.pop(context);
                         },
                       ),

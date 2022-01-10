@@ -207,9 +207,7 @@ DataStartBtn() {
     //             int.parse(Get.find<iniController>().viz_Interval.value)),
     //     VizCtrl.to.vizSimUpdate);
     VizCtrl.to.timer = Timer.periodic(
-      Duration(
-          milliseconds:
-              int.parse(Get.find<iniController>().viz_Interval.value)),
+      Duration(milliseconds: Get.find<iniController>().viz_Interval.value),
       VizCtrl.to.readSerial,
     );
     // Get.find<LogListController>().logData.add(

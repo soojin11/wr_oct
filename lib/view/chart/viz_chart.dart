@@ -175,7 +175,7 @@ class VizChart extends GetView<VizCtrl> {
                     String rt;
 
                     rt =
-                        '${(value.round() / 1000) * int.parse(iniController.to.viz_Interval.value)}s';
+                        '${(value.round() / 1000) * iniController.to.viz_Interval.value}s';
                     return rt;
                   },
                 ),

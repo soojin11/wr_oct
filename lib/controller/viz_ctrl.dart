@@ -5,7 +5,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:get/get.dart';
 import 'package:libserialport/libserialport.dart';
 import 'package:wr_ui/main.dart';
-import 'package:wr_ui/model/viz_data.dart';
+import 'package:wr_ui/model/viz/viz_data.dart';
 import 'dart:math' as math;
 import 'package:wr_ui/view/chart/pages/hover_chart/hover.dart';
 import 'package:wr_ui/view/chart/viz_chart.dart';
@@ -28,7 +28,7 @@ class VizCtrl extends GetxController {
   int numOfViz = 7;
   List<List<int>> buffer = [];
   //List<List<double>> vizYValue = RxList.empty();
-  Rx<VizData> vizData = VizData.init().obs;
+  // Rx<VizData> vizData = VizData.init().obs;
   RxString selected = "OES".obs;
   var dropItem = ['OES', 'VIZ'];
 
@@ -49,8 +49,7 @@ class VizCtrl extends GetxController {
   RxList<List<double>> xValues = RxList.empty();
   RxDouble yValue = 0.0.obs;
   RxInt chartNum = 0.obs;
-  // Timer? vizChartTimer;
-
+//22.1.10 class 새로 생성
   double setRandom() {
     double yValue = 10 + math.Random().nextInt(10).toDouble();
     return yValue;
@@ -68,12 +67,12 @@ class VizCtrl extends GetxController {
         .asFunction();
 
     vizChannel.clear();
-    print('init comport list: ${iniController.to.vizComport}');
     for (var i = 0; i < 5; i++) {
       if (Get.find<iniController>().vizComport[i] > 0)
         serialConnect(Get.find<iniController>().vizComport[i]);
       buffer.add([]);
       vizChannel.add(VizChannel(
+          toggle: true,
           vizData: VizData.init(),
           port: SerialPort('COM${Get.find<iniController>().vizComport[i]}')));
       vizChannel[i].port.config.baudRate = 115200;
@@ -93,37 +92,32 @@ class VizCtrl extends GetxController {
     }
     List aaa = [];
     for (var i = 0; i < 5; i++) {
+      print('vizchannel[$i].vizData.freq ${vizChannel[i].vizData.freq}');
+
       vizPoints[i][0]
-          .add(FlSpot(xValue.value, vizList[i].value.rf_freq / 1000000));
-      vizPoints[i][1].add(FlSpot(xValue.value, vizList[i].value.p_del * 2));
+          .add(FlSpot(xValue.value, vizList[i].value.freq / 1000000));
+      vizPoints[i][1].add(FlSpot(xValue.value, vizList[i].value.p_dlv * 2));
       vizPoints[i][2].add(FlSpot(xValue.value, vizList[i].value.v));
       vizPoints[i][3].add(FlSpot(xValue.value, vizList[i].value.i * 10));
       vizPoints[i][4].add(FlSpot(xValue.value, vizList[i].value.r * 10));
       vizPoints[i][5].add(FlSpot(xValue.value, vizList[i].value.x * 10));
       vizPoints[i][6]
           .add(FlSpot(xValue.value, vizList[i].value.phase * 1000 / 360));
-      aaa.add(vizList[i].value.rf_freq);
-      aaa.add(vizList[i].value.p_del);
+
+      aaa.add(vizList[i].value.freq);
+      aaa.add(vizList[i].value.p_dlv);
       aaa.add(vizList[i].value.v);
       aaa.add(vizList[i].value.i);
       aaa.add(vizList[i].value.r);
       aaa.add(vizList[i].value.x);
       aaa.add(vizList[i].value.phase);
       // print('asdf${aaa}');
+
     }
 
     if (Get.find<CsvController>().csvSaveInit.value) {
       Get.find<CsvController>().vizDataSave(data: aaa);
     }
-
-    // vizVal1[0].add(FlSpot(xValue.value, vizYValue[0] / 100000)); //freq
-    // vizVal1[1].add(FlSpot(xValue.value, (vizYValue[1] * 2))); //p
-    // vizVal1[2].add(FlSpot(xValue.value, (vizYValue[2]))); //v
-    // vizVal1[3].add(FlSpot(xValue.value, (vizYValue[3] * 10))); //i
-    // vizVal1[4].add(FlSpot(xValue.value, (vizYValue[4] * 10))); //r
-    // vizVal1[5].add(FlSpot(xValue.value, (vizYValue[5] * 10))); //x
-    // vizVal1[6].add(FlSpot(xValue.value, (vizYValue[6] * 1000 / 360))); //phase
-
     if (xValue.value > chartMaxX.value) {
       chartMinX.value += step.value;
       chartMaxX.value += step.value;
@@ -239,12 +233,12 @@ class VizCtrl extends GetxController {
     //freq = qwre
     //v = fwe
 
-    vizList[portIdx].value.rf_freq = Uint8List.fromList(_b)
+    vizList[portIdx].value.freq = Uint8List.fromList(_b)
         .sublist(startDataIdx, startDataIdx += 4)
         .buffer
         .asByteData()
         .getFloat32(0, Endian.little);
-    vizList[portIdx].value.p_del = Uint8List.fromList(_b)
+    vizList[portIdx].value.p_dlv = Uint8List.fromList(_b)
         .sublist(startDataIdx, startDataIdx += 4)
         .buffer
         .asByteData()
@@ -277,9 +271,9 @@ class VizCtrl extends GetxController {
 
     print('=================================================시작===');
     print(
-        '=================================================Frequency : ${vizList[portIdx].value.rf_freq}');
+        '=================================================Frequency : ${vizList[portIdx].value.freq}');
     print(
-        '=================================================P_div : ${vizList[portIdx].value.p_del}');
+        '=================================================P_div : ${vizList[portIdx].value.p_dlv}');
     print(
         '=================================================V : ${vizList[portIdx].value.v}');
     print(
@@ -299,16 +293,25 @@ class VizCtrl extends GetxController {
   Future<void> readSerial(Timer timer) async {
     for (var i = 0; i < 5; i++) {
       //if (vizChannel[i].port.isOpen) {
-      if (iniController.to.vizComport[i] != 0) {
+      // if (iniController.to.vizComport[i] != 0)
+      if (loadConfig.vizConfig.VizComPort[i] != 0) {
         await sendRead();
-      } else if (iniController.to.vizComport[i] == 0) {
-        vizList[i].value.rf_freq = setRandom() + 1405900;
-        vizList[i].value.p_del = setRandom() + 40;
+      } else if (loadConfig.vizConfig.VizComPort[i] == 0) {
+        vizList[i].value.freq = setRandom() + 1405900;
+        vizList[i].value.p_dlv = setRandom() + 40;
         vizList[i].value.v = setRandom() + 120;
         vizList[i].value.i = setRandom() - 10;
         vizList[i].value.r = setRandom() - 10;
         vizList[i].value.x = setRandom() - 10;
         vizList[i].value.phase = setRandom() + 30;
+        //수정
+        vizChannel[i].vizData.freq = setRandom() + 1405900;
+        vizChannel[i].vizData.p_dlv = setRandom() + 40;
+        vizChannel[i].vizData.v = setRandom() + 120;
+        vizChannel[i].vizData.i = setRandom() - 10;
+        vizChannel[i].vizData.r = setRandom() - 10;
+        vizChannel[i].vizData.x = setRandom() - 10;
+        vizChannel[i].vizData.phase = setRandom() + 30;
       }
     }
     // 측정한 data 값 요구

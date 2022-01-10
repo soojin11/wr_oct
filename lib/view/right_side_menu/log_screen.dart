@@ -82,16 +82,12 @@ class LogListController extends GetxController {
         .add('Auto Save : ${Get.find<iniController>().oesAutoSaveVal.value}');
     logData
         .add('Viz Interval : ${Get.find<iniController>().viz_Interval.value}');
-    logData
-        .add('Exposure time : ${Get.find<iniController>().exposureTime.value}');
+
     logData.add(
         'Oes Integration : ${Get.find<iniController>().integrationTime.value}');
     logData.add(
         'Switching Time : ${Get.find<iniController>().waitSwitchingTime.value}');
     logData.add('Save Config');
-    Get.find<LogController>().loglist.add(
-        '${logfileTime} Exposure time has been changed to ${Get.find<iniController>().exposureTime.value}' +
-            '\n');
 
     Get.find<LogController>().loglist.add(
         '${logfileTime()} [Event Trigger] Auto Save : ${Get.find<iniController>().oesAutoSaveVal.value}\n${logfileTime()} [Event Trigger] Save setting $btnPress\n');
