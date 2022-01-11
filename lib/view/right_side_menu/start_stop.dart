@@ -58,8 +58,8 @@ class StartStop extends StatelessWidget {
                     Get.find<CsvController>().csvSaveInit.value = false;
                     Get.find<CsvController>().csvSaveData.value = false;
                     Get.find<OesController>().startBtn.value = false;
-                    // if (Get.find<iniController>().sim.value == 0) {
-                    if (iniController.to.oesSim.value == false) {
+                    if (iniController.to.oes_comport.value != 0 &&
+                        iniController.to.oes_comport.value != -1) {
                       mpmSetChannel(0);
                     }
                     Get.find<LogListController>().clickedStop();
@@ -75,7 +75,9 @@ class StartStop extends StatelessWidget {
 
 DataStartBtn() async {
   // if (Get.find<iniController>().sim.value == 0) {
-  if (iniController.to.oesSim.value == false) {
+  // if (iniController.to.oesSim.value == false) {
+  if (iniController.to.oes_comport.value != 0 &&
+      iniController.to.oes_comport.value != -1) {
     if (ocrs != 0) await oesClose();
     await oesInit();
   }
@@ -110,13 +112,13 @@ DataStartBtn() async {
     print('time3?? $time3');
     print('allTime??? $allTime');
     Get.find<OesController>().startBtn.value = true;
-    // if (Get.find<iniController>().sim == 0) {
-    if (iniController.to.oesSim.value == false) {
+    if (iniController.to.oes_comport.value != 0 &&
+        iniController.to.oes_comport.value != -1) {
       setIntegrationTime(0, Get.find<iniController>().integrationTime.value);
       Get.find<runErrorStatusController>().statusColor.value =
           Color(0xFF2CA732);
       Get.find<runErrorStatusController>().textmsg.value = 'R U N';
-    } else {
+    } else if (iniController.to.oes_comport.value != -1) {
       Get.find<runErrorStatusController>().textmsg.value =
           'S I M U L A T I O N';
       Get.find<runErrorStatusController>().statusColor.value =
@@ -140,5 +142,4 @@ DataStartBtn() async {
   } on FormatException {
     print('format error');
   }
-  Get.find<OesController>().oesChartData[0];
 }

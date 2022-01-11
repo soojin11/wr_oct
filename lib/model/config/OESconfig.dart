@@ -1,44 +1,44 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
+
 import 'package:wr_ui/view/right_side_menu/save_ini.dart';
 
 class OesConfig {
   int integrationTime;
   bool autoSave;
   int autoSaveVal;
-  bool simulation;
   List channelFlow;
+  int oesComPort;
   OesConfig({
     required this.integrationTime,
     required this.autoSave,
     required this.autoSaveVal,
-    required this.simulation,
     required this.channelFlow,
+    required this.oesComPort,
   });
-
   factory OesConfig.init() {
     return OesConfig(
         integrationTime: iniController.to.integrationTime.value,
         autoSave: iniController.to.checkAuto.value,
         autoSaveVal: iniController.to.oesAutoSaveVal.value,
-        simulation: iniController.to.oesSim.value,
-        channelFlow: iniController.to.channelFlow);
+        channelFlow: iniController.to.channelFlow,
+        oesComPort: iniController.to.oes_comport.value);
   }
 
   OesConfig copyWith({
     int? integrationTime,
     bool? autoSave,
     int? autoSaveVal,
-    bool? simulation,
     List? channelFlow,
+    int? oesComPort,
   }) {
     return OesConfig(
       integrationTime: integrationTime ?? this.integrationTime,
       autoSave: autoSave ?? this.autoSave,
       autoSaveVal: autoSaveVal ?? this.autoSaveVal,
-      simulation: simulation ?? this.simulation,
       channelFlow: channelFlow ?? this.channelFlow,
+      oesComPort: oesComPort ?? this.oesComPort,
     );
   }
 
@@ -47,18 +47,18 @@ class OesConfig {
       'integrationTime': integrationTime,
       'autoSave': autoSave,
       'autoSaveVal': autoSaveVal,
-      'simulation': simulation,
       'channelFlow': channelFlow,
+      'oesComPort': oesComPort,
     };
   }
 
   factory OesConfig.fromMap(Map<String, dynamic> map) {
     return OesConfig(
-      integrationTime: map['integrationTime']?.toInt() ?? 0.0,
+      integrationTime: map['integrationTime']?.toInt() ?? 0,
       autoSave: map['autoSave'] ?? false,
-      autoSaveVal: map['autoSaveVal']?.toInt() ?? 0.0,
-      simulation: map['simulation'] ?? false,
+      autoSaveVal: map['autoSaveVal']?.toInt() ?? 0,
       channelFlow: List.from(map['channelFlow']),
+      oesComPort: map['oesComPort']?.toInt() ?? 0,
     );
   }
 
@@ -69,7 +69,7 @@ class OesConfig {
 
   @override
   String toString() {
-    return 'OesConfig(integrationTime: $integrationTime, autoSave: $autoSave, autoSaveVal: $autoSaveVal, simulation: $simulation, channelFlow: $channelFlow)';
+    return 'OesConfig(integrationTime: $integrationTime, autoSave: $autoSave, autoSaveVal: $autoSaveVal, channelFlow: $channelFlow, oesComPort: $oesComPort)';
   }
 
   @override
@@ -80,8 +80,8 @@ class OesConfig {
         other.integrationTime == integrationTime &&
         other.autoSave == autoSave &&
         other.autoSaveVal == autoSaveVal &&
-        other.simulation == simulation &&
-        listEquals(other.channelFlow, channelFlow);
+        listEquals(other.channelFlow, channelFlow) &&
+        other.oesComPort == oesComPort;
   }
 
   @override
@@ -89,7 +89,7 @@ class OesConfig {
     return integrationTime.hashCode ^
         autoSave.hashCode ^
         autoSaveVal.hashCode ^
-        simulation.hashCode ^
-        channelFlow.hashCode;
+        channelFlow.hashCode ^
+        oesComPort.hashCode;
   }
 }

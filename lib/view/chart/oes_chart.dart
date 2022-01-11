@@ -67,7 +67,8 @@ class OesController extends GetxController {
         .loglist
         .add('${logfileTime()} Start SetChannel\n');
     // if (Get.find<iniController>().sim == 0) {
-    if (iniController.to.oesSim.value == false) {
+    if (iniController.to.oes_comport.value != 0 &&
+        iniController.to.oes_comport.value != -1) {
       mpmSetChannel(nCurrentChannel);
     }
 
@@ -82,29 +83,27 @@ class OesController extends GetxController {
         .add('${logfileTime()} End waitSwitching\n');
     //21.12.29추가
     // if (Get.find<iniController>().sim == 1) {
-    if (iniController.to.oesSim.value == true) {
+    // if (iniController.to.oesSim.value == true) {
+    if (iniController.to.oes_comport.value == -1) {
       for (var i = 0; i < 8; i++) {
         if (listWavelength.isNotEmpty) {
           listWavelength.clear();
         }
       }
+
       for (var i = 0; i < 2048; i++) {
         listWavelength.add(i.toDouble());
         Get.find<OesController>().maxX.value = listWavelength.length.toDouble();
       }
-      // for (var i = 0; i < 8; i++) {
-      //   if(OesController.to.oesData[i].xVal.isNotEmpty){
-      //     OesController.to.oesData[i].xVal.clear();
-      //   }
-      // }
-      // for (var i = 0; i < 2048; i++) {
-      //   OesController.to.oesData[i].xVal.add([]);
-      //   OesController.to.maxX.value = OesController.to.oesData[i].xVal.length.toDouble();
-      // }
+    }
+    if (iniController.to.oes_comport.value == 0) {
+      for (var i = 0; i < 2048; i++) {
+        listWavelength;
+      }
     }
 
     List<double> fmtSpec = await readData(ArgReadData(
-        spectrometerIndex: 0, sim: iniController.to.oesSim.value.obs));
+        spectrometerIndex: 0, sim: iniController.to.oes_comport.value));
 
     Get.find<LogController>().loglist.add('${logfileTime()} End readData\n');
     oesChartData[nCurrentChannel].clear();
@@ -121,8 +120,6 @@ class OesController extends GetxController {
 
     Get.find<LogController>().loglist.add('${logfileTime()} End Draw Chart\n');
     //csv 저장
-
-    // if (iniController.to.autoSave == 1)
 
     if (iniController.to.checkAuto.value) {
       if (yMax.value >= Get.find<iniController>().oesAutoSaveVal.value) {

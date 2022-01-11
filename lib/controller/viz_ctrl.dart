@@ -108,13 +108,13 @@ class VizCtrl extends GetxController {
       print('startSerial i $i');
 
       if (vizChannel[i].port.openReadWrite()) {
-        print('오픈 성공 ${vizChannel[i].port.name}');
+        print('오픈 성공 i $i ${vizChannel[i].port.name}');
         await SerialPortReader(vizChannel[i].port).stream.listen((data) async {
           print('listen $i');
           await validity(data, i);
         });
       } else {
-        print('오픈 에러 ?? ${SerialPort.lastError}');
+        print('오픈 에러 ?? $i ${SerialPort.lastError}');
         Get.find<LogListController>().logData.add('Viz Comport Error');
       }
       if (!VizCtrl.to.vizChannel[i].port.isOpen) {
@@ -291,17 +291,12 @@ class VizCtrl extends GetxController {
     for (var i = 0; i < 5; i++) {
       //if (vizChannel[i].port.isOpen) {
       // if (iniController.to.vizComport[i] != 0)
-      if (loadConfig.vizConfig.VizComPort[i] != 0) {
+      if (iniController.to.vizComport[i] != 0 &&
+          iniController.to.vizComport[i] != -1) {
+        print('object');
         await sendRead();
-      } else if (loadConfig.vizConfig.VizComPort[i] == 0) {
-        // vizList[i].value.freq = setRandom() + 1405900;
-        // vizList[i].value.p_dlv = setRandom() + 40;
-        // vizList[i].value.v = setRandom() + 120;
-        // vizList[i].value.i = setRandom() - 10;
-        // vizList[i].value.r = setRandom() - 10;
-        // vizList[i].value.x = setRandom() - 10;
-        // vizList[i].value.phase = setRandom() + 30;
-        //수정
+      }
+      if (iniController.to.vizComport[i] == -1) {
         vizChannel[i].vizData.freq = setRandom() + 1405900;
         vizChannel[i].vizData.p_dlv = setRandom() + 40;
         vizChannel[i].vizData.v = setRandom() + 120;
@@ -309,6 +304,9 @@ class VizCtrl extends GetxController {
         vizChannel[i].vizData.r = setRandom() - 10;
         vizChannel[i].vizData.x = setRandom() - 10;
         vizChannel[i].vizData.phase = setRandom() + 30;
+      }
+      if (iniController.to.vizComport[i] == 0) {
+        vizChannel[i];
       }
     }
     // 측정한 data 값 요구
@@ -318,6 +316,7 @@ class VizCtrl extends GetxController {
     if (vizChannel.isNotEmpty) {
       vizUpdate();
     }
+    update();
   }
 
   Future readData(Timer timer) async {

@@ -7,7 +7,7 @@ import 'dart:math' as math;
 
 class ArgReadData {
   int spectrometerIndex;
-  RxBool sim;
+  int sim;
   ArgReadData({
     required this.spectrometerIndex,
     required this.sim,
@@ -20,8 +20,9 @@ Future<List<double>> readData(ArgReadData a) async {
 
 List<double> dllReadData(ArgReadData a) {
   List<double> rt = [];
-  // if (a.sim != -1 && a.sim != 0) {
-  if (a.sim == false) {
+  // rt.clear();
+  if (a.sim != -1 && a.sim != 0) {
+    // if (a.sim == false) {
     Pointer<Double> fmtSpec = nullptr;
     getformatSpec = wgsFunction
         .lookup<NativeFunction<Pointer<Double> Function(Int32)>>(
@@ -32,9 +33,13 @@ List<double> dllReadData(ArgReadData a) {
     for (var x = 0; x < 2048; x++) {
       rt.add(fmtSpec[x].toDouble());
     }
-  } else {
+  } else if (a.sim == -1) {
     for (var x = 0; x < 2048; x++) {
       rt.add(500 + math.Random().nextInt(1500).toDouble());
+    }
+  } else if (a.sim == 0) {
+    for (var i = 0; i < 2048; i++) {
+      rt.add(0);
     }
   }
 
@@ -72,11 +77,10 @@ class iniController extends GetxController {
   // RxInt sim = 1.obs;
   RxList<String> channelFlow = ['1', '3', '5', '7', '8', '6', '4', '2'].obs;
   RxInt OES_Count = 8.obs;
-  RxInt oes_comport = 3.obs;
+  RxInt oes_comport = loadConfig.oesConfig.oesComPort.obs;
   RxInt oesAutoSaveVal = loadConfig.oesConfig.autoSaveVal.obs;
   RxBool checkAuto = loadConfig.oesConfig.autoSave.obs;
-  RxBool oesSim = loadConfig.oesConfig.simulation.obs;
+  // RxBool oesSim = loadConfig.oesConfig.simulation.obs;
   RxInt viz_Interval = loadConfig.vizConfig.interval.obs;
   RxList vizComport = loadConfig.vizConfig.VizComPort.obs;
-  RxBool vizSim = true.obs;
 }

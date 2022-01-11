@@ -62,7 +62,9 @@ Future<String?> runningExit(BuildContext context) {
             Get.find<CsvController>().csvSaveInit.value = false;
             Get.find<CsvController>().csvSaveData.value = false;
             // if (Get.find<iniController>().sim.value == 0) {
-            if (iniController.to.oesSim.value == false) {
+            // if (iniController.to.oesSim.value == false) {
+            if (iniController.to.oes_comport.value != 0 &&
+                iniController.to.oes_comport.value != -1) {
               mpmSetChannel(0);
             }
             completelyExit(context);
@@ -87,7 +89,9 @@ Future<String?> completelyExit(BuildContext context) {
             ),
             onPressed: () {
               // if (Get.find<iniController>().sim.value == 0) {
-              if (iniController.to.oesSim.value == false) {
+              // if (iniController.to.oesSim.value == false) {
+              if (iniController.to.oes_comport.value != 0 &&
+                  iniController.to.oes_comport.value != -1) {
                 mpmSetChannel(0);
                 closeAll();
               }

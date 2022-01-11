@@ -4,18 +4,15 @@ import 'package:flutter/foundation.dart';
 
 class VizConfig {
   int interval;
-  bool simulation;
   List VizComPort;
   VizConfig({
     required this.interval,
-    required this.simulation,
     required this.VizComPort,
   });
 
   factory VizConfig.init() {
     return VizConfig(
         interval: iniController.to.viz_Interval.value,
-        simulation: iniController.to.vizSim.value,
         VizComPort: iniController.to.vizComport);
   }
 
@@ -26,7 +23,6 @@ class VizConfig {
   }) {
     return VizConfig(
       interval: interval ?? this.interval,
-      simulation: simulation ?? this.simulation,
       VizComPort: VizComPort ?? this.VizComPort,
     );
   }
@@ -34,7 +30,6 @@ class VizConfig {
   Map<String, dynamic> toMap() {
     return {
       'interval': interval,
-      'simulation': simulation,
       'VizComPort': VizComPort,
     };
   }
@@ -42,7 +37,6 @@ class VizConfig {
   factory VizConfig.fromMap(Map<String, dynamic> map) {
     return VizConfig(
       interval: map['interval']?.toInt() ?? 0,
-      simulation: map['simulation'] ?? false,
       VizComPort: List.from(map['VizComPort']),
     );
   }
@@ -54,7 +48,7 @@ class VizConfig {
 
   @override
   String toString() =>
-      'VizConfig(interval: $interval, simulation: $simulation, VizComPort: $VizComPort)';
+      'VizConfig(interval: $interval,  VizComPort: $VizComPort)';
 
   @override
   bool operator ==(Object other) {
@@ -62,11 +56,9 @@ class VizConfig {
 
     return other is VizConfig &&
         other.interval == interval &&
-        other.simulation == simulation &&
         listEquals(other.VizComPort, VizComPort);
   }
 
   @override
-  int get hashCode =>
-      interval.hashCode ^ simulation.hashCode ^ VizComPort.hashCode;
+  int get hashCode => interval.hashCode ^ VizComPort.hashCode;
 }

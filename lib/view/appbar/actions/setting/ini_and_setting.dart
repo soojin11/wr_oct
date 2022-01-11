@@ -162,24 +162,6 @@ Future<void> _showDialog(context) async {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Row(children: [
-                                            Obx(
-                                              () => SizedBox(
-                                                  height: 55,
-                                                  child: Row(children: [
-                                                    Text("Simulation"),
-                                                    Checkbox(
-                                                        value: iniController
-                                                            .to.oesSim.value,
-                                                        onChanged: (e) {
-                                                          iniController
-                                                              .to
-                                                              .oesSim
-                                                              .value = e!;
-                                                        }),
-                                                  ])),
-                                            ),
-                                          ]),
                                           Container(
                                             width: 100,
                                             child: TextFormField(
@@ -474,16 +456,34 @@ Future<void> _showDialog(context) async {
                           ),
                         ),
                         onPressed: () async {
+                          OesController.to.oesChartData.clear();
+                          for (var i = 0;
+                              i < Get.find<iniController>().OES_Count.value;
+                              i++) {
+                            Get.find<OesController>().oesChartData.add([]);
+                          }
+                          VizCtrl.to.vizPoints.clear();
+                          for (var i = 0; i < 5; i++) {
+                            VizCtrl.to.vizPoints.add(RxList.empty());
+                            for (var ii = 0; ii < 7; ii++) {
+                              VizCtrl.to.vizPoints[i].add(RxList.empty());
+                            }
+                          }
+                          VizCtrl.to.xValue.value = 0;
                           Get.find<iniController>().key.currentState!.save();
-                          // Get.find<iniController>().writeConfig2();
+                          for (var i = 0; i < 5; i++) {
+                            VizCtrl.to.vizChannel[i].port.close();
+                          }
+
+                          VizCtrl.to.init();
+                          VizCtrl.to.startSerial();
                           Get.find<LogListController>().cConfigSave();
-                          //json 연습
                           ConfigWR writeConfig = ConfigWR.init();
                           File file = File("./setting.json");
                           debugPrint('writeConfig ${writeConfig.toJson()}');
                           await file.writeAsString(writeConfig.toJson(),
                               mode: FileMode.write);
-                          debugPrint('');
+
                           Navigator.pop(context);
                         },
                       ),

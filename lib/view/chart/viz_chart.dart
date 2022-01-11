@@ -50,6 +50,7 @@ class VizChart extends GetView<VizCtrl> {
           maxX: VizCtrl.to.chartMaxX.value,
           minX: VizCtrl.to.chartMinX.value,
           clipData: FlClipData.all(),
+          lineTouchData: LineTouchData(enabled: false),
           titlesData: FlTitlesData(
               show: true,
               bottomTitles: bottomTitles,
