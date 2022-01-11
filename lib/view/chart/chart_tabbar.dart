@@ -211,11 +211,6 @@ class chartTabBar extends StatelessWidget {
                         color: Colors.transparent,
                         child: InkWell(
                           onTap: () {
-                            // VizCtrl.to.vizCheck1.value = true;
-                            // VizCtrl.to.vizCheck2.value = true;
-                            // VizCtrl.to.vizCheck3.value = true;
-                            // VizCtrl.to.vizCheck4.value = true;
-                            // VizCtrl.to.vizCheck5.value = true;
                             for (var i = 0; i < 5; i++) {
                               VizCtrl.to.vizChannel[i].toggle.value = true;
                             }
@@ -260,9 +255,7 @@ class chartTabBar extends StatelessWidget {
                                   () => Switch(
                                     value:
                                         VizCtrl.to.vizChannel[0].toggle.value,
-                                    // VizCtrl.to.vizCheck1.value,
                                     onChanged: (e) {
-                                      // VizCtrl.to.vizCheck1.value
                                       VizCtrl.to.vizChannel[0].toggle.value = e;
                                     },
                                   ),
@@ -276,9 +269,7 @@ class chartTabBar extends StatelessWidget {
                                   () => Switch(
                                     value:
                                         VizCtrl.to.vizChannel[1].toggle.value,
-                                    // VizCtrl.to.vizCheck2.value,
                                     onChanged: (e) {
-                                      // VizCtrl.to.vizCheck2.value
                                       VizCtrl.to.vizChannel[1].toggle.value = e;
                                     },
                                   ),
@@ -292,9 +283,7 @@ class chartTabBar extends StatelessWidget {
                                   () => Switch(
                                     value:
                                         VizCtrl.to.vizChannel[2].toggle.value,
-                                    // VizCtrl.to.vizCheck3.value,
                                     onChanged: (e) {
-                                      // VizCtrl.to.vizCheck3.value
                                       VizCtrl.to.vizChannel[2].toggle.value = e;
                                     },
                                   ),
@@ -308,9 +297,7 @@ class chartTabBar extends StatelessWidget {
                                   () => Switch(
                                     value:
                                         VizCtrl.to.vizChannel[3].toggle.value,
-                                    // VizCtrl.to.vizCheck4.value,
                                     onChanged: (e) {
-                                      // VizCtrl.to..vizCheck4.value
                                       VizCtrl.to.vizChannel[3].toggle.value = e;
                                     },
                                   ),
@@ -324,9 +311,7 @@ class chartTabBar extends StatelessWidget {
                                   () => Switch(
                                     value:
                                         VizCtrl.to.vizChannel[4].toggle.value,
-                                    // VizCtrl.to.vizCheck5.value,
                                     onChanged: (e) {
-                                      // VizCtrl.to.vizCheck5.value
                                       VizCtrl.to.vizChannel[4].toggle.value = e;
                                     },
                                   ),
@@ -354,15 +339,9 @@ class chartTabBar extends StatelessWidget {
                                     () => Switch(
                                       value:
                                           VizCtrl.to.vizSeries[0].toggle.value,
-                                      // VizCtrl.to.vizChannel[0].vizData
-                                      //     .vizSeries.toggle.value,
-                                      // VizCtrl.to.vizSeriesList[0],
                                       onChanged: (e) {
                                         VizCtrl.to.vizSeries[0].toggle.value =
                                             e;
-                                        // VizCtrl.to.vizChannel[0].vizData
-                                        //     .vizSeries.toggle.value = e;
-                                        // VizCtrl.to.vizSeriesList[0] = e;
                                       },
                                     ),
                                   ),
@@ -375,11 +354,9 @@ class chartTabBar extends StatelessWidget {
                                     () => Switch(
                                       value:
                                           VizCtrl.to.vizSeries[1].toggle.value,
-                                      // VizCtrl.to.vizSeriesList[1],
                                       onChanged: (e) {
                                         VizCtrl.to.vizSeries[1].toggle.value =
                                             e;
-                                        // VizCtrl.to.vizSeriesList[1] = e;
                                       },
                                     ),
                                   ),
@@ -392,11 +369,9 @@ class chartTabBar extends StatelessWidget {
                                     () => Switch(
                                       value:
                                           VizCtrl.to.vizSeries[6].toggle.value,
-                                      // VizCtrl.to.vizSeriesList[6],
                                       onChanged: (e) {
                                         VizCtrl.to.vizSeries[6].toggle.value =
                                             e;
-                                        // VizCtrl.to.vizSeriesList[6] = e;
                                       },
                                     ),
                                   ),
@@ -409,11 +384,9 @@ class chartTabBar extends StatelessWidget {
                                     () => Switch(
                                       value:
                                           VizCtrl.to.vizSeries[2].toggle.value,
-                                      // VizCtrl.to.vizSeriesList[2],
                                       onChanged: (e) {
                                         VizCtrl.to.vizSeries[2].toggle.value =
                                             e;
-                                        // VizCtrl.to.vizSeriesList[2] = e;
                                       },
                                     ),
                                   ),
@@ -426,11 +399,9 @@ class chartTabBar extends StatelessWidget {
                                     () => Switch(
                                       value:
                                           VizCtrl.to.vizSeries[3].toggle.value,
-                                      // VizCtrl.to.vizSeriesList[3],
                                       onChanged: (e) {
                                         VizCtrl.to.vizSeries[3].toggle.value =
                                             e;
-                                        // VizCtrl.to..vizSeriesList[3] = e;
                                       },
                                     ),
                                   ),
@@ -443,11 +414,9 @@ class chartTabBar extends StatelessWidget {
                                     () => Switch(
                                       value:
                                           VizCtrl.to.vizSeries[4].toggle.value,
-                                      // VizCtrl.to.vizSeriesList[4],
                                       onChanged: (e) {
                                         VizCtrl.to.vizSeries[4].toggle.value =
                                             e;
-                                        // VizCtrl.to.vizSeriesList[4] = e;
                                       },
                                     ),
                                   ),
@@ -460,11 +429,9 @@ class chartTabBar extends StatelessWidget {
                                     () => Switch(
                                       value:
                                           VizCtrl.to.vizSeries[5].toggle.value,
-                                      // VizCtrl.to.vizSeriesList[5],
                                       onChanged: (e) {
                                         VizCtrl.to.vizSeries[5].toggle.value =
                                             e;
-                                        // VizCtrl.to.vizSeriesList[5] = e;
                                       },
                                     ),
                                   ),

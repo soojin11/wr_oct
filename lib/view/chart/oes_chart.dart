@@ -68,7 +68,8 @@ class OesController extends GetxController {
     Get.find<LogController>()
         .loglist
         .add('${logfileTime()} Start SetChannel\n');
-    if (Get.find<iniController>().sim == 0) {
+    // if (Get.find<iniController>().sim == 0) {
+    if (iniController.to.oesSim.value == false) {
       mpmSetChannel(nCurrentChannel);
     }
 
@@ -82,7 +83,8 @@ class OesController extends GetxController {
         .loglist
         .add('${logfileTime()} End waitSwitching\n');
     //21.12.29추가
-    if (Get.find<iniController>().sim == 1) {
+    // if (Get.find<iniController>().sim == 1) {
+    if (iniController.to.oesSim.value) {
       for (var i = 0; i < 8; i++) {
         if (listWavelength.isNotEmpty) {
           listWavelength.clear();
@@ -94,8 +96,8 @@ class OesController extends GetxController {
       }
     }
 
-    List<double> fmtSpec = await readData(ArgReadData(
-        spectrometerIndex: 0, sim: Get.find<iniController>().sim.value));
+    List<double> fmtSpec = await readData(
+        ArgReadData(spectrometerIndex: 0, sim: iniController.to.oesSim));
 
     Get.find<LogController>().loglist.add('${logfileTime()} End readData\n');
     oesChartData[nCurrentChannel].clear();

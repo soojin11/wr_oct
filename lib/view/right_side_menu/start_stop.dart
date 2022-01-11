@@ -58,7 +58,8 @@ class StartStop extends StatelessWidget {
                     Get.find<CsvController>().csvSaveInit.value = false;
                     Get.find<CsvController>().csvSaveData.value = false;
                     Get.find<OesController>().startBtn.value = false;
-                    if (Get.find<iniController>().sim.value == 0) {
+                    // if (Get.find<iniController>().sim.value == 0) {
+                    if (iniController.to.oesSim.value == false) {
                       mpmSetChannel(0);
                     }
                     Get.find<LogListController>().clickedStop();
@@ -73,6 +74,10 @@ class StartStop extends StatelessWidget {
 }
 
 DataStartBtn() {
+  // if (Get.find<iniController>().sim.value == 0) {
+  if (iniController.to.oesSim.value == false) {
+    oesInit();
+  }
   DateTime current = DateTime.now();
   Get.find<CsvController>().saveFileName.value =
       DateFormat('yyyyMMdd-HHmmss').format(current);
@@ -103,7 +108,8 @@ DataStartBtn() {
     print('time3?? $time3');
     print('allTime??? $allTime');
     Get.find<OesController>().startBtn.value = true;
-    if (Get.find<iniController>().sim == 0) {
+    // if (Get.find<iniController>().sim == 0) {
+    if (iniController.to.oesSim.value == false) {
       setIntegrationTime(0, Get.find<iniController>().integrationTime.value);
       Get.find<runErrorStatusController>().statusColor.value =
           Color(0xFF2CA732);

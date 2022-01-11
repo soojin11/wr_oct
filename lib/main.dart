@@ -85,14 +85,6 @@ Future main() async {
     Get.find<OesController>().oesChartData.add([]);
   }
 
-  //12.30
-  // VizCtrl.to.viz.assignAll([]);
-  // VizCtrl.to.vizChart.assignAll([]);
-  // for (var i = 0; i < 5; i++) {
-  //   VizCtrl.to.viz.add(VizData.init().obs);
-  // }
-  ///////////////////////////////////
-
   debugPrint('ConfigWR $loadConfig');
 
   runApp(MyApp());
@@ -107,10 +99,6 @@ Future main() async {
     win.title = "WR";
     win.show();
   });
-
-  if (Get.find<iniController>().sim.value == 0) {
-    oesInit();
-  }
 
   ///시리얼 포트///
   VizCtrl.to.init();

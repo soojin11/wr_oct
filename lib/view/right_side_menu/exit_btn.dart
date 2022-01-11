@@ -61,7 +61,8 @@ Future<String?> runningExit(BuildContext context) {
             Get.find<OesController>().inactiveBtn.value = false;
             Get.find<CsvController>().csvSaveInit.value = false;
             Get.find<CsvController>().csvSaveData.value = false;
-            if (Get.find<iniController>().sim.value == 0) {
+            // if (Get.find<iniController>().sim.value == 0) {
+            if (iniController.to.oesSim.value == false) {
               mpmSetChannel(0);
             }
             completelyExit(context);
@@ -85,7 +86,8 @@ Future<String?> completelyExit(BuildContext context) {
               style: TextStyle(color: wrColors.wrPrimary),
             ),
             onPressed: () {
-              if (Get.find<iniController>().sim.value == 0) {
+              // if (Get.find<iniController>().sim.value == 0) {
+              if (iniController.to.oesSim.value == false) {
                 mpmSetChannel(0);
                 closeAll();
               }

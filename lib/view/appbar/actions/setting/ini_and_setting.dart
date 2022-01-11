@@ -162,6 +162,24 @@ Future<void> _showDialog(context) async {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
+                                          Row(children: [
+                                            Obx(
+                                              () => SizedBox(
+                                                  height: 55,
+                                                  child: Row(children: [
+                                                    Text("Simulation"),
+                                                    Checkbox(
+                                                        value: iniController
+                                                            .to.oesSim.value,
+                                                        onChanged: (e) {
+                                                          iniController
+                                                              .to
+                                                              .oesSim
+                                                              .value = e!;
+                                                        }),
+                                                  ])),
+                                            ),
+                                          ]),
                                           Container(
                                             width: 100,
                                             child: TextFormField(
@@ -329,58 +347,50 @@ Future<void> _showDialog(context) async {
                                             ColorSet(
                                                 text: 'OES 1',
                                                 onColorChanage: (Color color) {
-                                                  Get.find<iniController>()
-                                                      .Series_Color_001
-                                                      .value = color;
+                                                  iniController.to.oesColor[0] =
+                                                      color;
                                                 }),
                                             ColorSet(
                                                 text: 'OES 2',
                                                 onColorChanage: (Color color) {
-                                                  Get.find<iniController>()
-                                                      .Series_Color_002
-                                                      .value = color;
+                                                  iniController.to.oesColor[1] =
+                                                      color;
                                                 }),
                                             ColorSet(
                                                 text: 'OES 3',
                                                 onColorChanage: (Color color) {
-                                                  Get.find<iniController>()
-                                                      .Series_Color_003
-                                                      .value = color;
+                                                  iniController.to.oesColor[2] =
+                                                      color;
                                                 }),
                                             ColorSet(
                                                 text: 'OES 4',
                                                 onColorChanage: (Color color) {
-                                                  Get.find<iniController>()
-                                                      .Series_Color_004
-                                                      .value = color;
+                                                  iniController.to.oesColor[3] =
+                                                      color;
                                                 }),
                                             ColorSet(
                                                 text: 'OES 5',
                                                 onColorChanage: (Color color) {
-                                                  Get.find<iniController>()
-                                                      .Series_Color_005
-                                                      .value = color;
+                                                  iniController.to.oesColor[4] =
+                                                      color;
                                                 }),
                                             ColorSet(
                                                 text: 'OES 6',
                                                 onColorChanage: (Color color) {
-                                                  Get.find<iniController>()
-                                                      .Series_Color_006
-                                                      .value = color;
+                                                  iniController.to.oesColor[5] =
+                                                      color;
                                                 }),
                                             ColorSet(
                                                 text: 'OES 7',
                                                 onColorChanage: (Color color) {
-                                                  Get.find<iniController>()
-                                                      .Series_Color_007
-                                                      .value = color;
+                                                  iniController.to.oesColor[6] =
+                                                      color;
                                                 }),
                                             ColorSet(
                                                 text: 'OES 8',
                                                 onColorChanage: (Color color) {
-                                                  Get.find<iniController>()
-                                                      .Series_Color_008
-                                                      .value = color;
+                                                  iniController.to.oesColor[7] =
+                                                      color;
                                                 }),
                                           ],
                                         ),

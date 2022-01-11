@@ -1,8 +1,6 @@
 import 'dart:convert';
-
-import 'package:flutter/foundation.dart';
-
 import 'package:wr_ui/view/right_side_menu/save_ini.dart';
+import 'package:flutter/foundation.dart';
 
 class VizConfig {
   int interval;
