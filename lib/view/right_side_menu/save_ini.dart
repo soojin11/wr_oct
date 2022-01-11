@@ -20,7 +20,8 @@ Future<List<double>> readData(ArgReadData a) async {
 
 List<double> dllReadData(ArgReadData a) {
   List<double> rt = [];
-  if (a.sim == 0) {
+  // if (a.sim != -1 && a.sim != 0) {
+  if (a.sim == false) {
     Pointer<Double> fmtSpec = nullptr;
     getformatSpec = wgsFunction
         .lookup<NativeFunction<Pointer<Double> Function(Int32)>>(

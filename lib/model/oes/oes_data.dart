@@ -6,32 +6,32 @@ import 'package:get/get.dart';
 
 class OesData {
   RxBool oesToggle;
-  List xVal;
-  List yVal;
   Color oesColor;
   String fileName;
   AutoSave autoSave;
   OesData({
     required this.oesToggle,
-    required this.xVal,
-    required this.yVal,
     required this.oesColor,
     required this.fileName,
     required this.autoSave,
   });
 
+  factory OesData.init() {
+    return OesData(
+        oesToggle: true.obs,
+        oesColor: Color(0xFFEF5350),
+        fileName: '',
+        autoSave: AutoSave(autoSave: true, AutoSaveValue: 3000));
+  }
+
   OesData copyWith({
     RxBool? oesToggle,
-    List? xVal,
-    List? yVal,
     Color? oesColor,
     String? fileName,
     AutoSave? autoSave,
   }) {
     return OesData(
       oesToggle: oesToggle ?? this.oesToggle,
-      xVal: xVal ?? this.xVal,
-      yVal: yVal ?? this.yVal,
       oesColor: oesColor ?? this.oesColor,
       fileName: fileName ?? this.fileName,
       autoSave: autoSave ?? this.autoSave,
@@ -41,8 +41,6 @@ class OesData {
   Map<String, dynamic> toMap() {
     return {
       'oesToggle': oesToggle,
-      'xVal': xVal,
-      'yVal': yVal,
       'oesColor': oesColor.value,
       'fileName': fileName,
       'autoSave': autoSave.toMap(),
@@ -52,8 +50,6 @@ class OesData {
   factory OesData.fromMap(Map<String, dynamic> map) {
     return OesData(
       oesToggle: map['oesToggle'] ?? false.obs,
-      xVal: List.from(map['xVal']),
-      yVal: List.from(map['yVal']),
       oesColor: Color(map['oesColor']),
       fileName: map['fileName'] ?? '',
       autoSave: AutoSave.fromMap(map['autoSave']),
@@ -67,7 +63,7 @@ class OesData {
 
   @override
   String toString() {
-    return 'OesData(oesToggle: $oesToggle, xVal: $xVal, yVal: $yVal, oesColor: $oesColor, fileName: $fileName, autoSave: $autoSave)';
+    return 'OesData(oesToggle: $oesToggle, oesColor: $oesColor, fileName: $fileName, autoSave: $autoSave)';
   }
 
   @override
@@ -76,8 +72,6 @@ class OesData {
 
     return other is OesData &&
         other.oesToggle.value == oesToggle.value &&
-        listEquals(other.xVal, xVal) &&
-        listEquals(other.yVal, yVal) &&
         other.oesColor == oesColor &&
         other.fileName == fileName &&
         other.autoSave == autoSave;
@@ -86,8 +80,6 @@ class OesData {
   @override
   int get hashCode {
     return oesToggle.hashCode ^
-        xVal.hashCode ^
-        yVal.hashCode ^
         oesColor.hashCode ^
         fileName.hashCode ^
         autoSave.hashCode;

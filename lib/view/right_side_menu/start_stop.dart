@@ -73,11 +73,13 @@ class StartStop extends StatelessWidget {
   }
 }
 
-DataStartBtn() {
+DataStartBtn() async {
   // if (Get.find<iniController>().sim.value == 0) {
   if (iniController.to.oesSim.value == false) {
-    oesInit();
+    if (ocrs != 0) await oesClose();
+    await oesInit();
   }
+
   DateTime current = DateTime.now();
   Get.find<CsvController>().saveFileName.value =
       DateFormat('yyyyMMdd-HHmmss').format(current);

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wr_ui/controller/home_controller.dart';
 import 'package:wr_ui/model/config/config.dart';
+import 'package:wr_ui/model/oes/oes_data.dart';
 import 'package:wr_ui/service/dark_white_mode/mode.dart';
 import 'package:wr_ui/view/appbar/actions/minimize/window_btn.dart';
 import 'package:wr_ui/view/appbar/actions/setting/ini_and_setting.dart';
@@ -52,6 +53,7 @@ late Pointer<Double> Function(int a) getWavelength;
 late int Function() mpmIsSwitching;
 
 List<double> listWavelength = [];
+
 bool runningSignal = false;
 RxDouble addVal = 0.0.obs;
 File file = File("./setting.json");
@@ -86,7 +88,7 @@ Future main() async {
   }
 
   debugPrint('ConfigWR $loadConfig');
-
+  oesDLLInit();
   runApp(MyApp());
 
   doWhenWindowReady(() {
@@ -547,144 +549,93 @@ class _WRbodyState extends State<WRbody> {
   }
 }
 
-appContainer({required double width, required Widget child}) {
-  return Container(
-      child: Center(child: child),
-      decoration: BoxDecoration(
-        color: Colors.blueGrey[600],
-      ),
-      width: width,
-      height: 85);
-}
-
-Future<void> oesInit() async {
+Future<bool> oesDLLInit() async {
   print('in oesInit');
-  log('1');
-
   ocrStart = wgsFunction
       .lookup<NativeFunction<Int8 Function()>>('OCR_Start')
       .asFunction();
-  log('2 $ocrStart');
-  if (ocrStart == 0) {
-    saveLog();
-    Get.find<LogController>()
-        .loglist
-        .add('${logfileTime()} ocrstart 1 $ocrStart' + '\n');
-  }
-  log('3');
-  final int ocrs = ocrStart();
-  log('4 $ocrs');
-  if (ocrs == 0) {
-    Get.find<LogController>()
-        .loglist
-        .add('${logfileTime()} ocrstart 2 $ocrs' + '\n');
-  }
-  print('ocrStart??' + ' ${ocrs}');
-  log('5');
   mpmStart = wgsFunction
       .lookup<NativeFunction<Void Function(Int32)>>('MPMStart')
       .asFunction();
-//포트 번호
-  mpmStart(3);
-  log('6');
-  print('mpmstart?? $mpmStart');
-
   mpmClose = wgsFunction
       .lookup<NativeFunction<Void Function()>>('MPMClose')
       .asFunction();
-  log('7');
-  mpmClose();
-  print('mpmClose??');
   mpmOpen = wgsFunction
       .lookup<NativeFunction<Int8 Function()>>('MPMOpen')
       .asFunction();
-  print('mpmOpen??');
-  int intMpmOpen = mpmOpen();
-  print('intMpmOpen??');
   closeAll = wgsFunction
       .lookup<NativeFunction<Void Function()>>('CloseAll')
       .asFunction();
-  // closeAll();
-  print('closeAll??');
-  log('8');
   openAllSpectrometers = wgsFunction
       .lookup<NativeFunction<Int32 Function()>>('OpenAllSpectrometers')
       .asFunction();
-  print('openAllSpectrometers??');
-  int bb = openAllSpectrometers();
-  print('bb??');
   setIntegrationTime = wgsFunction
       .lookup<NativeFunction<Int32 Function(Int32, Int32)>>(
           'SetIntegrationTime')
       .asFunction();
-  log('9');
-  print(
-      'setIntegrationTime?? ${Get.find<iniController>().integrationTime.value}');
-  int cc = setIntegrationTime(
-      0, Get.find<iniController>().integrationTime.value * 1000);
-  log('10');
-  print('intgration???  ${Get.find<iniController>().integrationTime.value}');
-  print('plusTime???  ${Get.find<iniController>().plusTime.value}');
   setScansToAverage = wgsFunction
       .lookup<NativeFunction<Int32 Function(Int32, Int32)>>('SetScansToAverage')
       .asFunction();
-  log('11');
-  int dd = setScansToAverage(0, 1);
-
-  print('setScansToAverage?? ' + ' $dd');
   setBoxcarWidth = wgsFunction
       .lookup<NativeFunction<Int32 Function(Int32, Int32)>>('SetBoxcarWidth')
       .asFunction();
-
-  int ss = setBoxcarWidth(0, 0);
-
-  print('setBoxCarWidth?? ' + '$ss');
   setElectricDarkEnable = wgsFunction
       .lookup<NativeFunction<Int32 Function(Int32, Int32)>>(
           'SetElectricDarkEnable')
       .asFunction();
-
-  int rr = setElectricDarkEnable(0, 0);
-
-  print('setElectricDarkEnable?? ' + '$rr');
   setNonlinearityCorrectionEnabled = wgsFunction
       .lookup<NativeFunction<Int32 Function(Int32, Int32)>>(
           'SetNonlinearityCorrectionEnabled')
       .asFunction();
-
-  int ee = setNonlinearityCorrectionEnabled(0, 0);
-
-  print('setNonlinearityCorrectionEnabled?? ' + ' $ee');
   setTriggerMode = wgsFunction
       .lookup<NativeFunction<Int32 Function(Int32, Int32)>>('SetTriggerMode')
       .asFunction();
-
-  int gg = setTriggerMode(0, 0);
-
-  print('setTriggerMode?? ' + ' $gg');
-
   getWavelength = wgsFunction
       .lookup<NativeFunction<Pointer<Double> Function(Int32)>>('GetWavelength')
       .asFunction();
+  mpmSetChannel = wgsFunction
+      .lookup<NativeFunction<Int32 Function(Int32)>>('MPMSetChannel')
+      .asFunction();
+  mpmIsSwitching = wgsFunction
+      .lookup<NativeFunction<Int32 Function()>>('MPMIsSwitching')
+      .asFunction();
+  return true;
+}
+
+int ocrs = 0;
+Future<bool> oesInit() async {
+  ocrs = ocrStart();
+  log('1 $ocrs');
+  mpmStart(3);
+  log('2');
+  mpmClose();
+  log('3');
+  mpmOpen();
+  log('4');
+  openAllSpectrometers();
+  log('5');
+  setIntegrationTime(0, Get.find<iniController>().integrationTime.value * 1000);
+
+  // int gg = setTriggerMode(0, 0);
   Pointer<Double> pdwaveLength = getWavelength(0);
+  listWavelength.clear();
   for (var i = 0; i < 2048; i++) {
-    // OesController.to.oesData[i].xVal.add(pdwaveLength[i]);
     listWavelength.add(pdwaveLength[i]);
     Get.find<OesController>().minX.value = listWavelength.first.toDouble();
     Get.find<OesController>().maxX.value = listWavelength.last;
     print('listWavelength?? ' + ' ${listWavelength[i]}');
   }
-
   print('getWavelength?? ' + ' ${listWavelength.length}');
 
-  mpmSetChannel = wgsFunction
-      .lookup<NativeFunction<Int32 Function(Int32)>>('MPMSetChannel')
-      .asFunction();
+  mpmSetChannel(0);
+  return true;
+}
 
-  int rrr = mpmSetChannel(0);
+Future<bool> oesClose() async {
+  log('c1');
 
-  print('mpmsetChannel?? ' + ' $rrr');
-  mpmIsSwitching = wgsFunction
-      .lookup<NativeFunction<Int32 Function()>>('MPMIsSwitching')
-      .asFunction();
+  closeAll();
+  log('c2');
+  mpmClose();
+  return true;
 }

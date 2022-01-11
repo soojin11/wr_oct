@@ -40,8 +40,6 @@ class OesController extends GetxController {
     for (var i = 0; i < 8; i++) {
       oesData.add(OesData(
           oesToggle: true.obs,
-          xVal: [],
-          yVal: [],
           oesColor: Color(0xFFEF5350),
           fileName: '',
           autoSave: AutoSave(autoSave: true, AutoSaveValue: 0)));
@@ -84,7 +82,7 @@ class OesController extends GetxController {
         .add('${logfileTime()} End waitSwitching\n');
     //21.12.29추가
     // if (Get.find<iniController>().sim == 1) {
-    if (iniController.to.oesSim.value) {
+    if (iniController.to.oesSim.value == true) {
       for (var i = 0; i < 8; i++) {
         if (listWavelength.isNotEmpty) {
           listWavelength.clear();
@@ -94,10 +92,19 @@ class OesController extends GetxController {
         listWavelength.add(i.toDouble());
         Get.find<OesController>().maxX.value = listWavelength.length.toDouble();
       }
+      // for (var i = 0; i < 8; i++) {
+      //   if(OesController.to.oesData[i].xVal.isNotEmpty){
+      //     OesController.to.oesData[i].xVal.clear();
+      //   }
+      // }
+      // for (var i = 0; i < 2048; i++) {
+      //   OesController.to.oesData[i].xVal.add([]);
+      //   OesController.to.maxX.value = OesController.to.oesData[i].xVal.length.toDouble();
+      // }
     }
 
-    List<double> fmtSpec = await readData(
-        ArgReadData(spectrometerIndex: 0, sim: iniController.to.oesSim));
+    List<double> fmtSpec = await readData(ArgReadData(
+        spectrometerIndex: 0, sim: iniController.to.oesSim.value.obs));
 
     Get.find<LogController>().loglist.add('${logfileTime()} End readData\n');
     oesChartData[nCurrentChannel].clear();
