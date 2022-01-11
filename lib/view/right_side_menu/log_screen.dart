@@ -1,9 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:wr_ui/view/chart/switch_chart.dart';
 import 'package:wr_ui/view/right_side_menu/save_ini.dart';
 import 'log_save.dart';
 
@@ -105,16 +102,6 @@ class LogListController extends GetxController {
     saveLog();
     Get.find<LogController>().loglist.add('${logfileTime()} Exit' + '\n');
   }
-
-  void clickedHover() async {
-    saveLog();
-    String select =
-        'Num${Get.find<chooseChart>().chartNum.value} chart is selected';
-    logData.add('$select');
-    Get.find<LogController>()
-        .loglist
-        .add('${logTime} [Event Trigger] $select' + '\n');
-  }
 }
 
 saveLog() {
@@ -149,12 +136,8 @@ class LogList extends GetView<LogListController> {
         width: 350,
         height: 400,
         child: Obx(() {
-          // if (controller.logData.length == 0) {
-          //   return Center(child: Text('log does not exist.'));
-          // } else {
           return SafeArea(
             child: Scrollbar(
-              //isAlwaysShown: true,
               child: SingleChildScrollView(
                 child: ListView.builder(
                   itemExtent: 34.0,
@@ -168,7 +151,6 @@ class LogList extends GetView<LogListController> {
                   itemBuilder: (BuildContext context, int index) {
                     return ListTile(
                       dense: true,
-                      //최신 인덱스이면 글자 강조되게
                       title: index == controller.logData.length - 1
                           ? Row(
                               crossAxisAlignment: CrossAxisAlignment.start,

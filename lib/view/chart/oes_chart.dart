@@ -1,12 +1,11 @@
 import 'dart:async';
-import 'dart:math' as math;
 import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:wr_ui/main.dart';
+import 'package:wr_ui/model/oes/oes_data.dart';
 import 'package:wr_ui/view/right_side_menu/csv_creator.dart';
 import 'package:wr_ui/view/right_side_menu/log_save.dart';
 import 'package:wr_ui/view/right_side_menu/log_screen.dart';
@@ -17,24 +16,15 @@ final channelNuminINI = Get.find<iniController>().channelFlow.value;
 
 class OesController extends GetxController {
   static OesController get to => Get.find();
-  RxList<List<FlSpot>> oesData = RxList.empty();
+  RxList<List<FlSpot>> oesChartData = RxList.empty();
   RxBool inactiveBtn = false.obs;
-  //microsecond
   RxInt channelMovingTime = 270.obs;
-
-  // RxInt plusTime = 30.obs;
-  RxBool checkVal1 = true.obs;
-  RxBool checkVal2 = true.obs;
-  RxBool checkVal3 = true.obs;
-  RxBool checkVal4 = true.obs;
-  RxBool checkVal5 = true.obs;
-  RxBool checkVal6 = true.obs;
-  RxBool checkVal7 = true.obs;
-  RxBool checkVal8 = true.obs;
+  RxList<OesData> oesData = RxList.empty();
+  RxList<bool> saveNum = //AutoSave.autoSave
+      [false, false, false, false, false, false, false, false].obs;
   RxString updateStart = ''.obs;
   RxString updateend = ''.obs;
   Timer? timer;
-  //RxBool bRunning = false.obs;
   //zoom  controller
   RxDouble minX = 0.0.obs;
   RxDouble maxX = 0.0.obs;
@@ -42,11 +32,21 @@ class OesController extends GetxController {
   RxDouble maxY = 0.0.obs;
   RxDouble yValue = 0.0.obs;
   RxDouble yMax = 0.0.obs;
-  RxBool autoSave = false.obs;
   RxBool autoSaveBuffer = false.obs;
   RxBool startBtn = true.obs;
-  RxList<bool> saveNum =
-      [false, false, false, false, false, false, false, false].obs;
+
+  Future<void> init() async {
+    oesData.clear();
+    for (var i = 0; i < 8; i++) {
+      oesData.add(OesData(
+          oesToggle: true.obs,
+          xVal: [],
+          yVal: [],
+          oesColor: Color(0xFFEF5350),
+          fileName: '',
+          autoSave: AutoSave(autoSave: true, AutoSaveValue: 0)));
+    }
+  }
 
   Future<bool> waitSwitching() async {
     var isSwitchingCorectionTime =
@@ -98,12 +98,12 @@ class OesController extends GetxController {
         spectrometerIndex: 0, sim: Get.find<iniController>().sim.value));
 
     Get.find<LogController>().loglist.add('${logfileTime()} End readData\n');
-    oesData[nCurrentChannel].clear();
+    oesChartData[nCurrentChannel].clear();
 
     ///////////////////////////////////////
     if (startBtn == false) return;
     for (var x = 0; x < listWavelength.length; x++) {
-      oesData[nCurrentChannel].add(FlSpot(listWavelength[x], fmtSpec[x]));
+      oesChartData[nCurrentChannel].add(FlSpot(listWavelength[x], fmtSpec[x]));
       // max값 찾기
       yMax.value =
           fmtSpec.reduce((value, element) => value > element ? value : element);
@@ -186,22 +186,11 @@ class OesController extends GetxController {
                   yMax.value - 100 > minY.value) {
                 minX.value += 50;
                 maxX.value -= 50;
-                minY.value += 50;
-                yMax.value -= 50;
+
                 print('확대minxxxxxxxxxx : $minX max: $maxX');
                 print('확대 min : $minY max: $yMax');
               }
-              // else {
-              //   minX.value = minX.value;
-              //   maxX.value = maxX.value;
-              //   minY.value = minY.value;
-              //   maxY.value = yMax.value;
-              //   print('확멈minxxxxxxx : $minX max: $maxX');
-              //   print('확멈min : $minY max: $maxY');
-              // }
-            }
-            //축소
-            else {
+            } else {
               if (maxX.value + 100 > minX.value &&
                   yMax.value + 100 > minY.value &&
                   minY > 0 &&
@@ -214,14 +203,6 @@ class OesController extends GetxController {
                 print('축소 minxxxxxxxx : $minX max: $maxX');
                 print('축소 min : $minY max: $yMax');
               }
-              // else {
-              //   minX.value = 0;
-              //   maxX.value = maxX.value;
-              //   minY.value = 0;
-              //   maxY.value = maxY.value;
-              //   print('축멈 minxxxx : $minX max: $maxX');
-              //   print('축멈 min : $minY max: $maxY');
-              // }
             }
           }
         },
@@ -243,51 +224,59 @@ class OesChart extends GetView<OesController> {
                       child: LineChartForm(
                         controller: controller,
                         lineBarsData: [
-                          if (controller.checkVal1.value)
+                          // if (controller.checkVal1.value)
+                          if (controller.oesData[0].oesToggle.value)
                             lineChartBarData(
-                                controller.oesData[0],
+                                controller.oesChartData[0],
                                 Get.find<iniController>()
                                     .Series_Color_001
                                     .value),
-                          if (controller.checkVal2.value)
+                          // if (controller.checkVal2.value)
+                          if (controller.oesData[1].oesToggle.value)
                             lineChartBarData(
-                                controller.oesData[1],
+                                controller.oesChartData[1],
                                 Get.find<iniController>()
                                     .Series_Color_002
                                     .value),
-                          if (controller.checkVal3.value)
+                          // if (controller.checkVal3.value)
+                          if (controller.oesData[2].oesToggle.value)
                             lineChartBarData(
-                                controller.oesData[2],
+                                controller.oesChartData[2],
                                 Get.find<iniController>()
                                     .Series_Color_003
                                     .value),
-                          if (controller.checkVal4.value)
+                          // if (controller.checkVal4.value)
+                          if (controller.oesData[3].oesToggle.value)
                             lineChartBarData(
-                                controller.oesData[3],
+                                controller.oesChartData[3],
                                 Get.find<iniController>()
                                     .Series_Color_004
                                     .value),
-                          if (controller.checkVal5.value)
+                          // if (controller.checkVal5.value)
+                          if (controller.oesData[4].oesToggle.value)
                             lineChartBarData(
-                                controller.oesData[4],
+                                controller.oesChartData[4],
                                 Get.find<iniController>()
                                     .Series_Color_005
                                     .value),
-                          if (controller.checkVal6.value)
+                          // if (controller.checkVal6.value)
+                          if (controller.oesData[5].oesToggle.value)
                             lineChartBarData(
-                                controller.oesData[5],
+                                controller.oesChartData[5],
                                 Get.find<iniController>()
                                     .Series_Color_006
                                     .value),
-                          if (controller.checkVal7.value)
+                          // if (controller.checkVal7.value)
+                          if (controller.oesData[6].oesToggle.value)
                             lineChartBarData(
-                                controller.oesData[6],
+                                controller.oesChartData[6],
                                 Get.find<iniController>()
                                     .Series_Color_007
                                     .value),
-                          if (controller.checkVal8.value)
+                          // if (controller.checkVal8.value)
+                          if (controller.oesData[7].oesToggle.value)
                             lineChartBarData(
-                                controller.oesData[7],
+                                controller.oesChartData[7],
                                 Get.find<iniController>()
                                     .Series_Color_008
                                     .value),
@@ -319,8 +308,6 @@ class OesChart extends GetView<OesController> {
       LineChartData(
           minX: controller.minX.value,
           maxX: controller.maxX.value,
-          // minY: controller.minY.value,
-          // maxY: controller.yMax.value,
           lineTouchData: LineTouchData(
               touchTooltipData: LineTouchTooltipData(
             fitInsideHorizontally: true,

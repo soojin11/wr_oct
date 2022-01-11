@@ -4,11 +4,9 @@ import 'dart:io';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:wr_ui/controller/drop_down_controller.dart';
 import 'package:wr_ui/controller/home_controller.dart';
 import 'package:wr_ui/model/config/config.dart';
 import 'package:wr_ui/service/dark_white_mode/mode.dart';
-import 'package:wr_ui/service/routes/app_pages.dart';
 import 'package:wr_ui/view/appbar/actions/minimize/window_btn.dart';
 import 'package:wr_ui/view/appbar/actions/setting/ini_and_setting.dart';
 import 'package:wr_ui/view/appbar/leading/clock.dart';
@@ -16,8 +14,6 @@ import 'package:wr_ui/view/appbar/leading/recent_recipe_name.dart';
 import 'package:wr_ui/view/appbar/leading/run_error_status_mark.dart';
 import 'package:wr_ui/view/chart/chart_tabbar.dart';
 import 'package:wr_ui/view/chart/oes_chart.dart';
-import 'package:wr_ui/view/chart/pages/hover_chart/hover_func.dart';
-import 'package:wr_ui/view/chart/switch_chart.dart';
 import 'package:wr_ui/view/chart/viz_chart.dart';
 import 'package:wr_ui/controller/viz_ctrl.dart';
 import 'package:wr_ui/view/right_side_menu/csv_creator.dart';
@@ -27,7 +23,6 @@ import 'package:wr_ui/view/right_side_menu/log_screen.dart';
 import 'package:wr_ui/view/right_side_menu/save_ini.dart';
 import 'package:wr_ui/view/right_side_menu/start_stop.dart';
 import 'model/const/style/text.dart';
-import 'model/viz/viz_data.dart';
 
 final DynamicLibrary wgsFunction = DynamicLibrary.open("WGSFunction.dll");
 late int Function() ocrStart;
@@ -74,25 +69,22 @@ Future main() async {
   Get.put(CsvController());
   Get.put(LogListController());
   Get.put(LogController());
-  Get.put(HoverCtrl());
-  Get.put(chooseChart());
   Get.find<LogListController>().programStart();
-
-  VizCtrl.to.vizList.assignAll([]);
+  // VizCtrl.to.vizList.assignAll([]);
   VizCtrl.to.vizPoints.assignAll([]);
   for (var i = 0; i < 5; i++) {
     //VizCtrl.to.vizChannel[i];
-
     VizCtrl.to.vizPoints.add(RxList.empty());
-    VizCtrl.to.vizList.add(VizData.init().obs);
+    // VizCtrl.to.vizList.add(VizData.init().obs);
     for (var ii = 0; ii < 7; ii++) {
       VizCtrl.to.vizPoints[i].add(RxList.empty());
     }
   }
 
   for (var i = 0; i < Get.find<iniController>().OES_Count.value; i++) {
-    Get.find<OesController>().oesData.add([]);
+    Get.find<OesController>().oesChartData.add([]);
   }
+
   //12.30
   // VizCtrl.to.viz.assignAll([]);
   // VizCtrl.to.vizChart.assignAll([]);
@@ -115,11 +107,7 @@ Future main() async {
     win.title = "WR";
     win.show();
   });
-  //메시지박스
 
-  // await Get.find<iniController>().writeConfig();
-
-  //메시지박스
   if (Get.find<iniController>().sim.value == 0) {
     oesInit();
   }
@@ -130,7 +118,7 @@ Future main() async {
   for (var i = 0; i < 5; i++) {
     print('열렸나? ${VizCtrl.to.vizChannel[i].port.isOpen}');
   }
-  /////////////////////
+  OesController.to.init();
 }
 
 void log(String str) {
@@ -154,12 +142,7 @@ class MyApp extends StatelessWidget {
       themeMode: ThemeService().theme,
       debugShowCheckedModeBanner: false,
       title: 'WR',
-      initialBinding: BindingsBuilder(() {
-        Get.put(DropDownController());
-      }),
       home: Home(),
-      initialRoute: AppPages.INITIAL,
-      getPages: AppPages.routes,
     );
   }
 }
@@ -230,8 +213,6 @@ class WRappbar extends StatelessWidget implements PreferredSizeWidget {
                       color: Colors.blueGrey[600],
                     ),
                   ),
-
-                  // appContainer(child: Clock(), width: 180),
                   SizedBox(width: 100),
                   Container(
                     child: Center(
@@ -263,7 +244,6 @@ class WRappbar extends StatelessWidget implements PreferredSizeWidget {
                       height: 85,
                     ),
                   ),
-                  // appContainer(child: RecentRecipeName(), width: 300),
                   SizedBox(width: 80),
                   Tooltip(
                     height: 50,
@@ -274,7 +254,6 @@ class WRappbar extends StatelessWidget implements PreferredSizeWidget {
                     message: 'Current status',
                     child: RunErrorStatus(),
                   ),
-                  // appContainer(child: RunErrorStatus(), width: 300),
                   SizedBox(width: 100),
                   Tooltip(
                     height: 50,
@@ -407,12 +386,6 @@ class _WRbodyState extends State<WRbody> {
                     ),
                   ),
                 )),
-            // Expanded(
-            //     flex: 1,
-            //     child: Padding(
-            //       padding: const EdgeInsets.all(10.0),
-            //       child: ArrangeHover(),
-            //     ))
           ],
         ),
       ),
@@ -426,8 +399,6 @@ class _WRbodyState extends State<WRbody> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  //////////로그
-
                   Container(
                     height: 510,
                     child: Padding(
@@ -455,8 +426,6 @@ class _WRbodyState extends State<WRbody> {
                       ),
                     ),
                   ),
-                  //////////로그
-                  //////////스타트스탑리셋
                   Container(
                     child: Column(
                       children: [
@@ -482,11 +451,10 @@ class _WRbodyState extends State<WRbody> {
                                   endIndent: 10,
                                 ),
                                 StartStop(),
-                                //////////////스타트스탑리셋
                               ],
                             ),
                           ),
-                        ), //////////////파일매니저
+                        ),
                         Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: Container(
@@ -514,12 +482,6 @@ class _WRbodyState extends State<WRbody> {
                             ),
                           ),
                         ),
-                        /////////////파일매니저
-                        //dll test
-                        // DataMonitorTest(),
-                        //dll test
-                        /////////////레시피버튼
-
                         Visibility(
                           visible: false,
                           child: Padding(
@@ -542,14 +504,11 @@ class _WRbodyState extends State<WRbody> {
                                     indent: 10,
                                     endIndent: 10,
                                   ),
-                                  //RecipeMenu()
                                 ],
                               ),
                             ),
                           ),
                         ),
-                        /////////////레시피버튼
-                        ////////////나가기
                         Padding(
                           padding: const EdgeInsets.all(5.0),
                           child: Container(
@@ -580,7 +539,6 @@ class _WRbodyState extends State<WRbody> {
                       ],
                     ),
                   )
-                  ////////////나가기
                 ],
               ),
             ),
@@ -589,10 +547,10 @@ class _WRbodyState extends State<WRbody> {
               borderRadius: BorderRadius.circular(10),
               boxShadow: [
                 BoxShadow(
-                  color: Theme.of(context).shadowColor, //그림자 색
+                  color: Theme.of(context).shadowColor,
                   spreadRadius: 5,
                   blurRadius: 7,
-                  offset: Offset(0, 2), // 그림자위치 바꾸는거
+                  offset: Offset(0, 2),
                 ),
               ],
             ),
@@ -722,6 +680,7 @@ Future<void> oesInit() async {
       .asFunction();
   Pointer<Double> pdwaveLength = getWavelength(0);
   for (var i = 0; i < 2048; i++) {
+    // OesController.to.oesData[i].xVal.add(pdwaveLength[i]);
     listWavelength.add(pdwaveLength[i]);
     Get.find<OesController>().minX.value = listWavelength.first.toDouble();
     Get.find<OesController>().maxX.value = listWavelength.last;
@@ -740,5 +699,4 @@ Future<void> oesInit() async {
   mpmIsSwitching = wgsFunction
       .lookup<NativeFunction<Int32 Function()>>('MPMIsSwitching')
       .asFunction();
-  // return true;
 }

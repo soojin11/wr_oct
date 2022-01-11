@@ -2,12 +2,13 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_libserialport/flutter_libserialport.dart';
+import 'package:get/get.dart';
 
 class VizChannel {
   // viz 정보
   VizData vizData;
   SerialPort port;
-  bool toggle;
+  RxBool toggle;
   VizChannel({
     required this.vizData,
     required this.port,
@@ -17,7 +18,7 @@ class VizChannel {
   VizChannel copyWith({
     VizData? vizData,
     SerialPort? port,
-    bool? toggle,
+    RxBool? toggle,
   }) {
     return VizChannel(
       vizData: vizData ?? this.vizData,
@@ -38,7 +39,7 @@ class VizChannel {
     return VizChannel(
       vizData: VizData.fromMap(map['vizData']),
       port: SerialPort(map['port']),
-      toggle: map['toggle'] ?? false,
+      toggle: map['toggle'] ?? false.obs,
     );
   }
 
@@ -58,7 +59,7 @@ class VizChannel {
     return other is VizChannel &&
         other.vizData == vizData &&
         other.port == port &&
-        other.toggle == toggle;
+        other.toggle.value == toggle.value;
   }
 
   @override
@@ -184,18 +185,18 @@ class VizData {
 }
 
 class VizSeries {
-  bool toggle = true;
+  RxBool toggle = true.obs;
+  Color seriesColor = Color(0xFFEF5350);
   VizSeries({
     required this.toggle,
   });
-  Color seriesColor = Color(0xFFEF5350);
 
   factory VizSeries.init() {
-    return VizSeries(toggle: true);
+    return VizSeries(toggle: true.obs);
   }
 
   VizSeries copyWith({
-    bool? toggle,
+    RxBool? toggle,
   }) {
     return VizSeries(
       toggle: toggle ?? this.toggle,
@@ -210,7 +211,7 @@ class VizSeries {
 
   factory VizSeries.fromMap(Map<String, dynamic> map) {
     return VizSeries(
-      toggle: map['toggle'] ?? false,
+      toggle: map['toggle'] ?? false.obs,
     );
   }
 
@@ -226,7 +227,7 @@ class VizSeries {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is VizSeries && other.toggle == toggle;
+    return other is VizSeries && other.toggle.value == toggle.value;
   }
 
   @override

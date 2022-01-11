@@ -64,8 +64,6 @@ Future<String?> runningExit(BuildContext context) {
             if (Get.find<iniController>().sim.value == 0) {
               mpmSetChannel(0);
             }
-            // Get.find<CsvController>().fileSave.value == false;
-            // Get.find<CsvController>().inactiveBtn.value = false;
             completelyExit(context);
           },
         ),

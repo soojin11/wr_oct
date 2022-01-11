@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'dart:typed_data';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -11,7 +9,6 @@ import 'package:wr_ui/view/chart/oes_chart.dart';
 import 'package:wr_ui/controller/viz_ctrl.dart';
 import 'package:wr_ui/view/right_side_menu/log_save.dart';
 import 'package:wr_ui/view/right_side_menu/save_ini.dart';
-
 import 'csv_creator.dart';
 import 'log_screen.dart';
 
@@ -37,11 +34,6 @@ class StartStop extends StatelessWidget {
                     : Colors.green,
                 onPressed: () async {
                   await VizCtrl.to.sendStart(); //측정 시작
-
-                  // Timer.periodic(Duration(milliseconds: 100), (timer) {
-                  //   Uint8List aa = VizCtrl.to.vizChannel[1].port.read(100);
-                  //   print('uint8list viz read $aa');
-                  // });
                   for (var item in VizCtrl.to.buffer) {
                     item.clear();
                   }
@@ -75,75 +67,6 @@ class StartStop extends StatelessWidget {
                         'S T O P';
                   })),
         ),
-        //   Row(
-        //     children: [
-        //       ElevatedButton(
-        //         child: Text('open'),
-        //         onPressed: () {
-        //           VizCtrl.to.startSerial();
-        //           // VizCtrl.to.readSerial;
-        //         },
-        //       ),
-        //       ElevatedButton(
-        //         child: Text('close'),
-        //         onPressed: () {
-        //           VizCtrl.to.vizChannel[0].port.close();
-        //           print('열렸나? ${VizCtrl.to.vizChannel[0].port.isOpen}');
-        //         },
-        //       ),
-        //       ElevatedButton(
-        //         child: Text('시작'),
-        //         onPressed: () async {
-        //           await VizCtrl.to.sendStart(); //측정 시작
-        //           VizCtrl.to.buffer.clear();
-        //           VizCtrl.to.timer = Timer.periodic(
-        //             Duration(
-        //                 milliseconds: int.parse(
-        //                     Get.find<iniController>().viz_Interval.value)),
-        //             VizCtrl.to.readSerial,
-        //           );
-        //           // VizCtrl.to.vizChartTimer = Timer.periodic(
-        //           //     Duration(milliseconds: 100), VizCtrl.to.vizUpdate);
-        //         },
-        //       ),
-        //       ElevatedButton(
-        //         child: Text('멈춤'),
-        //         onPressed: () async {
-        //           VizCtrl.to.timer?.cancel();
-        //           VizCtrl.to.vizChartTimer?.cancel();
-        //         },
-        //       )
-        //     ],
-        //   ),
-        //   Row(
-        //     children: [
-        //       ElevatedButton(
-        //         child: Text('증가'),
-        //         onPressed: () {
-        //           // Get.find<OesController>().fmtSpec[300] + 200;
-        //           // Get.find<OesController>().addYvalue.value = 500;
-        //           // VizCtrl.to.vizChartTimer = Timer.periodic(
-        //           //     Duration(milliseconds: 100), VizCtrl.to.vizSimUpdate);
-        //           // VizCtrl.to.vizChartTimer = Timer.periodic(
-        //           //     Duration(milliseconds: 100), VizCtrl.to.vizUpdate);
-        //         },
-        //       ),
-        //       ElevatedButton(
-        //         child: Text('감소'),
-        //         onPressed: () {
-        //           Get.find<OesController>().addYvalue.value = 0;
-        //           // VizCtrl.to.vizChartTimer.cancel();
-        //         },
-        //       ),
-        //       ElevatedButton(
-        //         child: Text('줌리셋'),
-        //         onPressed: () {
-        //           Get.find<OesController>().minX.value = 0;
-        //           Get.find<OesController>().maxX.value = 2048;
-        //         },
-        //       ),
-        //     ],
-        //   )
       ],
     );
   }
@@ -179,8 +102,6 @@ DataStartBtn() {
     print('time2?? $inttime2');
     print('time3?? $time3');
     print('allTime??? $allTime');
-    // Get.find<LogListController>().logData.add(
-    //     'all/wait time : $allTime ${Get.find<iniController>().waitSwitchingTime.value}');
     Get.find<OesController>().startBtn.value = true;
     if (Get.find<iniController>().sim == 0) {
       setIntegrationTime(0, Get.find<iniController>().integrationTime.value);
@@ -200,28 +121,16 @@ DataStartBtn() {
       Duration(milliseconds: allTime),
       Get.find<OesController>().updateDataSource,
     );
-
-    // VizCtrl.to.vizChartTimer = Timer.periodic(
-    //     Duration(
-    //         milliseconds:
-    //             int.parse(Get.find<iniController>().viz_Interval.value)),
-    //     VizCtrl.to.vizSimUpdate);
     VizCtrl.to.timer = Timer.periodic(
       Duration(milliseconds: Get.find<iniController>().viz_Interval.value),
       VizCtrl.to.readSerial,
     );
-    // Get.find<LogListController>().logData.add(
-    //       'channle moving time $time1',
-    //     );
     Get.find<LogController>()
         .loglist
         .add('${logfileTime()} channle moving t $time1');
-    // Get.find<LogListController>().logData.add(
-    //       'all time $allTime',
-    //     );
     Get.find<LogController>().loglist.add('${logfileTime()} all t $allTime');
   } on FormatException {
     print('format error');
   }
-  Get.find<OesController>().oesData[0];
+  Get.find<OesController>().oesChartData[0];
 }

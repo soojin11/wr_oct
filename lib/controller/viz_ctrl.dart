@@ -7,49 +7,26 @@ import 'package:libserialport/libserialport.dart';
 import 'package:wr_ui/main.dart';
 import 'package:wr_ui/model/viz/viz_data.dart';
 import 'dart:math' as math;
-import 'package:wr_ui/view/chart/pages/hover_chart/hover.dart';
-import 'package:wr_ui/view/chart/viz_chart.dart';
 import 'package:wr_ui/view/right_side_menu/csv_creator.dart';
 import 'package:wr_ui/view/right_side_menu/log_screen.dart';
 import 'package:wr_ui/view/right_side_menu/save_ini.dart';
 
 class VizCtrl extends GetxController {
   static VizCtrl get to => Get.find();
-  RxList<bool> vizSeriesList = [true, true, true, true, true, true, true].obs;
-  // RxList<bool> selectVizChannel = [true, true, true, true, true].obs;
-  RxBool vizCheck1 = true.obs;
-  RxBool vizCheck2 = true.obs;
-  RxBool vizCheck3 = true.obs;
-  RxBool vizCheck4 = true.obs;
-  RxBool vizCheck5 = true.obs;
   RxList<VizChannel> vizChannel = RxList.empty();
-  RxBool isStart = false.obs;
+  RxList<VizSeries> vizSeries = RxList.empty();
   late Timer timer;
   int numOfViz = 7;
   List<List<int>> buffer = [];
-  //List<List<double>> vizYValue = RxList.empty();
-  // Rx<VizData> vizData = VizData.init().obs;
   RxString selected = "OES".obs;
   var dropItem = ['OES', 'VIZ'];
-
-  //////////////차트ctrl///////////////
-  RxList<Rx<VizData>> vizList = RxList.empty();
   RxList<RxList<RxList<FlSpot>>> vizPoints = RxList.empty();
-  RxList<List<List<FlSpot>>> vizVal = RxList.empty();
-  //12.30
-  RxList<Rx<VizData>> viz = RxList.empty();
-  RxList<RxList<FlSpot>> vizChart = RxList.empty();
-  //
   RxDouble step = 1.0.obs;
   RxDouble chartMaxX = 400.0.obs;
   RxDouble chartMinX = 0.0.obs;
   late RxDouble minX;
   late RxDouble maxX;
   RxDouble xValue = 0.0.obs;
-  RxList<List<double>> xValues = RxList.empty();
-  RxDouble yValue = 0.0.obs;
-  RxInt chartNum = 0.obs;
-//22.1.10 class 새로 생성
   double setRandom() {
     double yValue = 10 + math.Random().nextInt(10).toDouble();
     return yValue;
@@ -59,8 +36,6 @@ class VizCtrl extends GetxController {
     selected.value = value;
   }
 
-  ///////////////////////////////////////
-//1/5
   Future<void> init() async {
     serialConnect = wgsFunction
         .lookup<NativeFunction<Int32 Function(Int32)>>("serialConnect")
@@ -72,18 +47,18 @@ class VizCtrl extends GetxController {
         serialConnect(Get.find<iniController>().vizComport[i]);
       buffer.add([]);
       vizChannel.add(VizChannel(
-          toggle: true,
+          toggle: true.obs,
           vizData: VizData.init(),
           port: SerialPort('COM${Get.find<iniController>().vizComport[i]}')));
       vizChannel[i].port.config.baudRate = 115200;
     }
+    for (var i = 0; i < 7; i++) {
+      vizSeries.add(VizSeries(toggle: true.obs));
+    }
   }
 
   Future<void> vizUpdate() async {
-    int length = 400;
-    // (chartMaxX.value - chartMinX.value).toInt();
-    while (vizPoints[0][0].length > length) {
-      //limitlistBuffer.value) {
+    while (vizPoints[0][0].length > chartMaxX.value) {
       for (var i = 0; i < 5; i++) {
         for (var ii = 0; ii < 7; ii++) {
           vizPoints[i][ii].removeAt(0);
@@ -92,25 +67,25 @@ class VizCtrl extends GetxController {
     }
     List aaa = [];
     for (var i = 0; i < 5; i++) {
-      print('vizchannel[$i].vizData.freq ${vizChannel[i].vizData.freq}');
-
+      //수정
       vizPoints[i][0]
-          .add(FlSpot(xValue.value, vizList[i].value.freq / 1000000));
-      vizPoints[i][1].add(FlSpot(xValue.value, vizList[i].value.p_dlv * 2));
-      vizPoints[i][2].add(FlSpot(xValue.value, vizList[i].value.v));
-      vizPoints[i][3].add(FlSpot(xValue.value, vizList[i].value.i * 10));
-      vizPoints[i][4].add(FlSpot(xValue.value, vizList[i].value.r * 10));
-      vizPoints[i][5].add(FlSpot(xValue.value, vizList[i].value.x * 10));
+          .add(FlSpot(xValue.value, vizChannel[i].vizData.freq / 1000000));
+      vizPoints[i][1]
+          .add(FlSpot(xValue.value, vizChannel[i].vizData.p_dlv * 2));
+      vizPoints[i][2].add(FlSpot(xValue.value, vizChannel[i].vizData.v));
+      vizPoints[i][3].add(FlSpot(xValue.value, vizChannel[i].vizData.i * 10));
+      vizPoints[i][4].add(FlSpot(xValue.value, vizChannel[i].vizData.r * 10));
+      vizPoints[i][5].add(FlSpot(xValue.value, vizChannel[i].vizData.x * 10));
       vizPoints[i][6]
-          .add(FlSpot(xValue.value, vizList[i].value.phase * 1000 / 360));
+          .add(FlSpot(xValue.value, vizChannel[i].vizData.phase * 1000 / 360));
+      aaa.add(vizChannel[i].vizData.freq);
+      aaa.add(vizChannel[i].vizData.p_dlv);
+      aaa.add(vizChannel[i].vizData.v);
+      aaa.add(vizChannel[i].vizData.i);
+      aaa.add(vizChannel[i].vizData.r);
+      aaa.add(vizChannel[i].vizData.x);
+      aaa.add(vizChannel[i].vizData.phase);
 
-      aaa.add(vizList[i].value.freq);
-      aaa.add(vizList[i].value.p_dlv);
-      aaa.add(vizList[i].value.v);
-      aaa.add(vizList[i].value.i);
-      aaa.add(vizList[i].value.r);
-      aaa.add(vizList[i].value.x);
-      aaa.add(vizList[i].value.phase);
       // print('asdf${aaa}');
 
     }
@@ -134,16 +109,9 @@ class VizCtrl extends GetxController {
 
       if (vizChannel[i].port.openReadWrite()) {
         print('오픈 성공 ${vizChannel[i].port.name}');
-        //final reader = SerialPortReader(vizChannel[i].port);
-        //await reader.stream.listen((data) async {
         await SerialPortReader(vizChannel[i].port).stream.listen((data) async {
           print('listen $i');
-          // try {
-          //Future.delayed(Duration(milliseconds: 10000));
           await validity(data, i);
-          // } catch (e) {
-          //   print(e);
-          // }
         });
       } else {
         print('오픈 에러 ?? ${SerialPort.lastError}');
@@ -153,9 +121,6 @@ class VizCtrl extends GetxController {
         Get.find<LogListController>().logData.add('Check VIZ${i + 1} port');
       }
     }
-
-    // vizChannel[0].port.config.baudRate = 115200;
-
     return 1;
   }
 
@@ -184,7 +149,6 @@ class VizCtrl extends GetxController {
 
     if (_b[0] != 0x16) {
       buffer[portIdx] = [];
-      // throw Failure('시작 0x16 아님');
       print('시작 0x16 아님');
       return;
     }
@@ -205,18 +169,14 @@ class VizCtrl extends GetxController {
       _bb = _b.sublist(receiveLength, _b.length);
       _b = _b.sublist(0, receiveLength);
       print('$receiveLength자보다 커서 잘랐어 $_bb ${_b.length}');
-    } else {
-      //buffer = _b;
-    }
+    } else {}
 
     if (!(_b[0] == 0x16 && _b[1] == 0x16 && _b[2] == 0x30 && _b[3] == 0x03)) {
-      //  throw Failure('헤더 이상');
       print('헤더가 이상있어요');
       buffer[portIdx] = [];
       return;
     }
     if (_b[receiveLength - 1] != 0x1a) {
-      // throw Failure('마지막 이상');
       print('마지막이 이상있어요');
       buffer[portIdx] = [];
       return;
@@ -224,67 +184,104 @@ class VizCtrl extends GetxController {
     final int cs = calcCheckSum(_b.sublist(2, _b.length - 2));
     print('cs $cs');
     if (cs != _b[receiveLength - 2]) {
-      // throw Failure('체크섬 이상');
       print('체크섬이 이상있어요');
       buffer[portIdx] = [];
       return;
     }
-    //length == 87
-    //freq = qwre
-    //v = fwe
 
-    vizList[portIdx].value.freq = Uint8List.fromList(_b)
+    vizChannel[portIdx].vizData.freq = Uint8List.fromList(_b)
         .sublist(startDataIdx, startDataIdx += 4)
         .buffer
         .asByteData()
         .getFloat32(0, Endian.little);
-    vizList[portIdx].value.p_dlv = Uint8List.fromList(_b)
+    vizChannel[portIdx].vizData.p_dlv = Uint8List.fromList(_b)
         .sublist(startDataIdx, startDataIdx += 4)
         .buffer
         .asByteData()
         .getFloat32(0, Endian.little);
-    vizList[portIdx].value.v = Uint8List.fromList(_b)
+    vizChannel[portIdx].vizData.v = Uint8List.fromList(_b)
         .sublist(startDataIdx, startDataIdx += 4)
         .buffer
         .asByteData()
         .getFloat32(0, Endian.little);
-    vizList[portIdx].value.i = Uint8List.fromList(_b)
+    vizChannel[portIdx].vizData.i = Uint8List.fromList(_b)
         .sublist(startDataIdx, startDataIdx += 4)
         .buffer
         .asByteData()
         .getFloat32(0, Endian.little);
-    vizList[portIdx].value.r = Uint8List.fromList(_b)
+    vizChannel[portIdx].vizData.r = Uint8List.fromList(_b)
         .sublist(startDataIdx, startDataIdx += 4)
         .buffer
         .asByteData()
         .getFloat32(0, Endian.little);
-    vizList[portIdx].value.x = Uint8List.fromList(_b)
+    vizChannel[portIdx].vizData.x = Uint8List.fromList(_b)
         .sublist(startDataIdx, startDataIdx += 4)
         .buffer
         .asByteData()
         .getFloat32(0, Endian.little);
-    vizList[portIdx].value.phase = Uint8List.fromList(_b)
+    vizChannel[portIdx].vizData.phase = Uint8List.fromList(_b)
         .sublist(startDataIdx, startDataIdx += 4)
         .buffer
         .asByteData()
         .getFloat32(0, Endian.little);
+    // vizList[portIdx].value.freq = Uint8List.fromList(_b)
+    //     .sublist(startDataIdx, startDataIdx += 4)
+    //     .buffer
+    //     .asByteData()
+    //     .getFloat32(0, Endian.little);
+    // vizList[portIdx].value.p_dlv = Uint8List.fromList(_b)
+    //     .sublist(startDataIdx, startDataIdx += 4)
+    //     .buffer
+    //     .asByteData()
+    //     .getFloat32(0, Endian.little);
+    // vizList[portIdx].value.v = Uint8List.fromList(_b)
+    //     .sublist(startDataIdx, startDataIdx += 4)
+    //     .buffer
+    //     .asByteData()
+    //     .getFloat32(0, Endian.little);
+    // vizList[portIdx].value.i = Uint8List.fromList(_b)
+    //     .sublist(startDataIdx, startDataIdx += 4)
+    //     .buffer
+    //     .asByteData()
+    //     .getFloat32(0, Endian.little);
+    // vizList[portIdx].value.r = Uint8List.fromList(_b)
+    //     .sublist(startDataIdx, startDataIdx += 4)
+    //     .buffer
+    //     .asByteData()
+    //     .getFloat32(0, Endian.little);
+    // vizList[portIdx].value.x = Uint8List.fromList(_b)
+    //     .sublist(startDataIdx, startDataIdx += 4)
+    //     .buffer
+    //     .asByteData()
+    //     .getFloat32(0, Endian.little);
+    // vizList[portIdx].value.phase = Uint8List.fromList(_b)
+    //     .sublist(startDataIdx, startDataIdx += 4)
+    //     .buffer
+    //     .asByteData()
+    //     .getFloat32(0, Endian.little);
 
-    print('=================================================시작===');
-    print(
-        '=================================================Frequency : ${vizList[portIdx].value.freq}');
-    print(
-        '=================================================P_div : ${vizList[portIdx].value.p_dlv}');
-    print(
-        '=================================================V : ${vizList[portIdx].value.v}');
-    print(
-        '=================================================I : ${vizList[portIdx].value.i}');
-    print(
-        '=================================================R : ${vizList[portIdx].value.r}');
-    print(
-        '=================================================X : ${vizList[portIdx].value.x}');
-    print(
-        '=================================================Phase : ${vizList[portIdx].value.phase}');
-    print('=================================================끝===');
+    // print('=================================================시작===');
+    // print(
+    //     '=================================================Frequency : ${vizList[portIdx].value.freq}');
+    // print(
+    //     '=================================================P_div : ${vizList[portIdx].value.p_dlv}');
+    // print(
+    //     '=================================================V : ${vizList[portIdx].value.v}');
+    // print(
+    //     '=================================================I : ${vizList[portIdx].value.i}');
+    // print(
+    //     '=================================================R : ${vizList[portIdx].value.r}');
+    // print(
+    //     '=================================================X : ${vizList[portIdx].value.x}');
+    // print(
+    //     '=================================================Phase : ${vizList[portIdx].value.phase}');
+    // print('=================================================끝===');
+
+    // for (var i = 0; i < 5; i++) {
+    //   Map aa = vizChannel[i].toMap();
+    //   print(aa);
+    // }
+
     print('$receiveLength자와 같아 $_b');
 
     buffer[portIdx] = _bb;
@@ -297,13 +294,13 @@ class VizCtrl extends GetxController {
       if (loadConfig.vizConfig.VizComPort[i] != 0) {
         await sendRead();
       } else if (loadConfig.vizConfig.VizComPort[i] == 0) {
-        vizList[i].value.freq = setRandom() + 1405900;
-        vizList[i].value.p_dlv = setRandom() + 40;
-        vizList[i].value.v = setRandom() + 120;
-        vizList[i].value.i = setRandom() - 10;
-        vizList[i].value.r = setRandom() - 10;
-        vizList[i].value.x = setRandom() - 10;
-        vizList[i].value.phase = setRandom() + 30;
+        // vizList[i].value.freq = setRandom() + 1405900;
+        // vizList[i].value.p_dlv = setRandom() + 40;
+        // vizList[i].value.v = setRandom() + 120;
+        // vizList[i].value.i = setRandom() - 10;
+        // vizList[i].value.r = setRandom() - 10;
+        // vizList[i].value.x = setRandom() - 10;
+        // vizList[i].value.phase = setRandom() + 30;
         //수정
         vizChannel[i].vizData.freq = setRandom() + 1405900;
         vizChannel[i].vizData.p_dlv = setRandom() + 40;
@@ -315,10 +312,10 @@ class VizCtrl extends GetxController {
       }
     }
     // 측정한 data 값 요구
-    // if (vizYValue.isNotEmpty) {
+    // if (vizList.isNotEmpty) {
     //   vizUpdate();
     // }
-    if (vizList.isNotEmpty) {
+    if (vizChannel.isNotEmpty) {
       vizUpdate();
     }
   }
@@ -364,137 +361,5 @@ class VizCtrl extends GetxController {
     for (var i = 0; i < 5; i++) {
       if (vizChannel[i].port.isOpen) vizChannel[i].port.write(bytes);
     }
-  }
-
-  vizFirst() {
-    return HoverChart(
-      chart: [
-        if (VizCtrl.to.vizSeriesList[0])
-          VizChart().lineChartBarData(VizCtrl.to.vizPoints[0][0],
-              Get.find<iniController>().vizColor[0]),
-        if (VizCtrl.to.vizSeriesList[1])
-          VizChart().lineChartBarData(VizCtrl.to.vizPoints[0][1],
-              Get.find<iniController>().vizColor[1]),
-        if (VizCtrl.to.vizSeriesList[2])
-          VizChart().lineChartBarData(VizCtrl.to.vizPoints[0][2],
-              Get.find<iniController>().vizColor[2]),
-        if (VizCtrl.to.vizSeriesList[3])
-          VizChart().lineChartBarData(VizCtrl.to.vizPoints[0][3],
-              Get.find<iniController>().vizColor[3]),
-        if (VizCtrl.to.vizSeriesList[4])
-          VizChart().lineChartBarData(VizCtrl.to.vizPoints[0][4],
-              Get.find<iniController>().vizColor[4]),
-        if (VizCtrl.to.vizSeriesList[5])
-          VizChart().lineChartBarData(VizCtrl.to.vizPoints[0][5],
-              Get.find<iniController>().vizColor[5]),
-        if (VizCtrl.to.vizSeriesList[6])
-          VizChart().lineChartBarData(
-              VizCtrl.to.vizPoints[0][6], Get.find<iniController>().vizColor[6])
-      ],
-    );
-  }
-
-  vizSecond() {
-    return HoverChart(chart: [
-      if (VizCtrl.to.vizSeriesList[0])
-        VizChart().lineChartBarData(
-            VizCtrl.to.vizPoints[1][0], Get.find<iniController>().vizColor[0]),
-      if (VizCtrl.to.vizSeriesList[1])
-        VizChart().lineChartBarData(
-            VizCtrl.to.vizPoints[1][1], Get.find<iniController>().vizColor[1]),
-      if (VizCtrl.to.vizSeriesList[2])
-        VizChart().lineChartBarData(
-            VizCtrl.to.vizPoints[1][2], Get.find<iniController>().vizColor[2]),
-      if (VizCtrl.to.vizSeriesList[3])
-        VizChart().lineChartBarData(
-            VizCtrl.to.vizPoints[1][3], Get.find<iniController>().vizColor[3]),
-      if (VizCtrl.to.vizSeriesList[4])
-        VizChart().lineChartBarData(
-            VizCtrl.to.vizPoints[1][4], Get.find<iniController>().vizColor[4]),
-      if (VizCtrl.to.vizSeriesList[5])
-        VizChart().lineChartBarData(
-            VizCtrl.to.vizPoints[1][5], Get.find<iniController>().vizColor[5]),
-      if (VizCtrl.to.vizSeriesList[6])
-        VizChart().lineChartBarData(
-            VizCtrl.to.vizPoints[1][6], Get.find<iniController>().vizColor[6])
-    ]);
-  }
-
-  vizThird() {
-    return HoverChart(chart: [
-      if (VizCtrl.to.vizSeriesList[0])
-        VizChart().lineChartBarData(
-            VizCtrl.to.vizPoints[2][0], Get.find<iniController>().vizColor[0]),
-      if (VizCtrl.to.vizSeriesList[1])
-        VizChart().lineChartBarData(
-            VizCtrl.to.vizPoints[2][1], Get.find<iniController>().vizColor[1]),
-      if (VizCtrl.to.vizSeriesList[2])
-        VizChart().lineChartBarData(
-            VizCtrl.to.vizPoints[2][2], Get.find<iniController>().vizColor[2]),
-      if (VizCtrl.to.vizSeriesList[3])
-        VizChart().lineChartBarData(
-            VizCtrl.to.vizPoints[2][3], Get.find<iniController>().vizColor[3]),
-      if (VizCtrl.to.vizSeriesList[4])
-        VizChart().lineChartBarData(
-            VizCtrl.to.vizPoints[2][4], Get.find<iniController>().vizColor[4]),
-      if (VizCtrl.to.vizSeriesList[5])
-        VizChart().lineChartBarData(
-            VizCtrl.to.vizPoints[2][5], Get.find<iniController>().vizColor[5]),
-      if (VizCtrl.to.vizSeriesList[6])
-        VizChart().lineChartBarData(
-            VizCtrl.to.vizPoints[2][6], Get.find<iniController>().vizColor[6])
-    ]);
-  }
-
-  vizFourth() {
-    return HoverChart(chart: [
-      if (VizCtrl.to.vizSeriesList[0])
-        VizChart().lineChartBarData(
-            VizCtrl.to.vizPoints[3][0], Get.find<iniController>().vizColor[0]),
-      if (VizCtrl.to.vizSeriesList[1])
-        VizChart().lineChartBarData(
-            VizCtrl.to.vizPoints[3][1], Get.find<iniController>().vizColor[1]),
-      if (VizCtrl.to.vizSeriesList[2])
-        VizChart().lineChartBarData(
-            VizCtrl.to.vizPoints[3][2], Get.find<iniController>().vizColor[2]),
-      if (VizCtrl.to.vizSeriesList[3])
-        VizChart().lineChartBarData(
-            VizCtrl.to.vizPoints[3][3], Get.find<iniController>().vizColor[3]),
-      if (VizCtrl.to.vizSeriesList[4])
-        VizChart().lineChartBarData(
-            VizCtrl.to.vizPoints[3][4], Get.find<iniController>().vizColor[4]),
-      if (VizCtrl.to.vizSeriesList[5])
-        VizChart().lineChartBarData(
-            VizCtrl.to.vizPoints[3][5], Get.find<iniController>().vizColor[5]),
-      if (VizCtrl.to.vizSeriesList[6])
-        VizChart().lineChartBarData(
-            VizCtrl.to.vizPoints[3][6], Get.find<iniController>().vizColor[6])
-    ]);
-  }
-
-  vizFifth() {
-    return HoverChart(chart: [
-      if (VizCtrl.to.vizSeriesList[0])
-        VizChart().lineChartBarData(
-            VizCtrl.to.vizPoints[4][0], Get.find<iniController>().vizColor[0]),
-      if (VizCtrl.to.vizSeriesList[1])
-        VizChart().lineChartBarData(
-            VizCtrl.to.vizPoints[4][1], Get.find<iniController>().vizColor[1]),
-      if (VizCtrl.to.vizSeriesList[2])
-        VizChart().lineChartBarData(
-            VizCtrl.to.vizPoints[4][2], Get.find<iniController>().vizColor[2]),
-      if (VizCtrl.to.vizSeriesList[3])
-        VizChart().lineChartBarData(
-            VizCtrl.to.vizPoints[4][3], Get.find<iniController>().vizColor[3]),
-      if (VizCtrl.to.vizSeriesList[4])
-        VizChart().lineChartBarData(
-            VizCtrl.to.vizPoints[4][4], Get.find<iniController>().vizColor[4]),
-      if (VizCtrl.to.vizSeriesList[5])
-        VizChart().lineChartBarData(
-            VizCtrl.to.vizPoints[4][5], Get.find<iniController>().vizColor[5]),
-      if (VizCtrl.to.vizSeriesList[6])
-        VizChart().lineChartBarData(
-            VizCtrl.to.vizPoints[4][6], Get.find<iniController>().vizColor[6])
-    ]);
   }
 }

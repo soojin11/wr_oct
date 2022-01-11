@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:wr_ui/controller/button.dart';
-import 'package:wr_ui/controller/viz_ctrl.dart';
 import 'package:wr_ui/main.dart';
 import 'package:wr_ui/view/chart/oes_chart.dart';
 import 'package:wr_ui/view/right_side_menu/save_ini.dart';
@@ -74,7 +73,6 @@ class CsvController extends GetxController with SingleGetTickerProviderMixin {
   // RxBool fileSave = false.obs;
   RxBool csvSaveInit = false.obs;
   RxBool csvSaveData = false.obs;
-  // RxBool inactiveBtn = false.obs;
   RxList<String> path = RxList.empty();
   RxString saveFileName = ''.obs;
   RxString startTime = ''.obs;
@@ -83,8 +81,6 @@ class CsvController extends GetxController with SingleGetTickerProviderMixin {
     String fileName = DateFormat('yyyyMMdd-HHmmss').format(current).toString();
     return fileName;
   }
-
-  //RxInt fileNum = 1.obs;
 
   String timeVal() {
     DateTime current = DateTime.now();
@@ -98,10 +94,6 @@ class CsvController extends GetxController with SingleGetTickerProviderMixin {
   void csvForm({required String path, required List<dynamic> data}) async {
     Directory('datafiles').create();
     File file = File("./datafiles/${saveFileName.value}\_$path");
-    // int a= 0;
-    // print('a $a');
-    // String s = a.toString().padLeft(4,'0');
-    // print('s $s');
     String csv = DateFormat('yyyy-MM-dd HH:mm:ss.SSS').format(DateTime.now()) +
         ',' +
         data.join(',') +

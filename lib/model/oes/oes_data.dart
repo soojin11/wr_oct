@@ -2,9 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class OesData {
-  bool oesToggle;
+  RxBool oesToggle;
   List xVal;
   List yVal;
   Color oesColor;
@@ -20,7 +21,7 @@ class OesData {
   });
 
   OesData copyWith({
-    bool? oesToggle,
+    RxBool? oesToggle,
     List? xVal,
     List? yVal,
     Color? oesColor,
@@ -50,7 +51,7 @@ class OesData {
 
   factory OesData.fromMap(Map<String, dynamic> map) {
     return OesData(
-      oesToggle: map['oesToggle'] ?? false,
+      oesToggle: map['oesToggle'] ?? false.obs,
       xVal: List.from(map['xVal']),
       yVal: List.from(map['yVal']),
       oesColor: Color(map['oesColor']),
@@ -74,7 +75,7 @@ class OesData {
     if (identical(this, other)) return true;
 
     return other is OesData &&
-        other.oesToggle == oesToggle &&
+        other.oesToggle.value == oesToggle.value &&
         listEquals(other.xVal, xVal) &&
         listEquals(other.yVal, yVal) &&
         other.oesColor == oesColor &&

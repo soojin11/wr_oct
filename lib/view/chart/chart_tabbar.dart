@@ -3,8 +3,6 @@ import 'package:get/get.dart';
 import 'package:wr_ui/controller/viz_ctrl.dart';
 import 'package:wr_ui/model/const/style/pallette.dart';
 import 'package:wr_ui/view/appbar/leading/recent_recipe_name.dart';
-import 'package:wr_ui/view/chart/switch_chart.dart';
-import 'package:wr_ui/view/right_side_menu/save_ini.dart';
 import 'oes_chart.dart';
 
 class chartTabBar extends StatelessWidget {
@@ -19,15 +17,12 @@ class chartTabBar extends StatelessWidget {
                   color: Colors.transparent,
                   child: InkWell(
                     onTap: () {
-                      Get.find<chooseChart>().chartNum.value = 0;
-                      Get.find<OesController>().checkVal1.value = true;
-                      Get.find<OesController>().checkVal2.value = true;
-                      Get.find<OesController>().checkVal3.value = true;
-                      Get.find<OesController>().checkVal4.value = true;
-                      Get.find<OesController>().checkVal5.value = true;
-                      Get.find<OesController>().checkVal6.value = true;
-                      Get.find<OesController>().checkVal7.value = true;
-                      Get.find<OesController>().checkVal8.value = true;
+                      // Get.find<chooseChart>().chartNum.value = 0;
+                      for (var i = 0; i < 8; i++) {
+                        OesController.to.oesData[i].oesToggle.value = true;
+                        print(
+                            'show all${OesController.to.oesData[i].oesToggle.value}');
+                      }
                       Get.find<ChartName>().chartName.value = 'ALL';
                     },
                     child: Container(
@@ -63,11 +58,17 @@ class chartTabBar extends StatelessWidget {
                               Text('Oes_1'),
                               Obx(
                                 () => Switch(
-                                  value:
-                                      Get.find<OesController>().checkVal1.value,
+                                  value: OesController
+                                      .to.oesData[0].oesToggle.value,
+                                  // Get.find<OesController>().checkVal1.value,
                                   onChanged: (e) {
-                                    Get.find<OesController>().checkVal1.value =
+                                    // oesData[0].oesToggle =
+                                    OesController
+                                            .to.oesData[0].oesToggle.value =
+                                        // Get.find<OesController>().checkVal1.value =
                                         e;
+                                    print(
+                                        '첫번째${OesController.to.oesData[0].oesToggle}');
                                   },
                                 ),
                               ),
@@ -78,10 +79,13 @@ class chartTabBar extends StatelessWidget {
                               Text('Oes_2'),
                               Obx(
                                 () => Switch(
-                                  value:
-                                      Get.find<OesController>().checkVal2.value,
+                                  value: OesController
+                                      .to.oesData[1].oesToggle.value,
+                                  // Get.find<OesController>().checkVal2.value,
                                   onChanged: (e) {
-                                    Get.find<OesController>().checkVal2.value =
+                                    OesController
+                                            .to.oesData[1].oesToggle.value =
+                                        // Get.find<OesController>().checkVal2.value =
                                         e;
                                   },
                                 ),
@@ -93,10 +97,13 @@ class chartTabBar extends StatelessWidget {
                               Text('Oes_3'),
                               Obx(
                                 () => Switch(
-                                  value:
-                                      Get.find<OesController>().checkVal3.value,
+                                  value: OesController
+                                      .to.oesData[2].oesToggle.value,
+                                  // Get.find<OesController>().checkVal3.value,
                                   onChanged: (e) {
-                                    Get.find<OesController>().checkVal3.value =
+                                    OesController
+                                            .to.oesData[2].oesToggle.value =
+                                        // Get.find<OesController>().checkVal3.value =
                                         e;
                                   },
                                 ),
@@ -108,10 +115,13 @@ class chartTabBar extends StatelessWidget {
                               Text('Oes_4'),
                               Obx(
                                 () => Switch(
-                                  value:
-                                      Get.find<OesController>().checkVal4.value,
+                                  value: OesController
+                                      .to.oesData[3].oesToggle.value,
+                                  // Get.find<OesController>().checkVal4.value,
                                   onChanged: (e) {
-                                    Get.find<OesController>().checkVal4.value =
+                                    OesController
+                                            .to.oesData[3].oesToggle.value =
+                                        // Get.find<OesController>().checkVal4.value =
                                         e;
                                   },
                                 ),
@@ -123,10 +133,13 @@ class chartTabBar extends StatelessWidget {
                               Text('Oes_5'),
                               Obx(
                                 () => Switch(
-                                  value:
-                                      Get.find<OesController>().checkVal5.value,
+                                  value: OesController
+                                      .to.oesData[4].oesToggle.value,
+                                  // Get.find<OesController>().checkVal5.value,
                                   onChanged: (e) {
-                                    Get.find<OesController>().checkVal5.value =
+                                    OesController
+                                            .to.oesData[4].oesToggle.value =
+                                        // Get.find<OesController>().checkVal5.value =
                                         e;
                                   },
                                 ),
@@ -138,10 +151,13 @@ class chartTabBar extends StatelessWidget {
                               Text('Oes_6'),
                               Obx(
                                 () => Switch(
-                                  value:
-                                      Get.find<OesController>().checkVal6.value,
+                                  value: OesController
+                                      .to.oesData[5].oesToggle.value,
+                                  // Get.find<OesController>().checkVal6.value,
                                   onChanged: (e) {
-                                    Get.find<OesController>().checkVal6.value =
+                                    OesController
+                                            .to.oesData[5].oesToggle.value =
+                                        // Get.find<OesController>().checkVal6.value =
                                         e;
                                   },
                                 ),
@@ -153,10 +169,13 @@ class chartTabBar extends StatelessWidget {
                               Text('Oes_7'),
                               Obx(
                                 () => Switch(
-                                  value:
-                                      Get.find<OesController>().checkVal7.value,
+                                  value: OesController
+                                      .to.oesData[6].oesToggle.value,
+                                  // Get.find<OesController>().checkVal7.value,
                                   onChanged: (e) {
-                                    Get.find<OesController>().checkVal7.value =
+                                    OesController
+                                            .to.oesData[6].oesToggle.value =
+                                        // Get.find<OesController>().checkVal7.value =
                                         e;
                                   },
                                 ),
@@ -168,10 +187,13 @@ class chartTabBar extends StatelessWidget {
                               Text('Oes_8'),
                               Obx(
                                 () => Switch(
-                                  value:
-                                      Get.find<OesController>().checkVal8.value,
+                                  value: OesController
+                                      .to.oesData[7].oesToggle.value,
+                                  // Get.find<OesController>().checkVal8.value,
                                   onChanged: (e) {
-                                    Get.find<OesController>().checkVal8.value =
+                                    OesController
+                                            .to.oesData[7].oesToggle.value =
+                                        // Get.find<OesController>().checkVal8.value =
                                         e;
                                   },
                                 ),
@@ -189,20 +211,18 @@ class chartTabBar extends StatelessWidget {
                         color: Colors.transparent,
                         child: InkWell(
                           onTap: () {
-                            VizCtrl.to.vizCheck1.value = true;
-                            VizCtrl.to.vizCheck2.value = true;
-                            VizCtrl.to.vizCheck3.value = true;
-                            VizCtrl.to.vizCheck4.value = true;
-                            VizCtrl.to.vizCheck5.value = true;
+                            // VizCtrl.to.vizCheck1.value = true;
+                            // VizCtrl.to.vizCheck2.value = true;
+                            // VizCtrl.to.vizCheck3.value = true;
+                            // VizCtrl.to.vizCheck4.value = true;
+                            // VizCtrl.to.vizCheck5.value = true;
+                            for (var i = 0; i < 5; i++) {
+                              VizCtrl.to.vizChannel[i].toggle.value = true;
+                            }
+                            for (var i = 0; i < 7; i++) {
+                              VizCtrl.to.vizSeries[i].toggle.value = true;
+                            }
                             Get.find<ChartName>().chartName.value = 'ALL';
-
-                            // VizCtrl.to.selectVizChannel.value = [
-                            //   true,
-                            //   true,
-                            //   true,
-                            //   true,
-                            //   true,
-                            // ];
                           },
                           child: Container(
                             decoration: BoxDecoration(
@@ -238,9 +258,12 @@ class chartTabBar extends StatelessWidget {
                                 Text('VIZ_1'),
                                 Obx(
                                   () => Switch(
-                                    value: VizCtrl.to.vizCheck1.value,
+                                    value:
+                                        VizCtrl.to.vizChannel[0].toggle.value,
+                                    // VizCtrl.to.vizCheck1.value,
                                     onChanged: (e) {
-                                      VizCtrl.to.vizCheck1.value = e;
+                                      // VizCtrl.to.vizCheck1.value
+                                      VizCtrl.to.vizChannel[0].toggle.value = e;
                                     },
                                   ),
                                 ),
@@ -251,9 +274,12 @@ class chartTabBar extends StatelessWidget {
                                 Text('VIZ_2'),
                                 Obx(
                                   () => Switch(
-                                    value: VizCtrl.to.vizCheck2.value,
+                                    value:
+                                        VizCtrl.to.vizChannel[1].toggle.value,
+                                    // VizCtrl.to.vizCheck2.value,
                                     onChanged: (e) {
-                                      VizCtrl.to.vizCheck2.value = e;
+                                      // VizCtrl.to.vizCheck2.value
+                                      VizCtrl.to.vizChannel[1].toggle.value = e;
                                     },
                                   ),
                                 ),
@@ -264,9 +290,12 @@ class chartTabBar extends StatelessWidget {
                                 Text('VIZ_3'),
                                 Obx(
                                   () => Switch(
-                                    value: VizCtrl.to.vizCheck3.value,
+                                    value:
+                                        VizCtrl.to.vizChannel[2].toggle.value,
+                                    // VizCtrl.to.vizCheck3.value,
                                     onChanged: (e) {
-                                      VizCtrl.to.vizCheck3.value = e;
+                                      // VizCtrl.to.vizCheck3.value
+                                      VizCtrl.to.vizChannel[2].toggle.value = e;
                                     },
                                   ),
                                 ),
@@ -277,9 +306,12 @@ class chartTabBar extends StatelessWidget {
                                 Text('VIZ_4'),
                                 Obx(
                                   () => Switch(
-                                    value: VizCtrl.to.vizCheck4.value,
+                                    value:
+                                        VizCtrl.to.vizChannel[3].toggle.value,
+                                    // VizCtrl.to.vizCheck4.value,
                                     onChanged: (e) {
-                                      VizCtrl.to..vizCheck4.value = e;
+                                      // VizCtrl.to..vizCheck4.value
+                                      VizCtrl.to.vizChannel[3].toggle.value = e;
                                     },
                                   ),
                                 ),
@@ -290,9 +322,12 @@ class chartTabBar extends StatelessWidget {
                                 Text('VIZ_5'),
                                 Obx(
                                   () => Switch(
-                                    value: VizCtrl.to.vizCheck5.value,
+                                    value:
+                                        VizCtrl.to.vizChannel[4].toggle.value,
+                                    // VizCtrl.to.vizCheck5.value,
                                     onChanged: (e) {
-                                      VizCtrl.to.vizCheck5.value = e;
+                                      // VizCtrl.to.vizCheck5.value
+                                      VizCtrl.to.vizChannel[4].toggle.value = e;
                                     },
                                   ),
                                 ),
@@ -317,9 +352,17 @@ class chartTabBar extends StatelessWidget {
                                   Text('Frequency'),
                                   Obx(
                                     () => Switch(
-                                      value: VizCtrl.to.vizSeriesList[0],
+                                      value:
+                                          VizCtrl.to.vizSeries[0].toggle.value,
+                                      // VizCtrl.to.vizChannel[0].vizData
+                                      //     .vizSeries.toggle.value,
+                                      // VizCtrl.to.vizSeriesList[0],
                                       onChanged: (e) {
-                                        VizCtrl.to.vizSeriesList[0] = e;
+                                        VizCtrl.to.vizSeries[0].toggle.value =
+                                            e;
+                                        // VizCtrl.to.vizChannel[0].vizData
+                                        //     .vizSeries.toggle.value = e;
+                                        // VizCtrl.to.vizSeriesList[0] = e;
                                       },
                                     ),
                                   ),
@@ -330,9 +373,13 @@ class chartTabBar extends StatelessWidget {
                                   Text('P_dlv'),
                                   Obx(
                                     () => Switch(
-                                      value: VizCtrl.to.vizSeriesList[1],
+                                      value:
+                                          VizCtrl.to.vizSeries[1].toggle.value,
+                                      // VizCtrl.to.vizSeriesList[1],
                                       onChanged: (e) {
-                                        VizCtrl.to.vizSeriesList[1] = e;
+                                        VizCtrl.to.vizSeries[1].toggle.value =
+                                            e;
+                                        // VizCtrl.to.vizSeriesList[1] = e;
                                       },
                                     ),
                                   ),
@@ -343,9 +390,13 @@ class chartTabBar extends StatelessWidget {
                                   Text('Phase'),
                                   Obx(
                                     () => Switch(
-                                      value: VizCtrl.to.vizSeriesList[6],
+                                      value:
+                                          VizCtrl.to.vizSeries[6].toggle.value,
+                                      // VizCtrl.to.vizSeriesList[6],
                                       onChanged: (e) {
-                                        VizCtrl.to.vizSeriesList[6] = e;
+                                        VizCtrl.to.vizSeries[6].toggle.value =
+                                            e;
+                                        // VizCtrl.to.vizSeriesList[6] = e;
                                       },
                                     ),
                                   ),
@@ -356,9 +407,13 @@ class chartTabBar extends StatelessWidget {
                                   Text('V'),
                                   Obx(
                                     () => Switch(
-                                      value: VizCtrl.to.vizSeriesList[2],
+                                      value:
+                                          VizCtrl.to.vizSeries[2].toggle.value,
+                                      // VizCtrl.to.vizSeriesList[2],
                                       onChanged: (e) {
-                                        VizCtrl.to.vizSeriesList[2] = e;
+                                        VizCtrl.to.vizSeries[2].toggle.value =
+                                            e;
+                                        // VizCtrl.to.vizSeriesList[2] = e;
                                       },
                                     ),
                                   ),
@@ -369,9 +424,13 @@ class chartTabBar extends StatelessWidget {
                                   Text('I'),
                                   Obx(
                                     () => Switch(
-                                      value: VizCtrl.to.vizSeriesList[3],
+                                      value:
+                                          VizCtrl.to.vizSeries[3].toggle.value,
+                                      // VizCtrl.to.vizSeriesList[3],
                                       onChanged: (e) {
-                                        VizCtrl.to..vizSeriesList[3] = e;
+                                        VizCtrl.to.vizSeries[3].toggle.value =
+                                            e;
+                                        // VizCtrl.to..vizSeriesList[3] = e;
                                       },
                                     ),
                                   ),
@@ -382,9 +441,13 @@ class chartTabBar extends StatelessWidget {
                                   Text('R'),
                                   Obx(
                                     () => Switch(
-                                      value: VizCtrl.to.vizSeriesList[4],
+                                      value:
+                                          VizCtrl.to.vizSeries[4].toggle.value,
+                                      // VizCtrl.to.vizSeriesList[4],
                                       onChanged: (e) {
-                                        VizCtrl.to.vizSeriesList[4] = e;
+                                        VizCtrl.to.vizSeries[4].toggle.value =
+                                            e;
+                                        // VizCtrl.to.vizSeriesList[4] = e;
                                       },
                                     ),
                                   ),
@@ -395,9 +458,13 @@ class chartTabBar extends StatelessWidget {
                                   Text('X'),
                                   Obx(
                                     () => Switch(
-                                      value: VizCtrl.to.vizSeriesList[5],
+                                      value:
+                                          VizCtrl.to.vizSeries[5].toggle.value,
+                                      // VizCtrl.to.vizSeriesList[5],
                                       onChanged: (e) {
-                                        VizCtrl.to.vizSeriesList[5] = e;
+                                        VizCtrl.to.vizSeries[5].toggle.value =
+                                            e;
+                                        // VizCtrl.to.vizSeriesList[5] = e;
                                       },
                                     ),
                                   ),
