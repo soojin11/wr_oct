@@ -98,7 +98,6 @@ class CsvController extends GetxController with SingleGetTickerProviderMixin {
         ',' +
         data.join(',') +
         '\n';
-    print("2번");
     await file.writeAsString(csv, mode: FileMode.append);
   }
 
@@ -123,7 +122,6 @@ class CsvController extends GetxController with SingleGetTickerProviderMixin {
         ',' +
         listWavelength.join(',') +
         '\n';
-    print("1번${saveFileName.value}\_$path}");
     // if (!file.existsSync()) {
     await file.writeAsString(intergrationColumn);
     // }

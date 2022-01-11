@@ -149,7 +149,6 @@ class OesController extends GetxController {
         for (var i = 0; i < Get.find<iniController>().OES_Count.value; i++) {
           await Get.find<CsvController>().csvFormInit(
               path: "_${i + 1}.csv", channelNum: 'channelNum : ${i + 1}');
-          print("1번 왜 안돼 $i");
         }
       }
     }
@@ -158,7 +157,6 @@ class OesController extends GetxController {
       for (var i = 0; i < Get.find<iniController>().OES_Count.value; i++) {
         Get.find<CsvController>()
             .csvForm(path: "_${nCurrentChannel + 1}.csv", data: fmtSpec);
-        print("왜 안될까 $i");
       }
     }
 
@@ -223,64 +221,7 @@ class OesChart extends GetView<OesController> {
                       padding: EdgeInsets.only(left: 20, right: 20, top: 10),
                       child: LineChartForm(
                         controller: controller,
-                        lineBarsData: [
-                          // if (controller.checkVal1.value)
-                          if (controller.oesData[0].oesToggle.value)
-                            lineChartBarData(
-                                controller.oesChartData[0],
-                                Get.find<iniController>()
-                                    .Series_Color_001
-                                    .value),
-                          // if (controller.checkVal2.value)
-                          if (controller.oesData[1].oesToggle.value)
-                            lineChartBarData(
-                                controller.oesChartData[1],
-                                Get.find<iniController>()
-                                    .Series_Color_002
-                                    .value),
-                          // if (controller.checkVal3.value)
-                          if (controller.oesData[2].oesToggle.value)
-                            lineChartBarData(
-                                controller.oesChartData[2],
-                                Get.find<iniController>()
-                                    .Series_Color_003
-                                    .value),
-                          // if (controller.checkVal4.value)
-                          if (controller.oesData[3].oesToggle.value)
-                            lineChartBarData(
-                                controller.oesChartData[3],
-                                Get.find<iniController>()
-                                    .Series_Color_004
-                                    .value),
-                          // if (controller.checkVal5.value)
-                          if (controller.oesData[4].oesToggle.value)
-                            lineChartBarData(
-                                controller.oesChartData[4],
-                                Get.find<iniController>()
-                                    .Series_Color_005
-                                    .value),
-                          // if (controller.checkVal6.value)
-                          if (controller.oesData[5].oesToggle.value)
-                            lineChartBarData(
-                                controller.oesChartData[5],
-                                Get.find<iniController>()
-                                    .Series_Color_006
-                                    .value),
-                          // if (controller.checkVal7.value)
-                          if (controller.oesData[6].oesToggle.value)
-                            lineChartBarData(
-                                controller.oesChartData[6],
-                                Get.find<iniController>()
-                                    .Series_Color_007
-                                    .value),
-                          // if (controller.checkVal8.value)
-                          if (controller.oesData[7].oesToggle.value)
-                            lineChartBarData(
-                                controller.oesChartData[7],
-                                Get.find<iniController>()
-                                    .Series_Color_008
-                                    .value),
-                        ],
+                        lineBarsData: oesChartValue(),
                         bottomTitles: SideTitles(
                           interval: 100,
                           showTitles: true,
@@ -337,5 +278,15 @@ class OesChart extends GetView<OesController> {
         ),
         colors: [color],
         barWidth: 1);
+  }
+
+  List<LineChartBarData> oesChartValue() {
+    List<LineChartBarData> rt = [];
+    for (var i = 0; i < 8; i++) {
+      if (controller.oesData[i].oesToggle.value)
+        rt.add(lineChartBarData(
+            controller.oesChartData[i], iniController.to.oesColor[i]));
+    }
+    return rt;
   }
 }
