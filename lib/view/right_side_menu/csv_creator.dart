@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:wr_ui/controller/button.dart';
+import 'package:wr_ui/controller/oes_ctrl.dart';
 import 'package:wr_ui/main.dart';
-import 'package:wr_ui/view/chart/oes_chart.dart';
 import 'package:wr_ui/view/right_side_menu/save_ini.dart';
 import 'log_screen.dart';
 
@@ -26,14 +26,30 @@ class CSVButton extends GetView<CsvController> {
     return Column(children: [
       SizedBox(height: 30),
       Obx(() => IgnorePointer(
-          ignoring: controller.csvSaveData.value,
+          ignoring:
+              controller.csvSaveData.value || iniController.to.checkAuto.value,
           child: RightButton(
               text: 'Save Start',
               icon: Icons.circle,
               color: controller.csvSaveData.value ? Colors.red : Colors.white,
-              primary:
-                  controller.csvSaveData.value ? Colors.grey : Colors.green,
+              primary: controller.csvSaveData.value ||
+                      iniController.to.checkAuto.value
+                  ? Colors.grey
+                  : Colors.green,
               onPressed: () {
+                DateTime current = DateTime.now();
+                DateTime dt = DateTime.utc(
+                    current.year,
+                    current.month,
+                    current.day,
+                    current.hour,
+                    current.minute,
+                    current.second,
+                    current.millisecond);
+                CsvController.to.saveFileName.value =
+                    DateFormat('yyyyMMdd-HHmmss').format(current);
+                CsvController.to.startTime.value =
+                    DateFormat('HH:mm:ss.SSS').format(dt);
                 Get.find<CsvController>().csvSaveInit.value = true;
                 for (var i = 0;
                     i < Get.find<iniController>().OES_Count.value;
@@ -49,11 +65,13 @@ class CSVButton extends GetView<CsvController> {
               }))),
       SizedBox(height: 30),
       Obx(() => IgnorePointer(
-          ignoring: !controller.csvSaveData.value,
+          ignoring:
+              !controller.csvSaveData.value || iniController.to.checkAuto.value,
           child: RightButton(
               text: 'Save Stop',
               icon: Icons.pause,
-              primary: controller.csvSaveData.value ? Colors.red : Colors.grey,
+              primary: aa(),
+              // controller.csvSaveData.value ? Colors.red : Colors.grey,
               onPressed: () {
                 Get.find<CsvController>().csvSaveInit.value = false;
                 Get.find<CsvController>().csvSaveData.value = false;
@@ -62,15 +80,21 @@ class CSVButton extends GetView<CsvController> {
               })))
     ]);
   }
+
+  Color aa() {
+    Color bb = Colors.grey;
+    if (iniController.to.checkAuto.value && controller.csvSaveData.value) {
+      bb = Colors.grey;
+    }
+    if (controller.csvSaveData.value && !iniController.to.checkAuto.value) {
+      bb = Colors.red;
+    }
+    return bb;
+  }
 }
 
-class CsvController extends GetxController with SingleGetTickerProviderMixin {
-  late AnimationController animationCtrl =
-      AnimationController(vsync: this, duration: Duration(seconds: 1))
-        ..repeat();
-  late Animation<double> animation =
-      CurvedAnimation(parent: animationCtrl, curve: Curves.ease);
-  // RxBool fileSave = false.obs;
+class CsvController extends GetxController {
+  static CsvController get to => Get.find();
   RxBool csvSaveInit = false.obs;
   RxBool csvSaveData = false.obs;
   RxList<String> path = RxList.empty();
@@ -84,11 +108,21 @@ class CsvController extends GetxController with SingleGetTickerProviderMixin {
 
   String timeVal() {
     DateTime current = DateTime.now();
-    String ms = DateTime.now().millisecondsSinceEpoch.toString();
-    int msLength = ms.length;
-    int third = int.parse(ms.substring(msLength - 3, msLength));
-    String addTime = '${DateFormat('HH:mm:ss').format(current)}.$third';
+    DateTime dt = DateTime.utc(current.year, current.month, current.day,
+        current.hour, current.minute, current.second, current.millisecond);
+    String addTime = DateFormat('HH:mm:ss').format(dt);
     return addTime;
+  }
+
+  String difTime() {
+    DateTime current = DateTime.now();
+    final bb = DateTime.parse(saveFileName.value);
+    final aa = DateTime(current.year, current.month, current.day, current.hour,
+            current.minute, current.second, current.millisecond)
+        .difference(DateTime(bb.year, bb.month, bb.day, bb.hour, bb.minute,
+            bb.second, bb.millisecond));
+    print('시가안 : $aa');
+    return aa.toString();
   }
 
   void csvForm({required String path, required List<dynamic> data}) async {
@@ -98,7 +132,11 @@ class CsvController extends GetxController with SingleGetTickerProviderMixin {
         ',' +
         data.join(',') +
         '\n';
-    await file.writeAsString(csv, mode: FileMode.append);
+    try {
+      await file.writeAsString(csv, mode: FileMode.append);
+    } catch (e) {
+      debugPrint(e.toString());
+    }
   }
 
   Future<bool> csvFormInit(
@@ -131,11 +169,15 @@ class CsvController extends GetxController with SingleGetTickerProviderMixin {
   void vizDataSave({required List<dynamic> data}) async {
     Directory('datafiles').create(recursive: true);
     File file = File("./datafiles/WR_VIZ_${saveFileName.value}.csv");
-    String csv = timeVal() + ',' + data.join(',') + '\n';
-    await file.writeAsString(csv, mode: FileMode.append);
+    String csv = timeVal() + ',' + ',' + data.join(',') + '\n';
+    try {
+      await file.writeAsString(csv, mode: FileMode.append);
+    } catch (e) {
+      debugPrint(e.toString());
+    }
   }
 
-  void vizSaveInit() async {
+  Future<bool> vizSaveInit() async {
     Directory('datafiles').create(recursive: true);
     File file = File("./datafiles/WR_VIZ_${saveFileName.value}.csv");
     List<dynamic> initData = [
@@ -146,6 +188,7 @@ class CsvController extends GetxController with SingleGetTickerProviderMixin {
     ];
     List<String> init = [
       'Time',
+      'Seconds',
       'Frequency',
       'P dlv',
       'Vms',
@@ -162,8 +205,10 @@ class CsvController extends GetxController with SingleGetTickerProviderMixin {
         init.join(',') +
         init.join(',') +
         '\n';
+
     if (!file.existsSync()) {
       await file.writeAsString(all);
     }
+    return true;
   }
 }

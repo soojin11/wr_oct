@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wr_ui/controller/button.dart';
+import 'package:wr_ui/controller/oes_ctrl.dart';
 import 'package:wr_ui/controller/viz_ctrl.dart';
 import 'package:wr_ui/main.dart';
 import 'package:wr_ui/model/const/style/pallette.dart';
@@ -115,7 +116,7 @@ Future<String?> completelyExit(BuildContext context) {
             style: TextStyle(color: wrColors.wrPrimary),
           ),
           onPressed: () =>
-              Get.offAll(Home(), transition: Transition.noTransition),
+              Get.offAll(() => Home(), transition: Transition.noTransition),
         ),
       ],
     ),

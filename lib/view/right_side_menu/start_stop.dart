@@ -1,11 +1,10 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:wr_ui/controller/button.dart';
+import 'package:wr_ui/controller/oes_ctrl.dart';
 import 'package:wr_ui/main.dart';
 import 'package:wr_ui/view/appbar/leading/run_error_status_mark.dart';
-import 'package:wr_ui/view/chart/oes_chart.dart';
 import 'package:wr_ui/controller/viz_ctrl.dart';
 import 'package:wr_ui/view/right_side_menu/log_save.dart';
 import 'package:wr_ui/view/right_side_menu/save_ini.dart';
@@ -33,6 +32,15 @@ class StartStop extends StatelessWidget {
                     ? Colors.grey
                     : Colors.green,
                 onPressed: () async {
+                  aa();
+                  VizCtrl.to.vizPoints.clear();
+                  for (var i = 0; i < 5; i++) {
+                    VizCtrl.to.vizPoints.add(RxList.empty());
+                    for (var ii = 0; ii < 7; ii++) {
+                      VizCtrl.to.vizPoints[i].add(RxList.empty());
+                    }
+                  }
+                  VizCtrl.to.xValue.value = 0;
                   await VizCtrl.to.sendStart(); //측정 시작
                   for (var item in VizCtrl.to.buffer) {
                     item.clear();
@@ -74,22 +82,18 @@ class StartStop extends StatelessWidget {
 }
 
 DataStartBtn() async {
-  // if (Get.find<iniController>().sim.value == 0) {
-  // if (iniController.to.oesSim.value == false) {
   if (iniController.to.oes_comport.value != 0 &&
       iniController.to.oes_comport.value != -1) {
     if (ocrs != 0) await oesClose();
     await oesInit();
   }
 
-  DateTime current = DateTime.now();
-  Get.find<CsvController>().saveFileName.value =
-      DateFormat('yyyyMMdd-HHmmss').format(current);
-  String ms = DateTime.now().millisecondsSinceEpoch.toString();
-  int msLength = ms.length;
-  int third = int.parse(ms.substring(msLength - 3, msLength));
-  Get.find<CsvController>().startTime.value =
-      '${DateFormat('HH:mm:ss').format(current)}.$third';
+  // DateTime current = DateTime.now();
+  // DateTime dt = DateTime.utc(current.year, current.month, current.day,
+  //     current.hour, current.minute, current.second, current.millisecond);
+  // CsvController.to.saveFileName.value =
+  //     DateFormat('yyyyMMdd-HHmmss').format(current);
+  // CsvController.to.startTime.value = DateFormat('HH:mm:ss.SSS').format(dt);
   Get.find<runErrorStatusController>().connect.value = true;
   Get.find<LogListController>().clickedStart();
   Get.find<OesController>().inactiveBtn.value = true;

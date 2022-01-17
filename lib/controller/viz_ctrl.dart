@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:ffi';
+import 'dart:isolate';
 import 'dart:typed_data';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:get/get.dart';
@@ -27,6 +28,8 @@ class VizCtrl extends GetxController {
   late RxDouble minX;
   late RxDouble maxX;
   RxDouble xValue = 0.0.obs;
+  RxBool showAll = false.obs;
+
   double setRandom() {
     double yValue = 10 + math.Random().nextInt(10).toDouble();
     return yValue;
@@ -58,6 +61,7 @@ class VizCtrl extends GetxController {
   }
 
   Future<void> vizUpdate() async {
+    List aaa = [];
     while (vizPoints[0][0].length > chartMaxX.value) {
       for (var i = 0; i < 5; i++) {
         for (var ii = 0; ii < 7; ii++) {
@@ -65,7 +69,7 @@ class VizCtrl extends GetxController {
         }
       }
     }
-    List aaa = [];
+
     for (var i = 0; i < 5; i++) {
       //수정
       vizPoints[i][0]
@@ -78,13 +82,13 @@ class VizCtrl extends GetxController {
       vizPoints[i][5].add(FlSpot(xValue.value, vizChannel[i].vizData.x * 10));
       vizPoints[i][6]
           .add(FlSpot(xValue.value, vizChannel[i].vizData.phase * 1000 / 360));
-      aaa.add(vizChannel[i].vizData.freq);
-      aaa.add(vizChannel[i].vizData.p_dlv);
-      aaa.add(vizChannel[i].vizData.v);
-      aaa.add(vizChannel[i].vizData.i);
-      aaa.add(vizChannel[i].vizData.r);
-      aaa.add(vizChannel[i].vizData.x);
-      aaa.add(vizChannel[i].vizData.phase);
+      aaa.add(vizChannel[i].vizData.freq.toStringAsFixed(2));
+      aaa.add(vizChannel[i].vizData.p_dlv.toStringAsFixed(2));
+      aaa.add(vizChannel[i].vizData.v.toStringAsFixed(2));
+      aaa.add(vizChannel[i].vizData.i.toStringAsFixed(2));
+      aaa.add(vizChannel[i].vizData.r.toStringAsFixed(2));
+      aaa.add(vizChannel[i].vizData.x.toStringAsFixed(2));
+      aaa.add(vizChannel[i].vizData.phase.toStringAsFixed(2));
 
       // print('asdf${aaa}');
 
@@ -224,63 +228,6 @@ class VizCtrl extends GetxController {
         .buffer
         .asByteData()
         .getFloat32(0, Endian.little);
-    // vizList[portIdx].value.freq = Uint8List.fromList(_b)
-    //     .sublist(startDataIdx, startDataIdx += 4)
-    //     .buffer
-    //     .asByteData()
-    //     .getFloat32(0, Endian.little);
-    // vizList[portIdx].value.p_dlv = Uint8List.fromList(_b)
-    //     .sublist(startDataIdx, startDataIdx += 4)
-    //     .buffer
-    //     .asByteData()
-    //     .getFloat32(0, Endian.little);
-    // vizList[portIdx].value.v = Uint8List.fromList(_b)
-    //     .sublist(startDataIdx, startDataIdx += 4)
-    //     .buffer
-    //     .asByteData()
-    //     .getFloat32(0, Endian.little);
-    // vizList[portIdx].value.i = Uint8List.fromList(_b)
-    //     .sublist(startDataIdx, startDataIdx += 4)
-    //     .buffer
-    //     .asByteData()
-    //     .getFloat32(0, Endian.little);
-    // vizList[portIdx].value.r = Uint8List.fromList(_b)
-    //     .sublist(startDataIdx, startDataIdx += 4)
-    //     .buffer
-    //     .asByteData()
-    //     .getFloat32(0, Endian.little);
-    // vizList[portIdx].value.x = Uint8List.fromList(_b)
-    //     .sublist(startDataIdx, startDataIdx += 4)
-    //     .buffer
-    //     .asByteData()
-    //     .getFloat32(0, Endian.little);
-    // vizList[portIdx].value.phase = Uint8List.fromList(_b)
-    //     .sublist(startDataIdx, startDataIdx += 4)
-    //     .buffer
-    //     .asByteData()
-    //     .getFloat32(0, Endian.little);
-
-    // print('=================================================시작===');
-    // print(
-    //     '=================================================Frequency : ${vizList[portIdx].value.freq}');
-    // print(
-    //     '=================================================P_div : ${vizList[portIdx].value.p_dlv}');
-    // print(
-    //     '=================================================V : ${vizList[portIdx].value.v}');
-    // print(
-    //     '=================================================I : ${vizList[portIdx].value.i}');
-    // print(
-    //     '=================================================R : ${vizList[portIdx].value.r}');
-    // print(
-    //     '=================================================X : ${vizList[portIdx].value.x}');
-    // print(
-    //     '=================================================Phase : ${vizList[portIdx].value.phase}');
-    // print('=================================================끝===');
-
-    // for (var i = 0; i < 5; i++) {
-    //   Map aa = vizChannel[i].toMap();
-    //   print(aa);
-    // }
 
     print('$receiveLength자와 같아 $_b');
 
@@ -289,8 +236,6 @@ class VizCtrl extends GetxController {
 
   Future<void> readSerial(Timer timer) async {
     for (var i = 0; i < 5; i++) {
-      //if (vizChannel[i].port.isOpen) {
-      // if (iniController.to.vizComport[i] != 0)
       if (iniController.to.vizComport[i] != 0 &&
           iniController.to.vizComport[i] != -1) {
         print('object');
@@ -361,4 +306,28 @@ class VizCtrl extends GetxController {
       if (vizChannel[i].port.isOpen) vizChannel[i].port.write(bytes);
     }
   }
+}
+
+aa() {
+  int counter = 0;
+  ReceivePort mainReceivePort = new ReceivePort();
+  mainReceivePort.listen((fooSendPort) {
+    if (fooSendPort is SendPort) {
+      fooSendPort.send(counter++);
+    } else {
+      print(fooSendPort);
+    }
+  });
+  for (var i = 0; i < 5; i++) {
+    Isolate.spawn(foo, mainReceivePort.sendPort);
+  }
+}
+
+foo(SendPort mainSendPort) {
+  ReceivePort fooReceivePort = new ReceivePort();
+  mainSendPort.send(fooReceivePort.sendPort);
+
+  fooReceivePort.listen((msg) {
+    mainSendPort.send('received: $msg');
+  });
 }

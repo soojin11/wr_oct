@@ -19,10 +19,7 @@ class ThemeService {
 class Themes {
   static final light = ThemeData(
     scaffoldBackgroundColor: Colors.transparent,
-    //컨테이너 색
-
     backgroundColor: Colors.grey[50],
-    //컨테이너 색
     shadowColor: Colors.grey.withOpacity(0.2),
     appBarTheme: AppBarTheme(
       color: wrColors.wrPrimary,
@@ -42,19 +39,13 @@ class Themes {
     backgroundColor: wrColors.wrDarkbg,
     brightness: Brightness.dark,
     appBarTheme: AppBarTheme(
-      color: Colors.blueGrey[800],
-      foregroundColor: wrColors.wrDarkAppBar,
+      color: wrColors.wrPrimary,
+      foregroundColor: Colors.white,
       elevation: 0,
-
       actionsIconTheme: IconThemeData(color: Colors.black),
       titleTextStyle: TextStyle(color: Colors.amber),
-      // toolbarTextStyle: TextStyle(color: Colors.black),
     ),
     textTheme: TextTheme(
-      // subtitle1: TextStyle(color: Colors.white),
-      // subtitle2: TextStyle(color: Colors.white),
-      // overline: TextStyle(color: Colors.white),
-      // bodyText1: TextStyle(color: Colors.white),
       bodyText2: TextStyle(
         color: Colors.white,
         fontWeight: FontWeight.bold,
@@ -63,12 +54,5 @@ class Themes {
     dividerTheme: DividerThemeData(
       color: Color(0xff37383a),
     ),
-    // cardTheme: CardTheme(color: Colors.amber),
   );
 }
-
-class NavThemes {}
-
-
-
-//다크 화이트모드

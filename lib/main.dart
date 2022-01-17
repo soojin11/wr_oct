@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wr_ui/controller/home_controller.dart';
 import 'package:wr_ui/model/config/config.dart';
-import 'package:wr_ui/model/oes/oes_data.dart';
 import 'package:wr_ui/service/dark_white_mode/mode.dart';
 import 'package:wr_ui/view/appbar/actions/minimize/window_btn.dart';
 import 'package:wr_ui/view/appbar/actions/setting/ini_and_setting.dart';
@@ -23,6 +22,7 @@ import 'package:wr_ui/view/right_side_menu/log_save.dart';
 import 'package:wr_ui/view/right_side_menu/log_screen.dart';
 import 'package:wr_ui/view/right_side_menu/save_ini.dart';
 import 'package:wr_ui/view/right_side_menu/start_stop.dart';
+import 'controller/oes_ctrl.dart';
 import 'model/const/style/text.dart';
 
 final DynamicLibrary wgsFunction = DynamicLibrary.open("WGSFunction.dll");
@@ -75,7 +75,7 @@ Future main() async {
   // VizCtrl.to.vizList.assignAll([]);
   VizCtrl.to.vizPoints.assignAll([]);
   for (var i = 0; i < 5; i++) {
-    //VizCtrl.to.vizChannel[i];
+    // VizCtrl.to.vizChannel[i];
     VizCtrl.to.vizPoints.add(RxList.empty());
     // VizCtrl.to.vizList.add(VizData.init().obs);
     for (var ii = 0; ii < 7; ii++) {
@@ -105,9 +105,12 @@ Future main() async {
   ///시리얼 포트///
   VizCtrl.to.init();
   VizCtrl.to.startSerial();
+  // vizCompute(IsolatedViz());
+
   for (var i = 0; i < 5; i++) {
     print('열렸나? ${VizCtrl.to.vizChannel[i].port.isOpen}');
   }
+  // await startSerial(VizCtrl.to.vizChannel);
   OesController.to.init();
 }
 
@@ -179,7 +182,7 @@ class WRappbar extends StatelessWidget implements PreferredSizeWidget {
                 children: [
                   GestureDetector(
                       onTap: () {
-                        () => Get.offAll(Home());
+                        () => Get.offAll(() => Home());
                       },
                       child: Padding(
                         padding: const EdgeInsets.all(5.0),
@@ -270,6 +273,8 @@ class WRappbar extends StatelessWidget implements PreferredSizeWidget {
                         borderRadius: BorderRadius.circular(8),
                         color: Colors.blueGrey[50]),
                     child: Obx(() => DropdownButton(
+                          icon:
+                              Icon(Icons.arrow_drop_down, color: Colors.black),
                           underline:
                               DropdownButtonHideUnderline(child: Container()),
                           borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -472,33 +477,6 @@ class _WRbodyState extends State<WRbody> {
                             ),
                           ),
                         ),
-                        Visibility(
-                          visible: false,
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Container(
-                              child: Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      SizedBox(
-                                        width: 20,
-                                      ),
-                                      Text('Recipe',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyText2),
-                                    ],
-                                  ),
-                                  Divider(
-                                    indent: 10,
-                                    endIndent: 10,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
                         Padding(
                           padding: const EdgeInsets.all(5.0),
                           child: Container(
@@ -533,7 +511,7 @@ class _WRbodyState extends State<WRbody> {
               ),
             ),
             decoration: BoxDecoration(
-              color: Theme.of(context).appBarTheme.foregroundColor,
+              color: Theme.of(context).backgroundColor,
               borderRadius: BorderRadius.circular(10),
               boxShadow: [
                 BoxShadow(

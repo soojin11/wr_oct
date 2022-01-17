@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:wr_ui/controller/oes_ctrl.dart';
 import 'package:wr_ui/controller/viz_ctrl.dart';
 import 'package:wr_ui/model/const/style/pallette.dart';
 import 'package:wr_ui/view/appbar/leading/recent_recipe_name.dart';
@@ -17,11 +18,17 @@ class chartTabBar extends StatelessWidget {
                   color: Colors.transparent,
                   child: InkWell(
                     onTap: () {
-                      // Get.find<chooseChart>().chartNum.value = 0;
-                      for (var i = 0; i < 8; i++) {
-                        OesController.to.oesData[i].oesToggle.value = true;
-                        print(
-                            'show all${OesController.to.oesData[i].oesToggle.value}');
+                      OesController.to.showAll.value =
+                          !OesController.to.showAll.value;
+                      if (!OesController.to.showAll.value) {
+                        for (var i = 0; i < 8; i++) {
+                          OesController.to.oesData[i].oesToggle.value = true;
+                        }
+                      }
+                      if (OesController.to.showAll.value) {
+                        for (var i = 0; i < 8; i++) {
+                          OesController.to.oesData[i].oesToggle.value = false;
+                        }
                       }
                       Get.find<ChartName>().chartName.value = 'ALL';
                     },
@@ -33,7 +40,9 @@ class chartTabBar extends StatelessWidget {
                         padding: const EdgeInsets.only(
                             left: 6.0, right: 6.0, top: 4, bottom: 4),
                         child: Text(
-                          '  Show ALL  ',
+                          OesController.to.showAll.value
+                              ? '  Show ALL  '
+                              : '  Close ALL  ',
                           style: TextStyle(
                               fontSize: 20,
                               color: wrColors.white,
@@ -211,11 +220,23 @@ class chartTabBar extends StatelessWidget {
                         color: Colors.transparent,
                         child: InkWell(
                           onTap: () {
-                            for (var i = 0; i < 5; i++) {
-                              VizCtrl.to.vizChannel[i].toggle.value = true;
+                            VizCtrl.to.showAll.value =
+                                !VizCtrl.to.showAll.value;
+                            if (!VizCtrl.to.showAll.value) {
+                              for (var i = 0; i < 5; i++) {
+                                VizCtrl.to.vizChannel[i].toggle.value = true;
+                              }
+                              for (var i = 0; i < 7; i++) {
+                                VizCtrl.to.vizSeries[i].toggle.value = true;
+                              }
                             }
-                            for (var i = 0; i < 7; i++) {
-                              VizCtrl.to.vizSeries[i].toggle.value = true;
+                            if (VizCtrl.to.showAll.value) {
+                              for (var i = 0; i < 5; i++) {
+                                VizCtrl.to.vizChannel[i].toggle.value = false;
+                              }
+                              for (var i = 0; i < 7; i++) {
+                                VizCtrl.to.vizSeries[i].toggle.value = false;
+                              }
                             }
                             Get.find<ChartName>().chartName.value = 'ALL';
                           },
@@ -227,7 +248,9 @@ class chartTabBar extends StatelessWidget {
                               padding: const EdgeInsets.only(
                                   left: 6.0, right: 6.0, top: 4, bottom: 4),
                               child: Text(
-                                '  Show ALL  ',
+                                VizCtrl.to.showAll.value
+                                    ? '  Show ALL  '
+                                    : '  Close ALL  ',
                                 style: TextStyle(
                                     fontSize: 20,
                                     color: wrColors.white,

@@ -1,9 +1,8 @@
-import 'dart:convert';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:wr_ui/controller/oes_ctrl.dart';
 import 'package:wr_ui/controller/setting.dart';
 import 'package:wr_ui/controller/viz_ctrl.dart';
 import 'package:wr_ui/main.dart';
@@ -11,6 +10,7 @@ import 'package:wr_ui/model/config/config.dart';
 import 'dart:async';
 import 'package:wr_ui/model/const/style/pallette.dart';
 import 'package:wr_ui/model/const/style/text.dart';
+import 'package:wr_ui/model/viz/viz_data.dart';
 import 'package:wr_ui/view/appbar/leading/run_error_status_mark.dart';
 import 'package:wr_ui/view/chart/oes_chart.dart';
 import 'package:wr_ui/view/right_side_menu/csv_creator.dart';
@@ -162,6 +162,174 @@ Future<void> _showDialog(context) async {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
+                                          Row(
+                                            children: [
+                                              Container(
+                                                width: 40,
+                                                child: TextFormField(
+                                                  textAlign: TextAlign.center,
+                                                  initialValue: iniController
+                                                      .to.channelFlow[0],
+                                                  onSaved: (v) {
+                                                    iniController
+                                                            .to.channelFlow[0] =
+                                                        v.toString();
+                                                  },
+                                                  inputFormatters: [
+                                                    FilteringTextInputFormatter
+                                                        .digitsOnly
+                                                  ],
+                                                ),
+                                              ),
+                                              Icon(
+                                                Icons.arrow_forward,
+                                                color: Colors.grey,
+                                              ),
+                                              Container(
+                                                width: 40,
+                                                child: TextFormField(
+                                                  textAlign: TextAlign.center,
+                                                  initialValue: iniController
+                                                      .to.channelFlow[1],
+                                                  onSaved: (v) {
+                                                    iniController
+                                                            .to.channelFlow[1] =
+                                                        v.toString();
+                                                  },
+                                                  inputFormatters: [
+                                                    FilteringTextInputFormatter
+                                                        .digitsOnly
+                                                  ],
+                                                ),
+                                              ),
+                                              Icon(
+                                                Icons.arrow_forward,
+                                                color: Colors.grey,
+                                              ),
+                                              Container(
+                                                width: 40,
+                                                child: TextFormField(
+                                                  textAlign: TextAlign.center,
+                                                  initialValue: iniController
+                                                      .to.channelFlow[2],
+                                                  onSaved: (v) {
+                                                    iniController
+                                                            .to.channelFlow[2] =
+                                                        v.toString();
+                                                  },
+                                                  inputFormatters: [
+                                                    FilteringTextInputFormatter
+                                                        .digitsOnly
+                                                  ],
+                                                ),
+                                              ),
+                                              Icon(
+                                                Icons.arrow_forward,
+                                                color: Colors.grey,
+                                              ),
+                                              Container(
+                                                width: 40,
+                                                child: TextFormField(
+                                                  textAlign: TextAlign.center,
+                                                  initialValue: iniController
+                                                      .to.channelFlow[3],
+                                                  onSaved: (v) {
+                                                    iniController
+                                                            .to.channelFlow[3] =
+                                                        v.toString();
+                                                  },
+                                                  inputFormatters: [
+                                                    FilteringTextInputFormatter
+                                                        .digitsOnly
+                                                  ],
+                                                ),
+                                              ),
+                                              Icon(
+                                                Icons.arrow_forward,
+                                                color: Colors.grey,
+                                              ),
+                                              Container(
+                                                width: 40,
+                                                child: TextFormField(
+                                                  textAlign: TextAlign.center,
+                                                  initialValue: iniController
+                                                      .to.channelFlow[4],
+                                                  onSaved: (v) {
+                                                    iniController
+                                                            .to.channelFlow[4] =
+                                                        v.toString();
+                                                  },
+                                                  inputFormatters: [
+                                                    FilteringTextInputFormatter
+                                                        .digitsOnly
+                                                  ],
+                                                ),
+                                              ),
+                                              Icon(
+                                                Icons.arrow_forward,
+                                                color: Colors.grey,
+                                              ),
+                                              Container(
+                                                width: 40,
+                                                child: TextFormField(
+                                                  textAlign: TextAlign.center,
+                                                  initialValue: iniController
+                                                      .to.channelFlow[5],
+                                                  onSaved: (v) {
+                                                    iniController
+                                                            .to.channelFlow[5] =
+                                                        v.toString();
+                                                  },
+                                                  inputFormatters: [
+                                                    FilteringTextInputFormatter
+                                                        .digitsOnly
+                                                  ],
+                                                ),
+                                              ),
+                                              Icon(
+                                                Icons.arrow_forward,
+                                                color: Colors.grey,
+                                              ),
+                                              Container(
+                                                width: 40,
+                                                child: TextFormField(
+                                                  textAlign: TextAlign.center,
+                                                  initialValue: iniController
+                                                      .to.channelFlow[6],
+                                                  onSaved: (v) {
+                                                    iniController
+                                                            .to.channelFlow[6] =
+                                                        v.toString();
+                                                  },
+                                                  inputFormatters: [
+                                                    FilteringTextInputFormatter
+                                                        .digitsOnly
+                                                  ],
+                                                ),
+                                              ),
+                                              Icon(
+                                                Icons.arrow_forward,
+                                                color: Colors.grey,
+                                              ),
+                                              Container(
+                                                width: 40,
+                                                child: TextFormField(
+                                                  textAlign: TextAlign.center,
+                                                  initialValue: iniController
+                                                      .to.channelFlow[7],
+                                                  onSaved: (v) {
+                                                    iniController
+                                                            .to.channelFlow[7] =
+                                                        v.toString();
+                                                  },
+                                                  inputFormatters: [
+                                                    FilteringTextInputFormatter
+                                                        .digitsOnly
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                           Container(
                                             width: 100,
                                             child: TextFormField(
@@ -282,26 +450,26 @@ Future<void> _showDialog(context) async {
                                         ),
                                       ),
                                       SizedBox(width: 50),
-                                      Column(
-                                        children: [
-                                          ElevatedButton(
-                                              style: ElevatedButton.styleFrom(
-                                                  primary: Colors.grey[700]),
-                                              onPressed: () {
-                                                VizCtrl.to.startSerial();
-                                              },
-                                              child: Text("Comport Open")),
-                                          SizedBox(height: 20),
-                                          ElevatedButton(
-                                              style: ElevatedButton.styleFrom(
-                                                  primary: Colors.grey[700]),
-                                              onPressed: () {
-                                                VizCtrl.to.vizChannel[0].port
-                                                    .close();
-                                              },
-                                              child: Text("Comport Close")),
-                                        ],
-                                      ),
+                                      // Column(
+                                      //   children: [
+                                      //     ElevatedButton(
+                                      //         style: ElevatedButton.styleFrom(
+                                      //             primary: Colors.grey[700]),
+                                      //         onPressed: () {
+                                      //           VizCtrl.to.startSerial();
+                                      //         },
+                                      //         child: Text("Comport Open")),
+                                      //     SizedBox(height: 20),
+                                      //     ElevatedButton(
+                                      //         style: ElevatedButton.styleFrom(
+                                      //             primary: Colors.grey[700]),
+                                      //         onPressed: () {
+                                      //           VizCtrl.to.vizChannel[0].port
+                                      //               .close();
+                                      //         },
+                                      //         child: Text("Comport Close")),
+                                      //   ],
+                                      // ),
                                     ]),
                                     Divider(height: 30, thickness: 2),
                                     Text('Color Setting',
@@ -476,7 +644,9 @@ Future<void> _showDialog(context) async {
                           }
 
                           VizCtrl.to.init();
+                          // startSerial(VizCtrl.to.vizChannel);
                           VizCtrl.to.startSerial();
+                          // vizCompute(IsolatedViz());
                           Get.find<LogListController>().cConfigSave();
                           ConfigWR writeConfig = ConfigWR.init();
                           File file = File("./setting.json");
@@ -521,7 +691,7 @@ Future<String?> runningSet(BuildContext context) {
             Get.find<CsvController>().csvSaveData.value = false;
             Get.find<runErrorStatusController>().connect.value = false;
             Get.find<runErrorStatusController>().textmsg.value = 'STOP';
-            Get.offAll(Home(), transition: Transition.noTransition);
+            Get.offAll(() => Home(), transition: Transition.noTransition);
           },
         ),
       ],

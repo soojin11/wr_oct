@@ -50,7 +50,9 @@ class VizChart extends GetView<VizCtrl> {
           maxX: VizCtrl.to.chartMaxX.value,
           minX: VizCtrl.to.chartMinX.value,
           clipData: FlClipData.all(),
-          lineTouchData: LineTouchData(enabled: false),
+          lineTouchData: LineTouchData(
+            enabled: false,
+          ),
           titlesData: FlTitlesData(
               show: true,
               bottomTitles: bottomTitles,
@@ -78,6 +80,9 @@ class VizChart extends GetView<VizCtrl> {
 
   List<LineChartBarData> vizChartValue() {
     List<LineChartBarData> rt = [];
+
+    rt.add(lineChartBarData([], Colors.black));
+
     for (var i = 0; i < 5; i++) {
       for (var ii = 0; ii < 7; ii++) {
         if (VizCtrl.to.vizSeries[ii].toggle.value &&
