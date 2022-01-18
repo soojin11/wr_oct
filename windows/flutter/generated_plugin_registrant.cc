@@ -8,13 +8,10 @@
 
 #include <bitsdojo_window_windows/bitsdojo_window_plugin.h>
 #include <flutter_libserialport/flutter_libserialport_plugin.h>
-#include <system_tray/system_tray_plugin.h>
 
 void RegisterPlugins(flutter::PluginRegistry* registry) {
   BitsdojoWindowPluginRegisterWithRegistrar(
       registry->GetRegistrarForPlugin("BitsdojoWindowPlugin"));
   FlutterLibserialportPluginRegisterWithRegistrar(
       registry->GetRegistrarForPlugin("FlutterLibserialportPlugin"));
-  SystemTrayPluginRegisterWithRegistrar(
-      registry->GetRegistrarForPlugin("SystemTrayPlugin"));
 }

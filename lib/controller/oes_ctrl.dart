@@ -151,6 +151,7 @@ class OesController extends GetxController {
         DateTime current = DateTime.now();
         DateTime dt = DateTime.utc(current.year, current.month, current.day,
             current.hour, current.minute, current.second, current.millisecond);
+        CsvController.to.fixedTime.value = dt;
         CsvController.to.saveFileName.value =
             DateFormat('yyyyMMdd-HHmmss').format(current);
         CsvController.to.startTime.value =
@@ -202,14 +203,11 @@ class OesController extends GetxController {
               }
             } else {
               if (maxX.value + 100 > minX.value &&
-                  yMax.value + 100 > minY.value &&
-                  minY > 0 &&
                   minX > 0 &&
                   maxX <= listWavelength.length) {
                 minX.value -= 50;
                 maxX.value += 50;
-                minY.value -= 50;
-                yMax.value += 50;
+
                 print('축소 minxxxxxxxx : $minX max: $maxX');
                 print('축소 min : $minY max: $yMax');
               }

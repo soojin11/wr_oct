@@ -3,6 +3,7 @@ import 'dart:ffi';
 import 'dart:isolate';
 import 'dart:typed_data';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:libserialport/libserialport.dart';
 import 'package:wr_ui/main.dart';
@@ -11,6 +12,87 @@ import 'dart:math' as math;
 import 'package:wr_ui/view/right_side_menu/csv_creator.dart';
 import 'package:wr_ui/view/right_side_menu/log_screen.dart';
 import 'package:wr_ui/view/right_side_menu/save_ini.dart';
+
+aa() {
+  ReceivePort mainRP = ReceivePort();
+  // mainRP.listen((message) async {
+  //   debugPrint('aa message : $message');
+  // });
+  mainRP.listen((message) {
+    VizCtrl.to.vizChannel;
+  });
+  Isolate.spawn(isolatedViz, mainRP.sendPort);
+}
+
+isolatedViz(SendPort vizSP) async {
+  Get.put(iniController());
+  Get.put(VizCtrl());
+  Get.put(LogListController());
+  VizCtrl.to.init(); //여기 serialPort.dll 도 있음
+
+  ReceivePort vizRP = ReceivePort();
+  vizSP.send(sendData());
+  vizRP.listen((message) {
+    vizSP.send(message);
+    debugPrint('message : $message');
+  });
+}
+
+Future<bool> sendData() async {
+  for (var i = 0; i < 5; i++) {
+    print('startSerial i $i');
+
+    if (VizCtrl.to.vizChannel[i].port.openReadWrite()) {
+      print('오픈 성공 i $i ${VizCtrl.to.vizChannel[i].port.name}');
+      await SerialPortReader(VizCtrl.to.vizChannel[i].port)
+          .stream
+          .listen((data) async {
+        print('listen $i');
+        await VizCtrl.to.validity(data, i);
+      });
+    } else {
+      print('오픈 에러 ?? $i ${SerialPort.lastError}');
+      Get.find<LogListController>().logData.add('Viz Comport Error');
+    }
+    if (!VizCtrl.to.vizChannel[i].port.isOpen) {
+      Get.find<LogListController>().logData.add('Check VIZ${i + 1} port');
+    }
+  }
+  return true;
+}
+
+// aa() {
+//   ReceivePort mainRP = ReceivePort();
+//   Isolate.spawn(isolatedViz, mainRP.sendPort);
+// }
+
+// isolatedViz(SendPort vizSP) async {
+//   Get.put(iniController());
+//   Get.put(VizCtrl());
+//   Get.put(LogListController());
+//   VizCtrl.to.init();
+
+//   ReceivePort vizRP = ReceivePort();
+//   for (var i = 0; i < 5; i++) {
+//     print('startSerial i $i');
+
+//     if (VizCtrl.to.vizChannel[i].port.openReadWrite()) {
+//       print('오픈 성공 i $i ${VizCtrl.to.vizChannel[i].port.name}');
+//       await SerialPortReader(VizCtrl.to.vizChannel[i].port)
+//           .stream
+//           .listen((data) async {
+//         print('listen $i');
+//         await VizCtrl.to.validity(data, i);
+//       });
+//     } else {
+//       print('오픈 에러 ?? $i ${SerialPort.lastError}');
+//       Get.find<LogListController>().logData.add('Viz Comport Error');
+//     }
+//     if (!VizCtrl.to.vizChannel[i].port.isOpen) {
+//       Get.find<LogListController>().logData.add('Check VIZ${i + 1} port');
+//     }
+//   }
+// }
 
 class VizCtrl extends GetxController {
   static VizCtrl get to => Get.find();
@@ -106,27 +188,36 @@ class VizCtrl extends GetxController {
     update();
   }
 
-//open/listen
-  Future<int> startSerial() async {
-    for (var i = 0; i < 5; i++) {
-      print('startSerial i $i');
+  // startSRL(SendPort mainSendPort) {
+  //   ReceivePort startRP = new ReceivePort();
+  //   mainSendPort.send(startRP.sendPort);
 
-      if (vizChannel[i].port.openReadWrite()) {
-        print('오픈 성공 i $i ${vizChannel[i].port.name}');
-        await SerialPortReader(vizChannel[i].port).stream.listen((data) async {
-          print('listen $i');
-          await validity(data, i);
-        });
-      } else {
-        print('오픈 에러 ?? $i ${SerialPort.lastError}');
-        Get.find<LogListController>().logData.add('Viz Comport Error');
-      }
-      if (!VizCtrl.to.vizChannel[i].port.isOpen) {
-        Get.find<LogListController>().logData.add('Check VIZ${i + 1} port');
-      }
-    }
-    return 1;
-  }
+  //   startRP.listen((msg) {
+  //     mainSendPort.send(msg);
+  //   });
+  // }
+
+//open/listen
+  // Future<int> startSerial() async {
+  //   for (var i = 0; i < 5; i++) {
+  //     print('startSerial i $i');
+
+  //     if (vizChannel[i].port.openReadWrite()) {
+  //       print('오픈 성공 i $i ${vizChannel[i].port.name}');
+  //       await SerialPortReader(vizChannel[i].port).stream.listen((data) async {
+  //         print('listen $i');
+  //         await validity(data, i);
+  //       });
+  //     } else {
+  //       print('오픈 에러 ?? $i ${SerialPort.lastError}');
+  //       Get.find<LogListController>().logData.add('Viz Comport Error');
+  //     }
+  //     if (!VizCtrl.to.vizChannel[i].port.isOpen) {
+  //       Get.find<LogListController>().logData.add('Check VIZ${i + 1} port');
+  //     }
+  //   }
+  //   return 1;
+  // }
 
   int calcCheckSum(List<int> data) {
     int sum = 0;
@@ -306,28 +397,4 @@ class VizCtrl extends GetxController {
       if (vizChannel[i].port.isOpen) vizChannel[i].port.write(bytes);
     }
   }
-}
-
-aa() {
-  int counter = 0;
-  ReceivePort mainReceivePort = new ReceivePort();
-  mainReceivePort.listen((fooSendPort) {
-    if (fooSendPort is SendPort) {
-      fooSendPort.send(counter++);
-    } else {
-      print(fooSendPort);
-    }
-  });
-  for (var i = 0; i < 5; i++) {
-    Isolate.spawn(foo, mainReceivePort.sendPort);
-  }
-}
-
-foo(SendPort mainSendPort) {
-  ReceivePort fooReceivePort = new ReceivePort();
-  mainSendPort.send(fooReceivePort.sendPort);
-
-  fooReceivePort.listen((msg) {
-    mainSendPort.send('received: $msg');
-  });
 }

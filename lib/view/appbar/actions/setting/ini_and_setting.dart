@@ -645,8 +645,8 @@ Future<void> _showDialog(context) async {
 
                           VizCtrl.to.init();
                           // startSerial(VizCtrl.to.vizChannel);
-                          VizCtrl.to.startSerial();
-                          // vizCompute(IsolatedViz());
+                          // VizCtrl.to.startSerial();
+                          aa();
                           Get.find<LogListController>().cConfigSave();
                           ConfigWR writeConfig = ConfigWR.init();
                           File file = File("./setting.json");

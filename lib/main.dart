@@ -93,7 +93,7 @@ Future main() async {
 
   doWhenWindowReady(() {
     final win = appWindow;
-    final initialSize = Size(1920, 1080);
+    final initialSize = Size(1920, 1040);
     win.minSize = initialSize;
     win.maxSize = initialSize;
     win.size = initialSize;
@@ -104,8 +104,8 @@ Future main() async {
 
   ///시리얼 포트///
   VizCtrl.to.init();
-  VizCtrl.to.startSerial();
-  // vizCompute(IsolatedViz());
+  // VizCtrl.to.startSerial();
+  // aa();
 
   for (var i = 0; i < 5; i++) {
     print('열렸나? ${VizCtrl.to.vizChannel[i].port.isOpen}');
@@ -164,166 +164,157 @@ class WRappbar extends StatelessWidget implements PreferredSizeWidget {
   }) : super(key: key);
 
   @override
-  Size get preferredSize => Size.fromHeight(65);
+  Size get preferredSize => Size.fromHeight(50);
   final themeController = Get.put(HomeController());
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 15),
-      child: Container(
-        child: AppBar(automaticallyImplyLeading: false, actions: [
-          Padding(
-            padding: const EdgeInsets.only(top: 6.0),
-            child: Container(
-              //width: 600,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  GestureDetector(
-                      onTap: () {
-                        () => Get.offAll(() => Home());
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(5.0),
-                        child: Image.asset(
-                          'assets/images/CI_nobg.png',
-                          fit: BoxFit.fitHeight,
-                        ),
-                      )),
-                  SizedBox(width: 100),
-                  Tooltip(
-                    height: 50,
-                    textStyle: TextStyle(
-                      fontSize: 15,
-                      color: Theme.of(context).appBarTheme.foregroundColor,
+    return Container(
+      child: AppBar(
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 10.0),
+          child: Image.asset(
+            'assets/images/CI_nobg.png',
+            fit: BoxFit.fitWidth,
+          ),
+        ),
+        leadingWidth: 160,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Container(
+              alignment: Alignment.center,
+              height: 35,
+              width: 120,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  color: Colors.blueGrey[100]),
+              child: Obx(() => DropdownButton(
+                    icon: Icon(
+                      Icons.arrow_drop_down,
+                      color: Colors.black,
+                      size: 35,
                     ),
-                    message: 'Current time',
-                    child: Container(
-                      child: Clock(),
-                      // blur: 20,
-                      width: 120,
-                      color: Colors.blueGrey[600],
-                    ),
-                  ),
-                  SizedBox(width: 100),
-                  Container(
-                    child: Center(
-                      child: Text(
-                        'WR-FreqAI',
-                        style: WrText.WrFont,
-                      ),
-                    ),
-                    // blur: 20,
-                    color: Colors.blueGrey[600],
-                    width: 150,
-                    height: 85,
-                  ),
-                  SizedBox(width: 80),
-                  Tooltip(
-                    height: 50,
-                    textStyle: TextStyle(
-                      fontSize: 15,
-                      color: Colors.white,
-                    ),
-                    message: 'Current chart name',
-                    child: Container(
-                      child: Center(
-                        child: RecentRecipeName(),
-                      ),
-                      // blur: 20,
-                      color: Colors.blueGrey[600],
-                      width: 150,
-                      height: 85,
-                    ),
-                  ),
-                  SizedBox(width: 80),
-                  Tooltip(
-                    height: 50,
-                    textStyle: TextStyle(
-                      fontSize: 15,
-                      color: Colors.white,
-                    ),
-                    message: 'Current status',
-                    child: RunErrorStatus(),
-                  ),
-                  SizedBox(width: 100),
-                  Tooltip(
-                    height: 50,
-                    textStyle: TextStyle(
-                      fontSize: 15,
-                      color: Colors.white,
-                    ),
-                    message: 'Change settings',
-                    child: Container(
-                      width: 180,
-                      height: 37,
-                      child: SetBtn(),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          color: Colors.blueGrey[400]),
-                    ),
-                  ),
-                  SizedBox(width: 60),
-                  Container(
-                    padding: EdgeInsets.only(left: 20),
-                    height: 35,
-                    width: 100,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        color: Colors.blueGrey[50]),
-                    child: Obx(() => DropdownButton(
-                          icon:
-                              Icon(Icons.arrow_drop_down, color: Colors.black),
-                          underline:
-                              DropdownButtonHideUnderline(child: Container()),
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                          onChanged: (v) {
-                            VizCtrl.to.setSelected(v);
-                          },
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.grey[800],
-                              fontWeight: FontWeight.bold),
-                          value: VizCtrl.to.selected.value,
-                          items: VizCtrl.to.dropItem
-                              .map((e) =>
-                                  DropdownMenuItem(value: e, child: Text(e)))
-                              .toList(),
-                        )),
-                  ),
-                ],
+                    underline: DropdownButtonHideUnderline(child: Container()),
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    onChanged: (v) {
+                      VizCtrl.to.setSelected(v);
+                    },
+                    style: TextStyle(
+                        fontSize: 23,
+                        color: Colors.grey[800],
+                        fontWeight: FontWeight.bold),
+                    value: VizCtrl.to.selected.value,
+                    items: VizCtrl.to.dropItem
+                        .map((e) => DropdownMenuItem(value: e, child: Text(e)))
+                        .toList(),
+                  )),
+            ),
+            Tooltip(
+              height: 50,
+              textStyle: TextStyle(
+                fontSize: 15,
+                color: Theme.of(context).appBarTheme.foregroundColor,
+              ),
+              message: 'Current time',
+              child: Container(
+                alignment: Alignment.center,
+                child: Clock(),
+                // blur: 20,
+                height: 85,
+                width: 120,
+                color: Colors.blueGrey[600],
               ),
             ),
-          ),
-          SizedBox(width: 60),
-          Tooltip(
-            height: 50,
-            textStyle: TextStyle(
-              fontSize: 15,
-              color: Colors.white,
+            // SizedBox(width: 100),
+            Container(
+              child: Center(
+                child: Text(
+                  'WR-FreqAI',
+                  style: WrText.WrFont,
+                ),
+              ),
+              // blur: 20,
+              color: Colors.blueGrey[600],
+              height: 85,
+              width: 150,
             ),
-            message:
-                Get.isDarkMode ? 'Change white theme' : 'Change dark theme',
-            child: GestureDetector(
-              onTap: () {
-                ThemeService().switchTheme();
-                Get.find<LogListController>().cModeChage();
-              },
-              child: Icon(
-                Get.isDarkMode
-                    ? Icons.toggle_on_outlined
-                    : Icons.toggle_off_outlined,
-                size: 45,
-                color: Get.isDarkMode ? Colors.white : Colors.black,
+            // SizedBox(width: 80),
+            Tooltip(
+              height: 50,
+              textStyle: TextStyle(
+                fontSize: 15,
+                color: Colors.white,
+              ),
+              message: 'Current chart name',
+              child: Container(
+                child: Center(
+                  child: RecentRecipeName(),
+                ),
+                // blur: 20,
+                color: Colors.blueGrey[600],
+                width: 150,
+                height: 85,
               ),
             ),
-          ),
-          SizedBox(
-            width: 50,
-          ),
+            // SizedBox(width: 80),
+            Tooltip(
+              height: 50,
+              textStyle: TextStyle(
+                fontSize: 15,
+                color: Colors.white,
+              ),
+              message: 'Current status',
+              child: RunErrorStatus(),
+            ),
+            // SizedBox(width: 100),
+            Tooltip(
+              height: 50,
+              textStyle: TextStyle(
+                fontSize: 15,
+                color: Colors.white,
+              ),
+              message: 'Change settings',
+              child: Container(
+                width: 180,
+                height: 37,
+                child: SetBtn(),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    color: Colors.blueGrey[400]),
+              ),
+            ),
+            // SizedBox(width: 60),
+
+            Tooltip(
+              height: 50,
+              textStyle: TextStyle(
+                fontSize: 15,
+                color: Colors.white,
+              ),
+              message:
+                  Get.isDarkMode ? 'Change white theme' : 'Change dark theme',
+              child: GestureDetector(
+                onTap: () {
+                  ThemeService().switchTheme();
+                  Get.find<LogListController>().cModeChage();
+                },
+                child: Icon(
+                  Get.isDarkMode
+                      ? Icons.toggle_on_outlined
+                      : Icons.toggle_off_outlined,
+                  size: 45,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            // SizedBox(width: 50),
+          ],
+        ),
+        actions: [
           WindowButtons(),
-        ]),
+        ],
+        // SizedBox(width: 60),
       ),
     );
   }
@@ -388,14 +379,15 @@ class _WRbodyState extends State<WRbody> {
       Expanded(
           flex: 1,
           child: Container(
-            height: 992,
+            margin: EdgeInsets.only(right: 5),
+            height: 960,
             child: Padding(
               padding: const EdgeInsets.all(10),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
-                    height: 510,
+                    height: 460,
                     child: Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: Column(
@@ -403,7 +395,7 @@ class _WRbodyState extends State<WRbody> {
                           Row(
                             children: [
                               SizedBox(
-                                width: 20,
+                                width: 10,
                               ),
                               Text('Log View',
                                   style: Theme.of(context).textTheme.bodyText2),
@@ -414,7 +406,7 @@ class _WRbodyState extends State<WRbody> {
                             endIndent: 10,
                           ),
                           Container(
-                            height: 430,
+                            height: 400,
                             child: LogList(),
                           )
                         ],

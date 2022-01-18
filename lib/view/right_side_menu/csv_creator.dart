@@ -46,6 +46,7 @@ class CSVButton extends GetView<CsvController> {
                     current.minute,
                     current.second,
                     current.millisecond);
+                CsvController.to.fixedTime.value = dt;
                 CsvController.to.saveFileName.value =
                     DateFormat('yyyyMMdd-HHmmss').format(current);
                 CsvController.to.startTime.value =
@@ -100,6 +101,7 @@ class CsvController extends GetxController {
   RxList<String> path = RxList.empty();
   RxString saveFileName = ''.obs;
   RxString startTime = ''.obs;
+  Rx<DateTime> fixedTime = DateTime.now().obs;
   String fileName() {
     DateTime current = DateTime.now();
     String fileName = DateFormat('yyyyMMdd-HHmmss').format(current).toString();
@@ -110,28 +112,39 @@ class CsvController extends GetxController {
     DateTime current = DateTime.now();
     DateTime dt = DateTime.utc(current.year, current.month, current.day,
         current.hour, current.minute, current.second, current.millisecond);
-    String addTime = DateFormat('HH:mm:ss').format(dt);
+    String addTime = DateFormat('HH:mm:ss.SSS').format(dt);
     return addTime;
   }
 
   String difTime() {
     DateTime current = DateTime.now();
-    final bb = DateTime.parse(saveFileName.value);
-    final aa = DateTime(current.year, current.month, current.day, current.hour,
-            current.minute, current.second, current.millisecond)
-        .difference(DateTime(bb.year, bb.month, bb.day, bb.hour, bb.minute,
-            bb.second, bb.millisecond));
-    print('시가안 : $aa');
+    String aa = DateTime(
+      current.year,
+      current.month,
+      current.day,
+      current.hour,
+      current.minute,
+      current.second,
+      current.millisecond,
+    )
+        .difference(DateTime(
+          fixedTime.value.year,
+          fixedTime.value.month,
+          fixedTime.value.day,
+          fixedTime.value.hour,
+          fixedTime.value.minute,
+          fixedTime.value.second,
+          fixedTime.value.millisecond,
+        ))
+        .toString();
+
     return aa.toString();
   }
 
   void csvForm({required String path, required List<dynamic> data}) async {
     Directory('datafiles').create();
     File file = File("./datafiles/${saveFileName.value}\_$path");
-    String csv = DateFormat('yyyy-MM-dd HH:mm:ss.SSS').format(DateTime.now()) +
-        ',' +
-        data.join(',') +
-        '\n';
+    String csv = timeVal() + ',' + difTime() + ',' + data.join(',') + '\n';
     try {
       await file.writeAsString(csv, mode: FileMode.append);
     } catch (e) {
@@ -148,7 +161,7 @@ class CsvController extends GetxController {
       "FileFormat : 1",
       "HWType : OCR",
       "Start Time : ${startTime.value}",
-      "Intergration Time : ${Get.find<iniController>().integrationTime.value}",
+      "Intergration Time : ${iniController.to.integrationTime.value}",
       "Interval : 0"
     ];
 
@@ -157,6 +170,8 @@ class CsvController extends GetxController {
         channelNum +
         '\n' +
         "Time" +
+        ',' +
+        "Seconds" +
         ',' +
         listWavelength.join(',') +
         '\n';
@@ -169,7 +184,7 @@ class CsvController extends GetxController {
   void vizDataSave({required List<dynamic> data}) async {
     Directory('datafiles').create(recursive: true);
     File file = File("./datafiles/WR_VIZ_${saveFileName.value}.csv");
-    String csv = timeVal() + ',' + ',' + data.join(',') + '\n';
+    String csv = timeVal() + ',' + difTime() + ',' + data.join(',') + '\n';
     try {
       await file.writeAsString(csv, mode: FileMode.append);
     } catch (e) {

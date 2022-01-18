@@ -11,19 +11,12 @@ class WindowButtons extends StatelessWidget {
     return Row(
       children: [
         MinimizeWindowButton(colors: windowBtnColors),
-        // MaximizeWindowButton(
-        //   colors: windowBtnColors,
-        // ),
         CloseWindowButton(
           colors: closeBtnColors,
           onPressed: () {
             Get.find<runErrorStatusController>().connect.value
-                ?
-                /////////////////true 일 때////////////////////////
-                runningExit(context)
-                :
-                //////////////false일 때//////////////////
-                completelyExit(context);
+                ? runningExit(context)
+                : completelyExit(context);
           },
         ),
       ],
