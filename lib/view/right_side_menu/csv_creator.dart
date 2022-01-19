@@ -211,7 +211,6 @@ class CsvController extends GetxController {
     ];
     List<String> init = [
       'Time',
-      'Seconds',
       'Frequency',
       'P dlv',
       'Vms',
