@@ -28,8 +28,9 @@ class OesChart extends GetView<OesController> {
                         ),
                         leftTitles: SideTitles(
                           showTitles: true,
-                          interval: 100,
-                          reservedSize: 30,
+                          //y값애서
+                          // interval: 100,
+                          reservedSize: 50,
                           margin: 10,
                         ),
                       ),

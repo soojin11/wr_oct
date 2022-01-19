@@ -114,7 +114,8 @@ class OesController extends GetxController {
     ///////////////////////////////////////
     // if (startBtn == false) return;
     for (var x = 0; x < listWavelength.length; x++) {
-      oesChartData[nCurrentChannel].add(FlSpot(listWavelength[x], fmtSpec[x]));
+      oesChartData[nCurrentChannel]
+          .add(FlSpot(listWavelength[x], fmtSpec[x].roundToDouble()));
       // max값 찾기
       yMax.value =
           fmtSpec.reduce((value, element) => value > element ? value : element);

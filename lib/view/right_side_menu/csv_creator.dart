@@ -174,8 +174,8 @@ class CsvController extends GetxController {
         channelNum +
         '\n' +
         "Time" +
-        ',' +
-        "Seconds" +
+        // ',' +
+        // "Seconds" +
         ',' +
         listWavelength.join(',') +
         '\n';
