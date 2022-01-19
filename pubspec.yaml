@@ -29,16 +29,12 @@ environment:
 dependencies:
   bitsdojo_window: ^0.1.1+1
   libserialport:
-  flutter_libserialport:
-  csv: null
   fl_chart: ^0.40.2
   flutter:
     sdk: flutter
   get: null
   get_storage: ^2.0.3
   intl: null
-  path: ^1.8.0
-  path_provider: ^2.0.6
   flutter_material_color_picker: ^1.1.0+2
 dev_dependencies:
   flutter_test:

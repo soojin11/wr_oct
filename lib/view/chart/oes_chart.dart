@@ -48,7 +48,10 @@ class OesChart extends GetView<OesController> {
           minX: controller.minX.value,
           maxX: controller.maxX.value,
           lineTouchData: LineTouchData(
+            // touchSpotThreshold: 60,
+
             touchTooltipData: LineTouchTooltipData(
+              tooltipBgColor: Colors.black.withOpacity(0.4),
               getTooltipItems: (touchedSpots) {
                 return touchedSpots.map((LineBarSpot touchedSpot) {
                   final textStyle = TextStyle(
@@ -56,8 +59,9 @@ class OesChart extends GetView<OesController> {
                     fontWeight: FontWeight.bold,
                     fontSize: 14,
                   );
+
                   return LineTooltipItem(
-                      '${touchedSpot.y.toStringAsFixed(0)}', textStyle);
+                      touchedSpot.y.toStringAsFixed(0), textStyle);
                 }).toList();
               },
               fitInsideHorizontally: true,

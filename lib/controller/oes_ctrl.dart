@@ -198,8 +198,8 @@ class OesController extends GetxController {
                 minX.value += 50;
                 maxX.value -= 50;
 
-                print('확대minxxxxxxxxxx : $minX max: $maxX');
-                print('확대 min : $minY max: $yMax');
+                // debugPrint('확대minxxxxxxxxxx : $minX max: $maxX');
+                // debugPrint('확대 min : $minY max: $yMax');
               }
             } else {
               if (maxX.value + 100 > minX.value &&
@@ -208,8 +208,8 @@ class OesController extends GetxController {
                 minX.value -= 50;
                 maxX.value += 50;
 
-                print('축소 minxxxxxxxx : $minX max: $maxX');
-                print('축소 min : $minY max: $yMax');
+                // debugPrint('축소 minxxxxxxxx : $minX max: $maxX');
+                // debugPrint('축소 min : $minY max: $yMax');
               }
             }
           }

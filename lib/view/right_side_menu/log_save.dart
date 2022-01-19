@@ -25,7 +25,6 @@ class LogController extends GetxController {
     File file = File(path.value);
     List<dynamic> logData = [];
     logData.addAll(Get.find<LogController>().loglist);
-    print("log file in");
     if (await file.exists()) {
       return file.writeAsString(logData.join(), mode: FileMode.append);
     }

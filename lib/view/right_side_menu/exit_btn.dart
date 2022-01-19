@@ -10,6 +10,7 @@ import 'package:wr_ui/view/appbar/leading/run_error_status_mark.dart';
 import 'package:wr_ui/view/chart/oes_chart.dart';
 import 'package:wr_ui/view/right_side_menu/log_screen.dart';
 import 'package:wr_ui/view/right_side_menu/save_ini.dart';
+import 'package:wr_ui/view/right_side_menu/start_stop.dart';
 
 import 'csv_creator.dart';
 
@@ -57,7 +58,7 @@ Future<String?> runningExit(BuildContext context) {
           ),
           onPressed: () {
             Get.find<OesController>().timer?.cancel();
-            VizCtrl.to.timer.cancel();
+            VizCtrl.to.timer?.cancel();
             Get.find<runErrorStatusController>().statusColor.value = Colors.red;
             Get.find<OesController>().inactiveBtn.value = false;
             Get.find<CsvController>().csvSaveInit.value = false;
@@ -91,13 +92,15 @@ Future<String?> completelyExit(BuildContext context) {
             onPressed: () {
               // if (Get.find<iniController>().sim.value == 0) {
               // if (iniController.to.oesSim.value == false) {
+              VizCtrl.to.isolateStop();
               if (iniController.to.oes_comport.value != 0 &&
                   iniController.to.oes_comport.value != -1) {
                 mpmSetChannel(0);
                 closeAll();
               }
               Get.find<LogListController>().cExit();
-              VizCtrl.to.vizChannel[0].port.close();
+              // *******************끄고나가세요
+              // VizCtrl.to.vizChannel[0].port.close();
               showDialog(
                   context: context,
                   builder: (context) {

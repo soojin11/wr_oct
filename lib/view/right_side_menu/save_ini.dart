@@ -30,7 +30,7 @@ List<double> dllReadData(ArgReadData a) {
 
     for (var x = 0; x < 2048; x++) {
       // rt.add(fmtSpec[x].toDouble());
-      rt.add(double.parse(fmtSpec[x].toStringAsFixed(0)));
+      rt.add(double.parse(fmtSpec[x].toStringAsFixed(2)));
     }
   } else if (a.sim == -1) {
     for (var x = 0; x < 2048; x++) {

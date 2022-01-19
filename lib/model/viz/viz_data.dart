@@ -1,28 +1,27 @@
 import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_libserialport/flutter_libserialport.dart';
 import 'package:get/get.dart';
+import 'package:libserialport/libserialport.dart';
 
 class VizChannel {
   // viz 정보
   VizData vizData;
-  SerialPort port;
+  //SerialPort port;
   RxBool toggle;
   VizChannel({
     required this.vizData,
-    required this.port,
+    //required this.port,
     required this.toggle,
   });
 
   VizChannel copyWith({
     VizData? vizData,
-    SerialPort? port,
+    //SerialPort? port,
     RxBool? toggle,
   }) {
     return VizChannel(
       vizData: vizData ?? this.vizData,
-      port: port ?? this.port,
+      //port: port ?? this.port,
       toggle: toggle ?? this.toggle,
     );
   }
@@ -30,7 +29,7 @@ class VizChannel {
   Map<String, dynamic> toMap() {
     return {
       'vizData': vizData.toMap(),
-      'port': port.toString(),
+      //'port': port.toString(),
       'toggle': toggle,
     };
   }
@@ -38,7 +37,7 @@ class VizChannel {
   factory VizChannel.fromMap(Map<String, dynamic> map) {
     return VizChannel(
       vizData: VizData.fromMap(map['vizData']),
-      port: SerialPort(map['port']),
+      //port: SerialPort(map['port']),
       toggle: map['toggle'] ?? false.obs,
     );
   }
@@ -49,8 +48,7 @@ class VizChannel {
       VizChannel.fromMap(json.decode(source));
 
   @override
-  String toString() =>
-      'VizChannel(vizData: $vizData, port: $port, toggle: $toggle)';
+  String toString() => 'VizChannel(vizData: $vizData, toggle: $toggle)';
 
   @override
   bool operator ==(Object other) {
@@ -58,12 +56,11 @@ class VizChannel {
 
     return other is VizChannel &&
         other.vizData == vizData &&
-        other.port == port &&
         other.toggle.value == toggle.value;
   }
 
   @override
-  int get hashCode => vizData.hashCode ^ port.hashCode ^ toggle.hashCode;
+  int get hashCode => vizData.hashCode ^ toggle.hashCode;
 }
 
 class VizData {

@@ -104,12 +104,13 @@ Future main() async {
 
   ///시리얼 포트///
   VizCtrl.to.init();
-  // VizCtrl.to.startSerial();
-  // aa();
 
-  for (var i = 0; i < 5; i++) {
-    print('열렸나? ${VizCtrl.to.vizChannel[i].port.isOpen}');
-  }
+  // VizCtrl.to.startSerial();
+  // isolatedViz(VizCtrl.to);
+
+  // for (var i = 0; i < 5; i++) {
+  //   print('열렸나? ${VizCtrl.to.vizChannel[i].port.isOpen}');
+  // }
   // await startSerial(VizCtrl.to.vizChannel);
   OesController.to.init();
 }

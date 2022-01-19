@@ -16,6 +16,7 @@ import 'package:wr_ui/view/chart/oes_chart.dart';
 import 'package:wr_ui/view/right_side_menu/csv_creator.dart';
 import 'package:wr_ui/view/right_side_menu/log_screen.dart';
 import 'package:wr_ui/view/right_side_menu/save_ini.dart';
+import 'package:wr_ui/view/right_side_menu/start_stop.dart';
 
 class SetBtn extends StatefulWidget {
   @override
@@ -639,20 +640,20 @@ Future<void> _showDialog(context) async {
                           }
                           VizCtrl.to.xValue.value = 0;
                           Get.find<iniController>().key.currentState!.save();
-                          for (var i = 0; i < 5; i++) {
-                            VizCtrl.to.vizChannel[i].port.close();
-                          }
 
-                          VizCtrl.to.init();
-                          // startSerial(VizCtrl.to.vizChannel);
+                          // VizCtrl.to.init();
                           // VizCtrl.to.startSerial();
-                          aa();
+                          // isolatedViz(VizCtrl.to);
                           Get.find<LogListController>().cConfigSave();
                           ConfigWR writeConfig = ConfigWR.init();
                           File file = File("./setting.json");
                           debugPrint('writeConfig ${writeConfig.toJson()}');
                           await file.writeAsString(writeConfig.toJson(),
                               mode: FileMode.write);
+                          await file.readAsStringSync();
+                          debugPrint('save때 xValue : ${file}');
+                          debugPrint(
+                              'loadConfig ${ConfigWR.fromJson(file.readAsStringSync())}');
 
                           Navigator.pop(context);
                         },
@@ -683,8 +684,10 @@ Future<String?> runningSet(BuildContext context) {
         TextButton(
           child: const Text('예'),
           onPressed: () {
+            // StartStop().isolateStop();
+            VizCtrl.to.isolateStop();
             Get.find<OesController>().inactiveBtn.value = false;
-            VizCtrl.to.timer.cancel();
+            VizCtrl.to.timer?.cancel();
             Get.find<OesController>().timer?.cancel();
             Get.find<LogListController>().clickedStop();
             Get.find<CsvController>().csvSaveInit.value = false;

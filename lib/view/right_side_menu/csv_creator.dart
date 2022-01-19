@@ -144,7 +144,11 @@ class CsvController extends GetxController {
   void csvForm({required String path, required List<dynamic> data}) async {
     Directory('datafiles').create();
     File file = File("./datafiles/${saveFileName.value}\_$path");
-    String csv = timeVal() + ',' + difTime() + ',' + data.join(',') + '\n';
+    String csv = timeVal() +
+        ',' +
+        // difTime() + ',' +
+        data.join(',') +
+        '\n';
     try {
       await file.writeAsString(csv, mode: FileMode.append);
     } catch (e) {
@@ -184,7 +188,11 @@ class CsvController extends GetxController {
   void vizDataSave({required List<dynamic> data}) async {
     Directory('datafiles').create(recursive: true);
     File file = File("./datafiles/WR_VIZ_${saveFileName.value}.csv");
-    String csv = timeVal() + ',' + difTime() + ',' + data.join(',') + '\n';
+    String csv = timeVal() +
+        // ',' + difTime() +
+        ',' +
+        data.join(',') +
+        '\n';
     try {
       await file.writeAsString(csv, mode: FileMode.append);
     } catch (e) {
