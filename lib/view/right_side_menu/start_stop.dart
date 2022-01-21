@@ -179,6 +179,7 @@ class StartStop extends StatelessWidget {
                     ? Colors.grey
                     : Colors.green,
                 onPressed: () async {
+                  print(DateTime.now());
                   VizCtrl.to.vizPoints.clear();
                   for (var i = 0; i < 5; i++) {
                     VizCtrl.to.vizPoints.add(RxList.empty());

@@ -187,7 +187,7 @@ void startViz(SendPort sendPort) async {
 class VizCtrl extends GetxController {
   static VizCtrl get to => Get.find();
   late Isolate isolate;
-  late SendPort isendPort;
+  SendPort? isendPort;
 
   //late ReceivePort
 
@@ -373,7 +373,7 @@ class VizCtrl extends GetxController {
   }
 
   isolateStop() {
-    isendPort.send(true);
+    isendPort?.send(true);
   }
 
   RxList<VizChannel> vizChannel = RxList.empty();

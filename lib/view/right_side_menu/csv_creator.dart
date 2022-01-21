@@ -165,7 +165,7 @@ class CsvController extends GetxController {
       "FileFormat : 1",
       "HWType : OCR",
       "Start Time : ${startTime.value}",
-      "Intergration Time : ${iniController.to.integrationTime.value}",
+      "Intergration Time : ${iniController.to.integrationTime.value ~/ 1000}",
       "Interval : 0"
     ];
 

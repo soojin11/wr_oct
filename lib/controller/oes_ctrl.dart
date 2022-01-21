@@ -167,10 +167,10 @@ class OesController extends GetxController {
     }
 
     if (Get.find<CsvController>().csvSaveData.value) {
-      for (var i = 0; i < Get.find<iniController>().OES_Count.value; i++) {
-        Get.find<CsvController>()
-            .csvForm(path: "_${nCurrentChannel + 1}.csv", data: fmtSpec);
-      }
+      // for (var i = 0; i < Get.find<iniController>().OES_Count.value; i++) {
+      Get.find<CsvController>()
+          .csvForm(path: "_${nCurrentChannel + 1}.csv", data: fmtSpec);
+      // }
     }
 
     autoSaveBuffer.value = Get.find<CsvController>().csvSaveData.value;
