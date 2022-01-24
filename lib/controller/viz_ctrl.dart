@@ -384,17 +384,26 @@ class VizCtrl extends GetxController {
   RxString selected = "OES".obs;
   var dropItem = ['OES', 'VIZ'];
   RxList<RxList<RxList<FlSpot>>> vizPoints = RxList.empty();
-  RxDouble step = 1.0.obs;
-  RxDouble chartMaxX = 400.0.obs;
+  RxDouble step = (iniController.to.viz_Interval.value / 1000).obs;
+  RxDouble chartMaxX = 100.0.obs;
   RxDouble chartMinX = 0.0.obs;
   late RxDouble minX;
   late RxDouble maxX;
   RxDouble xValue = 0.0.obs;
   RxBool showAll = false.obs;
 
-  double setRandom() {
-    double yValue = 10 + math.Random().nextInt(10).toDouble();
-    return yValue;
+  Future chartInit() async {
+    xValue.value = 0;
+    chartMinX.value = 0;
+    chartMaxX.value = 100;
+    vizPoints.clear();
+    for (var i = 0; i < 5; i++) {
+      vizPoints.add(RxList.empty());
+      for (var ii = 0; ii < 7; ii++) {
+        vizPoints[i].add(RxList.empty());
+      }
+    }
+    update();
   }
 
   void setSelected(value) {
@@ -429,7 +438,7 @@ class VizCtrl extends GetxController {
 
   Future<void> vizUpdate() async {
     List forCsv = [];
-    while (vizPoints[0][0].length > chartMaxX.value) {
+    while (vizPoints[0].length > chartMaxX.value) {
       for (var i = 0; i < 5; i++) {
         for (var ii = 0; ii < 7; ii++) {
           vizPoints[i][ii].removeAt(0);

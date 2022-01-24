@@ -56,9 +56,9 @@ Future<String?> runningExit(BuildContext context) {
             '예',
             style: TextStyle(color: wrColors.wrPrimary),
           ),
-          onPressed: () {
+          onPressed: () async {
             Get.find<OesController>().timer?.cancel();
-            VizCtrl.to.timer?.cancel();
+            await VizCtrl.to.chartInit();
             Get.find<runErrorStatusController>().statusColor.value = Colors.red;
             Get.find<OesController>().inactiveBtn.value = false;
             Get.find<CsvController>().csvSaveInit.value = false;

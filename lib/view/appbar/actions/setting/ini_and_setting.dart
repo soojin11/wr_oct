@@ -631,14 +631,7 @@ Future<void> _showDialog(context) async {
                               i++) {
                             Get.find<OesController>().oesChartData.add([]);
                           }
-                          VizCtrl.to.vizPoints.clear();
-                          for (var i = 0; i < 5; i++) {
-                            VizCtrl.to.vizPoints.add(RxList.empty());
-                            for (var ii = 0; ii < 7; ii++) {
-                              VizCtrl.to.vizPoints[i].add(RxList.empty());
-                            }
-                          }
-                          VizCtrl.to.xValue.value = 0;
+                          await VizCtrl.to.chartInit();
                           Get.find<iniController>().key.currentState!.save();
 
                           // VizCtrl.to.init();

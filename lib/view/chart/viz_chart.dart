@@ -18,14 +18,13 @@ class VizChart extends GetView<VizCtrl> {
                 controller: controller,
                 lineBarsData: vizChartValue(),
                 bottomTitles: SideTitles(
-                  interval: 100,
+                  // interval: 100,
                   reservedSize: 50,
                   margin: 8,
                   showTitles: true,
                   getTitles: (value) {
                     String rt;
-                    rt =
-                        '${((value / 1000) * iniController.to.viz_Interval.value).round()}s';
+                    rt = '${value.round()}s';
                     return rt;
                   },
                 ),
