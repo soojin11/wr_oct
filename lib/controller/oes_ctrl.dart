@@ -60,6 +60,10 @@ class OesController extends GetxController {
 
   Future<void> updateDataSource(Timer timer) async {
     //var stopwatch = Stopwatch()..start();
+    if (nChannelIdx == 8) {
+      debugPrint('nChannel 8이상');
+      return;
+    }
     var nCurrentChannel = int.parse(channelNuminINI[nChannelIdx++]) - 1;
     saveLog();
     Get.find<LogController>().loglist.add(
@@ -174,6 +178,7 @@ class OesController extends GetxController {
     }
 
     autoSaveBuffer.value = Get.find<CsvController>().csvSaveData.value;
+//시간 체크
 
     Get.find<LogController>().loglist.add('${logfileTime()} End csv save\n');
     if (nChannelIdx > channelNuminINI.length - 1) {

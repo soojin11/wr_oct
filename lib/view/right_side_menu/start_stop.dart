@@ -20,6 +20,8 @@ import 'csv_creator.dart';
 import 'log_screen.dart';
 
 int nChannelIdx = 0;
+List<int> buffer = [];
+
 // int nChannelIdx = -1;//range error 나서 초기값 바꿈
 
 class VizSerialData {
@@ -63,101 +65,110 @@ checkValidity(Uint8List data) {
   if (data.isEmpty) {
     return;
   }
-  List<int> listPrac = [];
   int startDataIdx = 37;
   int receiveLength = 79;
   List<int> b = [];
   List<int> bb = [];
   showData = [];
 
-  if (listPrac.isNotEmpty) {
-    b.addAll(listPrac);
+  // if (data.length == ) {
+
+  // }
+
+  if (buffer.isNotEmpty) {
+    b.addAll(buffer);
     b.addAll(data.toList());
   } else {
     b = data.toList();
   }
-  //debugPrint('receiveData : $b');
+  // debugPrint('receiveData : $b');
   if (b[0] != 0x16) {
-    listPrac = [];
-    //debugPrint('시작 틀림');
+    buffer = [];
+    debugPrint('시작 이상');
     return;
   }
 
   if (b.length < receiveLength) {
     if (b.length >= 4) {
       if (b[0] == 0x16 && b[1] == 0x16 && b[2] == 0x30 && b[3] == 0x03) {
-        listPrac.addAll(data.toList());
+        buffer.addAll(data.toList());
         return;
       } else {
-        listPrac = [];
+        buffer = [];
         return;
       }
     } else {
-      listPrac.addAll(data.toList());
+      buffer.addAll(data.toList());
       return;
     }
   } else if (b.length > receiveLength) {
     bb = b.sublist(receiveLength, b.length);
     b = b.sublist(0, receiveLength);
-    //print('$receiveLength자보다 커서 잘랐어 $bb ${b.length}');
-  } else {}
+    // print('$receiveLength자보다 커서 잘랐어 $bb ${b.length}');
+  }
 
   if (!(b[0] == 0x16 && b[1] == 0x16 && b[2] == 0x30 && b[3] == 0x03)) {
-    //print('헤더가 이상있어요');
-    listPrac = [];
+    print('헤더가 이상있어요');
+    buffer = [];
     return;
   }
-  if (b[receiveLength - 1] != 0x1a) {
-    //print('마지막이 이상있어요');
-    listPrac = [];
+  if (b.last != 0x1a) {
+    print('마지막이 이상있어요');
+    print('asdf b의 마지막 ${b.last}');
+    buffer = [];
+    print("asdf 마지막 이상할 때 $b");
+    rfpt("79 자까지 자름 : ${data.toString()}");
     return;
   }
   final int cs = calcCheckSum(b.sublist(2, b.length - 2));
   //print('cs $cs');
   if (cs != b[receiveLength - 2]) {
-    //print('체크섬이 이상있어요');
-    listPrac = [];
+    print('체크섬이 이상있어요');
+    buffer = [];
     return;
   }
 
-  //print('$receiveLength자와 같아 $b');
-  showData.add(Uint8List.fromList(b)
-      .sublist(startDataIdx, startDataIdx += 4)
-      .buffer
-      .asByteData()
-      .getFloat32(0, Endian.little));
-  showData.add(Uint8List.fromList(b)
-      .sublist(startDataIdx, startDataIdx += 4)
-      .buffer
-      .asByteData()
-      .getFloat32(0, Endian.little));
-  showData.add(Uint8List.fromList(b)
-      .sublist(startDataIdx, startDataIdx += 4)
-      .buffer
-      .asByteData()
-      .getFloat32(0, Endian.little));
-  showData.add(Uint8List.fromList(b)
-      .sublist(startDataIdx, startDataIdx += 4)
-      .buffer
-      .asByteData()
-      .getFloat32(0, Endian.little));
-  showData.add(Uint8List.fromList(b)
-      .sublist(startDataIdx, startDataIdx += 4)
-      .buffer
-      .asByteData()
-      .getFloat32(0, Endian.little));
-  showData.add(Uint8List.fromList(b)
-      .sublist(startDataIdx, startDataIdx += 4)
-      .buffer
-      .asByteData()
-      .getFloat32(0, Endian.little));
-  showData.add(Uint8List.fromList(b)
-      .sublist(startDataIdx, startDataIdx += 4)
-      .buffer
-      .asByteData()
-      .getFloat32(0, Endian.little));
+  print('완성 ${b.length}');
 
-  listPrac = bb;
+  // debugPrint('$receiveLength자와 같아 $b');
+  showData.add(Uint8List.fromList(b)
+      .sublist(startDataIdx, startDataIdx += 4)
+      .buffer
+      .asByteData()
+      .getFloat32(0, Endian.little));
+  showData.add(Uint8List.fromList(b)
+      .sublist(startDataIdx, startDataIdx += 4)
+      .buffer
+      .asByteData()
+      .getFloat32(0, Endian.little));
+  showData.add(Uint8List.fromList(b)
+      .sublist(startDataIdx, startDataIdx += 4)
+      .buffer
+      .asByteData()
+      .getFloat32(0, Endian.little));
+  showData.add(Uint8List.fromList(b)
+      .sublist(startDataIdx, startDataIdx += 4)
+      .buffer
+      .asByteData()
+      .getFloat32(0, Endian.little));
+  showData.add(Uint8List.fromList(b)
+      .sublist(startDataIdx, startDataIdx += 4)
+      .buffer
+      .asByteData()
+      .getFloat32(0, Endian.little));
+  showData.add(Uint8List.fromList(b)
+      .sublist(startDataIdx, startDataIdx += 4)
+      .buffer
+      .asByteData()
+      .getFloat32(0, Endian.little));
+  showData.add(Uint8List.fromList(b)
+      .sublist(startDataIdx, startDataIdx += 4)
+      .buffer
+      .asByteData()
+      .getFloat32(0, Endian.little));
+  debugPrint('showData : ${showData[0]}');
+  buffer = bb;
+  debugPrint('buffer $buffer');
 }
 
 // ignore: must_be_immutable

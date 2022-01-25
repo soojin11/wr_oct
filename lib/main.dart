@@ -104,14 +104,6 @@ Future main() async {
 
   ///시리얼 포트///
   VizCtrl.to.init();
-
-  // VizCtrl.to.startSerial();
-  // isolatedViz(VizCtrl.to);
-
-  // for (var i = 0; i < 5; i++) {
-  //   print('열렸나? ${VizCtrl.to.vizChannel[i].port.isOpen}');
-  // }
-  // await startSerial(VizCtrl.to.vizChannel);
   OesController.to.init();
 }
 
@@ -119,6 +111,16 @@ void log(String str) {
   final String path = "./test.txt";
   File file = File(path);
   String data = '$str \n';
+  if (file.existsSync())
+    file.writeAsStringSync(data, mode: FileMode.append);
+  else
+    file.writeAsStringSync(data, mode: FileMode.write);
+}
+
+void rfpt(String a) {
+  final String path = "./error.txt";
+  File file = File(path);
+  String data = '$a \n';
   if (file.existsSync())
     file.writeAsStringSync(data, mode: FileMode.append);
   else

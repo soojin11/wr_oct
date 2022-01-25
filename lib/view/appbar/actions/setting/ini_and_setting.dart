@@ -633,10 +633,6 @@ Future<void> _showDialog(context) async {
                           }
                           await VizCtrl.to.chartInit();
                           Get.find<iniController>().key.currentState!.save();
-
-                          // VizCtrl.to.init();
-                          // VizCtrl.to.startSerial();
-                          // isolatedViz(VizCtrl.to);
                           Get.find<LogListController>().cConfigSave();
                           ConfigWR writeConfig = ConfigWR.init();
                           File file = File("./setting.json");
