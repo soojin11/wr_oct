@@ -1,10 +1,12 @@
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:libserialport/libserialport.dart';
 
 class VizChannel {
+  List saveData;
   double xValue;
   // viz 정보
   VizData vizData;
@@ -12,17 +14,20 @@ class VizChannel {
   RxBool toggle;
   VizChannel({
     //required this.port,
+    required this.saveData,
     required this.xValue,
     required this.vizData,
     required this.toggle,
   });
 
   VizChannel copyWith({
+    List? saveData,
     double? xValue,
     VizData? vizData,
     RxBool? toggle,
   }) {
     return VizChannel(
+      saveData: saveData ?? this.saveData,
       xValue: xValue ?? this.xValue,
       vizData: vizData ?? this.vizData,
       toggle: toggle ?? this.toggle,
@@ -30,21 +35,28 @@ class VizChannel {
   }
 
   @override
-  String toString() =>
-      'VizChannel(xValue: $xValue, vizData: $vizData, toggle: $toggle)';
+  String toString() {
+    return 'VizChannel(saveData: $saveData, xValue: $xValue, vizData: $vizData, toggle: $toggle)';
+  }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
     return other is VizChannel &&
+        listEquals(other.saveData, saveData) &&
         other.xValue == xValue &&
         other.vizData == vizData &&
         other.toggle == toggle;
   }
 
   @override
-  int get hashCode => xValue.hashCode ^ vizData.hashCode ^ toggle.hashCode;
+  int get hashCode {
+    return saveData.hashCode ^
+        xValue.hashCode ^
+        vizData.hashCode ^
+        toggle.hashCode;
+  }
 }
 
 class VizData {

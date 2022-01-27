@@ -3,6 +3,7 @@ import 'dart:ffi';
 import 'dart:isolate';
 import 'dart:typed_data';
 
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:libserialport/libserialport.dart';
@@ -71,10 +72,6 @@ checkValidity(Uint8List data) {
   List<int> bb = [];
   showData = [];
 
-  // if (data.length == ) {
-
-  // }
-
   if (buffer.isNotEmpty) {
     b.addAll(buffer);
     b.addAll(data.toList());
@@ -84,8 +81,28 @@ checkValidity(Uint8List data) {
   // debugPrint('receiveData : $b');
   if (b[0] != 0x16) {
     buffer = [];
-    debugPrint('시작 이상');
+    // debugPrint('시작 이상');
     return;
+  }
+  bool stop = true;
+  while (stop) {
+    if (b.length > 7) {
+      if (b[0] == 0x16 &&
+          b[1] == 0x16 &&
+          b[2] == 0x30 &&
+          b[3] == 0x03 &&
+          b[4] == 0x00 &&
+          b[5] == 0x33 &&
+          b[6] == 0x1a) {
+        b = b.sublist(7, b.length);
+      } else {
+        stop = false;
+        break;
+      }
+    } else {
+      stop = false;
+      break;
+    }
   }
 
   if (b.length < receiveLength) {
@@ -104,33 +121,25 @@ checkValidity(Uint8List data) {
   } else if (b.length > receiveLength) {
     bb = b.sublist(receiveLength, b.length);
     b = b.sublist(0, receiveLength);
-    // print('$receiveLength자보다 커서 잘랐어 $bb ${b.length}');
   }
 
   if (!(b[0] == 0x16 && b[1] == 0x16 && b[2] == 0x30 && b[3] == 0x03)) {
-    print('헤더가 이상있어요');
+    // debugPrint('헤더가 이상있어요');
     buffer = [];
     return;
   }
   if (b.last != 0x1a) {
-    print('마지막이 이상있어요');
-    print('asdf b의 마지막 ${b.last}');
+    // debugPrint('마지막이 이상있어요');
     buffer = [];
-    print("asdf 마지막 이상할 때 $b");
-    rfpt("79 자까지 자름 : ${data.toString()}");
     return;
   }
   final int cs = calcCheckSum(b.sublist(2, b.length - 2));
-  //print('cs $cs');
   if (cs != b[receiveLength - 2]) {
-    print('체크섬이 이상있어요');
+    // debugPrint('체크섬이 이상있어요');
     buffer = [];
     return;
   }
 
-  print('완성 ${b.length}');
-
-  // debugPrint('$receiveLength자와 같아 $b');
   showData.add(Uint8List.fromList(b)
       .sublist(startDataIdx, startDataIdx += 4)
       .buffer
@@ -166,9 +175,7 @@ checkValidity(Uint8List data) {
       .buffer
       .asByteData()
       .getFloat32(0, Endian.little));
-  debugPrint('showData : ${showData[0]}');
   buffer = bb;
-  debugPrint('buffer $buffer');
 }
 
 // ignore: must_be_immutable
@@ -191,9 +198,11 @@ class StartStop extends StatelessWidget {
                     : Colors.green,
                 onPressed: () async {
                   await VizCtrl.to.chartInit();
-
                   VizCtrl.to.isolateStart(VizCtrl.to, iniController.to);
-
+                  VizCtrl.to.chartTimer = Timer.periodic(
+                      Duration(
+                          milliseconds: iniController.to.viz_Interval.value),
+                      VizCtrl.to.chartViz);
                   DataStartBtn();
                 }))),
         SizedBox(height: 30),
@@ -208,6 +217,8 @@ class StartStop extends StatelessWidget {
                   icon: Icons.pause,
                   onPressed: () {
                     Get.find<OesController>().timer?.cancel();
+                    VizCtrl.to.chartTimer?.cancel();
+                    VizCtrl.to.saveTimer?.cancel();
                     //VizCtrl.to.timer.cancel();
                     VizCtrl.to.isolateStop();
                     Get.find<runErrorStatusController>().statusColor.value =

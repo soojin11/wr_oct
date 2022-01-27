@@ -68,8 +68,8 @@ class OesController extends GetxController {
     saveLog();
     Get.find<LogController>().loglist.add(
         '${logfileTime()} current channel start ${nCurrentChannel}' + '\n');
-    print('nCurrentChannel : $nCurrentChannel');
-    print('nChannelIdx : $nChannelIdx');
+    // print('nCurrentChannel : $nCurrentChannel');
+    // print('nChannelIdx : $nChannelIdx');
     Get.find<LogController>()
         .loglist
         .add('${logfileTime()} Start SetChannel\n');
@@ -185,7 +185,7 @@ class OesController extends GetxController {
       nChannelIdx = 0;
     }
     var nNextChannel = int.parse(channelNuminINI[nChannelIdx]) - 1;
-    print('nNextChannel : $nNextChannel');
+    // print('nNextChannel : $nNextChannel');
 
     Get.find<LogController>().loglist.add(
         '${logfileTime()} current channel finish ${nCurrentChannel}' + '\n');

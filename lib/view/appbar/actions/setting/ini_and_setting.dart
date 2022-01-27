@@ -436,9 +436,9 @@ Future<void> _showDialog(context) async {
                                           },
                                           validator: (String? v) {
                                             if (v!.isNotEmpty) {
-                                              if (double.parse(v.toString()) <=
-                                                  50) {
-                                                return "Over 50";
+                                              if (double.parse(v.toString()) <
+                                                  100) {
+                                                return "Over 100";
                                               }
                                             }
 
@@ -451,26 +451,6 @@ Future<void> _showDialog(context) async {
                                         ),
                                       ),
                                       SizedBox(width: 50),
-                                      // Column(
-                                      //   children: [
-                                      //     ElevatedButton(
-                                      //         style: ElevatedButton.styleFrom(
-                                      //             primary: Colors.grey[700]),
-                                      //         onPressed: () {
-                                      //           VizCtrl.to.startSerial();
-                                      //         },
-                                      //         child: Text("Comport Open")),
-                                      //     SizedBox(height: 20),
-                                      //     ElevatedButton(
-                                      //         style: ElevatedButton.styleFrom(
-                                      //             primary: Colors.grey[700]),
-                                      //         onPressed: () {
-                                      //           VizCtrl.to.vizChannel[0].port
-                                      //               .close();
-                                      //         },
-                                      //         child: Text("Comport Close")),
-                                      //   ],
-                                      // ),
                                     ]),
                                     Divider(height: 30, thickness: 2),
                                     Text('Color Setting',
@@ -636,14 +616,9 @@ Future<void> _showDialog(context) async {
                           Get.find<LogListController>().cConfigSave();
                           ConfigWR writeConfig = ConfigWR.init();
                           File file = File("./setting.json");
-                          debugPrint('writeConfig ${writeConfig.toJson()}');
                           await file.writeAsString(writeConfig.toJson(),
                               mode: FileMode.write);
                           await file.readAsStringSync();
-                          debugPrint('save때 xValue : ${file}');
-                          debugPrint(
-                              'loadConfig ${ConfigWR.fromJson(file.readAsStringSync())}');
-
                           Navigator.pop(context);
                         },
                       ),
@@ -676,7 +651,6 @@ Future<String?> runningSet(BuildContext context) {
             // StartStop().isolateStop();
             VizCtrl.to.isolateStop();
             Get.find<OesController>().inactiveBtn.value = false;
-            VizCtrl.to.timer?.cancel();
             Get.find<OesController>().timer?.cancel();
             Get.find<LogListController>().clickedStop();
             Get.find<CsvController>().csvSaveInit.value = false;

@@ -185,7 +185,7 @@ class CsvController extends GetxController {
     return true;
   }
 
-  void vizDataSave({required List<dynamic> data}) async {
+  void vizDataSave({required List<String> data}) async {
     Directory('datafiles').create(recursive: true);
     File file = File("./datafiles/WR_VIZ_${saveFileName.value}.csv");
     String csv = timeVal() +

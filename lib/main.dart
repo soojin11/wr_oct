@@ -117,16 +117,6 @@ void log(String str) {
     file.writeAsStringSync(data, mode: FileMode.write);
 }
 
-void rfpt(String a) {
-  final String path = "./error.txt";
-  File file = File(path);
-  String data = '$a \n';
-  if (file.existsSync())
-    file.writeAsStringSync(data, mode: FileMode.append);
-  else
-    file.writeAsStringSync(data, mode: FileMode.write);
-}
-
 class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
 

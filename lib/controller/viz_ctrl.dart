@@ -53,10 +53,8 @@ class VizCtrl extends GetxController {
           vizCtrl.vizChannel[i].vizData.r = data.v.data[4];
           vizCtrl.vizChannel[i].vizData.x = data.v.data[5];
           vizCtrl.vizChannel[i].vizData.phase = data.v.data[6];
-          if (i == 0) {
-            debugPrint('시간 : ${DateTime.now()}');
-          }
-          vizCtrl.vizUpdate(i);
+
+          // vizCtrl.vizUpdate(i);
         }
       } else if (data is bool) {
         isolate.kill(priority: Isolate.immediate);
@@ -82,7 +80,6 @@ class VizCtrl extends GetxController {
       serialConnect(comPort);
       debugPrint('comPort: $comPort');
       serial.add(SerialPort('COM${comPort}'));
-      // SerialPort Open
       List<int> sendDataS = [];
       sendDataS.add(0x16);
       sendDataS.add(0x16);
@@ -93,18 +90,10 @@ class VizCtrl extends GetxController {
       sendDataS.add(0x36);
       sendDataS.add(0x1a);
       final bytesS = Uint8List.fromList(sendDataS);
-      // if (serial[i].isOpen) {
-      //   serial[i].write(bytesS);
-      //   debugPrint('보냈음1 $bytesS');
-      // }
       if (serial[i].openReadWrite()) {
         serial[i].write(bytesS);
-        debugPrint('보냈음2 $bytesS');
         debugPrint('오픈 성공 i $i $comPort');
         await SerialPortReader(serial[i]).stream.listen((data) async {
-          // debugPrint('listen : ${DateTime.now()}');
-          debugPrint('asdf listen data : $data');
-          rfpt("들어오는 데이터 : ${data.toString()}");
           checkValidity(data);
           IsolateReceiveData iRD = IsolateReceiveData(
               idx: i,
@@ -116,8 +105,8 @@ class VizCtrl extends GetxController {
           if (showData.length == 7) iSD.sendPort.send(iRD);
         });
       }
-      // if (comPort <= 0) {
-      Timer.periodic(Duration(milliseconds: loadConfig.vizConfig.interval),
+
+      Timer.periodic(Duration(milliseconds: loadConfig.vizConfig.interval ~/ 3),
           (timer) async {
         if (test) {
           for (var item in serial) {
@@ -185,7 +174,6 @@ class VizCtrl extends GetxController {
 
   RxList<VizChannel> vizChannel = RxList.empty();
   RxList<VizSeries> vizSeries = RxList.empty();
-  Timer? timer;
   int numOfViz = 7;
   RxString selected = "OES".obs;
   var dropItem = ['OES', 'VIZ'];
@@ -196,6 +184,8 @@ class VizCtrl extends GetxController {
   late RxDouble minX;
   late RxDouble maxX;
   RxBool showAll = false.obs;
+  Timer? chartTimer;
+  Timer? saveTimer;
 
   Future chartInit() async {
     chartMinX.value = 0;
@@ -226,10 +216,10 @@ class VizCtrl extends GetxController {
       buffer.add([]);
 
       vizChannel.add(VizChannel(
-        xValue: 0.0,
-        toggle: true.obs,
-        vizData: VizData.init(),
-      ));
+          xValue: 0.0,
+          toggle: true.obs,
+          vizData: VizData.init(),
+          saveData: []));
       for (var i = 0; i < 7; i++) {
         vizSeries.add(VizSeries(toggle: true.obs));
       }
@@ -237,7 +227,7 @@ class VizCtrl extends GetxController {
   }
 
   Future<void> vizUpdate(int i) async {
-    List forCsv = [];
+    List<String> forCsv = [];
     while (vizPoints[0].length > chartMaxX.value) {
       for (var ii = 0; ii < 7; ii++) {
         vizPoints[i][ii].removeAt(0);
@@ -263,8 +253,9 @@ class VizCtrl extends GetxController {
     forCsv.add(vizChannel[i].vizData.r.toStringAsFixed(2));
     forCsv.add(vizChannel[i].vizData.x.toStringAsFixed(2));
     forCsv.add(vizChannel[i].vizData.phase.toStringAsFixed(2));
-    if (Get.find<CsvController>().csvSaveInit.value) {
-      Get.find<CsvController>().vizDataSave(data: forCsv);
+
+    if (CsvController.to.csvSaveInit.value) {
+      CsvController.to.vizDataSave(data: forCsv);
     }
     if (vizChannel[i].xValue > chartMaxX.value) {
       chartMinX.value += step.value;
@@ -272,5 +263,67 @@ class VizCtrl extends GetxController {
     }
     vizChannel[i].xValue += step.value;
     update();
+  }
+
+  void saveViz(Timer timer) async {
+    List<String> forCsv = [];
+
+    for (var i = 0; i < 5; i++) {
+      forCsv.add(vizChannel[i].vizData.freq.toStringAsFixed(2));
+      forCsv.add(vizChannel[i].vizData.p_dlv.toStringAsFixed(2));
+      forCsv.add(vizChannel[i].vizData.v.toStringAsFixed(2));
+      forCsv.add(vizChannel[i].vizData.i.toStringAsFixed(2));
+      forCsv.add(vizChannel[i].vizData.r.toStringAsFixed(2));
+      forCsv.add(vizChannel[i].vizData.x.toStringAsFixed(2));
+      forCsv.add(vizChannel[i].vizData.phase.toStringAsFixed(2));
+    }
+    if (CsvController.to.csvSaveInit.value) {
+      CsvController.to.vizDataSave(data: forCsv);
+    }
+  }
+
+  void chartViz(Timer timer) async {
+    List<String> forCsv = [];
+
+    for (var i = 0; i < 5; i++) {
+      while (vizPoints[0].length > chartMaxX.value) {
+        for (var ii = 0; ii < 7; ii++) {
+          vizPoints[i][ii].removeAt(0);
+        }
+      }
+      vizPoints[i][0].add(
+          FlSpot(vizChannel[i].xValue, vizChannel[i].vizData.freq / 1000000));
+      vizPoints[i][1]
+          .add(FlSpot(vizChannel[i].xValue, vizChannel[i].vizData.p_dlv * 2));
+      vizPoints[i][2]
+          .add(FlSpot(vizChannel[i].xValue, vizChannel[i].vizData.v));
+      vizPoints[i][3]
+          .add(FlSpot(vizChannel[i].xValue, vizChannel[i].vizData.i * 10));
+      vizPoints[i][4]
+          .add(FlSpot(vizChannel[i].xValue, vizChannel[i].vizData.r * 10));
+      vizPoints[i][5]
+          .add(FlSpot(vizChannel[i].xValue, vizChannel[i].vizData.x * 10));
+      vizPoints[i][6].add(FlSpot(
+          vizChannel[i].xValue, vizChannel[i].vizData.phase * 1000 / 360));
+      if (vizChannel[i].xValue > chartMaxX.value) {
+        chartMinX.value += step.value;
+        chartMaxX.value += step.value;
+      }
+      vizChannel[i].xValue += step.value;
+    }
+    if (CsvController.to.csvSaveInit.value) {
+      for (var i = 0; i < 5; i++) {
+        forCsv.add(vizChannel[i].vizData.freq.toStringAsFixed(2));
+        forCsv.add(vizChannel[i].vizData.p_dlv.toStringAsFixed(2));
+        forCsv.add(vizChannel[i].vizData.v.toStringAsFixed(2));
+        forCsv.add(vizChannel[i].vizData.i.toStringAsFixed(2));
+        forCsv.add(vizChannel[i].vizData.r.toStringAsFixed(2));
+        forCsv.add(vizChannel[i].vizData.x.toStringAsFixed(2));
+        forCsv.add(vizChannel[i].vizData.phase.toStringAsFixed(2));
+      }
+      if (forCsv.isNotEmpty) {
+        CsvController.to.vizDataSave(data: forCsv);
+      }
+    }
   }
 }
