@@ -28,8 +28,6 @@ class VizCtrl extends GetxController {
   late Isolate isolate;
   SendPort? isendPort;
 
-  //late ReceivePort
-
   isolateStart(vizCtrl, iniCtrl) async {
     ReceivePort receivePort = ReceivePort();
     List<VizSerialData> v = List.filled(5, VizSerialData.init());
@@ -180,6 +178,7 @@ class VizCtrl extends GetxController {
   RxList<RxList<RxList<FlSpot>>> vizPoints = RxList.empty();
   RxDouble step = (iniController.to.viz_Interval.value / 1000).obs;
   RxDouble chartMaxX = 100.0.obs;
+  double fixedMaxX = 100;
   RxDouble chartMinX = 0.0.obs;
   late RxDouble minX;
   late RxDouble maxX;
@@ -226,67 +225,11 @@ class VizCtrl extends GetxController {
     }
   }
 
-  Future<void> vizUpdate(int i) async {
-    List<String> forCsv = [];
-    while (vizPoints[0].length > chartMaxX.value) {
-      for (var ii = 0; ii < 7; ii++) {
-        vizPoints[i][ii].removeAt(0);
-      }
-    }
-    vizPoints[i][0].add(
-        FlSpot(vizChannel[i].xValue, vizChannel[i].vizData.freq / 1000000));
-    vizPoints[i][1]
-        .add(FlSpot(vizChannel[i].xValue, vizChannel[i].vizData.p_dlv * 2));
-    vizPoints[i][2].add(FlSpot(vizChannel[i].xValue, vizChannel[i].vizData.v));
-    vizPoints[i][3]
-        .add(FlSpot(vizChannel[i].xValue, vizChannel[i].vizData.i * 10));
-    vizPoints[i][4]
-        .add(FlSpot(vizChannel[i].xValue, vizChannel[i].vizData.r * 10));
-    vizPoints[i][5]
-        .add(FlSpot(vizChannel[i].xValue, vizChannel[i].vizData.x * 10));
-    vizPoints[i][6].add(
-        FlSpot(vizChannel[i].xValue, vizChannel[i].vizData.phase * 1000 / 360));
-    forCsv.add(vizChannel[i].vizData.freq.toStringAsFixed(2));
-    forCsv.add(vizChannel[i].vizData.p_dlv.toStringAsFixed(2));
-    forCsv.add(vizChannel[i].vizData.v.toStringAsFixed(2));
-    forCsv.add(vizChannel[i].vizData.i.toStringAsFixed(2));
-    forCsv.add(vizChannel[i].vizData.r.toStringAsFixed(2));
-    forCsv.add(vizChannel[i].vizData.x.toStringAsFixed(2));
-    forCsv.add(vizChannel[i].vizData.phase.toStringAsFixed(2));
-
-    if (CsvController.to.csvSaveInit.value) {
-      CsvController.to.vizDataSave(data: forCsv);
-    }
-    if (vizChannel[i].xValue > chartMaxX.value) {
-      chartMinX.value += step.value;
-      chartMaxX.value += step.value;
-    }
-    vizChannel[i].xValue += step.value;
-    update();
-  }
-
-  void saveViz(Timer timer) async {
-    List<String> forCsv = [];
-
-    for (var i = 0; i < 5; i++) {
-      forCsv.add(vizChannel[i].vizData.freq.toStringAsFixed(2));
-      forCsv.add(vizChannel[i].vizData.p_dlv.toStringAsFixed(2));
-      forCsv.add(vizChannel[i].vizData.v.toStringAsFixed(2));
-      forCsv.add(vizChannel[i].vizData.i.toStringAsFixed(2));
-      forCsv.add(vizChannel[i].vizData.r.toStringAsFixed(2));
-      forCsv.add(vizChannel[i].vizData.x.toStringAsFixed(2));
-      forCsv.add(vizChannel[i].vizData.phase.toStringAsFixed(2));
-    }
-    if (CsvController.to.csvSaveInit.value) {
-      CsvController.to.vizDataSave(data: forCsv);
-    }
-  }
-
   void chartViz(Timer timer) async {
     List<String> forCsv = [];
-
     for (var i = 0; i < 5; i++) {
-      while (vizPoints[0].length > chartMaxX.value) {
+      while (vizPoints[i][0].length >
+          fixedMaxX * (1000 / iniController.to.viz_Interval.value)) {
         for (var ii = 0; ii < 7; ii++) {
           vizPoints[i][ii].removeAt(0);
         }
