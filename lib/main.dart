@@ -1,5 +1,5 @@
-import 'dart:async';
 import 'dart:ffi';
+import 'dart:ui' as ui;
 import 'dart:io';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
@@ -93,7 +93,7 @@ Future main() async {
 
   doWhenWindowReady(() {
     final win = appWindow;
-    final initialSize = Size(1920, 1040);
+    final initialSize = ui.Size(1920, 1040);
     win.minSize = initialSize;
     win.maxSize = initialSize;
     win.size = initialSize;
@@ -157,7 +157,7 @@ class WRappbar extends StatelessWidget implements PreferredSizeWidget {
   }) : super(key: key);
 
   @override
-  Size get preferredSize => Size.fromHeight(50);
+  ui.Size get preferredSize => ui.Size.fromHeight(50);
   final themeController = Get.put(HomeController());
 
   @override

@@ -17,21 +17,25 @@ class VizChart extends GetView<VizCtrl> {
               child: LineChartForm(
                 controller: controller,
                 lineBarsData: vizChartValue(),
-                bottomTitles: SideTitles(
-                  // interval: 100,
-                  reservedSize: 50,
-                  margin: 8,
-                  showTitles: true,
-                  getTitles: (value) {
-                    String rt;
-                    rt = '${value.round()}s';
-                    return rt;
-                  },
+                bottomTitles: AxisTitles(
+                  sideTitles: SideTitles(
+                    // interval: 100,
+                    reservedSize: 50,
+                    // margin: 8,
+                    showTitles: true,
+                    // getTitles: (value) {
+                    //   String rt;
+                    //   rt = '${value.round()}s';
+                    //   return rt;
+                    // },
+                  ),
                 ),
-                leftTitles: SideTitles(
-                  showTitles: true,
-                  reservedSize: 40,
-                  margin: 10,
+                leftTitles: AxisTitles(
+                  sideTitles: SideTitles(
+                    showTitles: true,
+                    reservedSize: 40,
+                    // margin: 10,
+                  ),
                 ),
               ),
             ),
@@ -42,8 +46,8 @@ class VizChart extends GetView<VizCtrl> {
   LineChart LineChartForm(
       {required VizCtrl controller,
       required List<LineChartBarData> lineBarsData,
-      SideTitles? leftTitles,
-      SideTitles? bottomTitles}) {
+      AxisTitles? leftTitles,
+      AxisTitles? bottomTitles}) {
     return LineChart(
       LineChartData(
           maxX: VizCtrl.to.chartMaxX.value,
@@ -53,11 +57,12 @@ class VizChart extends GetView<VizCtrl> {
             enabled: false,
           ),
           titlesData: FlTitlesData(
-              show: true,
-              bottomTitles: bottomTitles,
-              leftTitles: leftTitles,
-              topTitles: SideTitles(showTitles: false),
-              rightTitles: SideTitles(showTitles: false)),
+            show: true,
+            bottomTitles: bottomTitles,
+            leftTitles: leftTitles,
+            // topTitles: SideTitles(showTitles: false),
+            // rightTitles: SideTitles(showTitles: false),
+          ),
           borderData: FlBorderData(
             show: true,
             border: Border.all(color: const Color(0xff37434d), width: 1),
@@ -73,7 +78,7 @@ class VizChart extends GetView<VizCtrl> {
         dotData: FlDotData(
           show: false,
         ),
-        colors: [color],
+        color: color,
         barWidth: 1);
   }
 

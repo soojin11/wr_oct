@@ -20,18 +20,22 @@ class OesChart extends GetView<OesController> {
                       child: LineChartForm(
                         controller: controller,
                         lineBarsData: oesChartValue(),
-                        bottomTitles: SideTitles(
-                          interval: 100,
-                          showTitles: true,
-                          reservedSize: 50,
-                          margin: 8,
+                        bottomTitles: AxisTitles(
+                          sideTitles: SideTitles(
+                            interval: 100,
+                            showTitles: true,
+                            reservedSize: 50,
+                            // margin: 8,
+                          ),
                         ),
-                        leftTitles: SideTitles(
-                          showTitles: true,
-                          //y값애서
-                          // interval: 100,
-                          reservedSize: 50,
-                          margin: 10,
+                        leftTitles: AxisTitles(
+                          sideTitles: SideTitles(
+                            showTitles: true,
+                            //y값애서
+                            // interval: 100,
+                            reservedSize: 50,
+                            // margin: 10,
+                          ),
                         ),
                       ),
                     ),
@@ -42,8 +46,8 @@ class OesChart extends GetView<OesController> {
   LineChart LineChartForm(
       {required OesController controller,
       required List<LineChartBarData> lineBarsData,
-      SideTitles? leftTitles,
-      SideTitles? bottomTitles}) {
+      AxisTitles? leftTitles,
+      AxisTitles? bottomTitles}) {
     return LineChart(
       LineChartData(
           minX: controller.minX.value,
@@ -56,7 +60,7 @@ class OesChart extends GetView<OesController> {
               getTooltipItems: (touchedSpots) {
                 return touchedSpots.map((LineBarSpot touchedSpot) {
                   final textStyle = TextStyle(
-                    color: touchedSpot.bar.colors[0],
+                    color: touchedSpot.bar.color,
                     fontWeight: FontWeight.bold,
                     fontSize: 14,
                   );
@@ -72,11 +76,12 @@ class OesChart extends GetView<OesController> {
           ),
           clipData: FlClipData.all(),
           titlesData: FlTitlesData(
-              show: true,
-              bottomTitles: bottomTitles,
-              leftTitles: leftTitles,
-              topTitles: SideTitles(showTitles: false),
-              rightTitles: SideTitles(showTitles: false)),
+            show: true,
+            bottomTitles: bottomTitles,
+            leftTitles: leftTitles,
+            // topTitles: AxisTitles(showTitles: false),
+            // rightTitles: SideTitles(showTitles: false),
+          ),
           borderData: FlBorderData(
             show: true,
             border: Border.all(color: const Color(0xff37434d), width: 1),
@@ -92,7 +97,7 @@ class OesChart extends GetView<OesController> {
         dotData: FlDotData(
           show: false,
         ),
-        colors: [color],
+        color: color,
         barWidth: 1);
   }
 
